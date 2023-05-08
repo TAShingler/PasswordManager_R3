@@ -1,0 +1,327 @@
+﻿<Window x:Class="PasswordManager_R3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PasswordManager_R3"
+        xmlns:converters="clr-namespace:PasswordManager_R3.Converters"
+        xmlns:vm="clr-namespace:PasswordManager_R3.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="450"
+        Width="800"
+        Background="#999"
+        WindowState="{Binding WinState}"
+        x:Name="WinMain">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="32"
+                      CornerRadius="0"
+                      GlassFrameThickness="7"
+                      NonClientFrameEdges="None"
+                      ResizeBorderThickness="7"
+                      UseAeroCaptionButtons="True" />
+    </WindowChrome.WindowChrome>
+    <!--<WindowChrome.ResizeGripDirection>
+        <ResizeGripDirection>Left</ResizeGripDirection>
+    </WindowChrome.ResizeGripDirection>-->
+
+    <Window.DataContext>
+        <vm:MainWindow_ViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <!--//  CONVERTERS  //-->
+        <converters:ViewStateToVisibilityConverter x:Key="ViewStateToVisibilityConverter" />
+        
+        <!--//  COLORS  //-->
+        <Color x:Key="ThemeTextColor" A="255" R="230" G="230" B="230" />
+        
+        <!--//  SOLID COLOR BRUSHES  //-->
+        <SolidColorBrush x:Key="ThemeTextBrush" Color="{StaticResource ThemeTextColor}" />
+        
+        <!--//  TITLE BAR BUTTON STYLES  //-->
+        <Style x:Key="TitleBarButtonMinimizeWindowStyle" TargetType="Button">
+            <Setter Property="SnapsToDevicePixels" Value="False" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <!--<Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisualStyle}" />-->
+            <Setter Property="Width" Value="46" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Boundary" Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <!--<VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0:0:0.12"  />
+                                        <VisualTransition GeneratedDuration="0" To="Pressed" />
+                                    </VisualStateGroup.Transitions>-->
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Boundary">
+                                                <EasingColorKeyFrame KeyTime="0" Value="Gray" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Boundary">
+                                                <EasingColorKeyFrame KeyTime="0" Value="DarkGray" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <ContentPresenter.Content>
+                                    <Path Width="10" Height="10" ClipToBounds="True" Data="M 0,5.5 H 10" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" />
+                                </ContentPresenter.Content>
+                            </ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TitleBarButtonMaximizeWindowStyle" TargetType="Button">
+            <Setter Property="SnapsToDevicePixels" Value="False" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <!--<Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisualStyle}" />-->
+            <Setter Property="Width" Value="46" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Boundary" Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <!--<VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0:0:0.12"  />
+                                        <VisualTransition GeneratedDuration="0" To="Pressed" />
+                                    </VisualStateGroup.Transitions>-->
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Boundary">
+                                                <EasingColorKeyFrame KeyTime="0" Value="Gray" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Boundary">
+                                                <EasingColorKeyFrame KeyTime="0" Value="DarkGray" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <ContentPresenter.Content>
+                                    <Rectangle Width="10" Height="10" ClipToBounds="True" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" />
+                                </ContentPresenter.Content>
+                            </ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TitleBarButtonRestoreWindowStyle" TargetType="Button">
+            <Setter Property="SnapsToDevicePixels" Value="False" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <!--<Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisualStyle}" />-->
+            <Setter Property="Width" Value="46" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Boundary" Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <!--<VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0:0:0.12"  />
+                                        <VisualTransition GeneratedDuration="0" To="Pressed" />
+                                    </VisualStateGroup.Transitions>-->
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Boundary">
+                                                <EasingColorKeyFrame KeyTime="0" Value="Gray" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Boundary">
+                                                <EasingColorKeyFrame KeyTime="0" Value="DarkGray" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <ContentPresenter.Content>
+                                    <Path Width="10" Height="10" ClipToBounds="True" Data="M 0.5,2.5 V 9.5 H 7.5 V 2.5 H 0.5 M 2.5,2.5 2.5,0.5 9.5,0.5 9.5,7.5 7.5,7.5" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" StrokeStartLineCap="Square" StrokeEndLineCap="Square" />
+                                </ContentPresenter.Content>
+                            </ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TitleBarButtonCloseAppStyle" TargetType="Button">
+            <Setter Property="SnapsToDevicePixels" Value="False" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <!--<Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisualStyle}" />-->
+            <Setter Property="Width" Value="46" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Boundary" Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <!--<VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0:0:0.12"  />
+                                        <VisualTransition GeneratedDuration="0" To="Pressed" />
+                                    </VisualStateGroup.Transitions>-->
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Boundary">
+                                                <EasingColorKeyFrame KeyTime="0" Value="Red" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Boundary">
+                                                <EasingColorKeyFrame KeyTime="0" Value="DarkRed" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <ContentPresenter.Content>
+                                    <Path Width="10" Height="10" ClipToBounds="True" Data="M 0,0 10,10 M 0,10 10,0" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" />
+                                </ContentPresenter.Content>
+                            </ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--////  TITLE BAR  ////-->
+        <Border Grid.Row="0"
+                Background="#333"
+                BorderBrush="#666"
+                BorderThickness="0 0 0 2">
+            <Grid Height="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Viewbox Grid.Column="0"
+                         Width="16"
+                         Height="16">
+                    <Canvas Width="24"
+                            Height="24">
+                        <Path Fill="DeepSkyBlue"
+                              Data="m 14 9.5 c -1.101607 0 -2 0.898393 -2 2 0 1.101607 0.898393 2 2 2 1.101607 0 2 -0.898393 2 -2 0 -1.101607 -0.898393 -2 -2 -2 z
+                                    M 2 2.5 c -1.108 0 -2 0.892 -2 2 v 14 c 0 1.108 0.892 2 2 2 h 1 c 0 0.554 0.446 1 1 1 h 2 c 0.554 0 1 -0.446 1 -1 h 9 c 0 0.554 0.446 1 1 1 h 2 c 0.554 0 1 -0.446 1 -1 h 2 c 1.108 0 2 -0.892 2 -2 v -14 c 0 -1.108 -0.892 -2 -2 -2 z
+                                    m 12 4 c 2.75846 0 5 2.2415402 5 5 0 2.75846 -2.24154 5 -5 5 -2.75846 0 -5 -2.24154 -5 -5 0 -2.7584598 2.24154 -5 5 -5 z
+                                    M 5 8 c 0.554 0 1 0.446 1 1 v 5 C 6 14.554 5.554 15 5 15 4.446 15 4 14.554 4 14 V 9 C 4 8.446 4.446 8 5 8 Z
+                                    m 9 0 C 13.830428 8 13.663192 8.013692 13.5 8.037109 V 8.5429688 C 13.662783 8.5157454 13.829351 8.5 14 8.5 c 0.170649 0 0.337217 0.015745 0.5 0.042969 V 8.0371094 C 14.336808 8.013692 14.169572 8 14 8 Z
+                                    m -2.095703 0.6972656 c -0.267957 0.200841 -0.50619 0.4390747 -0.707031 0.7070313 l 0.357422 0.3574219 c 0.19457 -0.2735723 0.433459 -0.5124606 0.707031 -0.7070313 z
+                                    m 4.191406 0 -0.357422 0.3574219 c 0.273572 0.1945707 0.512461 0.433459 0.707031 0.7070313 L 16.802734 9.4042969 C 16.601893 9.1363403 16.36366 8.8981066 16.095703 8.6972656 Z
+                                    M 10.537109 11 C 10.513692 11.163192 10.5 11.330429 10.5 11.5 c 0 0.169572 0.01369 0.336808 0.03711 0.5 h 0.50586 C 11.015745 11.837217 11 11.670649 11 11.5 11 11.329351 11.01575 11.162783 11.04297 11 Z
+                                    m 6.419922 0 C 16.984255 11.162783 17 11.329351 17 11.5 c 0 0.170649 -0.01574 0.337217 -0.04297 0.5 h 0.50586 C 17.486308 11.836808 17.5 11.669572 17.5 11.5 17.5 11.330429 17.48631 11.163192 17.46289 11 Z
+                                    m -5.402343 2.238281 -0.357422 0.357422 c 0.200841 0.267957 0.439074 0.50619 0.707031 0.707031 l 0.357422 -0.357422 c -0.273572 -0.19457 -0.512461 -0.433459 -0.707031 -0.707031 z
+                                    m 4.890624 0 c -0.19457 0.273572 -0.433459 0.512461 -0.707031 0.707031 l 0.357422 0.357422 c 0.267957 -0.200841 0.50619 -0.439074 0.707031 -0.707031 z
+                                    M 13.5 14.457031 v 0.50586 C 13.663192 14.986308 13.830428 15 14 15 c 0.169572 0 0.336808 -0.01369 0.5 -0.03711 V 14.45703 C 14.337217 14.484255 14.170649 14.5 14 14.5 c -0.170649 0 -0.337217 -0.01575 -0.5 -0.04297 z" />
+                    </Canvas>
+                </Viewbox>
+
+                <Menu Grid.Column="1"
+                      WindowChrome.IsHitTestVisibleInChrome="True"
+                      Background="Transparent"
+                      Foreground="{StaticResource ThemeTextBrush}"
+                      VerticalAlignment="Center">
+                    <MenuItem Header="File" />
+                    <MenuItem Header="Edit" />
+                    <MenuItem Header="About" />
+                </Menu>
+
+                <TextBlock Grid.Column="2"
+                           Foreground="{StaticResource ThemeTextBrush}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Text="Placeholder Title" />
+
+                <StackPanel Grid.Column="3"
+                            Orientation="Horizontal" />
+
+                <Button Grid.Column="4"
+                        WindowChrome.IsHitTestVisibleInChrome="True"
+                        Visibility="Visible"
+                        Style="{StaticResource TitleBarButtonMinimizeWindowStyle}" />
+                <Button Grid.Column="5"
+                        Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                             Path=WindowState,
+                                             Converter={StaticResource ViewStateToVisibilityConverter},
+                                             ConverterParameter='BTN_MAX'}"
+                        WindowChrome.IsHitTestVisibleInChrome="True"
+                        Style="{StaticResource TitleBarButtonMaximizeWindowStyle}"
+                        Command="{Binding TestDelegateCommand}" />
+                <Button Grid.Column="5"
+                        Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                             Path=WindowState,
+                                             Converter={StaticResource ViewStateToVisibilityConverter},
+                                             ConverterParameter='BTN_RSTR'}"
+                        WindowChrome.IsHitTestVisibleInChrome="True"
+                        Style="{StaticResource TitleBarButtonRestoreWindowStyle}"
+                        Command="{Binding TestDelegateCommand}" />
+                <Button Grid.Column="6"
+                        Visibility="Visible"
+                        WindowChrome.IsHitTestVisibleInChrome="True"
+                        Style="{StaticResource TitleBarButtonCloseAppStyle}" />
+            </Grid>
+        </Border>
+        
+        <!--////  BODY CONTENTS  ////-->
+        <!--<ContentControl Grid.Row="1" />-->
+        <TextBlock Grid.Row="1" Text="{Binding TestText}" />
+    </Grid>
+</Window>
