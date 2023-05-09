@@ -14,7 +14,7 @@ internal class ViewStateToVisibilityConverter : System.Windows.Data.IValueConver
         Visibility visibility = Visibility.Visible;
 
         if (parameter != null) {
-            Debug.WriteLine(parameter.GetType());
+            //Debug.WriteLine(parameter.GetType());
             //BTN_MAX
             if (parameter.Equals("BTN_MAX")) {
                 visibility = (value.Equals(WindowState.Maximized)) ? Visibility.Collapsed : Visibility.Visible;
