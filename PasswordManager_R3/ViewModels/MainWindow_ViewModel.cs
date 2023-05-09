@@ -26,10 +26,12 @@ internal class MainWindow_ViewModel : System.ComponentModel.INotifyPropertyChang
         }
     }
     public Classes.DelegateCommand TestDelegateCommand { get; set; }
+    public Classes.DelegateCommand CloseWindowCommand { get; set; }
 
     public MainWindow_ViewModel() {
         //WinState = WindowState.Normal;
         TestDelegateCommand = new Classes.DelegateCommand(onTestDelegateCommand);
+        CloseWindowCommand = new Classes.DelegateCommand(onWindowCloseCommand);
     }
 
     public void onTestDelegateCommand(object obj) {
@@ -38,6 +40,10 @@ internal class MainWindow_ViewModel : System.ComponentModel.INotifyPropertyChang
         } else {
             WinState = WindowState.Normal;
         }
+    }
+    private void onWindowCloseCommand(object obj) {
+        Window win = (Window)obj;
+        win.Close();
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

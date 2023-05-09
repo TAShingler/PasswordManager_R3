@@ -15,10 +15,10 @@ using System.Windows.Shapes;
 
 namespace PasswordManager_R3.Views;
 /// <summary>
-/// Interaction logic for UnlockDatabaseView.xaml
+/// Interaction logic for AddEditGroup_View.xaml
 /// </summary>
-public partial class UnlockDatabase_View : UserControl {
-    public UnlockDatabase_View() {
+public partial class AddEditGroup_View : UserControl {
+    public AddEditGroup_View() {
         InitializeComponent();
     }
 }
