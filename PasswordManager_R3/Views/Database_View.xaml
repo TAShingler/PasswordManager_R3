@@ -19,7 +19,10 @@
             </Grid.ColumnDefinitions>
 
             <TreeView Grid.Column="0" />
-            <GridSplitter Grid.Column="1" />
+            <GridSplitter Grid.Column="1"
+                          Width="5"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch"/>
             <Border Grid.Column="2">
                 <Grid>
                     <!-- Line: 1279 -->
