@@ -131,4 +131,6 @@ internal class MainWindow_ViewModel : System.ComponentModel.INotifyPropertyChang
         GeneratePasswordCommand = new Classes.DelegateCommand(onGeneratePasswordCommand);
         AppSettingsCommand = new Classes.DelegateCommand(onAppSettingsCommand);
     }
+
+    //methods to set Views and add
 }
