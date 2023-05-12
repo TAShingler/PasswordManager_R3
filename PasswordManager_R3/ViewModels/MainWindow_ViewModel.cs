@@ -1,16 +1,18 @@
-﻿using System;
+﻿using PasswordManager_R3.Views;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace PasswordManager_R3.ViewModels;
-internal class MainWindow_ViewModel : System.ComponentModel.INotifyPropertyChanged {
+internal class MainWindow_ViewModel : ViewModelBase {
     //Private Fields
     private WindowState _winState = WindowState.Normal;
-    private System.Windows.Controls.ContentControl _currentView;
+    private ViewModels.ViewModelBase _selectedViewModel;
 
     //Public Properties
     public WindowState WinState { 
@@ -20,15 +22,15 @@ internal class MainWindow_ViewModel : System.ComponentModel.INotifyPropertyChang
             OnPropertyChanged(nameof(WinState));
         }
     }
-    public System.Windows.Controls.ContentControl CurrentView {
-        get { return _currentView; }
+    public ViewModels.ViewModelBase SelectedViewModel {
+        get { return _selectedViewModel; }
         set {
-            _currentView = value;
-            OnPropertyChanged(nameof(CurrentView));
+            _selectedViewModel = value;
+            OnPropertyChanged(nameof(SelectedViewModel));
         }
     }
 
-    //Delegates for Commands
+    //Delegates for Commands to handle events
     public Classes.DelegateCommand MinimizeWindowCommand { get; set; }
     public Classes.DelegateCommand MaximizeRestoreWindowCommand { get; set; }
     public Classes.DelegateCommand CloseWindowCommand { get; set; }
@@ -43,19 +45,27 @@ internal class MainWindow_ViewModel : System.ComponentModel.INotifyPropertyChang
     public Classes.DelegateCommand AppSettingsCommand { get; set; }
 
 
+
     public MainWindow_ViewModel() {
         //WinState = WindowState.Normal;
 
         //Set delegates for commands
         SetDelegateCommands();
 
-        CurrentView = new Views.LockScreen_View();
+        //LockScreen_ViewModel lockScreen_ViewModel = new LockScreen_ViewModel();
+        //lockScreen_ViewModel.ParentVM = this;
+
+        SelectedViewModel = new ViewModels.LockScreen_ViewModel(); //Views.LockScreen_View();
+        //((LockScreen_ViewModel)SelectedViewModel).DatabaseUnlocked += new LockScreen_ViewModel.UnlockDatabaseDelegate(TryUnlockDatabase);
+        //SelectedViewModel.ParentVM = this;
     }
 
-    //Event handlers for Button Commands
+    #region Title Bar Event Handlers
+    //Minimize Window event handler
     private void onMinimizeWindowCommand(object obj) {
         WinState = WindowState.Minimized;
     }
+    //Maximize and Restore Window event handler
     private void onMaximizeRestoreWindowCommand(object obj) {
         if (WinState == WindowState.Normal) {
             WinState = WindowState.Maximized;
@@ -63,53 +73,79 @@ internal class MainWindow_ViewModel : System.ComponentModel.INotifyPropertyChang
             WinState = WindowState.Normal;
         }
     }
+    //Close Window event handler
     private void onWindowCloseCommand(object obj) {
         Window win = (Window)obj;
         win.Close();
     }
+    #endregion Title Bar Event Handlers
+    #region Change CurrentView Event Handlers
+    //Set CurrentView to LockScreen_View event handler
     private void onLockDatabaseCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onLockDatabaseCommand clicked, but it's not fully implemented yet...");
-        CurrentView = new Views.LockScreen_View();
+        SelectedViewModel = new ViewModels.LockScreen_ViewModel();
+        //((LockScreen_ViewModel)SelectedViewModel).DatabaseUnlocked += new LockScreen_ViewModel.UnlockDatabaseDelegate(TryUnlockDatabase);
+        //SelectedViewModel.ParentVM = this;
+        //LockScreen_ViewModel lockScreen_ViewModel = new LockScreen_ViewModel();
+        //lockScreen_ViewModel.ParentVM = this;
+
+        //SelectedViewModel = lockScreen_ViewModel;
+        //SelectedViewModel.ParentVM = this;
     }
+    //Set CurrentView to AddEditRecord_View (to add record to database) event handler
     private void onAddRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onAddRecordCommand clicked, but it's not implemented yet...");
-        CurrentView = new Views.AddEditRecord_View();
+        //CurrentView = new ViewModels.AddEditRecord_ViewModel();
     }
+    //Set CurrentView to AddEditRecord_View (to edit record in database) event handler
     private void onEditRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onEditRecordCommand clicked, but it's not implemented yet...");
-        CurrentView = new Views.AddEditRecord_View(); //will need to have 2 constructors -- one for add record, the other for edit record
+        //CurrentView = new ViewModels.AddEditRecord_ViewModel(); //will need to have 2 constructors -- one for add record, the other for edit record
     }
+    //Set CurrentView to PasswordGenerator_View event handler
+    private void onGeneratePasswordCommand(object obj) {
+        System.Diagnostics.Debug.WriteLine("onGeneratePasswordCommand clicked, but it's not implemented yet...");
+        //CurrentView = new ViewModels.PasswordGenerator_ViewModel();
+    }
+    //Set CurrentView to AppSettings_View event handler
+    private void onAppSettingsCommand(object obj) {
+        System.Diagnostics.Debug.WriteLine("onAppSettingsCommand clicked, but it's not implemented yet...");
+        //CurrentView = new ViewModels.AppSettings_ViewModel();
+    }
+    #endregion Change CurrentView Event Handlers
+    #region Misc. Event Handlers
+    //Event Handler to delete record from DB
     private void onDeleteRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onDeleteRecordCommand clicked, but it's not implemented yet...");
         //does not change views, but might need to add code to refresh DB -- will figure ot for sure later
     }
+    //Event Handler to copy username of selected record to the system clipboard
     private void onCopyUsernameToClipboardCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onCopyUsernameToClipboardCommand clicked, but it's not implemented yet...");
         //does not change views; copies username of selected record to system clipboard
     }
+    //Event Handler to copy password of selected record to the system clipboard
     private void onCopyPasswordToClipboardCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onCopyPasswordToClipboardCommand clicked, but it's not implemented yet...");
         //does not change views; copies password of selected record to system clipboard
     }
+    //Event Handler to copy URL of selected record to the system clipboard
     private void onCopyUrlToClipboardCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onCopyUrlToClipboardCommand clicked, but it's not implemented yet...");
         //does not change views; copies url of selected record to system clipboard
     }
-    private void onGeneratePasswordCommand(object obj) {
-        System.Diagnostics.Debug.WriteLine("onGeneratePasswordCommand clicked, but it's not implemented yet...");
-        CurrentView = new Views.PasswordGenerator_View();
+    //Event Handler for unlocking database
+    private void TryUnlockDatabase(object obj) {
+        System.Diagnostics.Debug.WriteLine("TryUnlockDatabase() in MainWindow_ViewModel called...");
     }
-    private void onAppSettingsCommand(object obj) {
-        System.Diagnostics.Debug.WriteLine("onAppSettingsCommand clicked, but it's not implemented yet...");
-        CurrentView = new Views.AppSettings_View();
-    }
+    #endregion Misc. Event Handlers
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-    protected void OnPropertyChanged(string propertyName) {
-        if (PropertyChanged != null) {
-            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
+    //public event PropertyChangedEventHandler? PropertyChanged;
+    //protected void OnPropertyChanged(string propertyName) {
+    //    if (PropertyChanged != null) {
+    //        PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    //    }
+    //}
     //protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null) { }  -- could be useful in future
     //protected Action<PropertyChangedEventArgs> RaisePropertyChanged() {
     //    return args => PropertyChanged?.Invoke(this, args);

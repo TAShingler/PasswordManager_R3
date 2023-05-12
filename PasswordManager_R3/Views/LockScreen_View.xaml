@@ -257,7 +257,8 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBox Grid.Column="0"
+                    <TextBox x:Name="tBox"
+                             Grid.Column="0"
                              Height="24"
                              CaretBrush="Gainsboro"
                              Foreground="Gainsboro"
@@ -265,15 +266,16 @@
                              BorderBrush="Transparent"
                              BorderThickness="0"
                              VerticalContentAlignment="Center"
-                             Visibility="Collapsed"/>
-                    <PasswordBox Grid.Column="0"
+                             Visibility="Visible"/>
+                    <PasswordBox x:Name="pBox"
+                                 Grid.Column="0"
                                  CaretBrush="Gainsboro"
                                  Foreground="Gainsboro"
                                  Background="Transparent"
                                  BorderBrush="Transparent"
                                  BorderThickness="0"
                                  VerticalContentAlignment="Center"
-                                 Visibility="Visible"/>
+                                 Visibility="Collapsed"/>
                     <ToggleButton Grid.Column="1"
                                   Width="24"
                                   Height="24"
@@ -305,8 +307,9 @@
                         Height="30"
                         Margin="6 0 0 0"
                         Style="{StaticResource ButtonCloseApplicationStyle}"
-                        Command="{Binding CloseWindowCommand}"
+                        Command="{Binding DataContext.CloseWindowCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                <!--CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>-->
             </StackPanel>
         </Grid>
     </Border>

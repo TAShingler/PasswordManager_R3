@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:PasswordManager_R3"
         xmlns:converters="clr-namespace:PasswordManager_R3.Converters"
         xmlns:vm="clr-namespace:PasswordManager_R3.ViewModels"
+        xmlns:views="clr-namespace:PasswordManager_R3.Views"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="600"
@@ -31,6 +32,10 @@
     </Window.DataContext>
 
     <Window.Resources>
+        <!--//  DATA TEMPLATES FOR VIEWS  //-->
+        <DataTemplate DataType="{x:Type vm:LockScreen_ViewModel}">
+            <views:LockScreen_View />
+        </DataTemplate>
         <!--//  CONVERTERS  //-->
         <converters:ViewStateToVisibilityConverter x:Key="ViewStateToVisibilityConverter" />
         <converters:ViewStateToBorderThicknessConverter x:Key="ViewStateToBorderThicknessConverter" />
@@ -817,9 +822,9 @@
                     Background="#333"
                     BorderBrush="#666"
                     BorderThickness="1">
-                <ContentPresenter VerticalAlignment="Center"
+                <ContentControl x:Name="viewPresenter" VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
-                                  Content="{Binding CurrentView}" />
+                                  Content="{Binding SelectedViewModel}" />
             </Border>
 
             <Border Grid.Row="3"
