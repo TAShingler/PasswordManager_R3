@@ -8,16 +8,26 @@ using System.Windows;
 
 namespace PasswordManager_R3.ViewModels;
 internal class ViewModelBase : INotifyPropertyChanged {
-    //private MainWindow_ViewModel _parentVM;
-    //public MainWindow_ViewModel ParentVM {
-    //    get { return _parentVM; }
-    //    set {
-    //        if (_parentVM != value) {
-    //            _parentVM = value;
-    //            OnPropertyChanged(nameof(ParentVM));
-    //        }
-    //    }
-    //}
+    private ViewModelBase? _parentVM;
+    public ViewModelBase? ParentVM {
+        get { return _parentVM; }
+        set {
+            if (_parentVM != value) {
+                _parentVM = value;
+                OnPropertyChanged(nameof(ParentVM));
+            }
+        }
+    }
+
+    public ViewModelBase() {
+        _parentVM = null;
+    }
+
+    public ViewModelBase(ViewModelBase? parentVM) {
+        ParentVM = parentVM;
+    }
+
+
 
     //private DependencyProperty? _parentDependency;
     //public DependencyProperty? ParentDependency { 

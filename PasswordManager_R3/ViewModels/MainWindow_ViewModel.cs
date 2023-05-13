@@ -12,7 +12,7 @@ namespace PasswordManager_R3.ViewModels;
 internal class MainWindow_ViewModel : ViewModelBase {
     //Private Fields
     private WindowState _winState = WindowState.Normal;
-    private ViewModels.ViewModelBase _selectedViewModel;
+    private ViewModels.ViewModelBase? _selectedViewModel;
 
     //Public Properties
     public WindowState WinState { 
@@ -22,7 +22,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(WinState));
         }
     }
-    public ViewModels.ViewModelBase SelectedViewModel {
+    public ViewModels.ViewModelBase? SelectedViewModel {
         get { return _selectedViewModel; }
         set {
             _selectedViewModel = value;
@@ -31,22 +31,22 @@ internal class MainWindow_ViewModel : ViewModelBase {
     }
 
     //Delegates for Commands to handle events
-    public Classes.DelegateCommand MinimizeWindowCommand { get; set; }
-    public Classes.DelegateCommand MaximizeRestoreWindowCommand { get; set; }
-    public Classes.DelegateCommand CloseWindowCommand { get; set; }
-    public Classes.DelegateCommand LockDatabaseCommand { get; set; }
-    public Classes.DelegateCommand AddRecordCommand { get; set; }
-    public Classes.DelegateCommand EditRecordCommand { get; set; }
-    public Classes.DelegateCommand DeleteRecordCommand { get; set; }
-    public Classes.DelegateCommand CopyUsernameToClipboardCommand { get; set; }
-    public Classes.DelegateCommand CopyPasswordToClipboardCommand { get; set; }
-    public Classes.DelegateCommand CopyUrlToClipboardCommand { get; set; }
-    public Classes.DelegateCommand GeneratePasswordCommand { get; set; }
-    public Classes.DelegateCommand AppSettingsCommand { get; set; }
+    public Classes.DelegateCommand? MinimizeWindowCommand { get; set; }
+    public Classes.DelegateCommand? MaximizeRestoreWindowCommand { get; set; }
+    public Classes.DelegateCommand? CloseWindowCommand { get; set; }
+    public Classes.DelegateCommand? LockDatabaseCommand { get; set; }
+    public Classes.DelegateCommand? AddRecordCommand { get; set; }
+    public Classes.DelegateCommand? EditRecordCommand { get; set; }
+    public Classes.DelegateCommand? DeleteRecordCommand { get; set; }
+    public Classes.DelegateCommand? CopyUsernameToClipboardCommand { get; set; }
+    public Classes.DelegateCommand? CopyPasswordToClipboardCommand { get; set; }
+    public Classes.DelegateCommand? CopyUrlToClipboardCommand { get; set; }
+    public Classes.DelegateCommand? GeneratePasswordCommand { get; set; }
+    public Classes.DelegateCommand? AppSettingsCommand { get; set; }
 
 
 
-    public MainWindow_ViewModel() {
+    public MainWindow_ViewModel() : base() {
         //WinState = WindowState.Normal;
 
         //Set delegates for commands
@@ -55,9 +55,16 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //LockScreen_ViewModel lockScreen_ViewModel = new LockScreen_ViewModel();
         //lockScreen_ViewModel.ParentVM = this;
 
-        SelectedViewModel = new ViewModels.LockScreen_ViewModel(); //Views.LockScreen_View();
+        //SelectedViewModel = new ViewModels.LockScreen_ViewModel(); //Views.LockScreen_View();
         //((LockScreen_ViewModel)SelectedViewModel).DatabaseUnlocked += new LockScreen_ViewModel.UnlockDatabaseDelegate(TryUnlockDatabase);
         //SelectedViewModel.ParentVM = this;
+
+
+
+        LockScreen_ViewModel lockScreenVM = new LockScreen_ViewModel(this);
+        lockScreenVM.DatabaseUnlocked += OnSetDatabaseView;
+        lockScreenVM.WindowClosed += onWindowCloseCommand;
+        SelectedViewModel = lockScreenVM;
     }
 
     #region Title Bar Event Handlers
@@ -83,14 +90,23 @@ internal class MainWindow_ViewModel : ViewModelBase {
     //Set CurrentView to LockScreen_View event handler
     private void onLockDatabaseCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onLockDatabaseCommand clicked, but it's not fully implemented yet...");
-        SelectedViewModel = new ViewModels.LockScreen_ViewModel();
+        //SelectedViewModel = new ViewModels.LockScreen_ViewModel();
+        
         //((LockScreen_ViewModel)SelectedViewModel).DatabaseUnlocked += new LockScreen_ViewModel.UnlockDatabaseDelegate(TryUnlockDatabase);
         //SelectedViewModel.ParentVM = this;
-        //LockScreen_ViewModel lockScreen_ViewModel = new LockScreen_ViewModel();
-        //lockScreen_ViewModel.ParentVM = this;
-
-        //SelectedViewModel = lockScreen_ViewModel;
+        LockScreen_ViewModel lockScreenVM = new LockScreen_ViewModel(this);
+        lockScreenVM.DatabaseUnlocked += OnSetDatabaseView;
+        lockScreenVM.WindowClosed += onWindowCloseCommand;
+        SelectedViewModel = lockScreenVM;
         //SelectedViewModel.ParentVM = this;
+    }
+    //Set CurrentView to Database_View event handler
+    private void OnSetDatabaseView(object obj) {
+        //Database_ViewModel databaseVM = new Database_ViewModel(this);
+        ////add event handlers
+        //SelectedViewModel = databaseVM;
+        System.Diagnostics.Debug.WriteLine("OnSetDatabaseView() not implemented...");
+        System.Diagnostics.Debug.WriteLine("OnSetDatabaseView() obj to string: " + obj.ToString());
     }
     //Set CurrentView to AddEditRecord_View (to add record to database) event handler
     private void onAddRecordCommand(object obj) {

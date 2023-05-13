@@ -21,4 +21,31 @@ public partial class LockScreen_View : UserControl {
     public LockScreen_View() {
         InitializeComponent();
     }
+
+    //handles click event for the toggle button that toggles the visibility states of the password box and collapsed text box
+    private void tBtnPasswordVisibility_Click(object sender, RoutedEventArgs e) {
+        if (tBtnPasswordVisibility.IsChecked == true) {
+            tBox.Visibility = Visibility.Collapsed;
+            pBox.Visibility = Visibility.Visible;
+        } else {
+            tBox.Visibility = Visibility.Visible;
+            pBox.Visibility = Visibility.Collapsed;
+        }
+    }
+
+    private void tBox_TextChanged(object sender, TextChangedEventArgs e) {
+        if (tBox.Visibility == Visibility.Visible &&
+            pBox.Visibility == Visibility.Collapsed) {
+
+            pBox.Password = tBox.Text;
+        }
+    }
+
+    private void pBox_PasswordChanged(object sender, RoutedEventArgs e) {
+        if (pBox.Visibility == Visibility.Visible &&
+            tBox.Visibility == Visibility.Collapsed) {
+
+            tBox.Text = pBox.Password;
+        }
+    }
 }

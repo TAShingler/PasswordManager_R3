@@ -9,9 +9,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="180" d:DesignWidth="400" Width="400" Height="180">
 
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <vm:LockScreen_ViewModel />
-    </UserControl.DataContext>
+    </UserControl.DataContext>-->
 
     <UserControl.Resources>
         <!--//  CONVERTERS  //-->
@@ -266,7 +266,8 @@
                              BorderBrush="Transparent"
                              BorderThickness="0"
                              VerticalContentAlignment="Center"
-                             Visibility="Visible"/>
+                             Visibility="Collapsed"
+                             TextChanged="tBox_TextChanged"/>
                     <PasswordBox x:Name="pBox"
                                  Grid.Column="0"
                                  CaretBrush="Gainsboro"
@@ -275,14 +276,17 @@
                                  BorderBrush="Transparent"
                                  BorderThickness="0"
                                  VerticalContentAlignment="Center"
-                                 Visibility="Collapsed"/>
-                    <ToggleButton Grid.Column="1"
+                                 Visibility="Visible"
+                                 PasswordChanged="pBox_PasswordChanged"/>
+                    <ToggleButton x:Name="tBtnPasswordVisibility"
+                                  Grid.Column="1"
                                   Width="24"
                                   Height="24"
                                   BorderBrush="Transparent"
                                   BorderThickness="0"
                                   IsChecked="True"
-                                  Style="{StaticResource ToggleButtonMaskPasswordStyle}"/>
+                                  Style="{StaticResource ToggleButtonMaskPasswordStyle}"
+                                  Click="tBtnPasswordVisibility_Click"/>
                 </Grid>
             </Border>
             <TextBlock Grid.Row="2"
@@ -301,14 +305,16 @@
                         Margin="0 0 6 0"
                         Style="{StaticResource ButtonUnlockDatabaseStyle}"
                         Command="{Binding UnlockDatabaseCommand}"
-                        CommandParameter="some text"/>
+                        CommandParameter="{Binding ElementName=tBox,Path=Text}"/>
                 <Button Content="Close"
                         Width="100"
                         Height="30"
                         Margin="6 0 0 0"
                         Style="{StaticResource ButtonCloseApplicationStyle}"
-                        Command="{Binding DataContext.CloseWindowCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}"
+                        Command="{Binding CloseWindowCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                <!--Command="{Binding DataContext.CloseWindowCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>-->
                 <!--CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>-->
             </StackPanel>
         </Grid>

@@ -9,7 +9,9 @@
         xmlns:views="clr-namespace:PasswordManager_R3.Views"
         mc:Ignorable="d"
         Title="MainWindow"
+        MinHeight="600"
         Height="600"
+        MinWidth="800"
         Width="800"
         Background="#999"
         WindowState="{Binding WinState}"
@@ -601,6 +603,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Viewbox Grid.Column="0"
+                             Panel.ZIndex="0"
                              Width="16"
                              Height="16">
                         <Canvas Width="24"
@@ -622,6 +625,7 @@
                     </Viewbox>
 
                     <Menu Grid.Column="1"
+                          Panel.ZIndex="0"
                           WindowChrome.IsHitTestVisibleInChrome="True"
                           Background="Transparent"
                           Foreground="{StaticResource ThemeTextBrush}"
@@ -631,21 +635,26 @@
                         <MenuItem Header="About" />
                     </Menu>
 
-                    <TextBlock Grid.Column="2"
+                    <TextBlock Grid.Column="0"
+                               Grid.ColumnSpan="7"
+                               Panel.ZIndex="0"
                                Foreground="{StaticResource ThemeTextBrush}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center"
                                Text="Placeholder Title" />
 
                     <StackPanel Grid.Column="3"
+                                Panel.ZIndex="0"
                                 Orientation="Horizontal" />
 
                     <Button Grid.Column="4"
+                            Panel.ZIndex="0"
                             WindowChrome.IsHitTestVisibleInChrome="True"
                             Visibility="Visible"
                             Style="{StaticResource TitleBarButtonMinimizeWindowStyle}"
                             Command="{Binding MinimizeWindowCommand}"/>
                     <Button Grid.Column="5"
+                            Panel.ZIndex="0"
                             Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
                                                  Path=WindowState,
                                                  Converter={StaticResource ViewStateToVisibilityConverter},
@@ -654,6 +663,7 @@
                             Style="{StaticResource TitleBarButtonMaximizeWindowStyle}"
                             Command="{Binding MaximizeRestoreWindowCommand}" />
                     <Button Grid.Column="5"
+                            Panel.ZIndex="0"
                             Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
                                                  Path=WindowState,
                                                  Converter={StaticResource ViewStateToVisibilityConverter},
@@ -662,6 +672,7 @@
                             Style="{StaticResource TitleBarButtonRestoreWindowStyle}"
                             Command="{Binding MaximizeRestoreWindowCommand}" />
                     <Button Grid.Column="6"
+                            Panel.ZIndex="0"
                             Visibility="Visible"
                             WindowChrome.IsHitTestVisibleInChrome="True"
                             Style="{StaticResource TitleBarButtonCloseAppStyle}"
