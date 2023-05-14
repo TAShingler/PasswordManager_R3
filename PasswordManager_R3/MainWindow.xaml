@@ -41,6 +41,12 @@
         <DataTemplate DataType="{x:Type vm:Database_ViewModel}">
             <views:Database_View />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AddEditRecord_ViewModel}">
+            <views:AddEditRecord_View />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AddEditGroup_ViewModel}">
+            <views:AddEditGroup_View />
+        </DataTemplate>
         
         <!--//  CONVERTERS  //-->
         <converters:ViewStateToVisibilityConverter x:Key="ViewStateToVisibilityConverter" />

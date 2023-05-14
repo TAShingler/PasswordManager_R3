@@ -5,8 +5,345 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PasswordManager_R3.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style x:Key="InputTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <!--<Setter Property="OverridesDefaultStyle" Value="True" />-->
+            <!--<Setter Property="KeyboardNavigation.TabNavigation" Value="None" />-->
+            <!--<Setter Property="FocusVisualStyle" Value="{x:Null}" />-->
+            <Setter Property="AllowDrop" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBoxBase">
+                        <Grid>
+                            <Border Name="Border" CornerRadius="2" Padding="2,0" Background="#333" BorderBrush="#666" BorderThickness="1">
+                                <VisualStateManager.VisualStateGroups>
+                                    <!--<VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                    <EasingColorKeyFrame KeyTime="0" Value="{DynamicResource ThemeBorderColor}" />
+                                                </ColorAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="ReadOnly">
+                                            <Storyboard>
+                                                <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                    <EasingColorKeyFrame KeyTime="0" Value="{DynamicResource ThemeColor5}" />
+                                                </ColorAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="MouseOver" />
+                                    </VisualStateGroup>-->
+                                </VisualStateManager.VisualStateGroups>
+                                <ScrollViewer Margin="0" VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}" HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}" x:Name="PART_ContentHost" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Border Background="Transparent"
+            BorderBrush="#666"
+            BorderThickness="1">
+        <DockPanel LastChildFill="True">
+            <!--//  TOP PANEL  //-->
+            <Border DockPanel.Dock="Top"
+                    Height="Auto"
+                    Background="#333"
+                    BorderBrush="#666"
+                    BorderThickness="0 0 0 1">
+                <TextBlock FontSize="12"
+                           FontWeight="Bold"
+                           Padding="12"
+                           Foreground="Gainsboro"
+                           Text="New Group" />
+            </Border>
+
+            <!--//  BOTTOM PANEL  //-->
+            <Border DockPanel.Dock="Bottom"
+                    Height="Auto"
+                    Background="#333"
+                    BorderBrush="#666"
+                    BorderThickness="0 1 0 0">
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right">
+                    <Button MinWidth="100"
+                            Width="100"
+                            MinHeight="30"
+                            Height="Auto"
+                            Margin="5"
+                            Content="OK"/>
+                    <Button MinWidth="100"
+                            Width="Auto"
+                            MinHeight="30"
+                            Height="Auto"
+                            Margin="5"
+                            Content="Cancel"/>
+                </StackPanel>
+            </Border>
+
+            <!--//  LEFT PANEL  //-->
+            <Border DockPanel.Dock="Left"
+                    Width="Auto"
+                    Background="#262626"
+                    BorderBrush="#666"
+                    BorderThickness="0 0 1 0"
+                    Padding="12,6">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Button Grid.Row="0"
+                            Height="16"
+                            Foreground="Gainsboro"
+                            Background="#333"
+                            BorderBrush="#666"
+                            BorderThickness="1">
+                        <Path Fill="Gainsboro"
+                              Data="M 0 7 L 10 7 L 5 0 Z" />
+                    </Button>
+                    <!--//  Eventually need to make ListView width Auto and scale with ListViewItem contents  //-->
+                    <ListView x:Name="listViewTabSelector"
+                              Grid.Row="1"
+                              Width="100"
+                              Foreground="Gainsboro"
+                              Background="#333"
+                              BorderBrush="#666"
+                              BorderThickness="1 0"
+                              ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              SelectedIndex="0">
+                        <ListViewItem Content="Tab 1" />
+                        <ListViewItem Content="Tab 2" />
+                    </ListView>
+                    <Button Grid.Row="2"
+                            Height="16"
+                            Foreground="Gainsboro"
+                            Background="#333"
+                            BorderBrush="#666"
+                            BorderThickness="1">
+                        <Path Fill="Gainsboro"
+                              Data="M 0 0 L 10 0 L 5 7 Z"/>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!--//  MIDDLE PANEL  //-->
+            <Border Background="Transparent"
+                    BorderBrush="Transparent"
+                    BorderThickness="0"
+                    Padding="10 20 5 20">
+                <TabControl Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            SelectedIndex="{Binding ElementName=listViewTabSelector,Path=SelectedIndex}">
+
+                    <!--//  "Entry" Form  //-->
+                    <TabItem Visibility="Collapsed">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+
+                            <!--//  Title  //-->
+                            <Label Grid.Column="1"
+                                   Grid.Row="0"
+                                   Height="24"
+                                   Padding="4 0 0 0"
+                                   Margin="0 0 0 2"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Left"
+                                   Content="Name:"
+                                   Foreground="Gainsboro" />
+                            <TextBox Grid.Column="2"
+                                     Grid.Row="0"
+                                     Margin="0 0 0 2"
+                                     Height="24"
+                                     BorderBrush="Transparent"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     Foreground="Gainsboro"
+                                     CaretBrush="Gainsboro"
+                                     VerticalContentAlignment="Center"
+                                     Style="{StaticResource InputTextBoxStyle}"/>
+
+                            <!--//  Expiration Date  //-->
+                            <CheckBox x:Name="checkBoxExpirationDate"
+                                      Grid.Column="0"
+                                      Grid.Row="1"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Center"/>
+                            <Label Grid.Column="1"
+                                   Grid.Row="1"
+                                   Height="24"
+                                   Padding="4 0 0 0"
+                                   Margin="0 2"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Left"
+                                   Content="Expiration Date:"
+                                   Foreground="Gainsboro" />
+                            <TextBox Grid.Column="2"
+                                     Grid.Row="1"
+                                     IsEnabled="{Binding ElementName=checkBoxExpirationDate,Path=IsChecked}"
+                                     Margin="0 2"
+                                     Height="24"
+                                     VerticalContentAlignment="Center"
+                                     BorderBrush="Transparent"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     Foreground="Gainsboro"
+                                     CaretBrush="Gainsboro"
+                                     Style="{StaticResource InputTextBoxStyle}" />
+                            
+                            <!--//  Serach Options  //-->
+                            <Label Grid.Column="1"
+                                   Grid.Row="2"
+                                   Height="24"
+                                   Padding="4 0 0 0"
+                                   Margin="0 2"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Left"
+                                   Content="Search:"
+                                   Foreground="Gainsboro" />
+                            <ComboBox Grid.Column="2"
+                                      Grid.Row="2"
+                                      Margin="0 2 0 0"
+                                      Background="#333"
+                                      Foreground="Gainsboro"
+                                      BorderBrush="#666"
+                                      BorderThickness="1"/>
+
+                            <!--//  Notes  //-->
+                            <CheckBox x:Name="checkBoxNotes"
+                                      Grid.Column="0"
+                                      Grid.Row="3"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Center" />
+                            <Label Grid.Column="1"
+                                   Grid.Row="3"
+                                   Height="24"
+                                   Padding="4 0 0 0"
+                                   Margin="0 2"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Left"
+                                   Content="Notes:"
+                                   Foreground="Gainsboro" />
+                            <TextBox Grid.Column="2"
+                                     Grid.Row="3"
+                                     Grid.RowSpan="2"
+                                     IsEnabled="{Binding ElementName=checkBoxNotes,Path=IsChecked}"
+                                     Margin="0 2 0 0"
+                                     Height="Auto"
+                                     VerticalContentAlignment="Top"
+                                     BorderBrush="Transparent"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     Foreground="Gainsboro"
+                                     CaretBrush="Gainsboro"
+                                     HorizontalScrollBarVisibility="Disabled"
+                                     VerticalScrollBarVisibility="Auto"
+                                     TextWrapping="Wrap"
+                                     AcceptsReturn="True"
+                                     Padding="0 3"
+                                     Style="{StaticResource InputTextBoxStyle}"/>
+                        </Grid>
+                    </TabItem>
+
+                    <!--//  "Properties" Form  //-->
+                    <TabItem Visibility="Collapsed">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+                            
+                            <!--//  Created Date  //-->
+                            <Label Grid.Column="1"
+                                   Grid.Row="0"
+                                   Height="24"
+                                   Padding="0"
+                                   Margin="0 0 0 2"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Left"
+                                   Content="Created:"
+                                   Foreground="Gainsboro" />
+                            <TextBox Grid.Column="2"
+                                     Grid.Row="0"
+                                     Height="24"
+                                     IsReadOnly="True"
+                                     Margin="0 0 0 2"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Left"
+                                     Foreground="Gainsboro"/>
+
+                            <!--//  Modified Date  //-->
+                            <Label Grid.Column="1"
+                                   Grid.Row="1"
+                                   Height="24"
+                                   Padding="0"
+                                   Margin="0 2"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Left"
+                                   Content="Last Modified:"
+                                   Foreground="Gainsboro"/>
+                            <TextBox Grid.Column="2"
+                                     Grid.Row="1"
+                                     Height="24"
+                                     IsReadOnly="True"
+                                     Margin="0 2"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Left"
+                                     Foreground="Gainsboro"/>
+
+                            <!--//  GUID  //--><!--//  **MIGHT REMOVE**  //-->
+                            <Label Grid.Column="1"
+                                   Grid.Row="2"
+                                   Height="24"
+                                   Padding="0"
+                                   Margin="0 2"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Left"
+                                   Content="GUID:"
+                                   Foreground="Gainsboro"/>
+                            <TextBox Grid.Column="2"
+                                     Grid.Row="2"
+                                     Height="24"
+                                     IsReadOnly="True"
+                                     Margin="0 2"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Left"
+                                     Foreground="Gainsboro"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Border>
+        </DockPanel>
+    </Border>
 </UserControl>

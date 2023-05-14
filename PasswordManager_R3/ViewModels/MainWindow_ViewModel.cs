@@ -69,6 +69,14 @@ internal class MainWindow_ViewModel : ViewModelBase {
         /*  Default to Database_View  */
         Database_ViewModel databaseVM = new Database_ViewModel(this);
         SelectedViewModel = databaseVM;
+
+        /*  Default to AddEditRecord_View  */
+        //AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);
+        //SelectedViewModel = addEditRecordVM;
+
+        /*  Default to AddEditGroup_View  */
+        //AddEditGroup_ViewModel addEditGroupVM = new AddEditGroup_ViewModel(this);
+        //SelectedViewModel = addEditGroupVM;
     }
 
     #region Title Bar Event Handlers
@@ -120,11 +128,15 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private void onAddRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onAddRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel();
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);
+        SelectedViewModel = addEditRecordVM;
     }
     //Set CurrentView to AddEditRecord_View (to edit record in database) event handler
     private void onEditRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onEditRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel(); //will need to have 2 constructors -- one for add record, the other for edit record
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);
+        SelectedViewModel = addEditRecordVM;
     }
     //Set CurrentView to PasswordGenerator_View event handler
     private void onGeneratePasswordCommand(object obj) {
