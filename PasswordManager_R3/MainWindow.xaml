@@ -38,6 +38,10 @@
         <DataTemplate DataType="{x:Type vm:LockScreen_ViewModel}">
             <views:LockScreen_View />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:Database_ViewModel}">
+            <views:Database_View />
+        </DataTemplate>
+        
         <!--//  CONVERTERS  //-->
         <converters:ViewStateToVisibilityConverter x:Key="ViewStateToVisibilityConverter" />
         <converters:ViewStateToBorderThicknessConverter x:Key="ViewStateToBorderThicknessConverter" />
@@ -829,19 +833,21 @@
 
             <!--////  BODY CONTENTS  ////-->
             <Border Grid.Row="2"
-                    Margin="4"
-                    Background="#333"
+                    Padding="5"
+                    Background="#212121"
                     BorderBrush="#666"
-                    BorderThickness="1">
-                <ContentControl x:Name="viewPresenter" VerticalAlignment="Center"
-                                  HorizontalAlignment="Center"
-                                  Content="{Binding SelectedViewModel}" />
+                    BorderThickness="0">
+                <ContentControl x:Name="viewPresenter"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Stretch"
+                                Content="{Binding SelectedViewModel}" />
             </Border>
 
             <Border Grid.Row="3"
                     Background="#333"
                     BorderBrush="#666"
-                    BorderThickness="0 2 0 0">
+                    BorderThickness="0 2 0 0"
+                    Visibility="Collapsed">
                 <Label HorizontalAlignment="Right"
                        Foreground="Gainsboro"
                        Content="Record Counts: 000" />

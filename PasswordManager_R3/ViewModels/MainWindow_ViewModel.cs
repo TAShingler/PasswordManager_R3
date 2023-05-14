@@ -60,11 +60,15 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel.ParentVM = this;
 
 
+        /*  Default to LockScreen_View  */
+        //LockScreen_ViewModel lockScreenVM = new LockScreen_ViewModel(this);
+        //lockScreenVM.DatabaseUnlocked += OnSetDatabaseView;
+        //lockScreenVM.WindowClosed += onWindowCloseCommand;
+        //SelectedViewModel = lockScreenVM;
 
-        LockScreen_ViewModel lockScreenVM = new LockScreen_ViewModel(this);
-        lockScreenVM.DatabaseUnlocked += OnSetDatabaseView;
-        lockScreenVM.WindowClosed += onWindowCloseCommand;
-        SelectedViewModel = lockScreenVM;
+        /*  Default to Database_View  */
+        Database_ViewModel databaseVM = new Database_ViewModel(this);
+        SelectedViewModel = databaseVM;
     }
 
     #region Title Bar Event Handlers
@@ -107,6 +111,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel = databaseVM;
         System.Diagnostics.Debug.WriteLine("OnSetDatabaseView() not implemented...");
         System.Diagnostics.Debug.WriteLine("OnSetDatabaseView() obj to string: " + obj.ToString());
+
+
+        Database_ViewModel databaseVM = new Database_ViewModel(this);
+        SelectedViewModel = databaseVM;
     }
     //Set CurrentView to AddEditRecord_View (to add record to database) event handler
     private void onAddRecordCommand(object obj) {
