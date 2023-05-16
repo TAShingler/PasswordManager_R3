@@ -67,12 +67,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel = lockScreenVM;
 
         /*  Default to Database_View  */
-        Database_ViewModel databaseVM = new Database_ViewModel(this);
-        SelectedViewModel = databaseVM;
+        //Database_ViewModel databaseVM = new Database_ViewModel(this);
+        //SelectedViewModel = databaseVM;
 
         /*  Default to AddEditRecord_View  */
-        //AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);
-        //SelectedViewModel = addEditRecordVM;
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);
+        SelectedViewModel = addEditRecordVM;
 
         /*  Default to AddEditGroup_View  */
         //AddEditGroup_ViewModel addEditGroupVM = new AddEditGroup_ViewModel(this);

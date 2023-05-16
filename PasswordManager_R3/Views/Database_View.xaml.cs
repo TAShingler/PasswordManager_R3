@@ -21,4 +21,18 @@ public partial class Database_View : UserControl {
     public Database_View() {
         InitializeComponent();
     }
+
+    private void Button_Click(object sender, RoutedEventArgs e) {
+        if (selectedRecordInfoPane.Visibility == Visibility.Collapsed) {
+            selectedRecordInfoPane.Visibility = Visibility.Visible;
+            buttonSelectedRecordInfoPaneExpander.Visibility = Visibility.Collapsed;
+            selectedRecordInfoPaneGridRow.MinHeight = 220;
+            selectedRecordInfoPaneGridRow.Height = new GridLength(0.75, GridUnitType.Star);
+        } else {
+            selectedRecordInfoPane.Visibility = Visibility.Collapsed;
+            buttonSelectedRecordInfoPaneExpander.Visibility = Visibility.Visible;
+            selectedRecordInfoPaneGridRow.MinHeight = 24;
+            selectedRecordInfoPaneGridRow.Height = GridLength.Auto;
+        }
+    }
 }

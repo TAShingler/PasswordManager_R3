@@ -18,36 +18,62 @@
                 <ColumnDefinition MinWidth="300" Width="1*" />
             </Grid.ColumnDefinitions>
 
-            <TreeView Grid.Column="0"
-                      Background="#333"
-                      BorderBrush="#666"
-                      BorderThickness="1"/>
+            <Border Grid.Column="0"
+                    Background="#464646"
+                    BorderBrush="#666"
+                    BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TreeView Grid.Row="0"
+                              Background="Transparent"
+                              BorderBrush="Transparent"
+                              BorderThickness="0" />
+                    <Label Grid.Row="1"
+                           Foreground="Gainsboro"
+                           Background="#363636"
+                           BorderBrush="#666"
+                           BorderThickness="0 2 0 0"
+                           Margin="0"
+                           Padding="0"
+                           HorizontalContentAlignment="Center"
+                           VerticalContentAlignment="Center"
+                           Content="Total Vaults: 000" />
+                </Grid>
+            </Border>
             <GridSplitter Grid.Column="1"
                           Width="5"
                           Background="Transparent"
                           VerticalAlignment="Stretch"
-                          HorizontalAlignment="Stretch"/>
+                          HorizontalAlignment="Stretch" />
             <Border Grid.Column="2">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition MinHeight="150" Height="1*" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition MinHeight="220" Height="0.75*" />
+                        <RowDefinition x:Name="selectedRecordInfoPaneGridRow" MinHeight="220" Height="0.75*" />
+                        <!--<RowDefinition Height="0.001*" />-->
                     </Grid.RowDefinitions>
                     
                     <DataGrid Grid.Row="0"
-                              Background="#333"
+                              Background="#464646"
                               BorderBrush="#666"
                               BorderThickness="1"/>
                     <GridSplitter Grid.Row="1"
                                   Height="5"
                                   Background="Transparent"
                                   VerticalAlignment="Stretch"
-                                  HorizontalAlignment="Stretch"/>
-                    <Border Grid.Row="2"
-                            Background="#333"
+                                  HorizontalAlignment="Stretch"
+                                  Visibility="{Binding ElementName=selectedRecordInfoPane,Path=Visibility}"/>
+                    <Border x:Name="selectedRecordInfoPane"
+                            Grid.Row="2"
+                            MinHeight="220"
+                            Background="#464646"
                             BorderBrush="#666"
-                            BorderThickness="1">
+                            BorderThickness="1"
+                            Visibility="Visible">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -87,7 +113,7 @@
                                     Height="16"
                                     Margin="16"
                                     BorderBrush="#777"
-                                    Background="#444">
+                                    Background="#444" Click="Button_Click">
                                 <Path Width="8"
                                       Height="8"
                                       Stroke="Gainsboro"
@@ -95,7 +121,7 @@
                                       ClipToBounds="True"
                                       Data="M 0 0 L 8 8 M 0 8 L 8 0" />
                             </Button>
-                            
+
                             <!--//  Bottom Row  //-->
                             <TabControl Grid.Column="0"
                                         Grid.ColumnSpan="3"
@@ -117,6 +143,12 @@
                             </TabControl>
                         </Grid>
                     </Border>
+                    <!--<Border x:Name="buttonSelectedRecordInfoPaneExpander"
+                            Grid.Row="2"
+                            Background="red"
+                            MinHeight="24">-->
+                    <Button  x:Name="buttonSelectedRecordInfoPaneExpander" Grid.Row="2" MinHeight="24" Background="Red" Click="Button_Click" Visibility="Collapsed" />
+                    <!--</Border>-->
                 </Grid>
             </Border>
         </Grid>

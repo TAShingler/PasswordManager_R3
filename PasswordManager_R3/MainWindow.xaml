@@ -13,12 +13,12 @@
         Height="600"
         MinWidth="800"
         Width="800"
-        Background="#999"
+        Background="#121212"
         WindowState="{Binding WinState}"
         x:Name="WinMain">
 
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="22"
+        <WindowChrome CaptionHeight="24"
                       CornerRadius="0"
                       GlassFrameThickness="7 0 7 7"
                       NonClientFrameEdges="None"
@@ -587,7 +587,9 @@
         </Style>
     </Window.Resources>
 
-    <Border BorderThickness="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},Path=WindowState,Converter={StaticResource ViewStateToBorderThicknessConverter}}">
+    <Border BorderThickness="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                      Path=WindowState,
+                                      Converter={StaticResource ViewStateToBorderThicknessConverter}}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
@@ -693,9 +695,9 @@
 
             <!--////  QUICK ACCESS BAR  ////-->
             <Border Grid.Row="1"
-                    Background="#484848"
+                    Background="#333"
                     BorderBrush="#666"
-                    BorderThickness="0 2"
+                    BorderThickness="0 0 0 2"
                     Margin="0"
                     Padding="8">
                 <Grid>
@@ -849,6 +851,7 @@
                                 Content="{Binding SelectedViewModel}" />
             </Border>
 
+            <!--////  STATUS BAR  ////-->
             <Border Grid.Row="3"
                     Background="#333"
                     BorderBrush="#666"
