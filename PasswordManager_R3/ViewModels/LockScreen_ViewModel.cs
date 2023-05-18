@@ -11,13 +11,13 @@ internal class LockScreen_ViewModel : ViewModelBase {
     public event CloseWindowDelegate? WindowClosed;
 
     //Public Properties
-    public Classes.DelegateCommand UnlockDatabaseCommand { get; set; }
-    public Classes.DelegateCommand CloseWindowCommand { get; set; }
+    public Utils.DelegateCommand UnlockDatabaseCommand { get; set; }
+    public Utils.DelegateCommand CloseWindowCommand { get; set; }
 
     //Constructors
     public LockScreen_ViewModel(ViewModelBase parentVM) : base(parentVM) {
-        UnlockDatabaseCommand = new Classes.DelegateCommand(onUnlockDatabaseCommand);
-        CloseWindowCommand = new Classes.DelegateCommand(onCloseWindowCommand);
+        UnlockDatabaseCommand = new Utils.DelegateCommand(onUnlockDatabaseCommand);
+        CloseWindowCommand = new Utils.DelegateCommand(onCloseWindowCommand);
     }
 
     //Event Handlers

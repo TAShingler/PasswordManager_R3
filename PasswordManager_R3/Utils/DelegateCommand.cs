@@ -6,7 +6,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PasswordManager_R3.Classes;
+namespace PasswordManager_R3.Utils;
 internal class DelegateCommand : System.Windows.Input.ICommand {
     private readonly Predicate<object> _canExecute;
     private readonly Action<object> _execute;

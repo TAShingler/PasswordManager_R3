@@ -92,7 +92,8 @@
                                 MinHeight="30"
                                 Height="Auto"
                                 Margin="5"
-                                Content="OK"/>
+                                Content="OK"
+                                Command="{Binding CreateRecordCommand}"/>
                         <Button MinWidth="100"
                                 Width="Auto"
                                 MinHeight="30"

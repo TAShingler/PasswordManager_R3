@@ -31,18 +31,18 @@ internal class MainWindow_ViewModel : ViewModelBase {
     }
 
     //Delegates for Commands to handle events
-    public Classes.DelegateCommand? MinimizeWindowCommand { get; set; }
-    public Classes.DelegateCommand? MaximizeRestoreWindowCommand { get; set; }
-    public Classes.DelegateCommand? CloseWindowCommand { get; set; }
-    public Classes.DelegateCommand? LockDatabaseCommand { get; set; }
-    public Classes.DelegateCommand? AddRecordCommand { get; set; }
-    public Classes.DelegateCommand? EditRecordCommand { get; set; }
-    public Classes.DelegateCommand? DeleteRecordCommand { get; set; }
-    public Classes.DelegateCommand? CopyUsernameToClipboardCommand { get; set; }
-    public Classes.DelegateCommand? CopyPasswordToClipboardCommand { get; set; }
-    public Classes.DelegateCommand? CopyUrlToClipboardCommand { get; set; }
-    public Classes.DelegateCommand? GeneratePasswordCommand { get; set; }
-    public Classes.DelegateCommand? AppSettingsCommand { get; set; }
+    public Utils.DelegateCommand? MinimizeWindowCommand { get; set; }
+    public Utils.DelegateCommand? MaximizeRestoreWindowCommand { get; set; }
+    public Utils.DelegateCommand? CloseWindowCommand { get; set; }
+    public Utils.DelegateCommand? LockDatabaseCommand { get; set; }
+    public Utils.DelegateCommand? AddRecordCommand { get; set; }
+    public Utils.DelegateCommand? EditRecordCommand { get; set; }
+    public Utils.DelegateCommand? DeleteRecordCommand { get; set; }
+    public Utils.DelegateCommand? CopyUsernameToClipboardCommand { get; set; }
+    public Utils.DelegateCommand? CopyPasswordToClipboardCommand { get; set; }
+    public Utils.DelegateCommand? CopyUrlToClipboardCommand { get; set; }
+    public Utils.DelegateCommand? GeneratePasswordCommand { get; set; }
+    public Utils.DelegateCommand? AppSettingsCommand { get; set; }
 
 
 
@@ -71,7 +71,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel = databaseVM;
 
         /*  Default to AddEditRecord_View  */
-        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel();// this);
+        addEditRecordVM.CreateRecord += void (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
         SelectedViewModel = addEditRecordVM;
 
         /*  Default to AddEditGroup_View  */
@@ -128,14 +129,15 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private void onAddRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onAddRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel();
-        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel();// this);
+        addEditRecordVM.CreateRecord += void (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
         SelectedViewModel = addEditRecordVM;
     }
     //Set CurrentView to AddEditRecord_View (to edit record in database) event handler
     private void onEditRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onEditRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel(); //will need to have 2 constructors -- one for add record, the other for edit record
-        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel();// this);
         SelectedViewModel = addEditRecordVM;
     }
     //Set CurrentView to PasswordGenerator_View event handler
@@ -189,19 +191,19 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
     //Method to set Command delegates
     private void SetDelegateCommands() {
-        MinimizeWindowCommand = new Classes.DelegateCommand(onMinimizeWindowCommand);
-        MaximizeRestoreWindowCommand = new Classes.DelegateCommand(onMaximizeRestoreWindowCommand);
-        CloseWindowCommand = new Classes.DelegateCommand(onWindowCloseCommand);
+        MinimizeWindowCommand = new Utils.DelegateCommand(onMinimizeWindowCommand);
+        MaximizeRestoreWindowCommand = new Utils.DelegateCommand(onMaximizeRestoreWindowCommand);
+        CloseWindowCommand = new Utils.DelegateCommand(onWindowCloseCommand);
 
-        LockDatabaseCommand = new Classes.DelegateCommand(onLockDatabaseCommand);
-        AddRecordCommand = new Classes.DelegateCommand(onAddRecordCommand);
-        EditRecordCommand = new Classes.DelegateCommand(onEditRecordCommand);
-        DeleteRecordCommand = new Classes.DelegateCommand(onDeleteRecordCommand);
-        CopyUsernameToClipboardCommand = new Classes.DelegateCommand(onCopyUsernameToClipboardCommand);
-        CopyPasswordToClipboardCommand = new Classes.DelegateCommand(onCopyPasswordToClipboardCommand);
-        CopyUrlToClipboardCommand = new Classes.DelegateCommand(onCopyUrlToClipboardCommand);
-        GeneratePasswordCommand = new Classes.DelegateCommand(onGeneratePasswordCommand);
-        AppSettingsCommand = new Classes.DelegateCommand(onAppSettingsCommand);
+        LockDatabaseCommand = new Utils.DelegateCommand(onLockDatabaseCommand);
+        AddRecordCommand = new Utils.DelegateCommand(onAddRecordCommand);
+        EditRecordCommand = new Utils.DelegateCommand(onEditRecordCommand);
+        DeleteRecordCommand = new Utils.DelegateCommand(onDeleteRecordCommand);
+        CopyUsernameToClipboardCommand = new Utils.DelegateCommand(onCopyUsernameToClipboardCommand);
+        CopyPasswordToClipboardCommand = new Utils.DelegateCommand(onCopyPasswordToClipboardCommand);
+        CopyUrlToClipboardCommand = new Utils.DelegateCommand(onCopyUrlToClipboardCommand);
+        GeneratePasswordCommand = new Utils.DelegateCommand(onGeneratePasswordCommand);
+        AppSettingsCommand = new Utils.DelegateCommand(onAppSettingsCommand);
     }
 
     //methods to set Views and add

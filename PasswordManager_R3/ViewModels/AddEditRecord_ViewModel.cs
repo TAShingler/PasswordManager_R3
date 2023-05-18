@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PasswordManager_R3.ViewModels;
 internal class AddEditRecord_ViewModel : ViewModelBase {
-    private Models.Record _record = new Models.Record();
+    private Models.Record _record = new();
 
     //might make Properties not directly reference Record obj...
     public string Title {
@@ -17,7 +17,6 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(Title));
         }
     }
-
     public string Username {
         get { return _record.Username; }
         set {
@@ -25,7 +24,6 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(Username));
         }
     }
-
     public string Email {
         get { return _record.Email; }
         set {
@@ -33,7 +31,6 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(Email));
         }
     }
-
     public string Password {
         get { return _record.Password; }
         set {
@@ -41,7 +38,6 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(Password));
         }
     }
-
     public string URL {
         get { return _record.URL; }
         set {
@@ -50,7 +46,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
         }
     }
 
-    //might get rid of...
+    //might get rid of tags...
     public string Tags {
         get { return _record.Tags; }
         set {
@@ -58,31 +54,27 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(Tags));
         }
     }
-
     public bool HasExpirationDate {
-        get { return _record._HasExpirationDate; }
+        get { return _record.HasExpirationDate; }
         set {
-            _record._HasExpirationDate = value;
+            _record.HasExpirationDate = value;
             OnPropertyChanged(nameof(HasExpirationDate));
         }
     }
-
     public DateTime ExpirationDate {
         get { return _record.ExpirationDate; }
         set {
-            _record.Email = value;
+            _record.ExpirationDate = value;
             OnPropertyChanged(nameof(ExpirationDate));
         }
     }
-
     public bool HasNotes {
-        get { return _record._HasNotes; }
+        get { return _record.HasNotes; }
         set {
             _record.HasNotes = value;
             OnPropertyChanged(nameof(HasNotes));
         }
     }
-
     public string Notes {
         get { return _record.Notes; }
         set {
@@ -91,7 +83,33 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
         }
     }
 
-    public AddEditRecord_ViewModel(ViewModelBase parentVM) : base(parentVM) {
+    //DelegateCommands
+    public Utils.DelegateCommand CreateRecordCommand { get; set; }
+
+    //Delegates to bubble events to MainWindow_ViewModel
+    public delegate void CreateRecordEventHandler(object sender, EventArgs e);
+    public delegate void UpdateRecordEventHandler(object sender, EventArgs e);
+
+    //Events to bubble to MainWindow_ViewModel
+    public event CreateRecordEventHandler? CreateRecord; //prob. rename...
+    public event UpdateRecordEventHandler? UpdateRecord;
+
+    public AddEditRecord_ViewModel() : base() {// ViewModelBase parentVM) : base(parentVM) {
         //do something
+        SetDelegateCommands();
+        
+    }
+
+    private void SetDelegateCommands() {
+        CreateRecordCommand = new Utils.DelegateCommand(OnCreateRecord);
+    }
+
+    //DelegateCommand event handlers
+    private void OnCreateRecord(object obj) {
+        //will need to create event args and bubble to Main Window?? -- will need to bubble regardless to change view
+        CreateRecord?.Invoke(this, EventArgs.Empty);
+    }
+    private void OnUpdateRecord(object obj) {
+        UpdateRecord?.Invoke(this, EventArgs.Empty);
     }
 }
