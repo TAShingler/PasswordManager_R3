@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace PasswordManager_R3.Models;
 internal class Record {
+    private Group? _parent;
+    private string? _parentGuid;    //might use Guid struct instead
     private string _title;
     private string _username;
     private string _email;
@@ -17,6 +19,14 @@ internal class Record {
     private bool _hasNotes;
     private string _notes;
 
+    public Group? Parent {
+        get { return _parent; }
+        set { _parent = value; }
+    }
+    public string? ParentGuid {
+        get { return _parentGuid; }
+        set { _parentGuid = value; }
+    }
     public string Title {
         get { return _title; }
         set { _title = value; }
