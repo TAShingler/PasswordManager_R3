@@ -59,6 +59,436 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <!--//  ListView Styles  //-->
+        <Style x:Key="ListViewItemStyle"
+               TargetType="{x:Type ListViewItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ListViewUpButtonStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ListViewDownButtonStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ListViewStyle"
+               TargetType="{x:Type ListView}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListView}">
+                        
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!--//  Confirm/Cancel Button Styles  //-->
+        <Style x:Key="SaveRecordButtonStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Background"
+                    Value="{Binding Background}" />
+            <Setter Property="Foreground"
+                    Value="{Binding Foreground}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bounds"
+                                TextBlock.Foreground="{TemplateBinding Foreground}"
+                                BorderBrush="{TemplateBinding Foreground}"
+                                BorderThickness="1"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="2">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DeepSkyBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DeepSkyBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#333" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#222" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#333" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused" />
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Valid" />
+                                    <VisualState x:Name="InvalidFocused" />
+                                    <VisualState x:Name="InvalidUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            
+                            <ContentPresenter TextBlock.Foreground="{Binding ElementName=bounds,
+                                                                             Path=(TextBlock.Foreground)}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Content="{TemplateBinding Content}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="CancelRecordButtonStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Background"
+                    Value="{Binding Background}" />
+            <Setter Property="Foreground"
+                    Value="{Binding Foreground}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bounds"
+                                TextBlock.Foreground="{TemplateBinding Foreground}"
+                                BorderBrush="{TemplateBinding Foreground}"
+                                BorderThickness="1"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="2">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DeepSkyBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DeepSkyBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#333" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#222" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#333" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused" />
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Valid" />
+                                    <VisualState x:Name="InvalidFocused" />
+                                    <VisualState x:Name="InvalidUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <ContentPresenter TextBlock.Foreground="{Binding ElementName=bounds,
+                                                                             Path=(TextBlock.Foreground)}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Content="{TemplateBinding Content}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!--//  Password Button Styles  //-->
+        <Style x:Key="ToggleButtonGeneratePasswordStyle"
+               TargetType="{x:Type ToggleButton}">
+            <Setter Property="Foreground"
+                    Value="{Binding Foreground}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="bounds"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0">
+
+                            <Viewbox Height="20"
+                                     Width="20">
+                                <Canvas Height="24"
+                                        Width="24">
+                                    <Path x:Name="glyph"
+                                          Fill="{TemplateBinding Foreground}"
+                                          Data="M19 5V19H5V5H19
+                                                M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3
+                                                M12 10.5C11.2 10.5 10.5 11.2 10.5 12S11.2 13.5 12 13.5 13.5 12.8 13.5 12 12.8 10.5 12 10.5
+                                                M7.5 6C6.7 6 6 6.7 6 7.5S6.7 9 7.5 9 9 8.3 9 7.5 8.3 6 7.5 6
+                                                M16.5 15C15.7 15 15 15.7 15 16.5C15 17.3 15.7 18 16.5 18C17.3 18 18 17.3 18 16.5C18 15.7 17.3 15 16.5 15Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+                                <Setter TargetName="glyph"
+                                        Property="Fill"
+                                        Value="DodgerBlue" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="glyph"
+                                        Property="Fill"
+                                        Value="DeepSkyBlue" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ToggleButtonMaskPasswordStyle"
+               TargetType="{x:Type ToggleButton}">
+            <Setter Property="Foreground"
+                    Value="{Binding Foreground}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="bounds"
+                                TextBlock.Foreground="{TemplateBinding Foreground}"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0">
+
+                            <Viewbox Height="16"
+                                     Width="16">
+                                <Canvas Height="16"
+                                        Width="16"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+                                    <Path x:Name="unmaskedGlyph"
+                                          Fill="{TemplateBinding Foreground}"
+                                          Data="M 8 6 A 2.01 2.01 0 0 0 5.99 8.01 2.01 2.01 0 0 0 8 10.02 2.01 2.01 0 0 0 10.01 8.01 2.01 2.01 0 0 0 8 6
+                                                m 0 5.36 A 3.35 3.35 0 0 1 4.65 8.01 3.35 3.35 0 0 1 8 4.66 3.35 3.35 0 0 1 11.35 8.01 3.35 3.35 0 0 1 8 11.36
+                                                M 8 2.985 c -3.35 0 -6.2109 2.0837 -7.37 5.025 1.1591 2.9413 4.02 5.025 7.37 5.025 3.35 0 6.2109 -2.0837 7.37 -5.025 C 14.2109 5.0687 11.35 2.985 8 2.985 Z"
+                                          Visibility="Collapsed" />
+                                    <Path x:Name="maskedGlyph"
+                                          Fill="{TemplateBinding Foreground}"
+                                          Data="m 7.8891 5.99 2.1239 2.1172 c 0 -0.0335 0 -0.0737 0 -0.1072 A 2.01 2.01 0 0 0 8.003 5.99 c -0.0402 0 -0.0737 0 -0.1139 0
+                                                M 5.0081 6.526 6.0466 7.5645 C 6.0131 7.7052 5.993 7.8459 5.993 8 a 2.01 2.01 0 0 0 2.01 2.01 c 0.1474 0 0.2948 -0.0201 0.4355 -0.0536 L 9.477 10.9949 C 9.0281 11.216 8.5323 11.35 8.003 11.35 A 3.35 3.35 0 0 1 4.653 8 c 0 -0.5293 0.134 -1.0251 0.3551 -1.474
+                                                M 1.303 2.8209 2.8306 4.3485 3.1321 4.65 C 2.0266 5.521 1.1556 6.66 0.633 8 c 1.1591 2.9413 4.02 5.025 7.37 5.025 1.0385 0 2.0301 -0.201 2.9346 -0.5628 L 11.2257 12.7436 13.1821 14.7 14.033 13.8491 2.1539 1.97
+                                                M 8.003 4.65 A 3.35 3.35 0 0 1 11.353 8 c 0 0.4288 -0.0871 0.8442 -0.2412 1.2194 l 1.9631 1.9631 C 14.0799 10.345 14.8839 9.2462 15.373 8 14.2139 5.0587 11.353 2.975 8.003 2.975 7.065 2.975 6.1672 3.1425 5.323 3.444 L 6.7769 4.8845 C 7.1588 4.7371 7.5675 4.65 8.003 4.65 Z"
+                                          Visibility="Visible" />
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+                                <!--<Setter TargetName="unmaskedGlyph"
+                                        Property="Fill"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="maskedGlyph"
+                                        Property="Fill"
+                                        Value="DodgerBlue" />-->
+                                <Setter TargetName="unmaskedGlyph"
+                                        Property="Visibility"
+                                        Value="Visible" />
+                                <Setter TargetName="maskedGlyph"
+                                        Property="Visibility"
+                                        Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="unmaskedGlyph"
+                                        Property="Fill"
+                                        Value="DeepSkyBlue" />
+                                <Setter TargetName="maskedGlyph"
+                                        Property="Fill"
+                                        Value="DeepSkyBlue" />
+                            </Trigger>
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+                                <Setter TargetName="unmaskedGlyph"
+                                        Property="Fill"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="maskedGlyph"
+                                        Property="Fill"
+                                        Value="DodgerBlue" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!--//  CheckBox Styles  //-->
+        <!--<Style x:Key="{x:Type CheckBox}"
+               TargetType="{x:Type CheckBox}">
+            <Setter Property="Width" Value="Auto" />
+            <Setter Property="Height" Value="Auto" />
+            <Setter Property="VerticalAlignment"
+                    Value="{Binding VerticalAlignment}" />
+            <Setter Property="HorizontalAlignment"
+                    Value="{Binding HorizontalAlignment}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Border Background="#444"
+                                BorderBrush="Gainsboro"
+                                BorderThickness="1"
+                                CornerRadius="2"
+                                Padding="2">
+                            <Canvas Width="7"
+                                    Height="7">
+                                <Path Stroke="Gainsboro"
+                                      StrokeThickness="1"
+                                      Data="M 0,5 L 2,7 L 7,0" />
+                            </Canvas>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+        <Style x:Key="{x:Type CheckBox}"
+               TargetType="{x:Type CheckBox}">
+            <!--<Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="OverridesDefaultStyle"
+                    Value="True" />-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Border x:Name="bounds"
+                                Background="#333"
+                                BorderBrush="Gainsboro"
+                                BorderThickness="1"
+                                CornerRadius="2">
+                            <Viewbox Width="12"
+                                     Height="12">
+                                <Canvas Width="24"
+                                        Height="24">
+                                    <Path x:Name="checkGlyph"
+                                          Fill="{TemplateBinding Foreground}"
+                                          Data="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked"
+                                     Value="False">
+                                <Setter TargetName="checkGlyph"
+                                        Property="Visibility"
+                                        Value="Hidden" />
+                            </Trigger>
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+                                <Setter TargetName="checkGlyph"
+                                        Property="Visibility"
+                                        Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="deepskyblue" />
+                                <Setter TargetName="checkGlyph"
+                                        Property="Fill"
+                                        Value="deepskyblue" />
+                            </Trigger>
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="dodgerblue" />
+                                <Setter TargetName="checkGlyph"
+                                        Property="Fill"
+                                        Value="dodgerblue" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -93,13 +523,19 @@
                                 Height="Auto"
                                 Margin="5"
                                 Content="OK"
-                                Command="{Binding CreateRecordCommand}"/>
+                                Foreground="Gainsboro"
+                                Background="#444"
+                                Command="{Binding CreateRecordCommand}"
+                                Style="{StaticResource SaveRecordButtonStyle}"/>
                         <Button MinWidth="100"
                                 Width="Auto"
                                 MinHeight="30"
                                 Height="Auto"
                                 Margin="5"
-                                Content="Cancel"/>
+                                Content="Cancel"
+                                Foreground="Gainsboro"
+                                Background="#444"
+                                Style="{StaticResource CancelRecordButtonStyle}"/>
                     </StackPanel>
                 </Border>
 
@@ -278,11 +714,14 @@
                                              Foreground="Gainsboro"
                                              CaretBrush="Gainsboro"
                                              Style="{StaticResource InputTextBoxStyle}" />
-                                    <ToggleButton x:Name="toggleButtonGeneratePassword" Grid.Column="1"
+                                    <ToggleButton x:Name="toggleButtonGeneratePassword"
+                                                  Grid.Column="1"
+                                                  Foreground="Gainsboro"
                                                   Background="Transparent"
                                                   BorderBrush="Transparent"
-                                                  BorderThickness="0">
-                                        <Viewbox Width="20"
+                                                  BorderThickness="0"
+                                                  Style="{StaticResource ToggleButtonGeneratePasswordStyle}">
+                                        <!--<Viewbox Width="20"
                                                  Height="20">
                                             <Canvas Width="24"
                                                     Height="24">
@@ -293,13 +732,16 @@
                                                             M7.5 6C6.7 6 6 6.7 6 7.5S6.7 9 7.5 9 9 8.3 9 7.5 8.3 6 7.5 6
                                                             M16.5 15C15.7 15 15 15.7 15 16.5C15 17.3 15.7 18 16.5 18C17.3 18 18 17.3 18 16.5C18 15.7 17.3 15 16.5 15Z" />
                                             </Canvas>
-                                        </Viewbox>
+                                        </Viewbox>-->
                                     </ToggleButton>
-                                    <ToggleButton x:Name="toggleButtonMaskPassword" Grid.Column="2"
+                                    <ToggleButton x:Name="toggleButtonMaskPassword"
+                                                  Grid.Column="2"
+                                                  Foreground="Gainsboro"
                                                   Background="Transparent"
                                                   BorderBrush="Transparent"
-                                                  BorderThickness="0">
-                                        <Viewbox Width="16"
+                                                  BorderThickness="0"
+                                                  Style="{StaticResource ToggleButtonMaskPasswordStyle}">
+                                        <!--<Viewbox Width="16"
                                                  Height="16">
                                             <Canvas Width="16"
                                                     Height="16">
@@ -313,7 +755,7 @@
                                                             M 1.303 2.8209 2.8306 4.3485 3.1321 4.65 C 2.0266 5.521 1.1556 6.66 0.633 8 c 1.1591 2.9413 4.02 5.025 7.37 5.025 1.0385 0 2.0301 -0.201 2.9346 -0.5628 L 11.2257 12.7436 13.1821 14.7 14.033 13.8491 2.1539 1.97
                                                             M 8.003 4.65 A 3.35 3.35 0 0 1 11.353 8 c 0 0.4288 -0.0871 0.8442 -0.2412 1.2194 l 1.9631 1.9631 C 14.0799 10.345 14.8839 9.2462 15.373 8 14.2139 5.0587 11.353 2.975 8.003 2.975 7.065 2.975 6.1672 3.1425 5.323 3.444 L 6.7769 4.8845 C 7.1588 4.7371 7.5675 4.65 8.003 4.65 Z" />
                                             </Canvas>
-                                        </Viewbox>
+                                        </Viewbox>-->
                                     </ToggleButton>
                                 </Grid>
 
@@ -544,8 +986,8 @@
                PlacementTarget="{Binding ElementName=toggleButtonGeneratePassword}"
                Placement="Bottom"
                IsOpen="{Binding ElementName=toggleButtonGeneratePassword, Path=IsChecked}"
-               Width="300"
-               Height="200"
+               Width="Auto"
+               Height="Auto"
                StaysOpen="True">
             <Border Background="#333"
                     Padding="5">
@@ -555,7 +997,7 @@
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -583,7 +1025,10 @@
 
                         <Label Grid.Column="0"
                                Foreground="Gainsboro"
-                               Content="Length:" />
+                               Content="Length:"
+                               VerticalContentAlignment="Center"
+                               Margin="0"
+                               Padding="0 0 8 0"/>
                         <Slider Grid.Column="1" />
                         <Border Grid.Column="2" Width="75">
                             <Grid>
@@ -592,8 +1037,8 @@
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="24" />
+                                    <ColumnDefinition Width="18" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBox Grid.Column="0"
@@ -601,15 +1046,22 @@
                                          Grid.Row="0"
                                          Grid.RowSpan="2"
                                          Foreground="Gainsboro"
+                                         Background="#333"
                                          CaretBrush="Gainsboro" />
                                 <RepeatButton Grid.Column="1"
                                               Grid.ColumnSpan="1"
                                               Grid.Row="0"
-                                              Grid.RowSpan="1" />
+                                              Grid.RowSpan="1">
+                                    <Path Fill="Black"
+                                          Data="M 0,5 L 7,5 L 3.5,0 Z" />
+                                </RepeatButton>
                                 <RepeatButton Grid.Column="1"
                                               Grid.ColumnSpan="1"
                                               Grid.Row="1"
-                                              Grid.RowSpan="1" />
+                                              Grid.RowSpan="1">
+                                    <Path Fill="Black"
+                                          Data="M 0,0 L 7,0 L 3.5,5 Z" />
+                                </RepeatButton>
                             </Grid>
                         </Border>
                     </Grid>
