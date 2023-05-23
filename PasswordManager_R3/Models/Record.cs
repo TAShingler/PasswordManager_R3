@@ -71,7 +71,7 @@ internal class Record {
 
     public Record() {
         _title = "TestTitle";// string.Empty;
-        _username = "TestUSername";// string.Empty;
+        _username = "TestUsername";// string.Empty;
         _email = "TestEmail";// string.Empty;
         _password = "TestPassword";// string.Empty;
         _url = "TestUrl";// string.Empty;

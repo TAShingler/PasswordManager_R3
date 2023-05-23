@@ -48,4 +48,8 @@ public partial class LockScreen_View : UserControl {
             tBox.Text = pBox.Password;
         }
     }
+
+    private void UserControl_Unloaded(object sender, RoutedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("LockScreen_View unloaded");
+    }
 }

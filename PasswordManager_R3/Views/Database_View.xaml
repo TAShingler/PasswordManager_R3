@@ -38,6 +38,7 @@
                            BorderThickness="0 2 0 0"
                            Margin="0"
                            Padding="0"
+                           FontSize="16"
                            HorizontalContentAlignment="Center"
                            VerticalContentAlignment="Center"
                            Content="Total Vaults: 000" />
@@ -48,32 +49,39 @@
                           Background="Transparent"
                           VerticalAlignment="Stretch"
                           HorizontalAlignment="Stretch" />
-            <Border Grid.Column="2">
+            <Border Grid.Column="2"
+                    SnapsToDevicePixels="True">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition MinHeight="150" Height="1*" />
+                        <RowDefinition MinHeight="150"
+                                       Height="1*" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition x:Name="selectedRecordInfoPaneGridRow" MinHeight="220" Height="0.75*" />
+                        <RowDefinition x:Name="selectedRecordInfoPaneGridRow"
+                                       MinHeight="220"
+                                       Height="0.75*" />
                         <!--<RowDefinition Height="0.001*" />-->
                     </Grid.RowDefinitions>
                     
                     <DataGrid Grid.Row="0"
                               Background="#464646"
                               BorderBrush="#666"
-                              BorderThickness="1"/>
+                              BorderThickness="1"
+                              SnapsToDevicePixels="True"/>
                     <GridSplitter Grid.Row="1"
                                   Height="5"
                                   Background="Transparent"
                                   VerticalAlignment="Stretch"
                                   HorizontalAlignment="Stretch"
-                                  Visibility="{Binding ElementName=selectedRecordInfoPane,Path=Visibility}"/>
+                                  Visibility="{Binding ElementName=selectedRecordInfoPane,Path=Visibility}"
+                                  SnapsToDevicePixels="True"/>
                     <Border x:Name="selectedRecordInfoPane"
                             Grid.Row="2"
                             MinHeight="220"
                             Background="#464646"
                             BorderBrush="#666"
                             BorderThickness="1"
-                            Visibility="Visible">
+                            Visibility="Visible"
+                            SnapsToDevicePixels="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />

@@ -7,7 +7,11 @@
              xmlns:converters="clr-namespace:PasswordManager_R3.Converters"
              xmlns:vm="clr-namespace:PasswordManager_R3.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="180" d:DesignWidth="400" Width="400" Height="180">
+             d:DesignHeight="180"
+             d:DesignWidth="400"
+             Width="400"
+             Height="180"
+             Unloaded="UserControl_Unloaded">
 
     <!--<UserControl.DataContext>
         <vm:LockScreen_ViewModel />
@@ -250,7 +254,7 @@
                     Background="#444"
                     BorderBrush="#777"
                     BorderThickness="1"
-                    CornerRadius="4">
+                    CornerRadius="2">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
