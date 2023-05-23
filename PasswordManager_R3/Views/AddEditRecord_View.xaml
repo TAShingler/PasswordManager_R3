@@ -61,12 +61,343 @@
         </Style>
         
         <!--//  ListView Styles  //-->
-        <Style x:Key="ListViewItemStyle"
+        <!--<Style x:Key="ListViewItemStyle"
                TargetType="{x:Type ListViewItem}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListViewItem}">
-                        
+                        <Grid VerticalAlignment="Center"
+                              HorizontalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+                            
+                            
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+        <Style x:Key="EntryInfoListViewItem"
+               TargetType="{x:Type ListViewItem}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border x:Name="bounds"
+                                Width="96"
+                                Height="96"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="2">
+
+                            <Grid VerticalAlignment="Center"
+                                  HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Viewbox Grid.Row="0"
+                                         Width="36"
+                                         Height="36"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center">
+                                    <Canvas Width="24"
+                                            Height="24">
+                                        <Path x:Name="listViewItemGlyph"
+                                              Fill="Gainsboro"
+                                              Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87
+                                                    M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                                    </Canvas>
+                                </Viewbox>
+                                <ContentPresenter x:Name="cPresenter"
+                                                  Grid.Row="1"
+                                                  TextBlock.Foreground="Gainsboro"
+                                                  Content="{TemplateBinding Content}"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="DeepSkyblue" />
+                                <Setter TargetName="listViewItemGlyph"
+                                        Property="Fill"
+                                        Value="DeepSkyBlue" />
+                                <Setter TargetName="cPresenter"
+                                        Property="TextBlock.Foreground"
+                                        Value="DeepSkyBlue" />
+                            </Trigger>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="listViewItemGlyph"
+                                        Property="Fill"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="cPresenter"
+                                        Property="TextBlock.Foreground"
+                                        Value="DodgerBlue" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="EntryAdvancedListViewItem"
+               TargetType="{x:Type ListViewItem}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border x:Name="bounds"
+                                Width="96"
+                                Height="96"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="2">
+
+                            <Grid VerticalAlignment="Center"
+                                  HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Viewbox Grid.Row="0"
+                                         Width="36"
+                                         Height="36"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center">
+                                    <Canvas Width="24"
+                                            Height="24">
+                                        <Path x:Name="listViewItemGlyph"
+                                              Fill="Gainsboro"
+                                              Data="M8,12H16V14H8V12
+                                                    M10,20H6V4H13V9H18V12.1L20,10.1V8L14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H10V20
+                                                    M8,18H12.1L13,17.1V16H8V18
+                                                    M20.2,13C20.3,13 20.5,13.1 20.6,13.2L21.9,14.5C22.1,14.7 22.1,15.1 21.9,15.3L20.9,16.3L18.8,14.2L19.8,13.2C19.9,13.1 20,13 20.2,13
+                                                    M20.2,16.9L14.1,23H12V20.9L18.1,14.8L20.2,16.9Z" />
+                                    </Canvas>
+                                </Viewbox>
+                                
+                                <StackPanel Grid.Row="1"
+                                            Orientation="Vertical">
+                                    <TextBlock x:Name="tBlock1"
+                                               Foreground="Gainsboro"
+                                               Text="Security"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center" />
+                                    <TextBlock x:Name="tBlock2"
+                                               Foreground="Gainsboro"
+                                               Text="Questions"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="DeepSkyblue" />
+                                <Setter TargetName="listViewItemGlyph"
+                                        Property="Fill"
+                                        Value="DeepSkyBlue" />
+                                <Setter TargetName="tBlock1"
+                                        Property="Foreground"
+                                        Value="DeepSkyBlue" />
+                                <Setter TargetName="tBlock2"
+                                        Property="Foreground"
+                                        Value="DeepSkyBlue" />
+                            </Trigger>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="listViewItemGlyph"
+                                        Property="Fill"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="tBlock1"
+                                        Property="Foreground"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="tBlock2"
+                                        Property="Foreground"
+                                        Value="DodgerBlue" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="EntryIconListViewItem"
+               TargetType="{x:Type ListViewItem}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border x:Name="bounds"
+                                Width="96"
+                                Height="96"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="2">
+
+                            <Grid VerticalAlignment="Center"
+                                  HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Viewbox Grid.Row="0"
+                                         Width="36"
+                                         Height="36"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center">
+                                    <Canvas Width="24"
+                                            Height="24">
+                                        <Path x:Name="listViewItemGlyph"
+                                              Fill="Gainsboro"
+                                              Data="M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12
+                                                    M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12
+                                                    M10,9.5C10,10.3 9.3,11 8.5,11C7.7,11 7,10.3 7,9.5C7,8.7 7.7,8 8.5,8C9.3,8 10,8.7 10,9.5
+                                                    M17,9.5C17,10.3 16.3,11 15.5,11C14.7,11 14,10.3 14,9.5C14,8.7 14.7,8 15.5,8C16.3,8 17,8.7 17,9.5
+                                                    M12,17.23C10.25,17.23 8.71,16.5 7.81,15.42L9.23,14C9.68,14.72 10.75,15.23 12,15.23C13.25,15.23 14.32,14.72 14.77,14L16.19,15.42C15.29,16.5 13.75,17.23 12,17.23Z" />
+                                    </Canvas>
+                                </Viewbox>
+                                <ContentPresenter x:Name="cPresenter"
+                                                  Grid.Row="1"
+                                                  TextBlock.Foreground="Gainsboro"
+                                                  Content="{TemplateBinding Content}"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="DeepSkyblue" />
+                                <Setter TargetName="listViewItemGlyph"
+                                        Property="Fill"
+                                        Value="DeepSkyBlue" />
+                                <Setter TargetName="cPresenter"
+                                        Property="TextBlock.Foreground"
+                                        Value="DeepSkyBlue" />
+                            </Trigger>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="listViewItemGlyph"
+                                        Property="Fill"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="cPresenter"
+                                        Property="TextBlock.Foreground"
+                                        Value="DodgerBlue" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="EntryPropertiesListViewItem"
+               TargetType="{x:Type ListViewItem}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border x:Name="bounds"
+                                Width="96"
+                                Height="96"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="2">
+
+                            <Grid VerticalAlignment="Center"
+                                  HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Viewbox Grid.Row="0"
+                                         Width="36"
+                                         Height="36"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center">
+                                    <Canvas Width="24"
+                                            Height="24">
+                                        <Path x:Name="listViewItemGlyph"
+                                              Fill="Gainsboro"
+                                              Data="M10 20H6V4H13V9H18V12.1L20 10.1V8L14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H10V20
+                                                    M20.2 13C20.3 13 20.5 13.1 20.6 13.2L21.9 14.5C22.1 14.7 22.1 15.1 21.9 15.3L20.9 16.3L18.8 14.2L19.8 13.2C19.9 13.1 20 13 20.2 13
+                                                    M20.2 16.9L14.1 23H12V20.9L18.1 14.8L20.2 16.9Z" />
+                                    </Canvas>
+                                </Viewbox>
+                                <ContentPresenter x:Name="cPresenter"
+                                                  Grid.Row="1"
+                                                  TextBlock.Foreground="Gainsboro"
+                                                  Content="{TemplateBinding Content}"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="DeepSkyblue" />
+                                <Setter TargetName="listViewItemGlyph"
+                                        Property="Fill"
+                                        Value="DeepSkyBlue" />
+                                <Setter TargetName="cPresenter"
+                                        Property="TextBlock.Foreground"
+                                        Value="DeepSkyBlue" />
+                            </Trigger>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="listViewItemGlyph"
+                                        Property="Fill"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="cPresenter"
+                                        Property="TextBlock.Foreground"
+                                        Value="DodgerBlue" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -76,7 +407,15 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2 2 0 0">
+                            <Path Fill="{TemplateBinding Foreground}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  Data="M 0 7 L 10 7 L 5 0 Z" />
+                        </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -86,12 +425,20 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="0 0 2 2">
+                            <Path Fill="{TemplateBinding Foreground}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  Data="M 0 0 L 10 0 L 5 7 Z" />
+                        </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="ListViewStyle"
+        <!--<Style x:Key="ListViewStyle"
                TargetType="{x:Type ListView}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -100,7 +447,28 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
+        </Style>-->
+        <!--<Style x:Key="ListViewStyle"
+               TargetType="{x:Type ListView}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListView}">
+                        <Border x:Name="bounds"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="1">
+                            <ScrollViewer VerticalScrollBarVisibility="Disabled"
+                                          HorizontalScrollBarVisibility="Disabled">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
         
         <!--//  Confirm/Cancel Button Styles  //-->
         <Style x:Key="SaveRecordButtonStyle"
@@ -447,7 +815,7 @@
                                 <Canvas Width="24"
                                         Height="24">
                                     <Path x:Name="checkGlyph"
-                                          Fill="{TemplateBinding Foreground}"
+                                          Fill="Gainsboro"
                                           Data="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
                                 </Canvas>
                             </Viewbox>
@@ -558,10 +926,8 @@
                                 Foreground="Gainsboro"
                                 Background="#333"
                                 BorderBrush="#666"
-                                BorderThickness="1">
-                            <Path Fill="Gainsboro"
-                                  Data="M 0 7 L 10 7 L 5 0 Z" />
-                        </Button>
+                                BorderThickness="1"
+                                Style="{StaticResource ListViewUpButtonStyle}" />
                         <!--//  Eventually need to make ListView width Auto and scale with ListViewItem contents  //-->
                         <ListView x:Name="listViewTabSelector"
                                   Grid.Row="1"
@@ -573,19 +939,22 @@
                                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                   SelectedIndex="0">
-                            <ListViewItem Content="Tab 1" />
-                            <ListViewItem Content="Tab 2" />
-                            <ListViewItem Content="Tab 3" />
+                            <ListViewItem Content="Entry"
+                                          Style="{StaticResource EntryInfoListViewItem}" />
+                            <ListViewItem Content="Icon"
+                                          Style="{StaticResource EntryIconListViewItem}" />
+                            <!--<ListViewItem Content="Advanced"
+                                          Style="{StaticResource EntryAdvancedListViewItem}" />-->
+                            <ListViewItem Content="Properties"
+                                          Style="{StaticResource EntryPropertiesListViewItem}" />
                         </ListView>
                         <Button Grid.Row="2"
                                 Height="16"
                                 Foreground="Gainsboro"
                                 Background="#333"
                                 BorderBrush="#666"
-                                BorderThickness="1">
-                            <Path Fill="Gainsboro"
-                                  Data="M 0 0 L 10 0 L 5 7 Z"/>
-                        </Button>
+                                BorderThickness="1"
+                                Style="{StaticResource ListViewDownButtonStyle}" />
                     </Grid>
                 </Border>
 
