@@ -24,7 +24,7 @@ internal static class Hasher {
     #endregion Constructors
 
     #region Other Methods
-    public static string Hash(string input) {
+    internal static string Hash(string input) {
         byte[] salt = System.Security.Cryptography.RandomNumberGenerator.GetBytes(SALT_SIZE);
         byte[] hash = System.Security.Cryptography.Rfc2898DeriveBytes.Pbkdf2(
             input,
@@ -42,8 +42,7 @@ internal static class Hasher {
             ALGORITHM_NAME
         );
     }
-
-    public static bool Verify(string input, string hashString) {
+    internal static bool Verify(string input, string hashString) {
         string[] segments = hashString.Split(DELIMITER);
         byte[] hash = Convert.FromHexString(segments[0]);
         byte[] salt = Convert.FromHexString(segments[1]);
