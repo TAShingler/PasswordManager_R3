@@ -8,16 +8,16 @@ namespace PasswordManager_R3.Models;
 internal class VaultObjectBase {
     //might change fields to protected...
     #region Fields
-    private Group? _parentGroup;
-    private string? _parentGuid;
-    private string _guid;
-    private string _title;  //might change to _name instead...
-    private bool _hasExpirationDate;
-    private DateTime? _expirationDate;
-    private DateTime _createdDate;
-    private DateTime _modifiedDate;
-    private bool _hasNotes;
-    private string _notes;
+    private protected Group? _parentGroup;
+    private protected string? _parentGuid;
+    private protected string _guid;
+    private protected string _title;  //might change to _name instead...
+    private protected bool _hasExpirationDate;
+    private protected DateTime? _expirationDate;
+    private protected DateTime _createdDate;
+    private protected DateTime _modifiedDate;
+    private protected bool _hasNotes;
+    private protected string _notes;
     #endregion Fields
 
     //might make all properties internal
@@ -78,4 +78,8 @@ internal class VaultObjectBase {
         _notes = string.Empty;
     }
     #endregion Constructors
+
+    #region Other Methods
+
+    #endregion Other MEthods
 }
