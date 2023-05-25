@@ -9,13 +9,13 @@ internal static class EncryptionTools {
     #region Fields
     private const int KEY_SIZE = 32;    //key size in bytes
     //private const int IV_SIZE = KEY_SIZE / 8;
-    private static byte[] _key = new byte[KEY_SIZE];    //may need to clear when database is locked...
+    private static byte[]? _key = new byte[KEY_SIZE];    //may need to clear when database is locked...
     #endregion Fields
 
     #region Properties
-    internal static byte[] Key {
+    internal static byte[]? Key {
         //get { return _key; } -- might use in future
-        set { _key = value; }
+        set { _key = value; }//if (_key != null) { System.Diagnostics.Debug.WriteLine("Key = " + Convert.ToHexString(_key)); } else { System.Diagnostics.Debug.WriteLine("Key is null "); } }
     }
     #endregion Proeprties
 

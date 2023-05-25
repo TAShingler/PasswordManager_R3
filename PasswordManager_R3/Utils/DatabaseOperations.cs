@@ -161,8 +161,61 @@ internal class DatabaseOperations {
     }
 
     //Read Operations
-    internal void RetrieveData() {
-        //do something
+    internal Dictionary<int, Models.Group> RetrieveGroupsData() {
+        Dictionary<int, Models.Group> groups = new Dictionary<int, Models.Group>();
+        System.Data.SQLite.SQLiteCommand sqlCommand;
+        System.Data.SQLite.SQLiteDataReader sqlReader;
+
+        OpenConnection();
+        sqlCommand = _dbConnection.CreateCommand();
+        sqlCommand.CommandText = $"SELECT * FROM {GROUPS_TABLE_NAME}";
+
+        sqlReader = sqlCommand.ExecuteReader();
+        while(sqlReader.Read()) {
+            //read int from DB
+            int sqlReaderInt = sqlReader.GetInt32(0);
+
+            //read string from DB
+            string sqlReaderString = sqlReader.GetString(1);
+
+            string decryptedSqlReaderString = Utils.EncryptionTools.DecryptBase64StringToObjectString(sqlReaderString);
+
+            var decryptedObj = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.Group>(decryptedSqlReaderString);
+
+            groups.Add(sqlReaderInt, decryptedObj);
+        }
+
+        CloseConnection();
+
+        return groups;
+    }
+    internal Dictionary<int, Models.Record> RetrieveRecordsData() {
+        Dictionary<int, Models.Record> records = new Dictionary<int, Models.Record>();
+        System.Data.SQLite.SQLiteCommand sqlCommand;
+        System.Data.SQLite.SQLiteDataReader sqlReader;
+
+        OpenConnection();
+        sqlCommand = _dbConnection.CreateCommand();
+        sqlCommand.CommandText = $"SELECT * FROM {RECORDS_TABLE_NAME}";
+
+        sqlReader = sqlCommand.ExecuteReader();
+        while (sqlReader.Read()) {
+            //get int from DB
+            int sqlReaderInt = sqlReader.GetInt32(0);
+
+            //get string from DB
+            string sqlReaderString = sqlReader.GetString(1);
+
+            string decryptedSqlReaderString = Utils.EncryptionTools.DecryptBase64StringToObjectString(sqlReaderString);
+
+            var decryptedObj = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.Record>(decryptedSqlReaderString);
+
+            records.Add(sqlReaderInt, decryptedObj);
+        }
+
+        CloseConnection();
+
+        return records;
     }
 
     //Update operations
@@ -189,9 +242,56 @@ internal class DatabaseOperations {
         CloseConnection();
     }
 
-    //Delete operations
-    internal void DeleteData() {
-        //do something
+    //Delete operations -- might combine into one method
+    internal void DeleteGroupData(int rowId) {
+        System.Data.SQLite.SQLiteCommand sqlCommand;
+
+        OpenConnection();
+        sqlCommand = _dbConnection.CreateCommand();
+
+        sqlCommand.CommandText = $"DELETE FROM {GROUPS_TABLE_NAME} WHERE RowID = {rowId};";
+
+        sqlCommand.ExecuteScalar();
+
+        sqlCommand.Dispose();
+        CloseConnection();
     }
+    internal void DeleteRecordData(int rowId) {
+        System.Data.SQLite.SQLiteCommand sqlCommand;
+
+        OpenConnection();
+        sqlCommand = _dbConnection.CreateCommand();
+
+        sqlCommand.CommandText = $"DELETE FROM {RECORDS_TABLE_NAME} WHERE RowID = {rowId};";
+
+        sqlCommand.ExecuteScalar();
+
+        sqlCommand.Dispose();
+        CloseConnection();
+    }
+    //generic delete operation method
+    //internal void DeleteData(int rowId, string objType) { //maybe make DeleteData<T> and use the type passed to the method (?)
+    //    System.Data.SQLite.SQLiteCommand sqlCommand;
+
+    //    OpenConnection();
+
+    //    sqlCommand = _dbConnection.CreateCommand();
+
+    //    switch (objType) {
+    //        case "Group":
+    //            sqlCommand.CommandText = $"DELETE FROM {GROUPS_TABLE_NAME} WHERE RowID = {rowId};";
+    //            break;
+    //        case "Record":
+    //            sqlCommand.CommandText = $"DELETE FROM {RECORDS_TABLE_NAME} WHERE RowID = {rowId};";
+    //            break;
+    //        default:
+    //            break;
+    //    }
+
+    //    sqlCommand.ExecuteScalar();
+        
+    //    sqlCommand.Dispose();
+    //    CloseConnection();
+    //}
     #endregion Other Methods
 }

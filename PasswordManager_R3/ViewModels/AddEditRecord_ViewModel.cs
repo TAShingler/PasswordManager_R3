@@ -61,7 +61,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(HasExpirationDate));
         }
     }
-    public DateTime ExpirationDate {
+    public DateTime? ExpirationDate {
         get { return _record.ExpirationDate; }
         set {
             _record.ExpirationDate = value;

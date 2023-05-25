@@ -293,7 +293,8 @@
                                   Click="tBtnPasswordVisibility_Click"/>
                 </Grid>
             </Border>
-            <TextBlock Grid.Row="2"
+            <TextBlock x:Name="msgBlock"
+                       Grid.Row="2"
                        Foreground="Gainsboro"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"

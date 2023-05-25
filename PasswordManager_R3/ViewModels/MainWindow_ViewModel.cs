@@ -104,10 +104,11 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private void onLockDatabaseCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onLockDatabaseCommand clicked, but it's not fully implemented yet...");
         //SelectedViewModel = new ViewModels.LockScreen_ViewModel();
-        
+
         //((LockScreen_ViewModel)SelectedViewModel).DatabaseUnlocked += new LockScreen_ViewModel.UnlockDatabaseDelegate(TryUnlockDatabase);
         //SelectedViewModel.ParentVM = this;
-        LockScreen_ViewModel lockScreenVM = new LockScreen_ViewModel(this);
+        Utils.EncryptionTools.Key = null; //Array.Empty<byte>();
+        LockScreen_ViewModel lockScreenVM = new(this);
         lockScreenVM.DatabaseUnlocked += OnSetDatabaseView;
         lockScreenVM.WindowClosed += onWindowCloseCommand;
         SelectedViewModel = lockScreenVM;
