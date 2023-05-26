@@ -26,13 +26,13 @@ public partial class Database_View : UserControl {
         if (selectedRecordInfoPane.Visibility == Visibility.Collapsed) {
             selectedRecordInfoPane.Visibility = Visibility.Visible;
             buttonSelectedRecordInfoPaneExpander.Visibility = Visibility.Collapsed;
-            selectedRecordInfoPaneGridRow.MinHeight = 220;
-            selectedRecordInfoPaneGridRow.Height = new GridLength(0.75, GridUnitType.Star);
+            //selectedRecordInfoPaneGridRow.MinHeight = 220;
+            //selectedRecordInfoPaneGridRow.Height = new GridLength(0.75, GridUnitType.Star);
         } else {
             selectedRecordInfoPane.Visibility = Visibility.Collapsed;
             buttonSelectedRecordInfoPaneExpander.Visibility = Visibility.Visible;
-            selectedRecordInfoPaneGridRow.MinHeight = 24;
-            selectedRecordInfoPaneGridRow.Height = GridLength.Auto;
+            //selectedRecordInfoPaneGridRow.MinHeight = 24;
+            //selectedRecordInfoPaneGridRow.Height = GridLength.Auto;
         }
     }
 }

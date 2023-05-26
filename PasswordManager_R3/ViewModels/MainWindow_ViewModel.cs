@@ -47,6 +47,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
 
     public MainWindow_ViewModel() : base() {
+        //System.Diagnostics.Debug.WriteLine("Does master password exist: " + Utils.FileOperations.DoesMasterPasswordExist(@"C:\ProgramData\PasswordManager_R2\Data\master_pass.dat"));
         //WinState = WindowState.Normal;
 
         //Set delegates for commands
@@ -67,13 +68,13 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel = lockScreenVM;
 
         /*  Default to Database_View  */
-        //Database_ViewModel databaseVM = new Database_ViewModel(this);
-        //SelectedViewModel = databaseVM;
+        Database_ViewModel databaseVM = new Database_ViewModel(this);
+        SelectedViewModel = databaseVM;
 
         /*  Default to AddEditRecord_View  */
-        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel();// this);
-        addEditRecordVM.CreateRecord += void (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
-        SelectedViewModel = addEditRecordVM;
+        //AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel();// this);
+        //addEditRecordVM.CreateRecord += void (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
+        //SelectedViewModel = addEditRecordVM;
 
         /*  Default to AddEditGroup_View  */
         //AddEditGroup_ViewModel addEditGroupVM = new AddEditGroup_ViewModel(this);
@@ -82,11 +83,11 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
     #region Title Bar Event Handlers
     //Minimize Window event handler
-    private void onMinimizeWindowCommand(object obj) {
+    private void OnMinimizeWindowCommand(object obj) {
         WinState = WindowState.Minimized;
     }
     //Maximize and Restore Window event handler
-    private void onMaximizeRestoreWindowCommand(object obj) {
+    private void OnMaximizeRestoreWindowCommand(object obj) {
         if (WinState == WindowState.Normal) {
             WinState = WindowState.Maximized;
         } else {
@@ -94,40 +95,41 @@ internal class MainWindow_ViewModel : ViewModelBase {
         }
     }
     //Close Window event handler
-    private void onWindowCloseCommand(object obj) {
+    private void OnWindowCloseCommand(object obj) {
         Window win = (Window)obj;
         win.Close();
     }
     #endregion Title Bar Event Handlers
+
     #region Change CurrentView Event Handlers
     //Set CurrentView to LockScreen_View event handler
-    private void onLockDatabaseCommand(object obj) {
-        System.Diagnostics.Debug.WriteLine("onLockDatabaseCommand clicked, but it's not fully implemented yet...");
-        //SelectedViewModel = new ViewModels.LockScreen_ViewModel();
-
-        //((LockScreen_ViewModel)SelectedViewModel).DatabaseUnlocked += new LockScreen_ViewModel.UnlockDatabaseDelegate(TryUnlockDatabase);
-        //SelectedViewModel.ParentVM = this;
-        Utils.EncryptionTools.Key = null; //Array.Empty<byte>();
+    private void OnLockDatabaseCommand(object obj) {
+        Utils.EncryptionTools.Key = null;
         LockScreen_ViewModel lockScreenVM = new(this);
+
+        //check that master pass file exists and has a size greater than 0 bytes before setting 
+        if (Utils.FileOperations.DoesMasterPasswordExist(string.Empty) == false) {
+            lockScreenVM = new(this, false);
+        }
+
         lockScreenVM.DatabaseUnlocked += OnSetDatabaseView;
-        lockScreenVM.WindowClosed += onWindowCloseCommand;
+        lockScreenVM.WindowClosed += OnWindowCloseCommand;
         SelectedViewModel = lockScreenVM;
-        //SelectedViewModel.ParentVM = this;
     }
     //Set CurrentView to Database_View event handler
-    private void OnSetDatabaseView(object obj) {
+    private void OnSetDatabaseView() {
         //Database_ViewModel databaseVM = new Database_ViewModel(this);
         ////add event handlers
         //SelectedViewModel = databaseVM;
-        System.Diagnostics.Debug.WriteLine("OnSetDatabaseView() not implemented...");
-        System.Diagnostics.Debug.WriteLine("OnSetDatabaseView() obj to string: " + obj.ToString());
+        //System.Diagnostics.Debug.WriteLine("OnSetDatabaseView() not implemented...");
+        //System.Diagnostics.Debug.WriteLine("OnSetDatabaseView() obj to string: " + obj.ToString());
 
 
         Database_ViewModel databaseVM = new Database_ViewModel(this);
         SelectedViewModel = databaseVM;
     }
     //Set CurrentView to AddEditRecord_View (to add record to database) event handler
-    private void onAddRecordCommand(object obj) {
+    private void OnAddRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onAddRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel();
         AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel();// this);
@@ -135,47 +137,44 @@ internal class MainWindow_ViewModel : ViewModelBase {
         SelectedViewModel = addEditRecordVM;
     }
     //Set CurrentView to AddEditRecord_View (to edit record in database) event handler
-    private void onEditRecordCommand(object obj) {
+    private void OnEditRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onEditRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel(); //will need to have 2 constructors -- one for add record, the other for edit record
         AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel();// this);
         SelectedViewModel = addEditRecordVM;
     }
     //Set CurrentView to PasswordGenerator_View event handler
-    private void onGeneratePasswordCommand(object obj) {
+    private void OnGeneratePasswordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onGeneratePasswordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.PasswordGenerator_ViewModel();
     }
     //Set CurrentView to AppSettings_View event handler
-    private void onAppSettingsCommand(object obj) {
+    private void OnAppSettingsCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onAppSettingsCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AppSettings_ViewModel();
     }
     #endregion Change CurrentView Event Handlers
+
     #region Misc. Event Handlers
     //Event Handler to delete record from DB
-    private void onDeleteRecordCommand(object obj) {
+    private void OnDeleteRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onDeleteRecordCommand clicked, but it's not implemented yet...");
         //does not change views, but might need to add code to refresh DB -- will figure ot for sure later
     }
     //Event Handler to copy username of selected record to the system clipboard
-    private void onCopyUsernameToClipboardCommand(object obj) {
+    private void OnCopyUsernameToClipboardCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onCopyUsernameToClipboardCommand clicked, but it's not implemented yet...");
         //does not change views; copies username of selected record to system clipboard
     }
     //Event Handler to copy password of selected record to the system clipboard
-    private void onCopyPasswordToClipboardCommand(object obj) {
+    private void OnCopyPasswordToClipboardCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onCopyPasswordToClipboardCommand clicked, but it's not implemented yet...");
         //does not change views; copies password of selected record to system clipboard
     }
     //Event Handler to copy URL of selected record to the system clipboard
-    private void onCopyUrlToClipboardCommand(object obj) {
+    private void OnCopyUrlToClipboardCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onCopyUrlToClipboardCommand clicked, but it's not implemented yet...");
         //does not change views; copies url of selected record to system clipboard
-    }
-    //Event Handler for unlocking database
-    private void TryUnlockDatabase(object obj) {
-        System.Diagnostics.Debug.WriteLine("TryUnlockDatabase() in MainWindow_ViewModel called...");
     }
     #endregion Misc. Event Handlers
 
@@ -192,20 +191,18 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
     //Method to set Command delegates
     private void SetDelegateCommands() {
-        MinimizeWindowCommand = new Utils.DelegateCommand(onMinimizeWindowCommand);
-        MaximizeRestoreWindowCommand = new Utils.DelegateCommand(onMaximizeRestoreWindowCommand);
-        CloseWindowCommand = new Utils.DelegateCommand(onWindowCloseCommand);
+        MinimizeWindowCommand = new Utils.DelegateCommand(OnMinimizeWindowCommand);
+        MaximizeRestoreWindowCommand = new Utils.DelegateCommand(OnMaximizeRestoreWindowCommand);
+        CloseWindowCommand = new Utils.DelegateCommand(OnWindowCloseCommand);
 
-        LockDatabaseCommand = new Utils.DelegateCommand(onLockDatabaseCommand);
-        AddRecordCommand = new Utils.DelegateCommand(onAddRecordCommand);
-        EditRecordCommand = new Utils.DelegateCommand(onEditRecordCommand);
-        DeleteRecordCommand = new Utils.DelegateCommand(onDeleteRecordCommand);
-        CopyUsernameToClipboardCommand = new Utils.DelegateCommand(onCopyUsernameToClipboardCommand);
-        CopyPasswordToClipboardCommand = new Utils.DelegateCommand(onCopyPasswordToClipboardCommand);
-        CopyUrlToClipboardCommand = new Utils.DelegateCommand(onCopyUrlToClipboardCommand);
-        GeneratePasswordCommand = new Utils.DelegateCommand(onGeneratePasswordCommand);
-        AppSettingsCommand = new Utils.DelegateCommand(onAppSettingsCommand);
+        LockDatabaseCommand = new Utils.DelegateCommand(OnLockDatabaseCommand);
+        AddRecordCommand = new Utils.DelegateCommand(OnAddRecordCommand);
+        EditRecordCommand = new Utils.DelegateCommand(OnEditRecordCommand);
+        DeleteRecordCommand = new Utils.DelegateCommand(OnDeleteRecordCommand);
+        CopyUsernameToClipboardCommand = new Utils.DelegateCommand(OnCopyUsernameToClipboardCommand);
+        CopyPasswordToClipboardCommand = new Utils.DelegateCommand(OnCopyPasswordToClipboardCommand);
+        CopyUrlToClipboardCommand = new Utils.DelegateCommand(OnCopyUrlToClipboardCommand);
+        GeneratePasswordCommand = new Utils.DelegateCommand(OnGeneratePasswordCommand);
+        AppSettingsCommand = new Utils.DelegateCommand(OnAppSettingsCommand);
     }
-
-    //methods to set Views and add
 }

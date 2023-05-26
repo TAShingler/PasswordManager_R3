@@ -12,3 +12,5 @@ namespace PasswordManager_R3;
 /// </summary>
 public partial class App : Application {
 }
+
+

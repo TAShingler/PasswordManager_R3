@@ -18,24 +18,29 @@
                 <ColumnDefinition MinWidth="300" Width="1*" />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0"
+            <!--<Border Grid.Column="0"
                     Background="#464646"
                     BorderBrush="#666"
-                    BorderThickness="1">
-                <Grid>
+                    BorderThickness="1">-->
+                <Grid Grid.Column="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="5" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TreeView Grid.Row="0"
-                              Background="Transparent"
-                              BorderBrush="Transparent"
-                              BorderThickness="0" />
-                    <Label Grid.Row="1"
+                              Background="#464646"
+                              BorderBrush="#666"
+                              BorderThickness="1" />
+                    <Rectangle Grid.Row="1"
+                               Fill="#121212"
+                               Margin="-1 0"/>
+                    <Label Grid.Row="2"
+                           Height="24"
                            Foreground="Gainsboro"
                            Background="#363636"
                            BorderBrush="#666"
-                           BorderThickness="0 2 0 0"
+                           BorderThickness="1"
                            Margin="0"
                            Padding="0"
                            FontSize="16"
@@ -43,7 +48,7 @@
                            VerticalContentAlignment="Center"
                            Content="Total Vaults: 000" />
                 </Grid>
-            </Border>
+            <!--</Border>-->
             <GridSplitter Grid.Column="1"
                           Width="5"
                           Background="Transparent"
@@ -56,9 +61,10 @@
                         <RowDefinition MinHeight="150"
                                        Height="1*" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition x:Name="selectedRecordInfoPaneGridRow"
-                                       MinHeight="220"
-                                       Height="0.75*" />
+                        <RowDefinition Height="Auto"
+                                       MaxHeight="300"/><!-- x:Name="selectedRecordInfoPaneGridRow"
+                                       MinHeight="24"
+                                       Height="Auto" />-->
                         <!--<RowDefinition Height="0.001*" />-->
                     </Grid.RowDefinitions>
                     
@@ -67,20 +73,26 @@
                               BorderBrush="#666"
                               BorderThickness="1"
                               SnapsToDevicePixels="True"/>
-                    <GridSplitter Grid.Row="1"
+                    <!--<GridSplitter Grid.Row="1"
                                   Height="5"
                                   Background="Transparent"
                                   VerticalAlignment="Stretch"
                                   HorizontalAlignment="Stretch"
                                   Visibility="{Binding ElementName=selectedRecordInfoPane,Path=Visibility}"
-                                  SnapsToDevicePixels="True"/>
+                                  SnapsToDevicePixels="True"/>-->
+                    <Rectangle Grid.Row="1"
+                               Height="5"
+                               Fill="Transparent"
+                               Stroke="Transparent"
+                               StrokeThickness="0"
+                               Visibility="Visible"/><!--"{Binding ElementName=selectedRecordInfoPane,Path=Visibility}" />-->
                     <Border x:Name="selectedRecordInfoPane"
                             Grid.Row="2"
                             MinHeight="220"
                             Background="#464646"
                             BorderBrush="#666"
                             BorderThickness="1"
-                            Visibility="Visible"
+                            Visibility="Collapsed"
                             SnapsToDevicePixels="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -99,6 +111,8 @@
                                      Width="32"
                                      Height="32"
                                      Margin="8">
+                                <!--<Image SnapsToDevicePixels="False"
+                                       Source="{Binding SrIcon}" />-->
                                 <Canvas Width="24"
                                         Height="24">
                                     <!--<Path Fill="Gainsboro"
@@ -114,14 +128,15 @@
                                        Foreground="Gainsboro"
                                        FontSize="16"
                                        VerticalAlignment="Center"
-                                       Text="Path to Record" />
+                                       Text="{Binding SrTitle}" />
                             <Button Grid.Column="2"
                                     Grid.Row="0"
                                     Width="16"
                                     Height="16"
                                     Margin="16"
                                     BorderBrush="#777"
-                                    Background="#444" Click="Button_Click">
+                                    Background="#444"
+                                    Click="Button_Click">
                                 <Path Width="8"
                                       Height="8"
                                       Stroke="Gainsboro"
@@ -134,20 +149,229 @@
                             <TabControl Grid.Column="0"
                                         Grid.ColumnSpan="3"
                                         Grid.Row="1"
-                                        Margin="4"
+                                        Margin="16 4"
                                         Background="Transparent">
-                                <TabItem Header="Item1"
+                                <TabItem Header="Basic"
                                          Background="Transparent"
-                                         Foreground="Gainsboro"/>
-                                <TabItem Header="Item2"
+                                         Foreground="Gainsboro">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition MinHeight="28"
+                                                           Height="Auto" />
+                                            <RowDefinition MinHeight="28"
+                                                           Height="Auto" />
+                                            <RowDefinition MinHeight="28"
+                                                           Height="Auto" />
+                                            <RowDefinition MinHeight="28"
+                                                           Height="Auto" />
+                                            <RowDefinition Height="1*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition MinWidth="20"
+                                                              Width="Auto" />
+                                            <ColumnDefinition MinWidth="20"
+                                                              Width="Auto" />
+                                            <ColumnDefinition MinWidth="100"
+                                                              Width="Auto" />
+                                            <ColumnDefinition Width="1*" />
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <!--//  Row 1  //-->
+                                        <Button Grid.Column="0"
+                                                Grid.Row="0"
+                                                Width="16"
+                                                Height="16" />
+                                        <ToggleButton Grid.Column="1"
+                                                      Grid.Row="0"
+                                                      Width="16"
+                                                      Height="16" />
+                                        <Label Grid.Column="2"
+                                               Grid.Row="0"
+                                               Foreground="Gainsboro"
+                                               Content="Username:" />
+                                        <TextBlock Grid.Column="3"
+                                                   Grid.Row="0"
+                                                   Foreground="Gainsboro"
+                                                   Padding="5"
+                                                   Text="{Binding SrUsername}"/>
+
+                                        <!--//  Row 2  //-->
+                                        <Button Grid.Column="0"
+                                                Grid.Row="1"
+                                                Width="16"
+                                                Height="16" />
+                                        <ToggleButton Grid.Column="1"
+                                                      Grid.Row="1"
+                                                      Width="16"
+                                                      Height="16" />
+                                        <Label Grid.Column="2"
+                                               Grid.Row="1"
+                                               Foreground="Gainsboro"
+                                               Content="Email:" />
+                                        <TextBlock Grid.Column="3"
+                                                   Grid.Row="1"
+                                                   Foreground="Gainsboro"
+                                                   Padding="5"
+                                                   Text="{Binding SrEmail}"/>
+                                        
+                                        <!--//  Row 3  //-->
+                                        <Button Grid.Column="0"
+                                                Grid.Row="2"
+                                                Width="16"
+                                                Height="16" />
+                                        <ToggleButton Grid.Column="1"
+                                                      Grid.Row="2"
+                                                      Width="16"
+                                                      Height="16" />
+                                        <Label Grid.Column="2"
+                                               Grid.Row="2"
+                                               Foreground="Gainsboro"
+                                               Content="Password:" />
+                                        <TextBlock Grid.Column="3"
+                                                   Grid.Row="2"
+                                                   Foreground="Gainsboro"
+                                                   Padding="5"
+                                                   Text="{Binding SrPassword}"/>
+                                        
+                                        <!--//  Row 4  //-->
+                                        <Button Grid.Column="0"
+                                                Grid.Row="3"
+                                                Width="16"
+                                                Height="16" />
+                                        <ToggleButton Grid.Column="1"
+                                                      Grid.Row="3"
+                                                      Width="16"
+                                                      Height="16" />
+                                        <Label Grid.Column="2"
+                                               Grid.Row="3"
+                                               Foreground="Gainsboro"
+                                               Content="Url:" />
+                                        <TextBlock Grid.Column="3"
+                                                   Grid.Row="3"
+                                                   Foreground="Gainsboro"
+                                                   Padding="5"
+                                                   Text="{Binding SrUrl}"/>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Notes"
                                          Background="Transparent"
-                                         Foreground="Gainsboro" />
-                                <TabItem Header="Item2"
+                                         Foreground="Gainsboro">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition MinHeight="28"
+                                                           Height="Auto" />
+                                            <RowDefinition Height="1*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition MinWidth="20"
+                                                              Width="Auto" />
+                                            <ColumnDefinition MinWidth="20"
+                                                              Width="Auto" />
+                                            <ColumnDefinition MinWidth="100"
+                                                              Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <!--//  Row 1  //-->
+                                        <Button Grid.Column="0"
+                                                Grid.Row="0"
+                                                Width="16"
+                                                Height="16" />
+                                        <ToggleButton Grid.Column="1"
+                                                      Grid.Row="0"
+                                                      Width="16"
+                                                      Height="16" />
+                                        <Label Grid.Column="2"
+                                               Grid.Row="0"
+                                               Foreground="Gainsboro"
+                                               Content="Notes:"/>
+                                        <ScrollViewer Grid.Column="3"
+                                                      Grid.Row="0"
+                                                      Grid.RowSpan="2"
+                                                      VerticalScrollBarVisibility="Auto">
+                                            <TextBox Foreground="Gainsboro"
+                                                     Background="Transparent"
+                                                     BorderThickness="0"
+                                                     IsReadOnly="True"
+                                                     Padding="5"
+                                                     TextWrapping="Wrap"
+                                                     Text="{Binding SrNotes}"/>
+                                        </ScrollViewer>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Advanced"
                                          Background="Transparent"
-                                         Foreground="Gainsboro" />
-                                <TabItem Header="Item2"
+                                         Foreground="Gainsboro">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition MinHeight="28"
+                                                           Height="Auto" />
+                                            <RowDefinition MinHeight="28"
+                                                           Height="Auto" />
+                                            <RowDefinition MinHeight="28"
+                                                           Height="Auto" />
+                                            <RowDefinition MinHeight="28"
+                                                           Height="Auto" />
+                                            <RowDefinition Height="1*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition MinWidth="20"
+                                                              Width="Auto" />
+                                            <ColumnDefinition MinWidth="20"
+                                                              Width="Auto" />
+                                            <ColumnDefinition MinWidth="100"
+                                                              Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!--//  Row 1  //-->
+                                        <Label Grid.Column="2"
+                                               Grid.Row="0"
+                                               Foreground="Gainsboro"
+                                               Content="Expiration Date:" />
+                                        <TextBlock Grid.Column="3"
+                                                   Grid.Row="0"
+                                                   Foreground="Gainsboro"
+                                                   Padding="5"
+                                                   Text="{Binding SrExpirationDate}"/>
+
+                                        <!--//  Row 2  //-->
+                                        <Label Grid.Column="2"
+                                               Grid.Row="1"
+                                               Foreground="Gainsboro"
+                                               Content="Created Date:" />
+                                        <TextBlock Grid.Column="3"
+                                                   Grid.Row="1"
+                                                   Foreground="Gainsboro"
+                                                   Padding="5"
+                                                   Text="{Binding SrCreatedDate}"/>
+
+                                        <!--//  Row 3  //-->
+                                        <Label Grid.Column="2"
+                                               Grid.Row="2"
+                                               Foreground="Gainsboro"
+                                               Content="Modified Date:" />
+                                        <TextBlock Grid.Column="3"
+                                                   Grid.Row="2"
+                                                   Foreground="Gainsboro"
+                                                   Padding="5"
+                                                   Text="{Binding SrModifiedDate}"/>
+
+                                        <!--//  Row 4  //-->
+                                        <Label Grid.Column="2"
+                                               Grid.Row="3"
+                                               Foreground="Gainsboro"
+                                               Content="GUID:" />
+                                        <TextBlock Grid.Column="3"
+                                                   Grid.Row="3"
+                                                   Foreground="Gainsboro"
+                                                   Padding="5"
+                                                   Text="{Binding SrGuid}"/>
+                                    </Grid>
+                                </TabItem>
+                                <!--<TabItem Header="Item2"
                                          Background="Transparent"
-                                         Foreground="Gainsboro" />
+                                         Foreground="Gainsboro" />-->
                             </TabControl>
                         </Grid>
                     </Border>
@@ -155,7 +379,22 @@
                             Grid.Row="2"
                             Background="red"
                             MinHeight="24">-->
-                    <Button  x:Name="buttonSelectedRecordInfoPaneExpander" Grid.Row="2" MinHeight="24" Background="Red" Click="Button_Click" Visibility="Collapsed" />
+                    <Border x:Name="buttonSelectedRecordInfoPaneExpander"
+                            Grid.Row="2"
+                            MinHeight="24"
+                            BorderBrush="#666"
+                            BorderThickness="1"
+                            Background="#363636"
+                            Visibility="Visible">
+                        <Button Grid.Row="2"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Click="Button_Click">
+                            <Path Fill="Gainsboro"
+                                  Data="M 0,12 8,0 16,12 Z" />
+                        </Button>
+                    </Border>
                     <!--</Border>-->
                 </Grid>
             </Border>

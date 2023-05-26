@@ -311,7 +311,7 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        TextAlignment="Center"
-                       Text="Test Text" />
+                       Text="{Binding OutputMessage}" />
             <StackPanel Grid.Row="3"
                         Orientation="Horizontal"
                         HorizontalAlignment="Center"

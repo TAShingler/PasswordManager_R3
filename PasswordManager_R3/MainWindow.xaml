@@ -855,8 +855,8 @@
             <Border Grid.Row="3"
                     Background="#333"
                     BorderBrush="#666"
-                    BorderThickness="0 2 0 0"
-                    Visibility="Collapsed">
+                    BorderThickness="0 0 0 0"
+                    Visibility="Visible">
                 <Label HorizontalAlignment="Right"
                        Foreground="Gainsboro"
                        Content="Record Counts: 000" />
