@@ -27,9 +27,15 @@ public partial class LockScreen_View : UserControl {
         if (tBtnPasswordVisibility.IsChecked == true) {
             tBox.Visibility = Visibility.Collapsed;
             pBox.Visibility = Visibility.Visible;
+
+            pBox.Focus();
+            pBox.GetType().GetMethod("Select", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).Invoke(pBox, new object[] { pBox.Password.Length, 0 });
         } else {
             tBox.Visibility = Visibility.Visible;
             pBox.Visibility = Visibility.Collapsed;
+
+            tBox.Focus();
+            tBox.Select(tBox.Text.Length, 0);
         }
     }
 

@@ -75,7 +75,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
                 //display error message and delete database
                 OutputMessage = $"Entered password is not correct.\nOut of attempts; deleteing database.";
                 //exit app or return to initial setup?
-                //DeleteDatabase();   //might put in different class, app.cs maybe (?)
+                DeleteDatabase();   //might put in different class, app.cs maybe (?)
                 return;
             }
         }
@@ -95,5 +95,68 @@ internal class LockScreen_ViewModel : ViewModelBase {
 
         //return false;
     }
+    private void DeleteDatabase() { //might move this method to app.cs and process there; possibly in MainWindow
+        //do something
+    }
+    private void CreateMasterPassword(object obj) {   //might move this app.cs
+        //do something
+        string objAsString = (string)obj;
+
+        if (string.IsNullOrWhiteSpace(objAsString)) {
+            OutputMessage = $"Entered password is not valid.\nPlease enter a valid password.";
+        }
+
+        string hashedPassword = Utils.Hasher.Hash(objAsString);
+
+        //might move FileStream to WriteMasterPasswordToFile()
+        System.IO.FileStream fs = System.IO.File.Open(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\PasswordManager_R3\Data\master_pass.dat", System.IO.FileMode.Append);
+
+        WriteMasterPasswordToFile(fs, hashedPassword);
+
+        fs.Dispose();
+        fs.Close();
+
+        //set EncryptionTools key to hashed password as byte array
+    }
+    private void WriteMasterPasswordToFile(System.IO.FileStream fs, string hashedMasterPassword) {
+        //do something
+        System.IO.StreamWriter sw = new System.IO.StreamWriter(fs);
+
+        //get current user's SID and convert to byte array to use for encryption key
+        byte[] sidBinaryForm = new byte[256 / 8];
+        System.Security.Principal.WindowsIdentity.GetCurrent().User.GetBinaryForm(sidBinaryForm, 0);
+
+        //set encryption key to current user's SID as byte array
+        Utils.EncryptionTools.Key = sidBinaryForm;
+
+        //encrypt
+        string encryptedHashedPassword = Utils.EncryptionTools.EncryptObjectStringToBase64String(hashedMasterPassword);
+
+        //write to file
+        sw.Write(encryptedHashedPassword);
+
+        sw.Flush();
+        sw.Close();
+        sw.Dispose();
+    }
+    private string ReadMasterPasswordFromFile() {
+        //do something
+        System.IO.FileStream fs = System.IO.File.OpenRead(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\PasswordManager_R3\Data\master_pass.data");
+        System.IO.StreamReader sr = new System.IO.StreamReader(fs);
+
+        //string decryptedPassword = string.Empty;
+        string passwordFromFile = sr.ReadToEnd();
+        sr.Close();
+        fs.Close();
+
+        //get current user SID for decryption key
+        byte[] sidBinaryForm = new byte[256 / 8];
+        System.Security.Principal.WindowsIdentity.GetCurrent().User.GetBinaryForm(sidBinaryForm, 0);
+        Utils.EncryptionTools.Key = sidBinaryForm;
+
+        //decrypt
+        return Utils.EncryptionTools.DecryptBase64StringToObjectString(passwordFromFile);
+    }
+
     #endregion OTHER METHODS
 }

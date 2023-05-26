@@ -271,7 +271,13 @@
                              BorderThickness="0"
                              VerticalContentAlignment="Center"
                              Visibility="Collapsed"
-                             TextChanged="tBox_TextChanged"/>
+                             TextChanged="tBox_TextChanged">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Return"
+                                        Command="{Binding CloseWindowCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
                     <PasswordBox x:Name="pBox"
                                  Grid.Column="0"
                                  CaretBrush="Gainsboro"
@@ -281,7 +287,13 @@
                                  BorderThickness="0"
                                  VerticalContentAlignment="Center"
                                  Visibility="Visible"
-                                 PasswordChanged="pBox_PasswordChanged"/>
+                                 PasswordChanged="pBox_PasswordChanged">
+                        <PasswordBox.InputBindings>
+                            <KeyBinding Key="Return"
+                                        Command="{Binding CloseWindowCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                        </PasswordBox.InputBindings>
+                    </PasswordBox>
                     <ToggleButton x:Name="tBtnPasswordVisibility"
                                   Grid.Column="1"
                                   Width="24"
