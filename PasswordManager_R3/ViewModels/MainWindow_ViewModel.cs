@@ -15,6 +15,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private ViewModels.ViewModelBase? _selectedViewModel;
     private int _totalGroupsInDatabase = 5;
     private int _totalRecordsInDatabase = 23;
+    private Models.Group _selectedGroup;
+    private Models.Record _selectedRecord;
 
     //Quick Access Bar Button Visibility fields
     private bool _buttonLockDatabaseIsEnabled;
@@ -55,6 +57,20 @@ internal class MainWindow_ViewModel : ViewModelBase {
         set {
             _totalRecordsInDatabase = value;
             OnPropertyChanged(nameof(TotalRecordsInDatabase));
+        }
+    }
+    public Models.Group SelectedGroup {
+        get { return _selectedGroup; }
+        set {
+            _selectedGroup = value;
+            OnPropertyChanged(nameof(SelectedGroup));
+        }
+    }
+    public Models.Record SelectedRecord {
+        get { return _selectedRecord; }
+        set {
+            _selectedRecord = value;
+            OnPropertyChanged(nameof(SelectedRecord));
         }
     }
 
@@ -164,6 +180,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
         /*  Default to Database_View  */
         Database_ViewModel databaseVM = new Database_ViewModel(this);
+        databaseVM.GroupSelectionChanged += OnGroupSelectionChanged;
+        databaseVM.RecordSelectionChanged += OnRecordSelectionChanged;
         SelectedViewModel = databaseVM;
 
         /*  Default to AddEditRecord_View  */
@@ -241,6 +259,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
 
         Database_ViewModel databaseVM = new Database_ViewModel(this);
+        databaseVM.RecordSelectionChanged += OnRecordSelectionChanged;
         SelectedViewModel = databaseVM;
 
         ButtonLockDatabaseIsEnabled = true;
@@ -340,6 +359,16 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private void OnCopyUrlToClipboardCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onCopyUrlToClipboardCommand clicked, but it's not implemented yet...");
         //does not change views; copies url of selected record to system clipboard
+    }
+    //Event handler to handle GroupSelected event propogated in Database_ViewModel and bubbled to MainWindow_ViewModel
+    private void OnGroupSelectionChanged(object obj) {
+        //do somehting
+        SelectedRecord = (Models.Record)obj;
+    }
+    //Event handler to handle RecordSelected event propogated in Database_ViewModel and bubbled to MainWindow_ViewModel
+    private void OnRecordSelectionChanged(object obj) {
+        //do something
+        SelectedRecord = (Models.Record)obj;
     }
     #endregion Misc. Event Handlers
 

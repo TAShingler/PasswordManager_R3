@@ -9,10 +9,10 @@ internal class Database_ViewModel : ViewModelBase {
     #region Fields
     private const string MASK_STRING = "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF";
     //Models.Group-specific fields
-    private Models.Group? _selectedGroup;
+    private Models.Group? _selectedGroup = null;
 
     //Models.Record-specific fields for information pane
-    private Models.Record? _selectedRecord;
+    private Models.Record? _selectedRecord = null;
     private bool _srUsernameMasked;
     private bool _srEmailMasked;
     private bool _srPasswordMasked;
@@ -32,13 +32,16 @@ internal class Database_ViewModel : ViewModelBase {
 
     //ObservableCollection for Group objects
     private System.Collections.ObjectModel.ObservableCollection<Models.Group> _groups;
+    private System.Collections.ObjectModel.ObservableCollection<Models.Record> _records;
     #endregion Fields
 
     #region Delegates and Events
     //delegates
-    internal delegate void RecordSelectedEventHandler(object sender, EventArgs e);
+    internal delegate void GroupSelectionChangedEventHandler(object obj);
+    internal delegate void RecordSelectionChangedEventHandler(object obj);
     //events
-    internal event RecordSelectedEventHandler? RecordSelected;
+    internal event GroupSelectionChangedEventHandler? GroupSelectionChanged;
+    internal event RecordSelectionChangedEventHandler? RecordSelectionChanged;
     #endregion Delegates and Events
 
     #region Properties
@@ -169,6 +172,16 @@ internal class Database_ViewModel : ViewModelBase {
         }
     }
 
+    //DelegetCommand Properties
+    public Utils.DelegateCommand? OnGroupSelectionChangedCommand { get; set; }
+    public Utils.DelegateCommand? OnRecordSelectionChangedCommand { get; set; }
+    public Utils.DelegateCommand? CopyToClipboardCommand { get; set; }
+    public Utils.DelegateCommand? ToggleUsernameMaskCommand { get; set; }
+    public Utils.DelegateCommand? ToggleEmailMaskCommand { get; set; }
+    public Utils.DelegateCommand? TogglePasswordMaskCommand { get; set; }
+    public Utils.DelegateCommand? ToggleUrlMaskCommand { get; set; }
+    public Utils.DelegateCommand? ToggleNotesMaskCommand { get; set; }
+
     //ObservableCollection for Group objects
     public System.Collections.ObjectModel.ObservableCollection<Models.Group> Groups {
         get { return _groups; }
@@ -177,25 +190,133 @@ internal class Database_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(Groups));
         }
     }
+    public System.Collections.ObjectModel.ObservableCollection<Models.Record> Records {
+        get { return _records; }
+        set {
+            _records = value;
+            OnPropertyChanged(nameof(Records));
+        }
+    }
     #endregion Properties
 
     #region Constructors
     public Database_ViewModel(ViewModelBase parentVM) : base(parentVM) {
         //do something
-        SrTitle = MASK_STRING;// "TestTitle";
-        SrUsername = MASK_STRING;//"TestUsername";
-        SrEmail = MASK_STRING;//"TestEmail";
-        SrPassword = MASK_STRING;//"TestPassword";
-        SrUrl = MASK_STRING;//"TestUrl";
-        SrNotes = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae. Pellentesque diam volutpat commodo sed egestas egestas. Feugiat nisl pretium fusce id velit ut tortor. Senectus et netus et malesuada. Aliquet eget sit amet tellus cras adipiscing enim eu. Et netus et malesuada fames. Vestibulum mattis ullamcorper velit sed ullamcorper morbi. Sed euismod nisi porta lorem mollis aliquam ut porttitor. Ultricies leo integer malesuada nunc vel risus. Feugiat pretium nibh ipsum consequat nisl.\nPorttitor rhoncus dolor purus non enim praesent elementum. Blandit turpis cursus in hac habitasse platea dictumst quisque sagittis. Imperdiet sed euismod nisi porta lorem. Tortor vitae purus faucibus ornare suspendisse sed.Eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis.Integer enim neque volutpat ac.Egestas sed sed risus pretium quam vulputate.Sagittis aliquam malesuada bibendum arcu vitae elementum.Et malesuada fames ac turpis egestas sed tempus urna.Arcu vitae elementum curabitur vitae.A scelerisque purus semper eget duis. Id neque aliquam vestibulum morbi blandit cursus risus at ultrices.";//"TestNotes";
-        SrExpirationDate = MASK_STRING;//"TestExpirationDate";
-        SrCreatedDate = MASK_STRING;//"TestCreatedDate";
-        SrModifiedDate = MASK_STRING;//"TestModifiedDate";
-        SrGuid = MASK_STRING;//"TestGuid";
+        SelectedRecord = new Models.Record() {
+            Title = "TestTitle",
+            Username = "TestUsername",
+            Email = "TestEmail",
+            Password = "TestPassword",
+            URL = "TestUrl",
+            Notes = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae. Pellentesque diam volutpat commodo sed egestas egestas. Feugiat nisl pretium fusce id velit ut tortor. Senectus et netus et malesuada. Aliquet eget sit amet tellus cras adipiscing enim eu. Et netus et malesuada fames. Vestibulum mattis ullamcorper velit sed ullamcorper morbi. Sed euismod nisi porta lorem mollis aliquam ut porttitor. Ultricies leo integer malesuada nunc vel risus. Feugiat pretium nibh ipsum consequat nisl.\nPorttitor rhoncus dolor purus non enim praesent elementum. Blandit turpis cursus in hac habitasse platea dictumst quisque sagittis. Imperdiet sed euismod nisi porta lorem. Tortor vitae purus faucibus ornare suspendisse sed.Eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis.Integer enim neque volutpat ac.Egestas sed sed risus pretium quam vulputate.Sagittis aliquam malesuada bibendum arcu vitae elementum.Et malesuada fames ac turpis egestas sed tempus urna.Arcu vitae elementum curabitur vitae.A scelerisque purus semper eget duis. Id neque aliquam vestibulum morbi blandit cursus risus at ultrices.",//"TestNotes";
+            ExpirationDate = DateTime.Now, //"TestExpirationDate",
+            CreatedDate = DateTime.Today, //"TestCreatedDate",
+            ModifiedDate = DateTime.MinValue, //"TestModifiedDate",
+            GUID = "TestGuid"
+        };
+
+        SrTitle = SelectedRecord.Title;
+        SrUsername = SelectedRecord.Username;
+        SrEmail = SelectedRecord.Email;
+        SrPassword = SelectedRecord.Password;
+        SrUrl = SelectedRecord.URL;
+        SrNotes = SelectedRecord.Notes;
+        SrExpirationDate = SelectedRecord.HasExpirationDate ? SelectedRecord.ExpirationDate.ToString() : String.Empty; //"TestExpirationDate",
+        SrCreatedDate = SelectedRecord.CreatedDate.ToString(); //"TestCreatedDate",
+        SrModifiedDate = SelectedRecord.ModifiedDate.ToString(); //"TestModifiedDate",
+        SrGuid = "TestGuid";
+
+        OnGroupSelectionChangedCommand = new Utils.DelegateCommand(OnGroupSelectionChanged);
+        OnRecordSelectionChangedCommand = new Utils.DelegateCommand(OnRecordSelectionChanged);
+        CopyToClipboardCommand = new Utils.DelegateCommand(CopyValueToClipboard);
+        ToggleUsernameMaskCommand = new Utils.DelegateCommand(ToggleUsernameMask);
+        ToggleEmailMaskCommand = new Utils.DelegateCommand(ToggleEmailMask);
+        TogglePasswordMaskCommand = new Utils.DelegateCommand(TogglePasswordMask);
+        ToggleUrlMaskCommand = new Utils.DelegateCommand(ToggleUrlMask);
+        ToggleNotesMaskCommand = new Utils.DelegateCommand(ToggleNotesMask);
     }
     #endregion Constructors
 
     #region Other Methods
+    private void OnGroupSelectionChanged(object obj) {
+        //do something
+        GroupSelectionChanged?.Invoke(obj);
+    }
+    private void OnRecordSelectionChanged(object obj) {
+        //do somehting
+        RecordSelectionChanged?.Invoke(obj);
+    }
+    private void CopyValueToClipboard(object obj) {
+        //do something
+        System.Windows.Clipboard.Clear();
+        System.Windows.Clipboard.SetText(obj.ToString());
+    }
+    private void ToggleUsernameMask(object obj) {
+        if (_selectedRecord == null) { return; }
 
+        bool objAsBool = (bool)obj;
+
+        if (objAsBool == true) {
+            //mask
+            SrUsername = MASK_STRING;
+        } else {
+            //unmask
+            SrUsername = SelectedRecord.Username;
+        }
+
+        System.Diagnostics.Debug.WriteLine("ToggleUsernameMask");
+    }
+    private void ToggleEmailMask(object obj) {
+        if (_selectedRecord == null) { return; }
+
+        bool objAsBool = (bool)obj;
+
+        if (objAsBool == true) {
+            //mask
+            SrEmail = MASK_STRING;
+        } else {
+            //unmask
+            SrEmail = SelectedRecord.Email;
+        }
+    }
+    private void TogglePasswordMask(object obj) {
+        if (_selectedRecord == null) { return; }
+
+        bool objAsBool = (bool)obj;
+
+        if (objAsBool == true) {
+            //mask
+            SrPassword = MASK_STRING;
+        } else {
+            //unmask
+            SrPassword = SelectedRecord.Password;
+        }
+    }
+    private void ToggleUrlMask(object obj) {
+        if (_selectedRecord == null) { return; }
+
+        bool objAsBool = (bool)obj;
+
+        if (objAsBool == true) {
+            //mask
+            SrUrl = MASK_STRING;
+        } else {
+            //unmask
+            SrUrl = SelectedRecord.URL;
+        }
+    }
+    private void ToggleNotesMask(object obj) {
+        if (_selectedRecord == null) { return; }
+
+        bool objAsBool = (bool)obj;
+
+        if (objAsBool == true) {
+            //mask
+            SrNotes = MASK_STRING;
+        } else {
+            //unmask
+            SrNotes = SelectedRecord.Notes;
+        }
+    }
     #endregion Other Methods
 }
