@@ -29,10 +29,11 @@
                         <!--<RowDefinition Height="5" />
                         <RowDefinition Height="Auto" />-->
                     </Grid.RowDefinitions>
-                <TreeView Grid.Row="0"
-                              Background="#464646"
-                              BorderBrush="#666"
-                              BorderThickness="1">
+                <TreeView x:Name="treeViewGroups"
+                          Grid.Row="0"
+                          Background="#464646"
+                          BorderBrush="#666"
+                          BorderThickness="1">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectinChanged">
                             <i:InvokeCommandAction Command="{Binding GroupSelectionChangedCommand}"
@@ -70,7 +71,7 @@
                         <RowDefinition MinHeight="150"
                                        Height="1*" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="220"
+                        <RowDefinition Height="Auto"
                                        MaxHeight="300"/><!-- x:Name="selectedRecordInfoPaneGridRow"
                                        MinHeight="24"
                                        Height="Auto" />-->
@@ -82,7 +83,7 @@
                               BorderBrush="#666"
                               BorderThickness="1"
                               SnapsToDevicePixels="True"
-                              ItemsSource="{Binding Records}">
+                              ItemsSource="{Binding ElementName=treeViewGroups, Path=SelectedItem.ChildrenRecords}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding OnRecordSelectionChangedCommand}"
@@ -107,10 +108,11 @@
                     <Border x:Name="selectedRecordInfoPane"
                             Grid.Row="2"
                             MinHeight="220"
+                            MaxHeight="220"
                             Background="#464646"
                             BorderBrush="#666"
                             BorderThickness="1"
-                            Visibility="Visible"
+                            Visibility="Collapsed"
                             SnapsToDevicePixels="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -155,12 +157,17 @@
                                     BorderBrush="#777"
                                     Background="#444"
                                     Click="Button_Click">
-                                <Path Width="8"
+                                <!--<Path Width="8"
                                       Height="8"
                                       Stroke="Gainsboro"
                                       StrokeThickness="1"
                                       ClipToBounds="True"
-                                      Data="M 0 0 L 8 8 M 0 8 L 8 0" />
+                                      Data="M 0 0 L 8 8 M 0 8 L 8 0" />-->
+                                <Path Width="6"
+                                      Height="4"
+                                      Fill="Gainsboro"
+                                      ClipToBounds="True"
+                                      Data="M 0 1 3 4 6 1 Z" />
                             </Button>
 
                             <!--//  Bottom Row  //-->
@@ -437,7 +444,7 @@
                             BorderBrush="#666"
                             BorderThickness="1"
                             Background="#363636"
-                            Visibility="Collapsed">
+                            Visibility="Visible">
                         <Button Grid.Row="2"
                                 Background="Transparent"
                                 BorderBrush="Transparent"

@@ -179,15 +179,15 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel = lockScreenVM;
 
         /*  Default to Database_View  */
-        Database_ViewModel databaseVM = new Database_ViewModel(this);
-        databaseVM.GroupSelectionChanged += OnGroupSelectionChanged;
-        databaseVM.RecordSelectionChanged += OnRecordSelectionChanged;
-        SelectedViewModel = databaseVM;
+        //Database_ViewModel databaseVM = new Database_ViewModel(this);
+        //databaseVM.GroupSelectionChanged += OnGroupSelectionChanged;
+        //databaseVM.RecordSelectionChanged += OnRecordSelectionChanged;
+        //SelectedViewModel = databaseVM;
 
         /*  Default to AddEditRecord_View  */
-        //AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel();// this);
-        //addEditRecordVM.CreateRecord += void (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
-        //SelectedViewModel = addEditRecordVM;
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel();// this);
+        addEditRecordVM.CreateRecord += void (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
+        SelectedViewModel = addEditRecordVM;
 
         /*  Default to AddEditGroup_View  */
         //AddEditGroup_ViewModel addEditGroupVM = new AddEditGroup_ViewModel(this);
