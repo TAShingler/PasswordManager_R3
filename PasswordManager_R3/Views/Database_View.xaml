@@ -25,14 +25,14 @@
                 <Grid Grid.Column="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="5" />
-                        <RowDefinition Height="Auto" />
+                        <!--<RowDefinition Height="5" />
+                        <RowDefinition Height="Auto" />-->
                     </Grid.RowDefinitions>
                     <TreeView Grid.Row="0"
                               Background="#464646"
                               BorderBrush="#666"
                               BorderThickness="1" />
-                    <Rectangle Grid.Row="1"
+                    <!--<Rectangle Grid.Row="1"
                                Fill="#121212"
                                Margin="-1 0"/>
                     <Label Grid.Row="2"
@@ -46,7 +46,7 @@
                            FontSize="16"
                            HorizontalContentAlignment="Center"
                            VerticalContentAlignment="Center"
-                           Content="Total Vaults: 000" />
+                           Content="Total Vaults: 000" />-->
                 </Grid>
             <!--</Border>-->
             <GridSplitter Grid.Column="1"

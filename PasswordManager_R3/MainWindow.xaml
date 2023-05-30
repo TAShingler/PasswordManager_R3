@@ -711,6 +711,7 @@
                                 Grid.Column="0"
                                 Width="36"
                                 Height="36"
+                                IsEnabled="{Binding ButtonLockDatabaseIsEnabled}"
                                 Style="{StaticResource QuickAccessButtonLockDatabaseStyle}"
                                 Command="{Binding LockDatabaseCommand}"/>
                         <Separator Grid.Row="0"
@@ -722,6 +723,7 @@
                                 Grid.Column="0"
                                 Width="36"
                                 Height="36"
+                                IsEnabled="{Binding ButtonAddRecordIsEnabled}"
                                 Style="{StaticResource QuickAccessButtonAddRecordStyle}"
                                 Command="{Binding AddRecordCommand}"/>
                         <Button Grid.Row="0"
@@ -729,12 +731,14 @@
                                 Width="36"
                                 Height="36"
                                 Margin="2 0"
+                                IsEnabled="{Binding ButtonEditRecordIsEnabled}"
                                 Style="{StaticResource QuickAccessButtonEditRecordStyle}"
                                 Command="{Binding EditRecordCommand}"/>
                         <Button Grid.Row="0"
                                 Grid.Column="0"
                                 Width="36"
                                 Height="36"
+                                IsEnabled="{Binding ButtonDeleteRecordIsEnabled}"
                                 Style="{StaticResource QuickAccessButtonDeleteRecordStyle}"
                                 Command="{Binding DeleteRecordCommand}"/>
                         <Separator Grid.Row="0"
@@ -746,6 +750,7 @@
                                 Grid.Column="0"
                                 Width="36"
                                 Height="36"
+                                IsEnabled="{Binding ButtonUsernameToClipboardIsEnabled}"
                                 Style="{StaticResource QuickAccessButtonUsernameToClipboardStyle}"
                                 Command="{Binding CopyUsernameToClipboardCommand}"/>
                         <Button Grid.Row="0"
@@ -753,12 +758,14 @@
                                 Width="36"
                                 Height="36"
                                 Margin="2 0"
+                                IsEnabled="{Binding ButtonPasswordToClipboardIsEnabled}"
                                 Style="{StaticResource QuickAccessButtonPasswordToClipboardStyle}"
                                 Command="{Binding CopyPasswordToClipboardCommand}"/>
                         <Button Grid.Row="0"
                                 Grid.Column="0"
                                 Width="36"
                                 Height="36"
+                                IsEnabled="{Binding ButtonUrlToClipboardIsEnabled}"
                                 Style="{StaticResource QuickAccessButtonUrlToClipboardStyle}"
                                 Command="{Binding CopyUrlToClipboardCommand}"/>
                         <Separator Grid.Row="0"
@@ -771,6 +778,7 @@
                                 Width="36"
                                 Height="36"
                                 Margin="0 0 1 0"
+                                IsEnabled="{Binding ButtonPasswordGeneratorIsEnabled}"
                                 Style="{StaticResource QuickAccessButtonGeneratePasswordStyle}"
                                 Command="{Binding GeneratePasswordCommand}"/>
                         <Button Grid.Row="0"
@@ -778,6 +786,7 @@
                                 Width="36"
                                 Height="36"
                                 Margin="1 0 0 0"
+                                IsEnabled="{Binding ButtonAppSettingsIsEnabled}"
                                 Style="{StaticResource QuickAccessButtonAppSettingsStyle}"
                                 Command="{Binding AppSettingsCommand}"/>
                         <Separator Grid.Row="0"
@@ -853,13 +862,52 @@
 
             <!--////  STATUS BAR  ////-->
             <Border Grid.Row="3"
+                    Height="Auto"
                     Background="#333"
                     BorderBrush="#666"
                     BorderThickness="0 0 0 0"
                     Visibility="Visible">
-                <Label HorizontalAlignment="Right"
-                       Foreground="Gainsboro"
-                       Content="Record Counts: 000" />
+                <Grid Height="24"
+                      Margin="4 0"
+                      Visibility="Visible">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0"
+                                Orientation="Horizontal">
+                        <Label Foreground="Gainsboro"
+                               Padding="0"
+                               Margin="0 0 6 0"
+                               VerticalContentAlignment="Center"
+                               Content="Groups:" />
+                        <TextBlock VerticalAlignment="Center"
+                                   HorizontalAlignment="Right"
+                                   Foreground="Gainsboro"
+                                   Text="{Binding TotalGroupsInDatabase,
+                                                  StringFormat={}{0:000}}"/>
+                    </StackPanel>
+                    <Separator Grid.Column="1"
+                               Margin="6 2"
+                               Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"
+                               Visibility="Collapsed" />
+                    <StackPanel Grid.Column="2"
+                                Orientation="Horizontal">
+                        <Label Foreground="Gainsboro"
+                               Padding="0"
+                               Margin="0 0 6 0"
+                               VerticalContentAlignment="Center"
+                               Content="Items:" />
+                        <TextBlock VerticalAlignment="Center"
+                                   HorizontalAlignment="Right"
+                                   Foreground="Gainsboro"
+                                   Text="{Binding TotalRecordsInDatabase,
+                                                  StringFormat={}{0:000}}"/>
+                    </StackPanel>
+                </Grid>
             </Border>
         </Grid>
     </Border>
