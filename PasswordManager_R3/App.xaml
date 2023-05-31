@@ -4,6 +4,17 @@
              xmlns:local="clr-namespace:PasswordManager_R3"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+         <!--//  App Main Color Palette  //-->
+        <Color x:Key="color-main-orange" A="255" R="255" G="99" B="71" />
+        <Color x:Key="color-main-blue" A="255" R="0" G="191" B="255" />
+        <Color x:Key="color-main-midground" A="255" R="51" G="51" B="51" />
+        <Color x:Key="color-main-foregound" A="255" R="220" G="220" B="220" />
+        <Color x:Key="color-main-background" A="255" R="30" G="30" B="30" />
+
+        <SolidColorBrush x:Key="solidColorBrush-main-orange" Color="{StaticResource color-main-orange}" />
+        <SolidColorBrush x:Key="solidColorBrush-main-blue" Color="{StaticResource color-main-blue}" />
+        <SolidColorBrush x:Key="solidColorBrush-main-midground" Color="{StaticResource color-main-midground}" />
+        <SolidColorBrush x:Key="solidColorBrush-main-foreground" Color="{StaticResource color-main-foregound}" />
+        <SolidColorBrush x:Key="solidColorBrush-main-background" Color="{StaticResource color-main-background}" />
     </Application.Resources>
 </Application>

@@ -185,13 +185,21 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel = databaseVM;
 
         /*  Default to AddEditRecord_View  */
-        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel();// this);
-        addEditRecordVM.CreateRecord += void (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
-        SelectedViewModel = addEditRecordVM;
+        //AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel();// this);
+        //addEditRecordVM.CreateRecord += void (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
+        //SelectedViewModel = addEditRecordVM;
 
         /*  Default to AddEditGroup_View  */
-        //AddEditGroup_ViewModel addEditGroupVM = new AddEditGroup_ViewModel(this);
-        //SelectedViewModel = addEditGroupVM;
+        AddEditGroup_ViewModel addEditGroupVM = new AddEditGroup_ViewModel(this, new Models.Group() {
+            Title = "TestGroup1",
+            HasExpirationDate = true,
+            ExpirationDate = DateTime.Now.AddDays(30),
+            HasNotes = true,
+            Notes = "Here are some notes. I will probably delete them.",
+            GUID = Guid.NewGuid().ToString()
+        });
+        //AddEditGroup_ViewModel addEditGroupVM = new(this);
+        SelectedViewModel = addEditGroupVM;
 
         ButtonLockDatabaseIsEnabled = false;
         ButtonAddRecordIsEnabled = false;
@@ -276,7 +284,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private void OnAddRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onAddRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel();
-        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel();// this);
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);// this);
         addEditRecordVM.CreateRecord += void (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
         SelectedViewModel = addEditRecordVM;
 
@@ -294,7 +302,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private void OnEditRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onEditRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel(); //will need to have 2 constructors -- one for add record, the other for edit record
-        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel();// this);
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);// this);
         SelectedViewModel = addEditRecordVM;
 
         ButtonLockDatabaseIsEnabled = false;

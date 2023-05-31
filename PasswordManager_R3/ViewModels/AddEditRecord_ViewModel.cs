@@ -94,7 +94,8 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
     public event CreateRecordEventHandler? CreateRecord; //prob. rename...
     public event UpdateRecordEventHandler? UpdateRecord;
 
-    public AddEditRecord_ViewModel() : base() {// ViewModelBase parentVM) : base(parentVM) {
+    //pass selectedGroup as well? RoutedEventArgs for slectedGroup and Record objects?
+    public AddEditRecord_ViewModel(ViewModelBase parentVM, Models.Record? selectedRecord = null) : base(parentVM) {// ViewModelBase parentVM) : base(parentVM) {
         //do something
         SetDelegateCommands();
         
