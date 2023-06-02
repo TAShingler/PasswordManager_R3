@@ -11,6 +11,7 @@ using System.Windows;
 namespace PasswordManager_R3.ViewModels;
 internal class MainWindow_ViewModel : ViewModelBase {
     #region Fields
+    //Window Properites
     private WindowState _winState = WindowState.Normal;
     private ViewModels.ViewModelBase? _selectedViewModel;
     private int _totalGroupsInDatabase = 5;
@@ -18,19 +19,24 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private Models.Group _selectedGroup;
     private Models.Record _selectedRecord;
 
+    //Window UIElement properties
+    private Visibility _windowStatusBarVisibility = Visibility.Visible;
+    private Visibility _windowStatusBarContentGridVisibility = Visibility.Hidden;
+
     //Quick Access Bar Button Visibility fields
-    private bool _buttonLockDatabaseIsEnabled;
-    private bool _buttonAddRecordIsEnabled;
-    private bool _buttonEditRecordIsEnabled;
-    private bool _buttonDeleteRecordIsEnabled;
-    private bool _buttonUsernameToClipboardIsEnabled;
-    private bool _buttonPasswordToClipboardIsEnabled;
-    private bool _buttonUrlToClipboardIsEnabled;
-    private bool _buttonPasswordGeneratorIsEnabled;
-    private bool _buttonAppSettingsIsEnabled;
+    private bool _buttonLockDatabaseIsEnabled = false;
+    private bool _buttonAddRecordIsEnabled = false;
+    private bool _buttonEditRecordIsEnabled = false;
+    private bool _buttonDeleteRecordIsEnabled = false;
+    private bool _buttonUsernameToClipboardIsEnabled = false;
+    private bool _buttonPasswordToClipboardIsEnabled = false;
+    private bool _buttonUrlToClipboardIsEnabled = false;
+    private bool _buttonPasswordGeneratorIsEnabled = false;
+    private bool _buttonAppSettingsIsEnabled = false;
     #endregion Fields
 
     #region Properties
+    //Window properties
     public WindowState WinState { 
         get { return _winState; }
         set {
@@ -71,6 +77,22 @@ internal class MainWindow_ViewModel : ViewModelBase {
         set {
             _selectedRecord = value;
             OnPropertyChanged(nameof(SelectedRecord));
+        }
+    }
+
+    //Window UIElement properties
+    public Visibility WindowStatusBarVisibility {
+        get { return _windowStatusBarVisibility; }
+        set {
+            _windowStatusBarVisibility = value;
+            OnPropertyChanged(nameof(WindowStatusBarVisibility));
+        }
+    }
+    public Visibility WindowStatusBarContentGridVisibility {
+        get { return _windowStatusBarContentGridVisibility; }
+        set {
+            _windowStatusBarContentGridVisibility = value;
+            OnPropertyChanged(nameof(WindowStatusBarContentGridVisibility));
         }
     }
 
@@ -163,6 +185,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
         //Set delegates for commands
         SetDelegateCommands();
+        OnLockDatabaseCommand(new object());
 
         //LockScreen_ViewModel lockScreen_ViewModel = new LockScreen_ViewModel();
         //lockScreen_ViewModel.ParentVM = this;
@@ -185,31 +208,44 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel = databaseVM;
 
         /*  Default to AddEditRecord_View  */
-        //AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel();// this);
+        //AddEditRecord_ViewModel addEditRecordVM = new(this, new Models.Record() {
+        //    Title = "TestTitle",
+        //    Username = "TestUsername",
+        //    Email = "TestEmail",
+        //    Password = "TestPassword",
+        //    URL = "TestUrl",
+        //    Tags = "TestTags",
+        //    HasExpirationDate = true,
+        //    ExpirationDate = DateTime.Today.AddDays(45),
+        //    HasNotes = false,
+        //    Notes = "some notes that should not exist",
+        //    GUID = Guid.NewGuid().ToString()
+        //});
+        ////AddEditRecord_ViewModel addEditRecordVM = new(this);// this);
         //addEditRecordVM.CreateRecord += void (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
         //SelectedViewModel = addEditRecordVM;
 
         /*  Default to AddEditGroup_View  */
-        AddEditGroup_ViewModel addEditGroupVM = new AddEditGroup_ViewModel(this, new Models.Group() {
-            Title = "TestGroup1",
-            HasExpirationDate = true,
-            ExpirationDate = DateTime.Now.AddDays(30),
-            HasNotes = true,
-            Notes = "Here are some notes. I will probably delete them.",
-            GUID = Guid.NewGuid().ToString()
-        });
+        //AddEditGroup_ViewModel addEditGroupVM = new AddEditGroup_ViewModel(this, new Models.Group() {
+        //    Title = "TestGroup1",
+        //    HasExpirationDate = true,
+        //    ExpirationDate = DateTime.Now.AddDays(30),
+        //    HasNotes = true,
+        //    Notes = "Here are some notes. I will probably delete them.",
+        //    GUID = Guid.NewGuid().ToString()
+        //});
         //AddEditGroup_ViewModel addEditGroupVM = new(this);
-        SelectedViewModel = addEditGroupVM;
+        //SelectedViewModel = addEditGroupVM;
 
-        ButtonLockDatabaseIsEnabled = false;
-        ButtonAddRecordIsEnabled = false;
-        ButtonEditRecordIsEnabled = false;
-        ButtonDeleteRecordIsEnabled = false;
-        ButtonUsernameToClipboardIsEnabled = false;
-        ButtonPasswordToClipboardIsEnabled = false;
-        ButtonUrlToClipboardIsEnabled = false;
-        ButtonPasswordGeneratorIsEnabled = false;
-        ButtonAppSettingsIsEnabled = false;
+        //ButtonLockDatabaseIsEnabled = false;
+        //ButtonAddRecordIsEnabled = false;
+        //ButtonEditRecordIsEnabled = false;
+        //ButtonDeleteRecordIsEnabled = false;
+        //ButtonUsernameToClipboardIsEnabled = false;
+        //ButtonPasswordToClipboardIsEnabled = false;
+        //ButtonUrlToClipboardIsEnabled = false;
+        //ButtonPasswordGeneratorIsEnabled = false;
+        //ButtonAppSettingsIsEnabled = false;
     }
 
     #region Title Bar Event Handlers
@@ -232,6 +268,43 @@ internal class MainWindow_ViewModel : ViewModelBase {
     }
     #endregion Title Bar Event Handlers
 
+    #region Quick Access Bar Event Handlers
+    /*
+    private void OnLockDatabaseButtonCommand(object obj) {
+        //LockScreen_ViewModel lockScreenVM = new(this);
+        //lockScreenVM.DatabaseUnlocked += OnSetDatabaseView;
+        //SelectedViewModel = lockScreenVM;
+        OnLockDatabaseButtonCommand(obj);
+    }
+    private void OnCreateRecordButtonCommand(object obj) {
+        OnAddRecordCommand(obj);
+    }
+    private void OnUpdateRecordButtonComand(object obj) {
+        //do something
+        AddEditGroup_ViewModel addEditGroupVM = new(this);
+        SelectedViewModel = addEditGroupVM;
+    }
+    private void OnDeleteRecordButtonCommand(object obj) {
+        //do something
+    }
+    private void OnCopyUsernameToClipboardButtonCommand(object obj) {
+        //do something
+    }
+    private void OnCopyPasswordToClipboardButtonCommand(object obj) {
+        //do something
+    }
+    private void OnCopyUrlToClipboardButtonCommand(object obj) {
+        //do something
+    }
+    private void OnPasswordGeneratorButtonCommand(object obj) {
+        //do something
+    }
+    private void OnAppSettingsButtonCommand(object obj) {
+        //do something
+    }
+    */
+    #endregion Quick Access Bar Event Handlers
+
     #region Change CurrentView Event Handlers
     //Set CurrentView to LockScreen_View event handler
     private void OnLockDatabaseCommand(object obj) {
@@ -239,9 +312,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
         LockScreen_ViewModel lockScreenVM = new(this);
 
         //check that master pass file exists and has a size greater than 0 bytes before setting 
-        if (Utils.FileOperations.DoesMasterPasswordExist(string.Empty) == false) {
-            lockScreenVM = new(this, false);
-        }
+        //if (Utils.FileOperations.DoesMasterPasswordExist(string.Empty) == false) {
+        //    lockScreenVM = new(this, false);
+        //}
 
         lockScreenVM.DatabaseUnlocked += OnSetDatabaseView;
         lockScreenVM.WindowClosed += OnWindowCloseCommand;
@@ -256,6 +329,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonUrlToClipboardIsEnabled = false;
         ButtonPasswordGeneratorIsEnabled = false;
         ButtonAppSettingsIsEnabled = false;
+        WindowStatusBarContentGridVisibility = Visibility.Hidden;
     }
     //Set CurrentView to Database_View event handler
     private void OnSetDatabaseView() {
@@ -268,6 +342,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
         Database_ViewModel databaseVM = new Database_ViewModel(this);
         databaseVM.RecordSelectionChanged += OnRecordSelectionChanged;
+        databaseVM.GroupSelectionChanged += OnGroupSelectionChanged;
         SelectedViewModel = databaseVM;
 
         ButtonLockDatabaseIsEnabled = true;
@@ -279,12 +354,13 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonUrlToClipboardIsEnabled = true;
         ButtonPasswordGeneratorIsEnabled = true;
         ButtonAppSettingsIsEnabled = true;
+        WindowStatusBarContentGridVisibility = Visibility.Visible;
     }
     //Set CurrentView to AddEditRecord_View (to add record to database) event handler
     private void OnAddRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onAddRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel();
-        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);// this);
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);
         addEditRecordVM.CreateRecord += void (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
         SelectedViewModel = addEditRecordVM;
 
@@ -297,6 +373,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonUrlToClipboardIsEnabled = false;
         ButtonPasswordGeneratorIsEnabled = false;
         ButtonAppSettingsIsEnabled = false;
+        WindowStatusBarContentGridVisibility = Visibility.Hidden;
     }
     //Set CurrentView to AddEditRecord_View (to edit record in database) event handler
     private void OnEditRecordCommand(object obj) {
@@ -314,6 +391,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonUrlToClipboardIsEnabled = false;
         ButtonPasswordGeneratorIsEnabled = false;
         ButtonAppSettingsIsEnabled = false;
+        WindowStatusBarContentGridVisibility = Visibility.Hidden;
     }
     //Set CurrentView to PasswordGenerator_View event handler
     private void OnGeneratePasswordCommand(object obj) {
@@ -344,6 +422,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonUrlToClipboardIsEnabled = false;
         ButtonPasswordGeneratorIsEnabled = false;
         ButtonAppSettingsIsEnabled = false;
+        WindowStatusBarContentGridVisibility = Visibility.Hidden;
     }
     #endregion Change CurrentView Event Handlers
 
@@ -371,7 +450,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
     //Event handler to handle GroupSelected event propogated in Database_ViewModel and bubbled to MainWindow_ViewModel
     private void OnGroupSelectionChanged(object obj) {
         //do somehting
-        SelectedRecord = (Models.Record)obj;
+        SelectedGroup = (Models.Group)obj;
     }
     //Event handler to handle RecordSelected event propogated in Database_ViewModel and bubbled to MainWindow_ViewModel
     private void OnRecordSelectionChanged(object obj) {

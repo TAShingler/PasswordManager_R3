@@ -235,9 +235,9 @@
 
     <Border Background="#333"
             BorderBrush="#666"
-            BorderThickness="4"
+            BorderThickness="0"
             CornerRadius="10"
-            Padding="6">
+            Padding="10">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

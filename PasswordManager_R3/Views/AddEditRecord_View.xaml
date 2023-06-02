@@ -4,11 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PasswordManager_R3.Views"
+             xmlns:converters="clr-namespace:PasswordManager_R3.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450"
-             d:DesignWidth="800">
+             d:DesignWidth="800"
+             Loaded="UserControl_Loaded">
 
     <UserControl.Resources>
+        <!--//  Converters  //-->
+        <converters:CheckedToVisibilityConverter x:Key="CheckedToVisibilityConverter" />
+        
+        <!--//  TextboxBase Styles  //-->
         <Style x:Key="InputTextBoxStyle"
                TargetType="{x:Type TextBox}">
             <Setter Property="SnapsToDevicePixels"
@@ -45,6 +51,56 @@
                                         Property="BorderBrush"
                                         Value="#555" />
                             </Trigger>
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+                                <Setter TargetName="bounds"
+                                        Property="Background"
+                                        Value="#262626" />
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="#363636" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="PasswordBoxStyle"
+               TargetType="{x:Type PasswordBox}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <!--<Setter Property="OverridesDefaultStyle" Value="True" />-->
+            <!--<Setter Property="KeyboardNavigation.TabNavigation" Value="None" />-->
+            <!--<Setter Property="FocusVisualStyle" Value="{x:Null}" />-->
+            <!--<Setter Property="AllowDrop"
+                    Value="true" />-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type PasswordBox}">
+                        <Grid>
+                            <Border Name="bounds"
+                                    CornerRadius="2"
+                                    Padding="2,0"
+                                    Background="#333"
+                                    BorderBrush="#666"
+                                    BorderThickness="1">
+                                <ScrollViewer x:Name="PART_ContentHost"
+                                              Margin="0" />
+                                <!--VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"
+                                              HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}" />-->
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <!--<Trigger Property="IsReadOnly"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="Background"
+                                        Value="#222" />
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="#555" />
+                            </Trigger>-->
                             <Trigger Property="IsEnabled"
                                      Value="False">
                                 <Setter TargetName="bounds"
@@ -1515,8 +1571,19 @@
                                 Content="OK"
                                 Foreground="Gainsboro"
                                 Background="#444"
-                                Command="{Binding CreateRecordCommand}"
+                                Command="{Binding OkButtonCommand}"
                                 Style="{StaticResource SaveRecordButtonStyle}"/>
+                        <!--<Button MinWidth="100"
+                                Width="100"
+                                MinHeight="30"
+                                Height="Auto"
+                                Margin="5"
+                                Content="Update"
+                                Foreground="Gainsboro"
+                                Background="#444"
+                                Visibility="Visible"
+                                Command="{Binding CreateRecordCommand}"
+                                Style="{StaticResource SaveRecordButtonStyle}"/>-->
                         <Button MinWidth="100"
                                 Width="Auto"
                                 MinHeight="30"
@@ -1525,6 +1592,7 @@
                                 Content="Cancel"
                                 Foreground="Gainsboro"
                                 Background="#444"
+                                Command="{Binding CancelButtonCommand}"
                                 Style="{StaticResource CancelRecordButtonStyle}"/>
                     </StackPanel>
                 </Border>
@@ -1630,6 +1698,8 @@
                                          Foreground="Gainsboro"
                                          CaretBrush="Gainsboro"
                                          VerticalContentAlignment="Center"
+                                         Text="{Binding SrTitle,
+                                                        Mode=TwoWay}"
                                          Style="{StaticResource InputTextBoxStyle}"/>
 
                                 <!--//  Username  //-->
@@ -1652,6 +1722,8 @@
                                          Background="Transparent"
                                          Foreground="Gainsboro"
                                          CaretBrush="Gainsboro"
+                                         Text="{Binding SrUsername,
+                                                        Mode=TwoWay}"
                                          Style="{StaticResource InputTextBoxStyle}"/>
 
                                 <!--//  Email  //-->
@@ -1674,6 +1746,8 @@
                                          Background="Transparent"
                                          Foreground="Gainsboro"
                                          CaretBrush="Gainsboro"
+                                         Text="{Binding SrEmail,
+                                                        Mode=TwoWay}"
                                          Style="{StaticResource InputTextBoxStyle}" />
 
                                 <!--//  Password  //-->
@@ -1696,7 +1770,8 @@
                                         <ColumnDefinition Width="24" />
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBox Grid.Column="0"
+                                    <TextBox x:Name="textBoxPassword"
+                                             Grid.Column="0"
                                              Grid.ColumnSpan="3"
                                              VerticalContentAlignment="Center"
                                              BorderBrush="Transparent"
@@ -1704,7 +1779,24 @@
                                              Background="Transparent"
                                              Foreground="Gainsboro"
                                              CaretBrush="Gainsboro"
-                                             Style="{StaticResource InputTextBoxStyle}" />
+                                             Visibility="Collapsed"
+                                             Text="{Binding SrPassword,
+                                                            Mode=TwoWay,
+                                                            UpdateSourceTrigger=PropertyChanged}"
+                                             Style="{StaticResource InputTextBoxStyle}"
+                                             TextChanged="textBoxPassword_TextChanged"/>
+                                    <PasswordBox x:Name="pWrdBox"
+                                                 Grid.Column="0"
+                                                 Grid.ColumnSpan="3"
+                                                 VerticalContentAlignment="Center"
+                                                 BorderBrush="Transparent"
+                                                 BorderThickness="0"
+                                                 Background="Transparent"
+                                                 Foreground="Gainsboro"
+                                                 CaretBrush="Gainsboro"
+                                                 Visibility="Visible"
+                                                 Style="{StaticResource PasswordBoxStyle}"
+                                                 PasswordChanged="pWrdBox_PasswordChanged"/>
                                     <ToggleButton x:Name="toggleButtonGeneratePassword"
                                                   Grid.Column="1"
                                                   Foreground="Gainsboro"
@@ -1727,11 +1819,13 @@
                                     </ToggleButton>
                                     <ToggleButton x:Name="toggleButtonMaskPassword"
                                                   Grid.Column="2"
+                                                  IsChecked="True"
                                                   Foreground="Gainsboro"
                                                   Background="Transparent"
                                                   BorderBrush="Transparent"
                                                   BorderThickness="0"
-                                                  Style="{StaticResource ToggleButtonMaskPasswordStyle}">
+                                                  Style="{StaticResource ToggleButtonMaskPasswordStyle}"
+                                                  Click="toggleButtonMaskPassword_Click">
                                         <!--<Viewbox Width="16"
                                                  Height="16">
                                             <Canvas Width="16"
@@ -1770,7 +1864,9 @@
                                          Background="Transparent"
                                          Foreground="Gainsboro"
                                          CaretBrush="Gainsboro"
-                                         Style="{StaticResource InputTextBoxStyle}" />
+                                         Style="{StaticResource InputTextBoxStyle}"
+                                         Text="{Binding SrUrl,
+                                                        Mode=TwoWay}"/>
 
                                 <!--//  Tags  //-->
                                 <Label Grid.Column="1"
@@ -1792,12 +1888,16 @@
                                          Background="Transparent"
                                          Foreground="Gainsboro"
                                          CaretBrush="Gainsboro"
-                                         Style="{StaticResource InputTextBoxStyle}" />
+                                         Style="{StaticResource InputTextBoxStyle}"
+                                         Text="{Binding SrTags,
+                                                        Mode=TwoWay}"/>
 
                                 <!--//  Expiration Date  //-->
                                 <CheckBox x:Name="checkBoxExpirationDate"
                                           Grid.Column="0"
                                           Grid.Row="6"
+                                          IsChecked="{Binding SrHasExpirationDate,
+                                                              Mode=TwoWay}"
                                           VerticalAlignment="Center"
                                           HorizontalAlignment="Center"
                                           Style="{StaticResource CheckBoxNoLabelStyle}"/>
@@ -1835,7 +1935,9 @@
                                                  Background="Transparent"
                                                  Foreground="Gainsboro"
                                                  CaretBrush="Gainsboro"
-                                                 Style="{StaticResource ExpirationDateTextBoxStyle}" />
+                                                 Style="{StaticResource ExpirationDateTextBoxStyle}"
+                                                 Text="{Binding SrExpirationDate,
+                                                                Mode=TwoWay}"/>
                                         <ToggleButton Grid.Column="1"
                                                       BorderBrush="#666"
                                                       Background="#333"
@@ -1869,6 +1971,8 @@
                                 <CheckBox x:Name="checkBoxNotes"
                                           Grid.Column="0"
                                           Grid.Row="7"
+                                          IsChecked="{Binding SrHasNotes,
+                                                              Mode=TwoWay}"
                                           VerticalAlignment="Center"
                                           HorizontalAlignment="Center"
                                           Style="{StaticResource CheckBoxNoLabelStyle}"/>
@@ -1885,8 +1989,10 @@
                                 <TextBox Grid.Column="2"
                                          Grid.Row="7"
                                          Grid.RowSpan="2"
-                                         IsEnabled="{Binding ElementName=checkBoxNotes,Path=IsChecked}"
+                                         IsEnabled="{Binding ElementName=checkBoxNotes,
+                                                             Path=IsChecked}"
                                          Margin="0 2 0 0"
+                                         Foreground="Gainsboro"
                                          Background="Transparent"
                                          BorderBrush="Transparent"
                                          BorderThickness="0"
@@ -1896,7 +2002,9 @@
                                          TextWrapping="Wrap"
                                          AcceptsReturn="True"
                                          Padding="0 3"
-                                         Style="{StaticResource InputTextBoxStyle}"/>
+                                         Style="{StaticResource InputTextBoxStyle}"
+                                         Text="{Binding SrNotes,
+                                                        Mode=TwoWay}"/>
                             </Grid>
                         </TabItem>
 
@@ -1970,6 +2078,8 @@
                                          VerticalContentAlignment="Center"
                                          HorizontalContentAlignment="Left"
                                          Foreground="Gainsboro"
+                                         Text="{Binding SrCreatedDate,
+                                                        Mode=OneTime}"
                                          Style="{StaticResource InputTextBoxStyle}"/>
 
                                 <!--//  Modified Date  //-->
@@ -1990,6 +2100,8 @@
                                          VerticalContentAlignment="Center"
                                          HorizontalContentAlignment="Left"
                                          Foreground="Gainsboro"
+                                         Text="{Binding SrModifiedDate,
+                                                        Mode=OneTime}"
                                          Style="{StaticResource InputTextBoxStyle}"/>
 
                                 <!--//  GUID  //-->
@@ -2011,6 +2123,8 @@
                                          VerticalContentAlignment="Center"
                                          HorizontalContentAlignment="Left"
                                          Foreground="Gainsboro"
+                                         Text="{Binding SrGuid,
+                                                        Mode=OneTime}"
                                          Style="{StaticResource InputTextBoxStyle}"/>
                             </Grid>
                         </TabItem>

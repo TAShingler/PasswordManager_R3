@@ -21,4 +21,51 @@ public partial class AddEditRecord_View : UserControl {
     public AddEditRecord_View() {
         InitializeComponent();
     }
+
+    private void textBoxPassword_TextChanged(object sender, TextChangedEventArgs e) {
+        if (textBoxPassword.Visibility == Visibility.Visible &&
+            pWrdBox.Visibility == Visibility.Collapsed) {
+
+            pWrdBox.Password = textBoxPassword.Text;
+        }
+    }
+
+    private void pWrdBox_PasswordChanged(object sender, RoutedEventArgs e) {
+        if (pWrdBox.Visibility == Visibility.Visible &&
+            textBoxPassword.Visibility == Visibility.Collapsed) {
+
+            textBoxPassword.Text = pWrdBox.Password;
+        }
+
+        pWrdBox.Focus();
+        pWrdBox.GetType().GetMethod("Select", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).Invoke(pWrdBox, new object[] { pWrdBox.Password.Length, 0 });
+    }
+
+    private void toggleButtonMaskPassword_Click(object sender, RoutedEventArgs e) {
+        //if (pWrdBox.Visibility == Visibility.Visible) {
+        //    pWrdBox.Visibility = Visibility.Collapsed;
+        //    textBoxPassword.Visibility = Visibility.Visible;
+        //} else if (pWrdBox.Visibility == Visibility.Collapsed) {
+        //    pWrdBox.Visibility = Visibility.Visible;
+        //    textBoxPassword.Visibility = Visibility.Collapsed;
+        //}
+
+        if (toggleButtonMaskPassword.IsChecked == true) {
+            textBoxPassword.Visibility = Visibility.Collapsed;
+            pWrdBox.Visibility = Visibility.Visible;
+
+            pWrdBox.Focus();
+            pWrdBox.GetType().GetMethod("Select", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).Invoke(pWrdBox, new object[] { pWrdBox.Password.Length, 0 });
+        } else {
+            textBoxPassword.Visibility = Visibility.Visible;
+            pWrdBox.Visibility = Visibility.Collapsed;
+
+            textBoxPassword.Focus();
+            textBoxPassword.Select(textBoxPassword.Text.Length, 0);
+        }
+    }
+
+    private void UserControl_Loaded(object sender, RoutedEventArgs e) {
+        pWrdBox.Password = textBoxPassword.Text;
+    }
 }

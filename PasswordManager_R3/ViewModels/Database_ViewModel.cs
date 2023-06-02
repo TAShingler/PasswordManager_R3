@@ -8,6 +8,8 @@ namespace PasswordManager_R3.ViewModels;
 internal class Database_ViewModel : ViewModelBase {
     #region Fields
     private const string MASK_STRING = "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF";
+    private Models.Database_Model _model = new();
+
     //Models.Group-specific fields
     private Models.Group? _selectedGroup = null;
 
@@ -128,7 +130,7 @@ internal class Database_ViewModel : ViewModelBase {
             _srPassword = value;
             OnPropertyChanged(nameof(SrPassword));
         }
-    }
+    }   //might use SecureString instead...
     public string SrUrl {
         get { return _srUrl; }
         set {
@@ -182,6 +184,8 @@ internal class Database_ViewModel : ViewModelBase {
     public Utils.DelegateCommand? ToggleUrlMaskCommand { get; set; }
     public Utils.DelegateCommand? ToggleNotesMaskCommand { get; set; }
 
+    public Utils.DelegateCommand? SomeCommand { get; set; }
+
     //ObservableCollection for Group objects
     public System.Collections.ObjectModel.ObservableCollection<Models.Group> Groups {
         get { return _groups; }
@@ -202,29 +206,37 @@ internal class Database_ViewModel : ViewModelBase {
     #region Constructors
     public Database_ViewModel(ViewModelBase parentVM) : base(parentVM) {
         //do something
-        SelectedRecord = new Models.Record() {
-            Title = "TestTitle",
-            Username = "TestUsername",
-            Email = "TestEmail",
-            Password = "TestPassword",
-            URL = "TestUrl",
-            Notes = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae. Pellentesque diam volutpat commodo sed egestas egestas. Feugiat nisl pretium fusce id velit ut tortor. Senectus et netus et malesuada. Aliquet eget sit amet tellus cras adipiscing enim eu. Et netus et malesuada fames. Vestibulum mattis ullamcorper velit sed ullamcorper morbi. Sed euismod nisi porta lorem mollis aliquam ut porttitor. Ultricies leo integer malesuada nunc vel risus. Feugiat pretium nibh ipsum consequat nisl.\nPorttitor rhoncus dolor purus non enim praesent elementum. Blandit turpis cursus in hac habitasse platea dictumst quisque sagittis. Imperdiet sed euismod nisi porta lorem. Tortor vitae purus faucibus ornare suspendisse sed.Eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis.Integer enim neque volutpat ac.Egestas sed sed risus pretium quam vulputate.Sagittis aliquam malesuada bibendum arcu vitae elementum.Et malesuada fames ac turpis egestas sed tempus urna.Arcu vitae elementum curabitur vitae.A scelerisque purus semper eget duis. Id neque aliquam vestibulum morbi blandit cursus risus at ultrices.",//"TestNotes";
-            ExpirationDate = DateTime.Now, //"TestExpirationDate",
-            CreatedDate = DateTime.Today, //"TestCreatedDate",
-            ModifiedDate = DateTime.MinValue, //"TestModifiedDate",
-            GUID = "TestGuid"
-        };
+        //SelectedRecord = new Models.Record() {
+        //    Title = "TestTitle",
+        //    Username = "TestUsername",
+        //    Email = "TestEmail",
+        //    Password = "TestPassword",
+        //    URL = "TestUrl",
+        //    Notes = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae. Pellentesque diam volutpat commodo sed egestas egestas. Feugiat nisl pretium fusce id velit ut tortor. Senectus et netus et malesuada. Aliquet eget sit amet tellus cras adipiscing enim eu. Et netus et malesuada fames. Vestibulum mattis ullamcorper velit sed ullamcorper morbi. Sed euismod nisi porta lorem mollis aliquam ut porttitor. Ultricies leo integer malesuada nunc vel risus. Feugiat pretium nibh ipsum consequat nisl.\nPorttitor rhoncus dolor purus non enim praesent elementum. Blandit turpis cursus in hac habitasse platea dictumst quisque sagittis. Imperdiet sed euismod nisi porta lorem. Tortor vitae purus faucibus ornare suspendisse sed.Eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis.Integer enim neque volutpat ac.Egestas sed sed risus pretium quam vulputate.Sagittis aliquam malesuada bibendum arcu vitae elementum.Et malesuada fames ac turpis egestas sed tempus urna.Arcu vitae elementum curabitur vitae.A scelerisque purus semper eget duis. Id neque aliquam vestibulum morbi blandit cursus risus at ultrices.",//"TestNotes";
+        //    ExpirationDate = DateTime.Now, //"TestExpirationDate",
+        //    CreatedDate = DateTime.Today, //"TestCreatedDate",
+        //    ModifiedDate = DateTime.MinValue, //"TestModifiedDate",
+        //    GUID = "TestGuid"
+        //};
 
-        SrTitle = SelectedRecord.Title;
-        SrUsername = SelectedRecord.Username;
-        SrEmail = SelectedRecord.Email;
-        SrPassword = SelectedRecord.Password;
-        SrUrl = SelectedRecord.URL;
-        SrNotes = SelectedRecord.Notes;
-        SrExpirationDate = SelectedRecord.HasExpirationDate ? SelectedRecord.ExpirationDate.ToString() : String.Empty; //"TestExpirationDate",
-        SrCreatedDate = SelectedRecord.CreatedDate.ToString(); //"TestCreatedDate",
-        SrModifiedDate = SelectedRecord.ModifiedDate.ToString(); //"TestModifiedDate",
-        SrGuid = "TestGuid";
+        Groups = new();
+
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+
+        //SrTitle = SelectedRecord.Title;
+        //SrUsername = SelectedRecord.Username;
+        //SrEmail = SelectedRecord.Email;
+        //SrPassword = SelectedRecord.Password;
+        //SrUrl = SelectedRecord.URL;
+        //SrNotes = SelectedRecord.Notes;
+        //SrExpirationDate = SelectedRecord.HasExpirationDate ? SelectedRecord.ExpirationDate.ToString() : string.Empty; //"TestExpirationDate",
+        //SrCreatedDate = SelectedRecord.CreatedDate.ToString(); //"TestCreatedDate",
+        //SrModifiedDate = SelectedRecord.ModifiedDate.ToString(); //"TestModifiedDate",
+        //SrGuid = "TestGuid";
 
         OnGroupSelectionChangedCommand = new Utils.DelegateCommand(OnGroupSelectionChanged);
         OnRecordSelectionChangedCommand = new Utils.DelegateCommand(OnRecordSelectionChanged);
@@ -234,6 +246,11 @@ internal class Database_ViewModel : ViewModelBase {
         TogglePasswordMaskCommand = new Utils.DelegateCommand(TogglePasswordMask);
         ToggleUrlMaskCommand = new Utils.DelegateCommand(ToggleUrlMask);
         ToggleNotesMaskCommand = new Utils.DelegateCommand(ToggleNotesMask);
+
+        SomeCommand = new(OnSomeCommand);
+    }
+    private void OnSomeCommand(object obj) {
+        System.Diagnostics.Debug.WriteLine("TreeViewItem expanded/collapsed");
     }
     #endregion Constructors
 

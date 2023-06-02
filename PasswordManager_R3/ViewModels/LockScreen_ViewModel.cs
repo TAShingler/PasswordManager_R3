@@ -63,7 +63,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
 
     #region Event Handlers
     private void OnUnlockDatabaseCommand(object obj) {
-        if (obj.GetType().Equals(typeof(string)) == false) {
+        /* if (obj.GetType().Equals(typeof(string)) == false) {
             //throw new Exception();
             return;
         }
@@ -81,7 +81,8 @@ internal class LockScreen_ViewModel : ViewModelBase {
             CreateMasterPassword(objAsString);
         }
 
-        TryUnlockDatabase(objAsString);
+        TryUnlockDatabase(objAsString); */
+        DatabaseUnlocked?.Invoke();
         //System.Diagnostics.Debug.WriteLine("UserPassword: " + obj.ToString());
     }
     private void OnCloseWindowCommand(object obj) {

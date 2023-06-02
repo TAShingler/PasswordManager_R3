@@ -241,6 +241,18 @@ internal class DatabaseOperations {
         sqlCommand.Dispose();
         CloseConnection();
     }
+    internal void UpdateGroupExpandedState(int rowId, bool expandedState) {
+        System.Data.SQLite.SQLiteCommand sqlCommand;
+
+        OpenConnection();
+
+        sqlCommand = _dbConnection.CreateCommand();
+        sqlCommand.CommandText = $"UPDATE {GROUPS_TABLE_NAME} SET IsExpanded = '{expandedState}' WHERE RowID = {rowId};";
+        sqlCommand.ExecuteScalar();
+
+        sqlCommand.Dispose();
+        CloseConnection();
+    }
 
     //Delete operations -- might combine into one method
     internal void DeleteGroupData(int rowId) {

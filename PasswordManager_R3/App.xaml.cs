@@ -11,6 +11,21 @@ namespace PasswordManager_R3;
 /// Interaction logic for App.xaml
 /// </summary>
 public partial class App : Application {
+    private static System.Threading.Mutex _mutex = null;
+
+    protected override void OnStartup(StartupEventArgs e) {
+        const string appName = "PasswordManager_R3";
+        bool createdNew;
+
+        _mutex = new System.Threading.Mutex(true, appName, out createdNew);
+
+        if (!createdNew) {
+            //app is already running! Exiting the application
+            Application.Current.Shutdown();
+        }
+
+        base.OnStartup(e);
+    }
 }
 
 
