@@ -13,7 +13,7 @@
         Height="600"
         MinWidth="800"
         Width="800"
-        Background="#121212"
+        Background="{StaticResource solidColorBrush-static-background}"
         WindowState="{Binding WinState}"
         x:Name="WinMain">
 
@@ -620,7 +620,7 @@
                              Height="16">
                         <Canvas Width="24"
                                 Height="24">
-                            <Path Fill="DeepSkyBlue"
+                            <Path Fill="{StaticResource solidColorBrush-theme-blue}"
                                   Data="m 14 9.5 c -1.101607 0 -2 0.898393 -2 2 0 1.101607 0.898393 2 2 2 1.101607 0 2 -0.898393 2 -2 0 -1.101607 -0.898393 -2 -2 -2 z
                                         M 2 2.5 c -1.108 0 -2 0.892 -2 2 v 14 c 0 1.108 0.892 2 2 2 h 1 c 0 0.554 0.446 1 1 1 h 2 c 0.554 0 1 -0.446 1 -1 h 9 c 0 0.554 0.446 1 1 1 h 2 c 0.554 0 1 -0.446 1 -1 h 2 c 1.108 0 2 -0.892 2 -2 v -14 c 0 -1.108 -0.892 -2 -2 -2 z
                                         m 12 4 c 2.75846 0 5 2.2415402 5 5 0 2.75846 -2.24154 5 -5 5 -2.75846 0 -5 -2.24154 -5 -5 0 -2.7584598 2.24154 -5 5 -5 z
@@ -717,6 +717,7 @@
                         <Separator Grid.Row="0"
                                    Grid.Column="1"
                                    Width="1"
+                                   Background="#777"
                                    Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"
                                    Margin="4,3"/>
                         <Button Grid.Row="0"
@@ -744,6 +745,7 @@
                         <Separator Grid.Row="0"
                                    Grid.Column="1"
                                    Width="1"
+                                   Background="#777"
                                    Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"
                                    Margin="4,3" />
                         <Button Grid.Row="0"
@@ -771,6 +773,7 @@
                         <Separator Grid.Row="0"
                                    Grid.Column="1"
                                    Width="1"
+                                   Background="#777"
                                    Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"
                                    Margin="4,3" />
                         <Button Grid.Row="0"

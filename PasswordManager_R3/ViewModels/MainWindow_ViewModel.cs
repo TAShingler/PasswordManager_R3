@@ -455,7 +455,11 @@ internal class MainWindow_ViewModel : ViewModelBase {
     //Event handler to handle RecordSelected event propogated in Database_ViewModel and bubbled to MainWindow_ViewModel
     private void OnRecordSelectionChanged(object obj) {
         //do something
-        SelectedRecord = (Models.Record)obj;
+        if (SelectedRecord != null) {
+            SelectedRecord = (Models.Record)obj;
+        } else {
+            SelectedRecord = null;
+        }
     }
     #endregion Misc. Event Handlers
 

@@ -23,7 +23,7 @@ internal class Record : Models.VaultObjectBase {
         get { return _email; }
         set { _email = value; }
     }
-    internal string Password {
+    internal string Password {  //will need to secure in future; might change back to internal
         get { return _password; }
         set { _password = value; }
     }

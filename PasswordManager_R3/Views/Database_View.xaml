@@ -5,23 +5,156 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:PasswordManager_R3.Views"
+             xmlns:m="clr-namespace:PasswordManager_R3.Models"
              mc:Ignorable="d" 
              d:DesignHeight="450"
              d:DesignWidth="800">
 
     <UserControl.Resources>
+        <PathGeometry x:Key="DownArrowGlyphGeometry" Figures="M 3,4 8,9 13,4 15,6 8,13 1,6 Z" />
+        <PathGeometry x:Key="RightArrowGlyphGeometry" Figures="M 6,1 13,8 6,15 4,13 9,8 4,3 Z" />
+
+        <Style x:Key="TreeViewItemToggleButtonStyle"
+               TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Disabled" />
+                                    <VisualState x:Name="MouseOver" >
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="tButtonGlyph"
+                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="tButtonGlyph"
+                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="tButtonGlyph"
+                                                                           Storyboard.TargetProperty="(Path.Data)">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{StaticResource DownArrowGlyphGeometry}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="tButtonGlyph"
+                                                                           Storyboard.TargetProperty="(Path.Data)">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{StaticResource RightArrowGlyphGeometry}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            
+                            <Viewbox Height="8"
+                                     Width="8">
+                                <Canvas Height="16"
+                                        Width="16">
+                                    <Path x:Name="tButtonGlyph"
+                                          Fill="#999"
+                                          Data="{StaticResource RightArrowGlyphGeometry}" />
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+
+                        <!--<ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+                                <Setter TargetName="tButtonGlyph"
+                                        Property="Data"
+                                        Value="{StaticResource DownArrowGlyphGeometry}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>-->
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="{x:Type TreeViewItem}"
                TargetType="{x:Type TreeViewItem}">
+            <Setter Property="Margin" Value="0 0 0 2" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TreeViewItem}">
-                        <ToggleButton>
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Checked">
-                                    <i:InvokeCommandAction Command="{Binding SomeCommand}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </ToggleButton>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+
+                            <ToggleButton Grid.Column="0"
+                                          Style="{StaticResource TreeViewItemToggleButtonStyle}"
+                                          DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
+                                                                Path=DataContext}"
+                                          Command="{Binding SomeCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
+                                                                     Path=IsChecked}"/>
+                            <ContentPresenter Grid.Column="1"
+                                              TextBlock.Foreground="{StaticResource solidColorBrush-theme-foreground}"
+                                              Content="{TemplateBinding Header}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DataGridColumnHeaderStyle"
+               TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{StaticResource solidColorBrush-theme-foreground}" />
+            <!--<Setter Property="DataContext" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=SelectedItem}" />-->
+            <!--<Style.Resources>
+                <DataTemplate DataType="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=SelectedItem}" />
+            </Style.Resources>-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Grid Background="Transparent">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Thumb x:Name="PART_LeftHeaderGripper"
+                                   Grid.Column="0"
+                                   Width="5"
+                                   Opacity="0"
+                                   ForceCursor="True"
+                                   Cursor="SizeWE"/>
+                            <ContentPresenter Grid.Column="1"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Content="{TemplateBinding Content}"/>
+                            <Thumb x:Name="PART_RightHeaderGripper"
+                                   Grid.Column="2"
+                                   Width="5"
+                                   Opacity="0"
+                                   ForceCursor="True"
+                                   Cursor="SizeWE"/>
+                        </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -38,30 +171,54 @@
                 <ColumnDefinition MinWidth="300" Width="1*" />
             </Grid.ColumnDefinitions>
 
-            <!--<Border Grid.Column="0"
+            <Border Grid.Column="0"
                     Background="#464646"
-                    BorderBrush="#666"
-                    BorderThickness="1">-->
-                <Grid Grid.Column="0">
+                    BorderBrush="#464646"
+                    BorderThickness="1"
+                    CornerRadius="2"
+                    Padding="2">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <!--<RowDefinition Height="5" />
                         <RowDefinition Height="Auto" />-->
                     </Grid.RowDefinitions>
-                <TreeView x:Name="treeViewGroups"
-                          Grid.Row="0"
-                          Background="#464646"
-                          BorderBrush="#666"
-                          BorderThickness="1"
-                          ItemsSource="{Binding Groups}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding GroupSelectionChangedCommand}"
-                                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}},
-                                                                              Path=SelectedItem}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </TreeView>
+                    <TreeView x:Name="treeViewGroups"
+                              Background="Transparent"
+                              BorderBrush="Transparent"
+                              BorderThickness="0"
+                              IsEnabled="True"
+                              ItemsSource="{Binding Groups}">
+                        <!--Background="#464646"
+                            BorderBrush="#666"
+                            BorderThickness="0"-->
+                        <!--<TreeView.Resources>
+                            <Style TargetType="{x:Type TreeView}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type TreeView}">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    CornerRadius="4">
+                                            
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TreeView.Resources>-->
+                        <!--<i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding GroupSelectionChangedCommand}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}},
+                                                                                  Path=SelectedItem}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>-->
+                        <!--<TreeViewItem Header="parent">
+                            <TreeViewItem Header="child" />
+                        </TreeViewItem>-->
+                    </TreeView>
                     <!--<Rectangle Grid.Row="1"
                                Fill="#121212"
                                Margin="-1 0"/>
@@ -78,7 +235,7 @@
                            VerticalContentAlignment="Center"
                            Content="Total Vaults: 000" />-->
                 </Grid>
-            <!--</Border>-->
+            </Border>
             <GridSplitter Grid.Column="1"
                           Width="5"
                           Background="Transparent"
@@ -98,20 +255,30 @@
                         <!--<RowDefinition Height="0.001*" />-->
                     </Grid.RowDefinitions>
 
-                    <DataGrid Grid.Row="0"
-                              Background="#464646"
-                              BorderBrush="#666"
-                              BorderThickness="1"
-                              SnapsToDevicePixels="True"
-                              ItemsSource="{Binding ElementName=treeViewGroups, Path=SelectedItem.ChildrenRecords}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding OnRecordSelectionChangedCommand}"
-                                                       CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, 
-                                                                                Path=SelectedItem}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </DataGrid>
+                    <Border x:Name="dataGridBorder"
+                            Grid.Row="0"
+                            Background="#464646"
+                            BorderBrush="#464646"
+                            BorderThickness="1"
+                            CornerRadius="2"
+                            Padding="2">
+                        <DataGrid x:Name="dataGridRecords"
+                                  Background="Transparent"
+                                  BorderBrush="Transparent"
+                                  BorderThickness="0"
+                                  SnapsToDevicePixels="True"
+                                  ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}"
+                                  ItemsSource="{Binding ElementName=treeViewGroups,
+                                                        Path=SelectedItem.ChildrenRecords}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding OnRecordSelectionChangedCommand}"
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, 
+                                                                                      Path=SelectedItem}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </DataGrid>
+                    </Border>
                     <!--<GridSplitter Grid.Row="1"
                                   Height="5"
                                   Background="Transparent"
@@ -168,7 +335,9 @@
                                        Foreground="Gainsboro"
                                        FontSize="16"
                                        VerticalAlignment="Center"
-                                       Text="{Binding SrTitle}" />
+                                       Text="{Binding ElementName=dataGridRecords,
+                                                      Path=SelectedItem.Title}"/>
+                            <!--Text="{Binding SrTitle}" />-->
                             <Button Grid.Column="2"
                                     Grid.Row="0"
                                     Width="16"
@@ -245,7 +414,8 @@
                                                    Grid.Row="0"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
-                                                   Text="{Binding SrUsername}"/>
+                                                   Text="{Binding ElementName=dataGridRecords,
+                                                                  Path=SelectedItem.Username}"/>
 
                                         <!--//  Row 2  //-->
                                         <Button Grid.Column="0"
@@ -271,7 +441,8 @@
                                                    Grid.Row="1"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
-                                                   Text="{Binding SrEmail}"/>
+                                                   Text="{Binding ElementName=dataGridRecords,
+                                                                  Path=SelectedItem.Email}"/>
                                         
                                         <!--//  Row 3  //-->
                                         <Button Grid.Column="0"
@@ -323,7 +494,8 @@
                                                    Grid.Row="3"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
-                                                   Text="{Binding SrUrl}"/>
+                                                   Text="{Binding ElementName=dataGridRecords,
+                                                                  Path=SelectedItem.URL}"/>
                                     </Grid>
                                 </TabItem>
                                 <TabItem Header="Notes"
@@ -374,7 +546,8 @@
                                                      IsReadOnly="True"
                                                      Padding="5"
                                                      TextWrapping="Wrap"
-                                                     Text="{Binding SrNotes}"/>
+                                                     Text="{Binding ElementName=dataGridRecords,
+                                                                    Path=SelectedItem.Notes}"/>
                                         </ScrollViewer>
                                     </Grid>
                                 </TabItem>
@@ -412,7 +585,8 @@
                                                    Grid.Row="0"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
-                                                   Text="{Binding SrExpirationDate}"/>
+                                                   Text="{Binding ElementName=dataGridRecords,
+                                                                  Path=SelectedItem.ExpirationDate}"/>
 
                                         <!--//  Row 2  //-->
                                         <Label Grid.Column="2"
@@ -423,7 +597,8 @@
                                                    Grid.Row="1"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
-                                                   Text="{Binding SrCreatedDate}"/>
+                                                   Text="{Binding ElementName=dataGridRecords,
+                                                                  Path=SelectedItem.CreatedDate}"/>
 
                                         <!--//  Row 3  //-->
                                         <Label Grid.Column="2"
@@ -434,7 +609,8 @@
                                                    Grid.Row="2"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
-                                                   Text="{Binding SrModifiedDate}"/>
+                                                   Text="{Binding ElementName=dataGridRecords,
+                                                                  Path=SelectedItem.ModifiedDate}"/>
 
                                         <!--//  Row 4  //-->
                                         <Label Grid.Column="2"
@@ -445,7 +621,8 @@
                                                    Grid.Row="3"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
-                                                   Text="{Binding SrGuid}"/>
+                                                   Text="{Binding ElementName=dataGridRecords,
+                                                                  Path=SelectedItem.GUID}"/>
                                     </Grid>
                                 </TabItem>
                                 <!--<TabItem Header="Item2"

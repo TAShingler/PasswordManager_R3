@@ -221,7 +221,30 @@ internal class Database_ViewModel : ViewModelBase {
 
         Groups = new();
 
-        Groups.Add(new());
+        Groups.Add(new() {
+            ChildrenRecords=new() {
+                new Models.Record() {
+                    Title="TestTitle",
+                    Username="TestUsername",
+                    Password="TestPassword",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes..."
+                },
+                new Models.Record() {
+                    Title="TestTitle2",
+                    Username="TestUsername2",
+                    Password="TestPassword2",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes again..."
+                }
+            }
+        });
         Groups.Add(new());
         Groups.Add(new());
         Groups.Add(new());
@@ -247,10 +270,10 @@ internal class Database_ViewModel : ViewModelBase {
         ToggleUrlMaskCommand = new Utils.DelegateCommand(ToggleUrlMask);
         ToggleNotesMaskCommand = new Utils.DelegateCommand(ToggleNotesMask);
 
-        SomeCommand = new(OnSomeCommand);
+        SomeCommand = new Utils.DelegateCommand(OnSomeCommand);
     }
     private void OnSomeCommand(object obj) {
-        System.Diagnostics.Debug.WriteLine("TreeViewItem expanded/collapsed");
+        System.Diagnostics.Debug.WriteLine(obj.ToString());
     }
     #endregion Constructors
 
@@ -259,8 +282,15 @@ internal class Database_ViewModel : ViewModelBase {
         //do something
         GroupSelectionChanged?.Invoke(obj);
     }
-    private void OnRecordSelectionChanged(object obj) {
+    private void OnRecordSelectionChanged(object obj) { //need to fix -- throwing errors
         //do somehting
+        Models.Record rec = (Models.Record)obj;
+        SrPassword = string.Empty;  //reset password before setting new password
+
+        if (obj != null) {
+            SrPassword = rec.Password;
+        }
+
         RecordSelectionChanged?.Invoke(obj);
     }
     private void CopyValueToClipboard(object obj) {
