@@ -130,7 +130,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
     //Delegates to bubble events to MainWindow_ViewModel
     public delegate void CreateRecordEventHandler(object sender, EventArgs e);
     public delegate void UpdateRecordEventHandler(object sender, EventArgs e);
-    public delegate void CancelAddEditRecordHandler(object sender, EventArgs e);
+    public delegate void CancelAddEditRecordHandler();//(object sender, EventArgs e);
 
     //Events to bubble to MainWindow_ViewModel
     public event CreateRecordEventHandler? CreateRecord; //prob. rename...
@@ -189,6 +189,6 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
         }
     }
     private void OnCancelButtonCommand(object obj) {
-        CancelAddEditRecord?.Invoke(this, EventArgs.Empty);
+        CancelAddEditRecord?.Invoke();// this, EventArgs.Empty);
     }
 }

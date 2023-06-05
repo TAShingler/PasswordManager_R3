@@ -18,6 +18,16 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
     private readonly string _sgCreatedDate = string.Empty;
     private readonly string _sgUpdatedDate = string.Empty;
     private readonly string _sgGuid = string.Empty;
+
+    //delegates
+    internal delegate void CreateGroupEventHandler();
+    internal delegate void UpdateGroupEventHandler();
+    internal delegate void CancelAddEditGroupEventHandler();
+
+    //events
+    internal event CreateGroupEventHandler? CreateGroup;
+    internal event UpdateGroupEventHandler? UpdateGroup;
+    internal event CancelAddEditGroupEventHandler? CancelAddEditGroup;
     #endregion Fields
 
     #region Properties
@@ -106,7 +116,8 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
         System.Diagnostics.Debug.WriteLine("Group_ViewModel OnOkButtonCommand() executed...");
     }
     private void OnCancelButtonCommand(object obj) {
-        System.Diagnostics.Debug.WriteLine("Group_ViewModel OnCancelButtonCommand() executed...");
+        CancelAddEditGroup?.Invoke();
+        //System.Diagnostics.Debug.WriteLine("Group_ViewModel OnCancelButtonCommand() executed...");
     }
     #endregion Other Methods
 }

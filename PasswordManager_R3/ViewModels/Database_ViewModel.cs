@@ -243,8 +243,51 @@ internal class Database_ViewModel : ViewModelBase {
                     ExpirationDate=DateTime.Now.AddDays(30),
                     HasNotes=true, Notes="here are some notes again..."
                 }
+            },
+            ChildrenGroups=new() {
+                new Models.Group() {
+                    Title="Item1"
+                },
+                new Models.Group() {
+                    Title="Item2"
+                }
             }
         });
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
+        Groups.Add(new());
         Groups.Add(new());
         Groups.Add(new());
         Groups.Add(new());
@@ -284,14 +327,19 @@ internal class Database_ViewModel : ViewModelBase {
     }
     private void OnRecordSelectionChanged(object obj) { //need to fix -- throwing errors
         //do somehting
-        Models.Record rec = (Models.Record)obj;
+        if (obj == null)
+            return;
+
         SrPassword = string.Empty;  //reset password before setting new password
 
-        if (obj != null) {
+        if (obj is Models.Record) {
+            Models.Record rec = (Models.Record)obj;
             SrPassword = rec.Password;
         }
 
         RecordSelectionChanged?.Invoke(obj);
+
+        System.Diagnostics.Debug.WriteLine("obj to string: " + obj.ToString());
     }
     private void CopyValueToClipboard(object obj) {
         //do something

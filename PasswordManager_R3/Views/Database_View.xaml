@@ -14,6 +14,7 @@
         <PathGeometry x:Key="DownArrowGlyphGeometry" Figures="M 3,4 8,9 13,4 15,6 8,13 1,6 Z" />
         <PathGeometry x:Key="RightArrowGlyphGeometry" Figures="M 6,1 13,8 6,15 4,13 9,8 4,3 Z" />
 
+        <!--//  TreeView Styles  //-->
         <Style x:Key="TreeViewItemToggleButtonStyle"
                TargetType="{x:Type ToggleButton}">
             <Setter Property="Template">
@@ -92,7 +93,18 @@
         </Style>
         <Style x:Key="{x:Type TreeViewItem}"
                TargetType="{x:Type TreeViewItem}">
-            <Setter Property="Margin" Value="0 0 0 2" />
+
+            <Style.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type m:Group}"
+                                          ItemsSource="{Binding ChildrenGroups, Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}"
+                                   Margin="4 0" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </Style.Resources>
+            
+            <Setter Property="Margin" Value="0 2" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TreeViewItem}">
@@ -102,23 +114,70 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
 
-                            <ToggleButton Grid.Column="0"
+                            <ToggleButton x:Name="expander"
+                                          Grid.Column="0"
+                                          Grid.Row="0"
                                           Style="{StaticResource TreeViewItemToggleButtonStyle}"
                                           DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
                                                                 Path=DataContext}"
                                           Command="{Binding SomeCommand}"
                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
                                                                      Path=IsChecked}"/>
-                            <ContentPresenter Grid.Column="1"
-                                              TextBlock.Foreground="{StaticResource solidColorBrush-theme-foreground}"
-                                              Content="{TemplateBinding Header}" />
+                            <!--<Border x:Name="contentBorder"
+                                    Grid.Column="1"
+                                    Grid.Row="0"
+                                    Padding="4 2 8 2"
+                                    Background="Transparent">-->
+                                <ContentPresenter x:Name="cPresenter"
+                                                  Grid.Column="1"
+                                                  Grid.Row="0"
+                                                  TextBlock.FontWeight="Normal"
+                                                  TextBlock.Foreground="{StaticResource solidColorBrush-theme-foreground}"
+                                                  Content="{TemplateBinding Header}" />
+                            <!--</Border>-->
+                            <!--<TextBlock x:Name="contents"
+                                       Grid.Column="1"
+                                       Foreground="{StaticResource solidColorBrush-theme-foreground}"
+                                       Background="Transparent"
+                                       Text="{TemplateBinding Header}" />-->
+                            <ItemsPresenter x:Name="itemsHost"
+                                            Grid.Column="1"
+                                            Grid.Row="1"
+                                            Visibility="Collapsed"/>
                         </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <!--<Setter TargetName="contentBorder"
+                                        Property="Background"
+                                        Value="{StaticResource solidColorBrush-theme-orange}" />-->
+                                <Setter TargetName="cPresenter"
+                                        Property="TextBlock.Foreground"
+                                        Value="{StaticResource solidColorBrush-theme-orange}" />
+                                <Setter TargetName="cPresenter"
+                                        Property="TextBlock.FontWeight"
+                                        Value="Bold" />
+                            </Trigger>
+                            <Trigger SourceName="expander"
+                                     Property="IsChecked"
+                                     Value="True">
+                                <Setter TargetName="itemsHost"
+                                        Property="Visibility"
+                                        Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
+        <!--//  DataGrid Styles  //-->
         <Style x:Key="DataGridColumnHeaderStyle"
                TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -131,30 +190,727 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
-                        <Grid Background="Transparent">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                        <Border Background="#333"
+                                BorderBrush="#999"
+                                BorderThickness="0 0 0 2"
+                                Padding="0 4">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                            <Thumb x:Name="PART_LeftHeaderGripper"
-                                   Grid.Column="0"
-                                   Width="5"
-                                   Opacity="0"
-                                   ForceCursor="True"
-                                   Cursor="SizeWE"/>
-                            <ContentPresenter Grid.Column="1"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              Content="{TemplateBinding Content}"/>
-                            <Thumb x:Name="PART_RightHeaderGripper"
-                                   Grid.Column="2"
-                                   Width="5"
-                                   Opacity="0"
-                                   ForceCursor="True"
-                                   Cursor="SizeWE"/>
+                                <Thumb x:Name="PART_LeftHeaderGripper"
+                                       Grid.Column="0"
+                                       Width="5"
+                                       Opacity="0"
+                                       ForceCursor="True"
+                                       Cursor="SizeWE"/>
+                                <ContentPresenter Grid.Column="1"
+                                                  Margin="8 0"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  Content="{TemplateBinding Content}"/>
+                                <Thumb x:Name="PART_RightHeaderGripper"
+                                       Grid.Column="2"
+                                       Width="5"
+                                       Opacity="0"
+                                       ForceCursor="True"
+                                       Cursor="SizeWE"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--<Style x:Key="DataGridControlStyle"
+               TargetType="{x:Type DataGrid}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGrid}">
+                        <Border x:Name="border"
+                                SnapsToDevicePixels="True"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2"
+                                Padding="{TemplateBinding Padding}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ColorAnimationUsingKeyFrames Storyboard.TargetName="border"
+                                                                          Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                    <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="Red" />
+                                                </ColorAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Normal" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ScrollViewer x:Name="DG_ScrollViewer"
+                                          Focusable="false"
+                                          Background="Black">
+                                    <ScrollViewer.Template>
+                                        <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                            <Grid>
+                                                <Grid.OpacityMask>
+                                                    <VisualBrush Visual="{Binding ElementName=border}" />
+                                                </Grid.OpacityMask>
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <Button Focusable="false"
+                                                    Command="{x:Static DataGrid.SelectAllCommand}"
+                                                    Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle,
+                                                                                                  TypeInTargetAssembly={x:Type DataGrid}}}"
+                                                    Visibility="{Binding HeadersVisibility,
+                                                                         ConverterParameter={x:Static DataGridHeadersVisibility.All},
+                                                                         Converter={x:Static DataGrid.HeadersVisibilityConverter},
+                                                                                             RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                    Width="{Binding CellsPanelHorizontalOffset,
+                                                                    RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+
+                                                <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter"
+                                                                            Grid.Column="1"
+                                                                            Visibility="{Binding HeadersVisibility,
+                                                                                                 ConverterParameter={x:Static DataGridHeadersVisibility.Column},
+                                                                                                 Converter={x:Static DataGrid.HeadersVisibilityConverter},
+                                                                                                 RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+
+                                                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Grid.Row="1"
+                                                                    CanContentScroll="{TemplateBinding CanContentScroll}" />
+
+                                                <ScrollBar x:Name="PART_VerticalScrollBar"
+                                                       Grid.Column="2"
+                                                       Grid.Row="1"
+                                                       Orientation="Vertical"
+                                                       ViewportSize="{TemplateBinding ViewportHeight}"
+                                                       Maximum="{TemplateBinding ScrollableHeight}"
+                                                       Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                                       Value="{Binding VerticalOffset,
+                                                                       Mode=OneWay,
+                                                                       RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                                <Grid Grid.Column="1"
+                                                  Grid.Row="2">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, 
+                                                                                      RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <ScrollBar x:Name="PART_HorizontalScrollBar"
+                                                           Grid.Column="1"
+                                                           Orientation="Horizontal"
+                                                           ViewportSize="{TemplateBinding ViewportWidth}"
+                                                           Maximum="{TemplateBinding ScrollableWidth}"
+                                                           Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                                           Value="{Binding HorizontalOffset,
+                                                                           Mode=OneWay, 
+                                                                           RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                </Grid>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </ScrollViewer.Template>
+                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </ScrollViewer>
+                            </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+        <Style TargetType="{x:Type DataGrid}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGrid}">
+                        <Grid>
+                            <Grid.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=border}" />
+                            </Grid.OpacityMask>
+
+                            <Border x:Name="border"
+                                    CornerRadius="2"
+                                    Background="#444"/>
+                            <ScrollViewer x:Name="DG_ScrollViewer"
+                                          Focusable="false"
+                                          Background="White">
+                                <ScrollViewer.OpacityMask>
+                                    <VisualBrush Visual="{Binding ElementName=border}"/>
+                                </ScrollViewer.OpacityMask>
+                                <ScrollViewer.Template>
+                                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="1*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <Button Focusable="false"
+                                                    Command="{x:Static DataGrid.SelectAllCommand}"
+                                                    Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, 
+                                                                                                  TypeInTargetAssembly={x:Type DataGrid}}}"
+                                                    Visibility="{Binding HeadersVisibility, 
+                                                                         ConverterParameter={x:Static DataGridHeadersVisibility.All}, 
+                                                                         Converter={x:Static DataGrid.HeadersVisibilityConverter}, 
+                                                                         RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                    Width="{Binding CellsPanelHorizontalOffset, 
+                                                                    RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+
+                                            <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter"
+                                                                            Grid.Column="1"
+                                                                            Grid.Row="0"
+                                                                            Visibility="{Binding HeadersVisibility, 
+                                                                                                 ConverterParameter={x:Static DataGridHeadersVisibility.Column}, 
+                                                                                                 Converter={x:Static DataGrid.HeadersVisibilityConverter}, 
+                                                                                                                     RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+                                                                    Grid.Column="0"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Grid.Row="1"
+                                                                    CanContentScroll="{TemplateBinding CanContentScroll}" />
+
+                                            <ScrollBar x:Name="PART_VerticalScrollBar"
+                                                       Grid.Column="2"
+                                                       Grid.Row="1"
+                                                       Orientation="Vertical"
+                                                       ViewportSize="{TemplateBinding ViewportHeight}"
+                                                       Maximum="{TemplateBinding ScrollableHeight}"
+                                                       Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                                       Value="{Binding VerticalOffset,
+                                                                       Mode=OneWay,
+                                                                       RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                            <Grid Grid.Column="1"
+                                                  Grid.Row="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, 
+                                                                                      RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <ScrollBar x:Name="PART_HorizontalScrollBar"
+                                                           Grid.Column="1"
+                                                           Orientation="Horizontal"
+                                                           ViewportSize="{TemplateBinding ViewportWidth}"
+                                                           Maximum="{TemplateBinding ScrollableWidth}"
+                                                           Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                                           Value="{Binding HorizontalOffset,
+                                                                           Mode=OneWay,
+                                                                           RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            </Grid>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </ScrollViewer.Template>
+                            </ScrollViewer>
                         </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsGrouping"
+                         Value="true">
+                    <Setter Property="ScrollViewer.CanContentScroll"
+                            Value="false" />
+                </Trigger>
+                <!--<Trigger Property="HasItems"
+                         Value="False">
+                    <Setter Property="HeadersVisibility"
+                            Value="None" />
+                </Trigger>-->
+            </Style.Triggers>
+        </Style>
+        
+        <!--//  TabControl Styles  //-->
+        <Style  TargetType="{x:Type TabControl}">
+            <!--<Setter Property="OverridesDefaultStyle"
+          Value="True" />
+            <Setter Property="SnapsToDevicePixels"
+          Value="True" />-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabControl}">
+                        <Grid KeyboardNavigation.TabNavigation="Local">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#FFAAAAAA" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <TabPanel x:Name="HeaderPanel"
+                                      Grid.Row="0"
+                                      Panel.ZIndex="0"
+                                      Margin="0"
+                                      IsItemsHost="True"
+                                      KeyboardNavigation.TabIndex="1"
+                                      Background="Transparent" />
+                            <Border x:Name="bounds"
+                                    Grid.Row="1"
+                                    Panel.ZIndex="1"
+                                    Background="#666"
+                                    BorderBrush="#666"
+                                    BorderThickness="1"
+                                    CornerRadius="0 2 2 2"
+                                    Padding="2"
+                                    KeyboardNavigation.TabNavigation="Local"
+                                    KeyboardNavigation.DirectionalNavigation="Contained"
+                                    KeyboardNavigation.TabIndex="2">
+                                <ContentPresenter x:Name="PART_SelectedContentHost" 
+                                                  ContentSource="SelectedContent" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Panel.ZIndex" Value="0" />
+            <!--<Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabControl}},
+                                                          Path=Foreground}" />-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid x:Name="root">
+                            <!--<VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected" />
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#666" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#666" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#4d4d4d" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>-->
+                            <Border x:Name="bounds"
+                                    Margin="0 0 -4 0 "
+                                    Background="#333"
+                                    BorderBrush="#333"
+                                    BorderThickness="0"
+                                    CornerRadius="2 16 0 0">
+                                <ContentPresenter x:Name="contentSite"
+                                                  TextBlock.Foreground="#666"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"
+                                                  ContentSource="Header"
+                                                  Margin="12 2 12 2"
+                                                  RecognizesAccessKey="True" />
+                            </Border>
+                        </Grid>
+                        
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="Background"
+                                        Value="#666" />
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="#666" />
+                                <Setter TargetName="contentSite"
+                                        Property="TextBlock.Foreground"
+                                        Value="{StaticResource solidColorBrush-theme-foreground}" />
+                                <Setter Property="Panel.ZIndex"
+                                        Value="100" />
+                            </Trigger>
+                            <!--<Trigger SourceName="bounds"
+                                     Property="IsMouseOver"
+                                     Value="True">
+                                <Setter Property="Panel.ZIndex"
+                                        Value="2" />
+                            </Trigger>-->
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver"
+                                               Value="True" />
+                                    <Condition Property="IsSelected"
+                                               Value="False" />
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter TargetName="contentSite"
+                                            Property="TextBlock.Foreground"
+                                            Value="#808080" />
+                                    <!--Value="{StaticResource solidColorBrush-theme-blue}" />-->
+                                    <!--<Setter TargetName="contentSite"
+                                            Property="Margin"
+                                            Value="11 1 11 2" />-->
+                                    <!--<Setter TargetName="bounds"
+                                            Property="BorderThickness"
+                                            Value="1 1 1 0" />-->
+                                    <Setter TargetName="bounds"
+                                            Property="Background"
+                                            Value="#4d4d4d" />
+                                    <!--<Setter TargetName="bounds"
+                                            Property="BorderBrush"
+                                            Value="{StaticResource solidColorBrush-theme-blue}" />-->
+                                    <Setter Property="Panel.ZIndex"
+                                            Value="1" />
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--//  Selected Record Panel Styles  //-->
+        <Style x:Key="ButtonExpandSelectedRecordPanelStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bounds"
+                                Grid.Row="2"
+                                MinHeight="24"
+                                TextBlock.Foreground="{StaticResource solidColorBrush-theme-foreground}"
+                                BorderBrush="#363636"
+                                Background="#363636"
+                                BorderThickness="0"
+                                CornerRadius="2"
+                                Padding="2">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused" />
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Valid" />
+                                    <VisualState x:Name="InvalidFocused" />
+                                    <VisualState x:Name="InvalidUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <Path Grid.Column="0"
+                                      Fill="{Binding ElementName=bounds,
+                                                     Path=(TextBlock.Foreground)}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Data="M 0,8 8,0 16,8 Z" />
+                                <Path Grid.Column="1"
+                                      Fill="{Binding ElementName=bounds,
+                                                     Path=(TextBlock.Foreground)}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Data="M 0,8 8,0 16,8 Z" />
+                                <Path Grid.Column="2"
+                                      Fill="{Binding ElementName=bounds,
+                                                     Path=(TextBlock.Foreground)}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Data="M 0,8 8,0 16,8 Z" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ButtonCollapseSelectedRecordPanelStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Margin"
+                    Value="16" />
+            <Setter Property="Foreground"
+                    Value="{StaticResource solidColorBrush-theme-foreground}" />
+            <Setter Property="Background"
+                    Value="#333" />
+            <Setter Property="BorderBrush"
+                    Value="#333" />
+            <Setter Property="BorderThickness"
+                    Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bounds"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2">
+                            <!--<VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                              Storyboard.TargetProperty="(Border.BorderThickness)">
+                                                <EasingThicknessKeyFrame KeyTime="0"
+                                                                         Value="1" />
+                                            </ThicknessAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Control.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            -->
+                            <!--<ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>-->
+                            <!--
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused" />
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Valid" />
+                                    <VisualState x:Name="InvalidFocused" />
+                                    <VisualState x:Name="InvalidUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>-->
+                            
+                            <Path Width="6"
+                                  Height="4"
+                                  Fill="{TemplateBinding Foreground}"
+                                  Data="M 0 1 3 4 6 1 Z" />
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter Property="Foreground"
+                                        Value="{StaticResource solidColorBrush-theme-blue}" />
+                                <Setter Property="BorderBrush"
+                                        Value="{StaticResource solidColorBrush-theme-blue}" />
+                                <Setter Property="BorderThickness"
+                                        Value="1" />
+                            </Trigger>
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+                                <Setter Property="Foreground"
+                                        Value="DodgerBlue" />
+                                <Setter Property="BorderBrush"
+                                        Value="DodgerBlue" />
+                                <Setter Property="BorderThickness"
+                                        Value="1" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ButtonCopyContentStyle"
+               TargetType="Button">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="OverridesDefaultStyle"
+                    Value="True" />
+            <Setter Property="Background"
+                    Value="Transparent" />
+            <Setter Property="Foreground"
+                    Value="{StaticResource solidColorBrush-theme-foreground}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Boundary"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="0">
+                            <Viewbox Width="16"
+                                     Height="16">
+                                <Canvas Width="24"
+                                        Height="24">
+                                    <Path x:Name="CopyContentGlyph"
+                                          Fill="{TemplateBinding Foreground}"
+                                          Data="M17,9H7V7H17
+                                                M17,13H7V11H17
+                                                M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3
+                                                M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+                                <Setter TargetName="CopyContentGlyph"
+                                        Property="Fill"
+                                        Value="{StaticResource solidColorBrush-theme-midground}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="CopyContentGlyph"
+                                        Property="Fill"
+                                        Value="{StaticResource solidColorBrush-theme-blue}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+                                <Setter TargetName="CopyContentGlyph"
+                                        Property="Fill"
+                                        Value="DodgerBlue" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ToggleButtonMaskContentStyle"
+               TargetType="ToggleButton">
+            <Setter Property="OverridesDefaultStyle"
+                    Value="True" />
+            <Setter Property="Background"
+                    Value="Transparent" />
+            <Setter Property="Foreground"
+                    Value="{StaticResource solidColorBrush-theme-foreground}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="Boundary" Background="{TemplateBinding Background}" BorderThickness="0">
+                            <Viewbox Width="16" Height="16">
+                                <Canvas Width="16" Height="16">
+                                    <Path x:Name="MaskContentGlyph"
+                                          Fill="{TemplateBinding Foreground}"
+                                          Data="M 8 6 A 2.01 2.01 0 0 0 5.99 8.01 2.01 2.01 0 0 0 8 10.02 2.01 2.01 0 0 0 10.01 8.01 2.01 2.01 0 0 0 8 6
+                                                m 0 5.36 A 3.35 3.35 0 0 1 4.65 8.01 3.35 3.35 0 0 1 8 4.66 3.35 3.35 0 0 1 11.35 8.01 3.35 3.35 0 0 1 8 11.36
+                                                M 8 2.985 c -3.35 0 -6.2109 2.0837 -7.37 5.025 1.1591 2.9413 4.02 5.025 7.37 5.025 3.35 0 6.2109 -2.0837 7.37 -5.025 C 14.2109 5.0687 11.35 2.985 8 2.985 Z"
+                                          Visibility="Visible" />
+                                    <Path x:Name="UnmaskContentGlyph"
+                                          Fill="{TemplateBinding Foreground}"
+                                          Data="m 7.8891 5.99 2.1239 2.1172 c 0 -0.0335 0 -0.0737 0 -0.1072 A 2.01 2.01 0 0 0 8.003 5.99 c -0.0402 0 -0.0737 0 -0.1139 0
+                                                M 5.0081 6.526 6.0466 7.5645 C 6.0131 7.7052 5.993 7.8459 5.993 8 a 2.01 2.01 0 0 0 2.01 2.01 c 0.1474 0 0.2948 -0.0201 0.4355 -0.0536 L 9.477 10.9949 C 9.0281 11.216 8.5323 11.35 8.003 11.35 A 3.35 3.35 0 0 1 4.653 8 c 0 -0.5293 0.134 -1.0251 0.3551 -1.474
+                                                M 1.303 2.8209 2.8306 4.3485 3.1321 4.65 C 2.0266 5.521 1.1556 6.66 0.633 8 c 1.1591 2.9413 4.02 5.025 7.37 5.025 1.0385 0 2.0301 -0.201 2.9346 -0.5628 L 11.2257 12.7436 13.1821 14.7 14.033 13.8491 2.1539 1.97
+                                                M 8.003 4.65 A 3.35 3.35 0 0 1 11.353 8 c 0 0.4288 -0.0871 0.8442 -0.2412 1.2194 l 1.9631 1.9631 C 14.0799 10.345 14.8839 9.2462 15.373 8 14.2139 5.0587 11.353 2.975 8.003 2.975 7.065 2.975 6.1672 3.1425 5.323 3.444 L 6.7769 4.8845 C 7.1588 4.7371 7.5675 4.65 8.003 4.65 Z"
+                                          Visibility="Collapsed" />
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+                                <Setter TargetName="MaskContentGlyph"
+                                        Property="Fill"
+                                        Value="{StaticResource solidColorBrush-theme-midground}" />
+                                <Setter TargetName="UnmaskContentGlyph"
+                                        Property="Fill"
+                                        Value="{StaticResource solidColorBrush-theme-midground}" />
+                            </Trigger>
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+                                <Setter TargetName="MaskContentGlyph"
+                                        Property="Visibility"
+                                        Value="Collapsed" />
+                                <Setter TargetName="UnmaskContentGlyph"
+                                        Property="Visibility"
+                                        Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="IsChecked"
+                                     Value="False">
+                                <Setter TargetName="MaskContentGlyph"
+                                        Property="Visibility"
+                                        Value="Visible" />
+                                <Setter TargetName="UnmaskContentGlyph"
+                                        Property="Visibility"
+                                        Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="MaskContentGlyph"
+                                        Property="Fill"
+                                        Value="{StaticResource solidColorBrush-theme-blue}" />
+                                <Setter TargetName="UnmaskContentGlyph"
+                                        Property="Fill"
+                                        Value="{StaticResource solidColorBrush-theme-blue}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+                                <Setter TargetName="MaskContentGlyph"
+                                        Property="Fill"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="UnmaskContentGlyph"
+                                        Property="Fill"
+                                        Value="DodgerBlue" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -174,7 +930,7 @@
             <Border Grid.Column="0"
                     Background="#464646"
                     BorderBrush="#464646"
-                    BorderThickness="1"
+                    BorderThickness="0"
                     CornerRadius="2"
                     Padding="2">
                 <Grid>
@@ -255,18 +1011,21 @@
                         <!--<RowDefinition Height="0.001*" />-->
                     </Grid.RowDefinitions>
 
-                    <Border x:Name="dataGridBorder"
+                    <!--<Border x:Name="dataGridBorder"
                             Grid.Row="0"
                             Background="#464646"
                             BorderBrush="#464646"
-                            BorderThickness="1"
+                            BorderThickness="0"
                             CornerRadius="2"
-                            Padding="2">
+                            Padding="2">-->
                         <DataGrid x:Name="dataGridRecords"
-                                  Background="Transparent"
-                                  BorderBrush="Transparent"
+                                  Background="Green"
+                                  BorderBrush="LightBlue"
                                   BorderThickness="0"
                                   SnapsToDevicePixels="True"
+                                  VerticalGridLinesBrush="Transparent"
+                                  HorizontalGridLinesBrush="#999"
+                                  RowBackground="Transparent"
                                   ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}"
                                   ItemsSource="{Binding ElementName=treeViewGroups,
                                                         Path=SelectedItem.ChildrenRecords}">
@@ -278,7 +1037,7 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </DataGrid>
-                    </Border>
+                    <!--</Border>-->
                     <!--<GridSplitter Grid.Row="1"
                                   Height="5"
                                   Background="Transparent"
@@ -297,9 +1056,11 @@
                             MinHeight="220"
                             MaxHeight="220"
                             Background="#464646"
-                            BorderBrush="#666"
-                            BorderThickness="1"
-                            Visibility="Collapsed"
+                            BorderBrush="#464646"
+                            BorderThickness="0"
+                            CornerRadius="2"
+                            Padding="2"
+                            Visibility="Visible"
                             SnapsToDevicePixels="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -340,31 +1101,37 @@
                             <!--Text="{Binding SrTitle}" />-->
                             <Button Grid.Column="2"
                                     Grid.Row="0"
+                                    Height="16"
                                     Width="16"
+                                    Style="{StaticResource ButtonCollapseSelectedRecordPanelStyle}"
+                                    Click="Button_Click"/>
+                            <!--Width="16"
                                     Height="16"
                                     Margin="16"
                                     BorderBrush="#777"
                                     Background="#444"
-                                    Click="Button_Click">
+                                    Click="Button_Click">-->
                                 <!--<Path Width="8"
                                       Height="8"
                                       Stroke="Gainsboro"
                                       StrokeThickness="1"
                                       ClipToBounds="True"
                                       Data="M 0 0 L 8 8 M 0 8 L 8 0" />-->
-                                <Path Width="6"
+                                <!--<Path Width="6"
                                       Height="4"
                                       Fill="Gainsboro"
                                       ClipToBounds="True"
-                                      Data="M 0 1 3 4 6 1 Z" />
-                            </Button>
+                                      Data="M 0 1 3 4 6 1 Z" />-->
+                            <!--</Button>-->
 
                             <!--//  Bottom Row  //-->
                             <TabControl Grid.Column="0"
                                         Grid.ColumnSpan="3"
                                         Grid.Row="1"
                                         Margin="16 4"
-                                        Background="Transparent">
+                                        Background="#363636"
+                                        BorderBrush="#363636"
+                                        BorderThickness="1">
                                 <TabItem Header="Basic"
                                          Background="Transparent"
                                          Foreground="Gainsboro">
@@ -397,14 +1164,16 @@
                                                 Height="16"
                                                 Command="{Binding CopyToClipboardCommand}"
                                                 CommandParameter="{Binding ElementName=textBlockUsername,
-                                                                           Path=Text}"/>
+                                                                           Path=Text}"
+                                                Style="{StaticResource ButtonCopyContentStyle}"/>
                                         <ToggleButton Grid.Column="1"
                                                       Grid.Row="0"
                                                       Width="16"
                                                       Height="16"
                                                       Command="{Binding ToggleUsernameMaskCommand}"
                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                                 Path=IsChecked}"/>
+                                                                                 Path=IsChecked}"
+                                                      Style="{StaticResource ToggleButtonMaskContentStyle}"/>
                                         <Label Grid.Column="2"
                                                Grid.Row="0"
                                                Foreground="Gainsboro"
@@ -424,14 +1193,16 @@
                                                 Height="16"
                                                 Command="{Binding CopyToClipboardCommand}"
                                                 CommandParameter="{Binding ElementName=textBlockEmail,
-                                                                           Path=Text}" />
+                                                                           Path=Text}"
+                                                Style="{StaticResource ButtonCopyContentStyle}"/>
                                         <ToggleButton Grid.Column="1"
                                                       Grid.Row="1"
                                                       Width="16"
                                                       Height="16"
                                                       Command="{Binding ToggleEmailMaskCommand}"
                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                                 Path=IsChecked}" />
+                                                                                 Path=IsChecked}"
+                                                      Style="{StaticResource ToggleButtonMaskContentStyle}"/>
                                         <Label Grid.Column="2"
                                                Grid.Row="1"
                                                Foreground="Gainsboro"
@@ -451,14 +1222,16 @@
                                                 Height="16"
                                                 Command="{Binding CopyToClipboardCommand}"
                                                 CommandParameter="{Binding ElementName=textBlockPassword,
-                                                                           Path=Text}" />
+                                                                           Path=Text}"
+                                                Style="{StaticResource ButtonCopyContentStyle}"/>
                                         <ToggleButton Grid.Column="1"
                                                       Grid.Row="2"
                                                       Width="16"
                                                       Height="16"
                                                       Command="{Binding TogglePasswordMaskCommand}"
                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                                 Path=IsChecked}" />
+                                                                                 Path=IsChecked}"
+                                                      Style="{StaticResource ToggleButtonMaskContentStyle}"/>
                                         <Label Grid.Column="2"
                                                Grid.Row="2"
                                                Foreground="Gainsboro"
@@ -477,14 +1250,16 @@
                                                 Height="16"
                                                 Command="{Binding CopyToClipboardCommand}"
                                                 CommandParameter="{Binding ElementName=textBlockUrl,
-                                                                           Path=Text}" />
+                                                                           Path=Text}"
+                                                Style="{StaticResource ButtonCopyContentStyle}"/>
                                         <ToggleButton Grid.Column="1"
                                                       Grid.Row="3"
                                                       Width="16"
                                                       Height="16"
                                                       Command="{Binding ToggleUrlMaskCommand}"
                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                                 Path=IsChecked}" />
+                                                                                 Path=IsChecked}"
+                                                      Style="{StaticResource ToggleButtonMaskContentStyle}"/>
                                         <Label Grid.Column="2"
                                                Grid.Row="3"
                                                Foreground="Gainsboro"
@@ -524,14 +1299,16 @@
                                                 Height="16"
                                                 Command="{Binding CopyToClipboardCommand}"
                                                 CommandParameter="{Binding ElementName=textBlockUsername,
-                                                                           Path=Text}" />
+                                                                           Path=Text}"
+                                                Style="{StaticResource ButtonCopyContentStyle}"/>
                                         <ToggleButton Grid.Column="1"
                                                       Grid.Row="0"
                                                       Width="16"
                                                       Height="16"
                                                       Command="{Binding ToggleNotesMaskCommand}"
                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                                 Path=IsChecked}" />
+                                                                                 Path=IsChecked}"
+                                                      Style="{StaticResource ToggleButtonMaskContentStyle}"/>
                                         <Label Grid.Column="2"
                                                Grid.Row="0"
                                                Foreground="Gainsboro"
@@ -635,22 +1412,28 @@
                             Grid.Row="2"
                             Background="red"
                             MinHeight="24">-->
-                    <Border x:Name="buttonSelectedRecordInfoPaneExpander"
+                    <!--<Border x:Name="buttonSelectedRecordInfoPaneExpander"
                             Grid.Row="2"
                             MinHeight="24"
-                            BorderBrush="#666"
-                            BorderThickness="1"
+                            BorderBrush="#363636"
                             Background="#363636"
-                            Visibility="Visible">
-                        <Button Grid.Row="2"
-                                Background="Transparent"
-                                BorderBrush="Transparent"
-                                BorderThickness="0"
-                                Click="Button_Click">
-                            <Path Fill="Gainsboro"
-                                  Data="M 0,12 8,0 16,12 Z" />
-                        </Button>
-                    </Border>
+                            BorderThickness="0"
+                            CornerRadius="2"
+                            Padding="2"
+                            Visibility="Visible">-->
+                    <Button x:Name="buttonSelectedRecordInfoPaneExpander"
+                            Grid.Row="2"
+                            MinHeight="24"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Style="{StaticResource ButtonExpandSelectedRecordPanelStyle}"
+                            Visibility="Collapsed"
+                            Click="Button_Click">
+                        <Path Fill="Gainsboro"
+                              Data="M 0,12 8,0 16,12 Z" />
+                    </Button>
+                    <!--</Border>-->
                     <!--</Border>-->
                 </Grid>
             </Border>

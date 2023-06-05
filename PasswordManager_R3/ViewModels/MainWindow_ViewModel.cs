@@ -179,6 +179,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
     public Utils.DelegateCommand? AppSettingsCommand { get; set; }
     #endregion Properties
 
+    #region Constructors
     public MainWindow_ViewModel() : base() {
         //System.Diagnostics.Debug.WriteLine("Does master password exist: " + Utils.FileOperations.DoesMasterPasswordExist(@"C:\ProgramData\PasswordManager_R2\Data\master_pass.dat"));
         //WinState = WindowState.Normal;
@@ -247,6 +248,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //ButtonPasswordGeneratorIsEnabled = false;
         //ButtonAppSettingsIsEnabled = false;
     }
+    #endregion Constructors
 
     #region Title Bar Event Handlers
     //Minimize Window event handler
@@ -361,7 +363,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         System.Diagnostics.Debug.WriteLine("onAddRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel();
         AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);
-        addEditRecordVM.CreateRecord += void (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
+        addEditRecordVM.CreateRecord += (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
+        addEditRecordVM.CancelAddEditRecord += OnSetDatabaseView;
         SelectedViewModel = addEditRecordVM;
 
         ButtonLockDatabaseIsEnabled = false;
@@ -379,8 +382,11 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private void OnEditRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onEditRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel(); //will need to have 2 constructors -- one for add record, the other for edit record
-        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);// this);
-        SelectedViewModel = addEditRecordVM;
+        //AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);// this);
+        //SelectedViewModel = addEditRecordVM;
+        AddEditGroup_ViewModel addEditGroupVM = new(this);
+        addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
+        SelectedViewModel = addEditGroupVM;
 
         ButtonLockDatabaseIsEnabled = false;
         ButtonAddRecordIsEnabled = false;
