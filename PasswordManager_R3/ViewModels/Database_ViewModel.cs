@@ -242,11 +242,188 @@ internal class Database_ViewModel : ViewModelBase {
                     HasExpirationDate=true,
                     ExpirationDate=DateTime.Now.AddDays(30),
                     HasNotes=true, Notes="here are some notes again..."
+                },
+                new Models.Record() {
+                    Title="TestTitle",
+                    Username="TestUsername",
+                    Password="TestPassword",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes..."
+                },
+                new Models.Record() {
+                    Title="TestTitle",
+                    Username="TestUsername",
+                    Password="TestPassword",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes..."
+                },
+                new Models.Record() {
+                    Title="TestTitle",
+                    Username="TestUsername",
+                    Password="TestPassword",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes..."
+                },
+                new Models.Record() {
+                    Title="TestTitle",
+                    Username="TestUsername",
+                    Password="TestPassword",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes..."
+                },
+                new Models.Record() {
+                    Title="TestTitle",
+                    Username="TestUsername",
+                    Password="TestPassword",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes..."
+                },
+                new Models.Record() {
+                    Title="TestTitle",
+                    Username="TestUsername",
+                    Password="TestPassword",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes..."
+                },
+                new Models.Record() {
+                    Title="TestTitle",
+                    Username="TestUsername",
+                    Password="TestPassword",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes..."
+                },
+                new Models.Record() {
+                    Title="TestTitle",
+                    Username="TestUsername",
+                    Password="TestPassword",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes..."
+                },
+                new Models.Record() {
+                    Title="TestTitle",
+                    Username="TestUsername",
+                    Password="TestPassword",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes..."
+                },
+                new Models.Record() {
+                    Title="TestTitle",
+                    Username="TestUsername",
+                    Password="TestPassword",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes..."
+                },
+                new Models.Record() {
+                    Title="TestTitle",
+                    Username="TestUsername",
+                    Password="TestPassword",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes..."
+                },
+                new Models.Record() {
+                    Title="TestTitle",
+                    Username="TestUsername",
+                    Password="TestPassword",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes..."
+                },
+                new Models.Record() {
+                    Title="TestTitle",
+                    Username="TestUsername",
+                    Password="TestPassword",
+                    Email="TestEmail",
+                    GUID=Guid.NewGuid().ToString(),
+                    HasExpirationDate=true,
+                    ExpirationDate=DateTime.Now.AddDays(30),
+                    HasNotes=true, Notes="here are some notes..."
                 }
             },
             ChildrenGroups=new() {
                 new Models.Group() {
-                    Title="Item1"
+                    Title="Item1",
+                    ChildrenGroups = new() {
+                        new() {
+                            ChildrenGroups=new() {
+                                new() {
+                                    ChildrenGroups = new() {
+                                        new() { 
+                                            ChildrenGroups = new() {
+                                                new() {
+                                                    ChildrenGroups = new() {
+                                                        new() {
+                                                            ChildrenGroups=new() {
+                                                                new() {
+                                                                    ChildrenGroups = new() {
+                                                                        new() {
+                                                                            ChildrenGroups = new() {
+                                                                                new() {
+                                                                                    ChildrenGroups = new() {
+                                                                                        new() {
+                                                                                            ChildrenGroups=new() {
+                                                                                                new() {
+                                                                                                    ChildrenGroups = new() {
+                                                                                                        new() {
+                                                                                                            ChildrenGroups = new() {
+                                                                                                                new()
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 },
                 new Models.Group() {
                     Title="Item2"

@@ -15,170 +15,7 @@
         <PathGeometry x:Key="RightArrowGlyphGeometry" Figures="M 6,1 13,8 6,15 4,13 9,8 4,3 Z" />
 
         <!--//  TreeView Styles  //-->
-        <Style x:Key="TreeViewItemToggleButtonStyle"
-               TargetType="{x:Type ToggleButton}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Border Background="Transparent"
-                                BorderBrush="Transparent"
-                                BorderThickness="0">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="Disabled" />
-                                    <VisualState x:Name="MouseOver" >
-                                        <Storyboard>
-                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="tButtonGlyph"
-                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
-                                                <EasingColorKeyFrame KeyTime="0"
-                                                                     Value="{StaticResource color-theme-blue}" />
-                                            </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="tButtonGlyph"
-                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
-                                                <EasingColorKeyFrame KeyTime="0"
-                                                                     Value="DodgerBlue" />
-                                            </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="CheckStates">
-                                    <VisualState x:Name="Checked">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="tButtonGlyph"
-                                                                           Storyboard.TargetProperty="(Path.Data)">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{StaticResource DownArrowGlyphGeometry}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Unchecked">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="tButtonGlyph"
-                                                                           Storyboard.TargetProperty="(Path.Data)">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="{StaticResource RightArrowGlyphGeometry}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            
-                            <Viewbox Height="8"
-                                     Width="8">
-                                <Canvas Height="16"
-                                        Width="16">
-                                    <Path x:Name="tButtonGlyph"
-                                          Fill="#999"
-                                          Data="{StaticResource RightArrowGlyphGeometry}" />
-                                </Canvas>
-                            </Viewbox>
-                        </Border>
-
-                        <!--<ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked"
-                                     Value="True">
-                                <Setter TargetName="tButtonGlyph"
-                                        Property="Data"
-                                        Value="{StaticResource DownArrowGlyphGeometry}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>-->
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="{x:Type TreeViewItem}"
-               TargetType="{x:Type TreeViewItem}">
-
-            <Style.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type m:Group}"
-                                          ItemsSource="{Binding ChildrenGroups, Mode=OneWay}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Title}"
-                                   Margin="4 0" />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-            </Style.Resources>
-            
-            <Setter Property="Margin" Value="0 2" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TreeViewItem}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="16" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="1*" />
-                            </Grid.RowDefinitions>
-
-                            <ToggleButton x:Name="expander"
-                                          Grid.Column="0"
-                                          Grid.Row="0"
-                                          Style="{StaticResource TreeViewItemToggleButtonStyle}"
-                                          DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
-                                                                Path=DataContext}"
-                                          Command="{Binding SomeCommand}"
-                                          CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                     Path=IsChecked}"/>
-                            <!--<Border x:Name="contentBorder"
-                                    Grid.Column="1"
-                                    Grid.Row="0"
-                                    Padding="4 2 8 2"
-                                    Background="Transparent">-->
-                                <ContentPresenter x:Name="cPresenter"
-                                                  Grid.Column="1"
-                                                  Grid.Row="0"
-                                                  TextBlock.FontWeight="Normal"
-                                                  TextBlock.Foreground="{StaticResource solidColorBrush-theme-foreground}"
-                                                  Content="{TemplateBinding Header}" />
-                            <!--</Border>-->
-                            <!--<TextBlock x:Name="contents"
-                                       Grid.Column="1"
-                                       Foreground="{StaticResource solidColorBrush-theme-foreground}"
-                                       Background="Transparent"
-                                       Text="{TemplateBinding Header}" />-->
-                            <ItemsPresenter x:Name="itemsHost"
-                                            Grid.Column="1"
-                                            Grid.Row="1"
-                                            Visibility="Collapsed"/>
-                        </Grid>
-
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsSelected"
-                                     Value="True">
-                                <!--<Setter TargetName="contentBorder"
-                                        Property="Background"
-                                        Value="{StaticResource solidColorBrush-theme-orange}" />-->
-                                <Setter TargetName="cPresenter"
-                                        Property="TextBlock.Foreground"
-                                        Value="{StaticResource solidColorBrush-theme-orange}" />
-                                <Setter TargetName="cPresenter"
-                                        Property="TextBlock.FontWeight"
-                                        Value="Bold" />
-                            </Trigger>
-                            <Trigger SourceName="expander"
-                                     Property="IsChecked"
-                                     Value="True">
-                                <Setter TargetName="itemsHost"
-                                        Property="Visibility"
-                                        Value="Visible" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!--//  DataGrid Styles  //-->
-        <!--#region DataGrid Styles-->
+        <!--#region TreeView Styles-->
         <!--Control colors.-->
         <Color x:Key="WindowColor">#FFE8EDF9</Color>
         <Color x:Key="ContentAreaColorLight">#FFC5CBF9</Color>
@@ -232,6 +69,7 @@
             <GradientStop Color="{DynamicResource ControlLightColor}"
                 Offset="1" />
         </LinearGradientBrush>
+
         <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill"
                      StartPoint="0,0"
                      EndPoint="1,0">
@@ -249,6 +87,396 @@
             </LinearGradientBrush.GradientStops>
         </LinearGradientBrush>
         
+        <Style x:Key="{x:Type TreeView}"
+       TargetType="TreeView">
+            <Setter Property="OverridesDefaultStyle"
+          Value="True" />
+            <Setter Property="SnapsToDevicePixels"
+          Value="True" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
+          Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility"
+          Value="Auto" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TreeView">
+                        <Border Name="Border"
+                CornerRadius="1"
+                BorderThickness="1">
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
+                            </Border.BorderBrush>
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource ControlLightColor}" />
+                            </Border.Background>
+                            <ScrollViewer Focusable="False"
+                        CanContentScroll="False"
+                        Padding="4">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ExpandCollapseToggleStyle"
+       TargetType="ToggleButton">
+            <Setter Property="Focusable"
+          Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid Width="15"
+              Height="13"
+              Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                 Storyboard.TargetName="Collapsed">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                            Value="{x:Static Visibility.Hidden}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                 Storyboard.TargetName="Expanded">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                            Value="{x:Static Visibility.Visible}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked" />
+                                    <VisualState x:Name="Indeterminate" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Path x:Name="Collapsed"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Margin="1,1,1,1"
+                Data="M 4 0 L 8 4 L 4 8 Z">
+                                <Path.Fill>
+                                    <SolidColorBrush Color="{DynamicResource GlyphColor}" />
+                                </Path.Fill>
+                            </Path>
+                            <Path x:Name="Expanded"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Margin="1,1,1,1"
+                Data="M 0 4 L 8 4 L 4 8 Z"
+                Visibility="Hidden">
+                                <Path.Fill>
+                                    <SolidColorBrush Color="{DynamicResource GlyphColor}" />
+                                </Path.Fill>
+                            </Path>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TreeViewItemFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border>
+                            <Rectangle Margin="0,0,0,0"
+                     StrokeThickness="5"
+                     Stroke="Black"
+                     StrokeDashArray="1 2"
+                     Opacity="0" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--<Style x:Key="{x:Type TreeViewItem}"
+       TargetType="{x:Type TreeViewItem}">
+            <Setter Property="Background"
+          Value="Transparent" />
+            <Setter Property="HorizontalContentAlignment"
+          Value="{Binding Path=HorizontalContentAlignment,
+    RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+            <Setter Property="VerticalContentAlignment"
+          Value="{Binding Path=VerticalContentAlignment,
+    RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+            <Setter Property="Padding"
+          Value="1,0,0,0" />
+            <Setter Property="Foreground"
+          Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="FocusVisualStyle"
+          Value="{StaticResource TreeViewItemFocusVisual}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="19"
+                              Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Bd"
+                                                Storyboard.TargetProperty="(Panel.Background).
+                    (SolidColorBrush.Color)"
+                                                >
+                                                <EasingColorKeyFrame KeyTime="0"
+                                         Value="{StaticResource SelectedBackgroundColor}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unselected" />
+                                    <VisualState x:Name="SelectedInactive">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Bd"
+                                                Storyboard.TargetProperty="(Panel.Background).
+                    (SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                         Value="{StaticResource SelectedUnfocusedColor}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ExpansionStates">
+                                    <VisualState x:Name="Expanded">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                 Storyboard.TargetName="ItemsHost">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                            Value="{x:Static Visibility.Visible}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Collapsed" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ToggleButton x:Name="Expander"
+                        Style="{StaticResource ExpandCollapseToggleStyle}"
+                        ClickMode="Press"
+                        IsChecked="{Binding IsExpanded, 
+            RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <Border x:Name="Bd"
+                  Grid.Column="1"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  Padding="{TemplateBinding Padding}">
+                                <ContentPresenter x:Name="PART_Header"
+                              ContentSource="Header"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                            </Border>
+                            <ItemsPresenter x:Name="ItemsHost"
+                          Grid.Row="1"
+                          Grid.Column="1"
+                          Grid.ColumnSpan="2"
+                          Visibility="Collapsed" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasItems"
+                   Value="false">
+                                <Setter TargetName="Expander"
+                    Property="Visibility"
+                    Value="Hidden" />
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="HasHeader"
+                         Value="false" />
+                                    <Condition Property="Width"
+                         Value="Auto" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="PART_Header"
+                    Property="MinWidth"
+                    Value="75" />
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="HasHeader"
+                         Value="false" />
+                                    <Condition Property="Height"
+                         Value="Auto" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="PART_Header"
+                    Property="MinHeight"
+                    Value="19" />
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+        <Style x:Key="TreeViewItemToggleButtonStyle"
+               TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Disabled" />
+                                    <VisualState x:Name="MouseOver" >
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="tButtonGlyph"
+                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="tButtonGlyph"
+                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="tButtonGlyph"
+                                                                           Storyboard.TargetProperty="(Path.Data)">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{StaticResource DownArrowGlyphGeometry}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="tButtonGlyph"
+                                                                           Storyboard.TargetProperty="(Path.Data)">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{StaticResource RightArrowGlyphGeometry}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Viewbox Height="8"
+                                     Width="8">
+                                <Canvas Height="16"
+                                        Width="16">
+                                    <Path x:Name="tButtonGlyph"
+                                          Fill="#999"
+                                          Data="{StaticResource RightArrowGlyphGeometry}" />
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+
+                        <!--<ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+                                <Setter TargetName="tButtonGlyph"
+                                        Property="Data"
+                                        Value="{StaticResource DownArrowGlyphGeometry}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>-->
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="{x:Type TreeViewItem}"
+               TargetType="{x:Type TreeViewItem}">
+
+            <Style.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type m:Group}"
+                                          ItemsSource="{Binding ChildrenGroups, Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}"
+                                   Margin="4 0" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </Style.Resources>
+
+            <Setter Property="Margin" Value="0 2" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+
+                            <ToggleButton x:Name="expander"
+                                          Grid.Column="0"
+                                          Grid.Row="0"
+                                          Style="{StaticResource TreeViewItemToggleButtonStyle}"
+                                          DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
+                                                                Path=DataContext}"
+                                          Command="{Binding SomeCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
+                                                                     Path=IsChecked}"/>
+                            <!--<Border x:Name="contentBorder"
+                                    Grid.Column="1"
+                                    Grid.Row="0"
+                                    Padding="4 2 8 2"
+                                    Background="Transparent">-->
+                            <ContentPresenter x:Name="cPresenter"
+                                                  Grid.Column="1"
+                                                  Grid.Row="0"
+                                                  TextBlock.FontWeight="Normal"
+                                                  TextBlock.Foreground="{StaticResource solidColorBrush-theme-foreground}"
+                                                  Content="{TemplateBinding Header}" />
+                            <!--</Border>-->
+                            <!--<TextBlock x:Name="contents"
+                                       Grid.Column="1"
+                                       Foreground="{StaticResource solidColorBrush-theme-foreground}"
+                                       Background="Transparent"
+                                       Text="{TemplateBinding Header}" />-->
+                            <ItemsPresenter x:Name="itemsHost"
+                                            Grid.Column="1"
+                                            Grid.Row="1"
+                                            Visibility="Collapsed"/>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <!--<Setter TargetName="contentBorder"
+                                        Property="Background"
+                                        Value="{StaticResource solidColorBrush-theme-orange}" />-->
+                                <Setter TargetName="cPresenter"
+                                        Property="TextBlock.Foreground"
+                                        Value="{StaticResource solidColorBrush-theme-orange}" />
+                                <Setter TargetName="cPresenter"
+                                        Property="TextBlock.FontWeight"
+                                        Value="Bold" />
+                            </Trigger>
+                            <Trigger SourceName="expander"
+                                     Property="IsChecked"
+                                     Value="True">
+                                <Setter TargetName="itemsHost"
+                                        Property="Visibility"
+                                        Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--#endregion TreeView Styles-->
+
+        <!--//  DataGrid Styles  //-->
+        <!--#region DataGrid Styles-->
         <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter" />
         <!--Style and template for the button in the upper left corner of the DataGrid.-->
         <Style TargetType="{x:Type Button}"
@@ -424,6 +652,11 @@
                                                         Width="{Binding CellsPanelHorizontalOffset, 
                                                                         RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
 
+                                                <Border Grid.Column="0"
+                                                        Grid.ColumnSpan="3"
+                                                        Background="#333"
+                                                        BorderBrush="#666"
+                                                        BorderThickness="0 0 0 1"/>
                                                 <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter"
                                                                                 Grid.Column="1"
                                                                                 Visibility="{Binding HeadersVisibility, 
@@ -465,7 +698,47 @@
                                                                                Mode=OneWay, 
                                                                                RelativeSource={RelativeSource TemplatedParent}}"/>
                                                 </Grid>
+                                                
+                                                <!--<Border x:Name="fillerBlock"
+                                                        Grid.Column="2"
+                                                        Grid.Row="2"
+                                                        Width="{Binding ElementName=PART_VerticalScrollBar,
+                                                                        Path=Track.ActualWidth}"
+                                                        Height="{Binding ElementName=PART_HorizontalScrollBar,
+                                                                         Path=Track.ActualHeight}"
+                                                        Background="#333"
+                                                        BorderBrush="#333"
+                                                        BorderThickness="0" />-->
                                             </Grid>
+
+                                            <!--<ControlTemplate.Triggers>
+                                                <Trigger SourceName="PART_VerticalScrollBar"
+                                                         Property="IsMouseOver"
+                                                         Value="True">
+                                                    <Setter TargetName="fillerBlock"
+                                                            Property="Width">
+                                                        <Setter.Value>
+                                                            <Storyboard>
+                                                                
+                                                            </Storyboard>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter TargetName="fillerBlock"
+                                                            Property="Height"
+                                                            Value="18" />
+                                                </Trigger>
+                                                <Trigger SourceName="PART_HorizontalScrollBar"
+                                                         Property="IsMouseOver"
+                                                         Value="True">
+                                                    <Setter TargetName="fillerBlock"
+                                                            Property="Width"
+                                                            Value="18" />
+                                                    <Setter TargetName="fillerBlock"
+                                                            Property="Height"
+                                                            Value="{Binding ElementName=PART_HorizontalScrollBar,
+                                                                            Path=ActualHeight}" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>-->
                                         </ControlTemplate>
                                     </ScrollViewer.Template>
                                     <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
@@ -530,22 +803,24 @@
         </Style>
         <!--Style and template for the DataGridRow.-->
         <Style TargetType="{x:Type DataGridRow}">
+            <Setter Property="Foreground"
+                    Value="{StaticResource solidColorBrush-theme-foreground}" />
             <Setter Property="Background">
                 <Setter.Value>
                     <SolidColorBrush Color="{DynamicResource ControlLightColor}" />
                 </Setter.Value>
             </Setter>
             <Setter Property="SnapsToDevicePixels"
-          Value="true" />
+                    Value="true" />
             <Setter Property="Validation.ErrorTemplate"
-          Value="{x:Null}" />
+                    Value="{x:Null}" />
             <Setter Property="ValidationErrorTemplate">
                 <Setter.Value>
                     <ControlTemplate>
                         <TextBlock Foreground="Red"
-                   Margin="2,0,0,0"
-                   Text="!"
-                   VerticalAlignment="Center" />
+                                   Margin="2,0,0,0"
+                                   Text="!"
+                                   VerticalAlignment="Center" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -553,17 +828,18 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridRow}">
                         <Border x:Name="DGR_Border"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                SnapsToDevicePixels="True">
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                SnapsToDevicePixels="True">
                             <Border.Background>
-                                <LinearGradientBrush EndPoint="0.5,1"
-                                 StartPoint="0.5,0">
-                                    <GradientStop Color="Transparent"
-                            Offset="0" />
+                                <!--<LinearGradientBrush EndPoint="0.5,1"
+                                                     StartPoint="0.5,0">
+                                    <GradientStop Color="MediumPurple"
+                                                  Offset="0" />
                                     <GradientStop Color="{DynamicResource ControlLightColor}"
-                            Offset="1" />
-                                </LinearGradientBrush>
+                                                  Offset="1" />
+                                </LinearGradientBrush>-->
+                                <SolidColorBrush Color="Transparent" />
                             </Border.Background>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
@@ -571,183 +847,156 @@
 
                                     <!--Provide a different appearance for every other row.-->
                                     <VisualState x:Name="Normal_AlternatingRow">
-                                        <Storyboard>
+                                        <!--<Storyboard>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ContentAreaColorLight}" />
+                                                                     Value="{StaticResource ContentAreaColorLight}" />
                                             </ColorAnimationUsingKeyFrames>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
 
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ContentAreaColorDark}" />
+                                                                     Value="{StaticResource ContentAreaColorDark}" />
                                             </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        </Storyboard>-->
                                     </VisualState>
 
                                     <!--In this example, a row in Editing or selected mode has an
-              identical appearances. In other words, the states 
-              Normal_Selected, Unfocused_Selected, Normal_Editing, 
-              MouseOver_Editing, MouseOver_Unfocused_Editing,
-              and Unfocused_Editing are identical.-->
+                                        identical appearances. In other words, the states 
+                                        Normal_Selected, Unfocused_Selected, Normal_Editing, 
+                                        MouseOver_Editing, MouseOver_Unfocused_Editing,
+                                        and Unfocused_Editing are identical.-->
                                     <VisualState x:Name="Normal_Selected">
-                                        <Storyboard>
+                                        <!--<Storyboard>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlMediumColor}" />
+                                                                     Value="{StaticResource ControlMediumColor}" />
                                             </ColorAnimationUsingKeyFrames>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlDarkColor}" />
+                                                                     Value="{StaticResource ControlDarkColor}" />
                                             </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        </Storyboard>-->
                                     </VisualState>
-
                                     <VisualState x:Name="Unfocused_Selected">
-                                        <Storyboard>
+                                        <!--<Storyboard>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlMediumColor}" />
+                                                                     Value="{StaticResource ControlMediumColor}" />
                                             </ColorAnimationUsingKeyFrames>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlDarkColor}" />
+                                                                     Value="{StaticResource ControlDarkColor}" />
                                             </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        </Storyboard>-->
                                     </VisualState>
-
                                     <VisualState x:Name="Normal_Editing">
-                                        <Storyboard>
+                                        <!--<Storyboard>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlMediumColor}" />
+                                                                     Value="{StaticResource ControlMediumColor}" />
                                             </ColorAnimationUsingKeyFrames>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlDarkColor}" />
+                                                                     Value="{StaticResource ControlDarkColor}" />
                                             </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        </Storyboard>-->
                                     </VisualState>
-
                                     <VisualState x:Name="MouseOver_Editing">
-                                        <Storyboard>
+                                        <!--<Storyboard>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlMediumColor}" />
+                                                                     Value="{StaticResource ControlMediumColor}" />
                                             </ColorAnimationUsingKeyFrames>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlDarkColor}" />
+                                                                     Value="{StaticResource ControlDarkColor}" />
                                             </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        </Storyboard>-->
                                     </VisualState>
-
                                     <VisualState x:Name="MouseOver_Unfocused_Editing">
-                                        <Storyboard>
+                                        <!--<Storyboard>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlMediumColor}" />
+                                                                     Value="{StaticResource ControlMediumColor}" />
                                             </ColorAnimationUsingKeyFrames>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlDarkColor}" />
+                                                                     Value="{StaticResource ControlDarkColor}" />
                                             </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        </Storyboard>-->
                                     </VisualState>
-
                                     <VisualState x:Name="Unfocused_Editing">
-                                        <Storyboard>
+                                        <!--<Storyboard>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlMediumColor}" />
+                                                                     Value="{StaticResource ControlMediumColor}" />
                                             </ColorAnimationUsingKeyFrames>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlDarkColor}" />
+                                                                     Value="{StaticResource ControlDarkColor}" />
                                             </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        </Storyboard>-->
                                     </VisualState>
-
                                     <VisualState x:Name="MouseOver">
-                                        <Storyboard>
+                                        <!--<Storyboard>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlMediumColor}" />
+                                                                     Value="{StaticResource ControlMediumColor}" />
                                             </ColorAnimationUsingKeyFrames>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlMouseOverColor}" />
+                                                                     Value="{StaticResource ControlMouseOverColor}" />
                                             </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        </Storyboard>-->
                                     </VisualState>
-
+                                    
                                     <!--In this example, the appearance of a selected row 
-              that has the mouse over it is the same regardless of
-              whether the row is selected.  In other words, the states 
-              MouseOver_Editing and MouseOver_Unfocused_Editing are identical.-->
+                                        that has the mouse over it is the same regardless of
+                                        whether the row is selected.  In other words, the states 
+                                        MouseOver_Editing and MouseOver_Unfocused_Editing are identical.-->
                                     <VisualState x:Name="MouseOver_Selected">
-                                        <Storyboard>
+                                        <!--<Storyboard>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlMouseOverColor}" />
+                                                                     Value="{StaticResource ControlMouseOverColor}" />
                                             </ColorAnimationUsingKeyFrames>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlMouseOverColor}" />
+                                                                     Value="{StaticResource ControlMouseOverColor}" />
                                             </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        </Storyboard>-->
                                     </VisualState>
-
                                     <VisualState x:Name="MouseOver_Unfocused_Selected">
-                                        <Storyboard>
+                                        <!--<Storyboard>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlMouseOverColor}" />
+                                                                     Value="{StaticResource ControlMouseOverColor}" />
                                             </ColorAnimationUsingKeyFrames>
                                             <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
-                                                Storyboard.TargetProperty="(Panel.Background).
-                      (GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlMouseOverColor}" />
+                                                                     Value="{StaticResource ControlMouseOverColor}" />
                                             </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
+                                        </Storyboard>-->
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
@@ -762,22 +1011,21 @@
                                     <RowDefinition Height="Auto" />
                                 </SelectiveScrollingGrid.RowDefinitions>
                                 <DataGridCellsPresenter Grid.Column="1"
-                                    ItemsPanel="{TemplateBinding ItemsPanel}"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                                        ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 <DataGridDetailsPresenter Grid.Column="1"
-                                      Grid.Row="1"
-                                      Visibility="{TemplateBinding DetailsVisibility}"
-                                      SelectiveScrollingGrid.SelectiveScrollingOrientation=
-                "{Binding AreRowDetailsFrozen, 
-                ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical},
-                Converter={x:Static DataGrid.RowDetailsScrollingConverter}, 
-                RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                          Grid.Row="1"
+                                                          Visibility="{TemplateBinding DetailsVisibility}"
+                                                          SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, 
+                                                                                                                         ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical},
+                                                                                                                         Converter={x:Static DataGrid.RowDetailsScrollingConverter}, 
+                                                                                                                         RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
                                 <DataGridRowHeader Grid.RowSpan="2"
-                               SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-                               Visibility="{Binding HeadersVisibility, 
-                ConverterParameter={x:Static DataGridHeadersVisibility.Row}, 
-                Converter={x:Static DataGrid.HeadersVisibilityConverter}, 
-                RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                                   SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                                                   Visibility="{Binding HeadersVisibility, 
+                                                                        ConverterParameter={x:Static DataGridHeadersVisibility.Row}, 
+                                                                        Converter={x:Static DataGrid.HeadersVisibilityConverter}, 
+                                                                        RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                             </SelectiveScrollingGrid>
                         </Border>
                     </ControlTemplate>
@@ -812,9 +1060,9 @@
                         <Grid>
                             <VisualStateManager.VisualStateGroups>
                                 <!--This example does not specify an appearance for every
-                state.  You can add storyboard to the states that are listed
-                to change the appearance of the DataGridRowHeader when it is
-                in a specific state.-->
+                                    state.  You can add storyboard to the states that are listed
+                                    to change the appearance of the DataGridRowHeader when it is
+                                    in a specific state.-->
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
                                     <VisualState x:Name="Normal_CurrentRow" />
@@ -888,18 +1136,18 @@
         </Style>
         <!--Style and template for the resize control on the DataGridColumnHeader.-->
         <Style x:Key="ColumnHeaderGripperStyle"
-       TargetType="{x:Type Thumb}">
+               TargetType="{x:Type Thumb}">
             <Setter Property="Width"
-          Value="8" />
+                    Value="8" />
             <Setter Property="Background"
-          Value="Transparent" />
+                    Value="Transparent" />
             <Setter Property="Cursor"
-          Value="SizeWE" />
+                    Value="SizeWE" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Thumb}">
                         <Border Background="{TemplateBinding Background}"
-                Padding="{TemplateBinding Padding}" />
+                                Padding="{TemplateBinding Padding}" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -911,11 +1159,12 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
-                        <Grid>
+                        <Grid Margin="-1 0">
                             <Border x:Name="columnHeaderBorder"
                                     Background="#333"
-                                    BorderBrush="#222"
-                                    BorderThickness="1"
+                                    BorderBrush="#666"
+                                    BorderThickness="1 0 1 1"
+                                    Margin="0"
                                     Padding="3,3,3,3">
                                 <!--<Border.BorderBrush>
                                     <LinearGradientBrush EndPoint="0.5,1"
@@ -970,7 +1219,7 @@
                     <ControlTemplate TargetType="{x:Type DataGridColumnHeadersPresenter}">
                         <Grid>
                             <DataGridColumnHeader x:Name="PART_FillerColumnHeader"
-                                IsHitTestVisible="False" />
+                                                  IsHitTestVisible="False" />
                             <ItemsPresenter />
                         </Grid>
                     </ControlTemplate>
@@ -1537,15 +1786,15 @@
             </Setter>
         </Style>
         <Style x:Key="ScrollBarPageButton"
-       TargetType="{x:Type RepeatButton}">
+               TargetType="{x:Type RepeatButton}">
             <Setter Property="SnapsToDevicePixels"
-          Value="True" />
+                    Value="True" />
             <Setter Property="OverridesDefaultStyle"
-          Value="true" />
+                    Value="true" />
             <Setter Property="IsTabStop"
-          Value="false" />
+                    Value="false" />
             <Setter Property="Focusable"
-          Value="false" />
+                    Value="false" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -1570,7 +1819,7 @@
                         <Border CornerRadius="2"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="1" />
+                                BorderThickness="0" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -1600,26 +1849,38 @@
                                                           Value="12" />
                                 </DoubleAnimationUsingKeyFrames>-->
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineUpButton"
+                                                               Storyboard.TargetProperty="Height"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="4" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineUpButton"
                                                                Storyboard.TargetProperty="Width"
-                                                               BeginTime="0:0:2">
+                                                               BeginTime="0:0:0.25">
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1"
                                                           Value="0" />
                                 </DoubleAnimationUsingKeyFrames>
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Track"
                                                                Storyboard.TargetProperty="Width"
-                                                               BeginTime="0:0:2">
+                                                               BeginTime="0:0:0.25">
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1"
                                                           Value="6" />
                                 </DoubleAnimationUsingKeyFrames>
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineDownButton"
+                                                               Storyboard.TargetProperty="Height"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="4" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineDownButton"
                                                                Storyboard.TargetProperty="Width"
-                                                               BeginTime="0:0:2">
+                                                               BeginTime="0:0:0.25">
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1"
                                                           Value="0" />
                                 </DoubleAnimationUsingKeyFrames>
                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="border"
                                                                Storyboard.TargetProperty="Visibility"
-                                                               BeginTime="0:0:2.1">
+                                                               BeginTime="0:0:0.35">
                                     <DiscreteObjectKeyFrame KeyTime="0:0:0"
                                                             Value="{x:Static Visibility.Hidden}" />
                                 </ObjectAnimationUsingKeyFrames>
@@ -1634,6 +1895,12 @@
                                                           Value="18" />
                                 </DoubleAnimationUsingKeyFrames>-->
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineUpButton"
+                                                               Storyboard.TargetProperty="Height"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="18" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineUpButton"
                                                                Storyboard.TargetProperty="Width"
                                                                BeginTime="0:0:0.25">
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1"
@@ -1647,6 +1914,12 @@
                                 </ObjectAnimationUsingKeyFrames>-->
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Track"
                                                                Storyboard.TargetProperty="Width"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="18" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineDownButton"
+                                                               Storyboard.TargetProperty="Height"
                                                                BeginTime="0:0:0.25">
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1"
                                                           Value="18" />
@@ -1692,7 +1965,7 @@
                               Grid.Row="0"
                               Style="{StaticResource ScrollBarLineButton}"
                               Width="0"
-                              Height="18"
+                              Height="4"
                               Foreground="{StaticResource solidColorBrush-theme-foreground}"
                               Background="#333"
                               BorderBrush="#333"
@@ -1713,7 +1986,7 @@
                                BorderBrush="#333"
                                BorderThickness="0"
                                Style="{StaticResource ScrollBarThumb}"
-                               Margin="1,0,1,0">
+                               Margin="2 0">
                             <!--<Thumb.BorderBrush>
 
                                 <LinearGradientBrush StartPoint="0,0"
@@ -1784,26 +2057,38 @@
                         <VisualState x:Name="Normal">
                             <Storyboard>
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineLeftButton"
+                                                               Storyboard.TargetProperty="Width"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="4" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineLeftButton"
                                                                Storyboard.TargetProperty="Height"
-                                                               BeginTime="0:0:2">
+                                                               BeginTime="0:0:0.25">
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1"
                                                           Value="0" />
                                 </DoubleAnimationUsingKeyFrames>
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Track"
                                                                Storyboard.TargetProperty="Height"
-                                                               BeginTime="0:0:2">
+                                                               BeginTime="0:0:0.25">
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1"
                                                           Value="6" />
                                 </DoubleAnimationUsingKeyFrames>
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineRightButton"
+                                                               Storyboard.TargetProperty="Width"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="4" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineRightButton"
                                                                Storyboard.TargetProperty="Height"
-                                                               BeginTime="0:0:2">
+                                                               BeginTime="0:0:0.25">
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1"
                                                           Value="0" />
                                 </DoubleAnimationUsingKeyFrames>
                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="border"
                                                                Storyboard.TargetProperty="Visibility"
-                                                               BeginTime="0:0:2.1">
+                                                               BeginTime="0:0:0.35">
                                     <DiscreteObjectKeyFrame KeyTime="0:0:0"
                                                             Value="{x:Static Visibility.Hidden}" />
                                 </ObjectAnimationUsingKeyFrames>
@@ -1817,14 +2102,26 @@
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1"
                                                           Value="18" />
                                 </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineLeftButton"
+                                                               Storyboard.TargetProperty="Height"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="18" />
+                                </DoubleAnimationUsingKeyFrames>
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Track"
-                                                               Storyboard.TargetProperty="Width"
+                                                               Storyboard.TargetProperty="Height"
                                                                BeginTime="0:0:0.25">
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1"
                                                           Value="18" />
                                 </DoubleAnimationUsingKeyFrames>
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineRightButton"
                                                                Storyboard.TargetProperty="Width"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="18" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineRightButton"
+                                                               Storyboard.TargetProperty="Height"
                                                                BeginTime="0:0:0.25">
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1"
                                                           Value="18" />
@@ -1850,13 +2147,13 @@
                         Grid.Row="1"
                         Grid.ColumnSpan="3"
                         CornerRadius="2"
-                        Background="red"
+                        Background="#333"
                         Visibility="Hidden"/>
                 <RepeatButton x:Name="scrollBarLineLeftButton"
                               Grid.Column="0"
                               Grid.Row="1"
                               Style="{StaticResource ScrollBarLineButton}"
-                              Width="18"
+                              Width="4"
                               Height="0"
                               Foreground="{StaticResource solidColorBrush-theme-foreground}"
                               Background="#333"
@@ -1878,7 +2175,7 @@
                                BorderBrush="#333"
                                BorderThickness="0"
                                Style="{StaticResource ScrollBarThumb}"
-                               Margin="0,1,0,1">
+                               Margin="0 2">
 
                             <!--<Thumb.BorderBrush>
 
@@ -1921,7 +2218,7 @@
                               Grid.Column="2"
                               Grid.Row="1"
                               Style="{StaticResource ScrollBarLineButton}"
-                              Width="18"
+                              Width="4"
                               Height="0"
                               Foreground="{StaticResource solidColorBrush-theme-foreground}"
                               Background="#333"
@@ -1943,7 +2240,7 @@
                     <Setter Property="Width"
                             Value="Auto" />
                     <Setter Property="Height"
-                            Value="12" />
+                            Value="Auto" />
                     <Setter Property="Template"
                             Value="{StaticResource HorizontalScrollBar}" />
                 </Trigger>
@@ -2008,7 +2305,7 @@
                     BorderBrush="#464646"
                     BorderThickness="0"
                     CornerRadius="2"
-                    Padding="2">
+                    Padding="0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
