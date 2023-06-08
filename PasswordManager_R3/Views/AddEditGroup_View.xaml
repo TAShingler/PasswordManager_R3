@@ -18,9 +18,9 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border x:Name="bounds"
-                                Background="#3e3e3e"
+                                Background="#222"
                                 BorderBrush="#666"
-                                BorderThickness="1"
+                                BorderThickness="0"
                                 CornerRadius="2">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
@@ -114,7 +114,7 @@
                                     Padding="2,0"
                                     Background="#333"
                                     BorderBrush="#666"
-                                    BorderThickness="1">
+                                    BorderThickness="0">
                                 <ScrollViewer x:Name="PART_ContentHost"
                                               Margin="0"
                                               VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"
@@ -164,7 +164,7 @@
                                     Padding="2,0"
                                     Background="#333"
                                     BorderBrush="#666"
-                                    BorderThickness="1 1 0 1">
+                                    BorderThickness="0">
                                 <ScrollViewer x:Name="PART_ContentHost"
                                               Margin="0"
                                               VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"
@@ -380,6 +380,10 @@
         </Style>-->
         <Style x:Key="{x:Type CheckBox}"
                TargetType="{x:Type CheckBox}">
+            <Setter Property="Height"
+                    Value="14" />
+            <Setter Property="Width"
+                    Value="14" />
             <!--<Setter Property="SnapsToDevicePixels"
                     Value="True" />
             <Setter Property="OverridesDefaultStyle"
@@ -397,7 +401,7 @@
                                     Grid.Column="0"
                                     Background="#333"
                                     BorderBrush="Gainsboro"
-                                    BorderThickness="1"
+                                    BorderThickness="0"
                                     CornerRadius="2"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center">
@@ -544,7 +548,7 @@
                 <Border x:Name="Border"
                         Grid.ColumnSpan="2"
                         CornerRadius="2"
-                        BorderThickness="1"
+                        BorderThickness="0"
                         BorderBrush="#666"
                         Background="#333" />
                 <!--<Border Grid.Column="0" CornerRadius="2,0,0,2" Margin="1" Background="{TemplateBinding Background}" />-->
@@ -1109,14 +1113,15 @@
 
     <Border Background="Transparent"
             BorderBrush="#444"
-            BorderThickness="1">
+            BorderThickness="0">
         <DockPanel LastChildFill="True">
             <!--//  TOP PANEL  //-->
             <Border DockPanel.Dock="Top"
-                    Height="Auto"
+                    Height="42"
                     Background="#333"
                     BorderBrush="#444"
-                    BorderThickness="0 0 0 1">
+                    BorderThickness="0"
+                    CornerRadius="2 2 0 0">
                 <TextBlock FontSize="12"
                            FontWeight="Bold"
                            Padding="12"
@@ -1126,10 +1131,11 @@
 
             <!--//  BOTTOM PANEL  //-->
             <Border DockPanel.Dock="Bottom"
-                    Height="Auto"
+                    Height="42"
                     Background="#333"
                     BorderBrush="#404040"
-                    BorderThickness="0 1 0 0">
+                    BorderThickness="0"
+                    CornerRadius="0 0 2 2">
                 <StackPanel Orientation="Horizontal"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Right">
@@ -1157,7 +1163,7 @@
                     Width="Auto"
                     Background="#262626"
                     BorderBrush="#444"
-                    BorderThickness="0 0 1 0"
+                    BorderThickness="0"
                     Padding="12,6">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -1171,7 +1177,7 @@
                             Foreground="Gainsboro"
                             Background="#333"
                             BorderBrush="#666"
-                            BorderThickness="1">
+                            BorderThickness="0">
                         <Path Fill="Gainsboro"
                               Data="M 0 7 L 10 7 L 5 0 Z" />
                     </Button>
@@ -1182,7 +1188,7 @@
                               Foreground="Gainsboro"
                               Background="#333"
                               BorderBrush="#666"
-                              BorderThickness="1 0"
+                              BorderThickness="0"
                               ScrollViewer.VerticalScrollBarVisibility="Disabled"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                               SelectedIndex="0">
@@ -1196,7 +1202,7 @@
                             Foreground="Gainsboro"
                             Background="#333"
                             BorderBrush="#666"
-                            BorderThickness="1">
+                            BorderThickness="0">
                         <Path Fill="Gainsboro"
                               Data="M 0 0 L 10 0 L 5 7 Z"/>
                     </Button>

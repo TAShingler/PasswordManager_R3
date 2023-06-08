@@ -1728,14 +1728,15 @@
     <Grid>
         <Border Background="Transparent"
                 BorderBrush="#666"
-                BorderThickness="1">
+                BorderThickness="0">
             <DockPanel LastChildFill="True">
                 <!--//  TOP PANEL  //-->
                 <Border DockPanel.Dock="Top"
-                        Height="Auto"
+                        Height="42"
                         Background="#333"
                         BorderBrush="#666"
-                        BorderThickness="0 0 0 1">
+                        BorderThickness="0"
+                        CornerRadius="2 2 0 0">
                     <TextBlock FontSize="12"
                                Padding="12"
                                Foreground="Gainsboro"
@@ -1744,10 +1745,11 @@
 
                 <!--//  BOTTOM PANEL  //-->
                 <Border DockPanel.Dock="Bottom"
-                        Height="Auto"
+                        Height="42"
                         Background="#333"
                         BorderBrush="#666"
-                        BorderThickness="0 1 0 0">
+                        BorderThickness="0"
+                        CornerRadius="0 0 2 2">
                     <StackPanel Orientation="Horizontal"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Right">
@@ -1790,7 +1792,7 @@
                         Width="Auto"
                         Background="#262626"
                         BorderBrush="#666"
-                        BorderThickness="0 0 1 0"
+                        BorderThickness="0"
                         Padding="12,6">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -1804,7 +1806,7 @@
                                 Foreground="Gainsboro"
                                 Background="#333"
                                 BorderBrush="#666"
-                                BorderThickness="1"
+                                BorderThickness="0"
                                 Style="{StaticResource ListViewUpButtonStyle}" />
                         <!--//  Eventually need to make ListView width Auto and scale with ListViewItem contents  //-->
                         <ListView x:Name="listViewTabSelector"
@@ -1813,7 +1815,7 @@
                                   Foreground="Gainsboro"
                                   Background="#333"
                                   BorderBrush="#666"
-                                  BorderThickness="1 0"
+                                  BorderThickness="0"
                                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                   SelectedIndex="0">
@@ -1831,7 +1833,7 @@
                                 Foreground="Gainsboro"
                                 Background="#333"
                                 BorderBrush="#666"
-                                BorderThickness="1"
+                                BorderThickness="0"
                                 Style="{StaticResource ListViewDownButtonStyle}" />
                     </Grid>
                 </Border>
