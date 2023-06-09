@@ -105,10 +105,10 @@ internal class Database_ViewModel : ViewModelBase {
     }
     public string SrTitle {
         get { return _srTitle; }
-        set {
-            _srTitle = value;
-            OnPropertyChanged(nameof(SrTitle));
-        }
+        //set {
+        //    _srTitle = value;
+        //    OnPropertyChanged(nameof(SrTitle));
+        //}
     }
     public string SrUsername {
         get { return _srUsername; }
@@ -503,6 +503,7 @@ internal class Database_ViewModel : ViewModelBase {
         GroupSelectionChanged?.Invoke(obj);
     }
     private void OnRecordSelectionChanged(object obj) { //need to fix -- throwing errors
+        System.Diagnostics.Debug.WriteLine("OnRecordSelectionChanged obj type: " + obj.GetType());
         //do somehting
         if (obj == null)
             return;

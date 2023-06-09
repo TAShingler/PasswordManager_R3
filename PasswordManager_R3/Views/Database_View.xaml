@@ -467,7 +467,8 @@
 
             <Style.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type m:Group}"
-                                          ItemsSource="{Binding ChildrenGroups, Mode=OneWay}">
+                                          ItemsSource="{Binding ChildrenGroups,
+                                                                Mode=OneWay}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Title}"
                                    Margin="4 0" />
@@ -568,6 +569,8 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+
+            <EventSetter Event="RequestBringIntoView"  Handler="TreeViewItem_RequestBringIntoView"/>
         </Style>
         <!--#endregion TreeView Styles-->
 
@@ -2413,8 +2416,7 @@
                               BorderBrush="Transparent"
                               BorderThickness="0"
                               IsEnabled="True"
-                              ItemsSource="{Binding Groups}"
-                              SelectedItemChanged="treeViewGroups_SelectedItemChanged">
+                              ItemsSource="{Binding Groups}">
                         <!--Background="#464646"
                             BorderBrush="#666"
                             BorderThickness="0"-->
@@ -2510,9 +2512,9 @@
                         </i:Interaction.Triggers>
 
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Icon?"
+                            <!--<DataGridTextColumn Header="Icon?"
                                                 MinWidth="24"
-                                                Binding="{Binding SrIcon}"/>
+                                                Binding="{Binding SrIcon}"/>-->
                             <DataGridTextColumn Header="Title"
                                                 MinWidth="100"
                                                 Binding="{Binding Title}" />
@@ -2527,7 +2529,7 @@
                                                 Binding="{Binding Password}" />
                             <DataGridTextColumn Header="Url"
                                                 MinWidth="100"
-                                                Binding="{Binding Url}" />
+                                                Binding="{Binding URL}" />
                             <DataGridTextColumn Header="Notes"
                                                 MinWidth="100"
                                                 Binding="{Binding Notes}" />
@@ -2592,8 +2594,9 @@
                                        Foreground="Gainsboro"
                                        FontSize="16"
                                        VerticalAlignment="Center"
-                                       Text="{Binding ElementName=dataGridRecords,
-                                                      Path=SelectedItem.Title}"/>
+                                       Text="{Binding SrTitle}" /><!--
+                            Text="{Binding ElementName=dataGridRecords,
+                                                      Path=SelectedItem.Title}"/>-->
                             <!--Text="{Binding SrTitle}" />-->
                             <Button Grid.Column="2"
                                     Grid.Row="0"

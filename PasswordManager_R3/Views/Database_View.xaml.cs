@@ -36,17 +36,17 @@ public partial class Database_View : UserControl {
         }
     }
 
-    private void treeViewGroups_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
-        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.NewValue: {e.NewValue}");
-        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.OldValue: {e.OldValue}");
-        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.Source: {e.Source}");
-        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.OriginalSource: {e.OriginalSource}");
-        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.Handled: {e.Handled}");
-        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.RoutedEvent: {e.RoutedEvent}");
-        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.GetType: {e.GetType}");
-        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.ToString: {e.ToString}");
-
-        //((TreeViewItem))
+    private void TreeViewItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e) {
+        e.Handled = true;
+        //var item = (TreeViewItem)sender;
+        //if (item != null) {
+        //    // move horizontal scrollbar only when event reached last parent item
+        //    if (item.Parent == null) {
+        //        var scrollViewer = treeViewGroups.Template.FindName("_tv_scrollviewer_", treeViewGroups) as ScrollViewer;
+        //        if (scrollViewer != null)
+        //            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, (Action)(() => scrollViewer.ScrollToLeftEnd()));
+        //    }
+        //}
     }
 
     //private void TreeViewItem_MouseDoubleClick(object sender, MouseEventArgs e) {
