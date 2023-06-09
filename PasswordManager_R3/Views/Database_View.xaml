@@ -532,7 +532,7 @@
                                        Text="{TemplateBinding Header}" />-->
                             <ItemsPresenter x:Name="itemsHost"
                                             Grid.Column="1"
-                                            Grid.ColumnSpan="2"
+                                            Grid.ColumnSpan="1"
                                             Grid.Row="1"
                                             Visibility="Collapsed"/>
                             
