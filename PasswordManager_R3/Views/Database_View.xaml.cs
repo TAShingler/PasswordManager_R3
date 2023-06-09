@@ -35,4 +35,34 @@ public partial class Database_View : UserControl {
             //selectedRecordInfoPaneGridRow.Height = GridLength.Auto;
         }
     }
+
+    private void treeViewGroups_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
+        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.NewValue: {e.NewValue}");
+        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.OldValue: {e.OldValue}");
+        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.Source: {e.Source}");
+        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.OriginalSource: {e.OriginalSource}");
+        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.Handled: {e.Handled}");
+        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.RoutedEvent: {e.RoutedEvent}");
+        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.GetType: {e.GetType}");
+        System.Diagnostics.Debug.WriteLine($"treeViewGroups_SelectedItemChanged e.ToString: {e.ToString}");
+
+        //((TreeViewItem))
+    }
+
+    //private void TreeViewItem_MouseDoubleClick(object sender, MouseEventArgs e) {
+    //    if (sender is TreeViewItem) {
+    //        ((TreeViewItem)sender).IsExpanded = !((TreeViewItem)sender).IsExpanded;
+    //    }
+    //}
+
+    //private void TreeViewItem_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+    //    //System.Diagnostics.Debug.WriteLine($"TreeViewItem_PreviewMouseDoubleClick sender: {sender.GetType()}");
+    //    if (sender is TreeViewItem) {
+    //        ((TreeViewItem)sender).IsExpanded = !((TreeViewItem)sender).IsExpanded;
+    //    }
+    //}
+
+    //private void TreeView_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+    //    System.Diagnostics.Debug.WriteLine($"TreeView_PreviewMouseDoubleClick sender: {sender.GetType()}");
+    //}
 }
