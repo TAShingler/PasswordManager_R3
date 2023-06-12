@@ -39,11 +39,11 @@ internal class Database_ViewModel : ViewModelBase {
 
     #region Delegates and Events
     //delegates
-    internal delegate void GroupSelectionChangedEventHandler(object obj);
-    internal delegate void RecordSelectionChangedEventHandler(object obj);
+    internal delegate void SelectedGroupChangedEventHandler(object obj);
+    internal delegate void SelectedRecordChangedEventHandler(object obj);
     //events
-    internal event GroupSelectionChangedEventHandler? GroupSelectionChanged;
-    internal event RecordSelectionChangedEventHandler? RecordSelectionChanged;
+    internal event SelectedGroupChangedEventHandler? SelectedGroupChanged;
+    internal event SelectedRecordChangedEventHandler? SelectedRecordChanged;
     #endregion Delegates and Events
 
     #region Properties
@@ -62,6 +62,16 @@ internal class Database_ViewModel : ViewModelBase {
         set {
             _selectedRecord = value;
             OnPropertyChanged(nameof(SelectedRecord));
+            OnPropertyChanged(nameof(SrTitle));
+            OnPropertyChanged(nameof(SrUsername));
+            OnPropertyChanged(nameof(SrEmail));
+            OnPropertyChanged(nameof(SrPassword));
+            OnPropertyChanged(nameof(SrUrl));
+            OnPropertyChanged(nameof(SrNotes));
+            OnPropertyChanged(nameof(SrExpirationDate));
+            OnPropertyChanged(nameof(SrCreatedDate));
+            OnPropertyChanged(nameof(SrModifiedDate));
+            OnPropertyChanged(nameof(SrGuid));
         }
     }
     public bool SrUsernameMasked {
@@ -104,78 +114,91 @@ internal class Database_ViewModel : ViewModelBase {
         set { _srIcon = value;}
     }
     public string SrTitle {
-        get { return _srTitle; }
-        //set {
-        //    _srTitle = value;
-        //    OnPropertyChanged(nameof(SrTitle));
-        //}
+        get {
+            if (SelectedRecord == null)
+                return string.Empty;
+
+            return SelectedRecord.Title;
+        }
     }
     public string SrUsername {
-        get { return _srUsername; }
-        set {
-            _srUsername = value;
-            OnPropertyChanged(nameof(SrUsername));
+        get {
+            if (SelectedRecord == null)
+                return string.Empty;
+
+            return SelectedRecord.Username;
         }
     }
     public string SrEmail {
-        get { return _srEmail; }
-        set {
-            _srEmail = value;
-            OnPropertyChanged(nameof(SrEmail));
+        get {
+            if (SelectedRecord == null)
+                return string.Empty;
+
+            return SelectedRecord.Email;
         }
     }
     public string SrPassword {
-        get { return _srPassword; }
-        set {
-            _srPassword = value;
-            OnPropertyChanged(nameof(SrPassword));
+        get {
+            if (SelectedRecord == null)
+                return string.Empty;
+
+            return SelectedRecord.Password;
         }
     }   //might use SecureString instead...
     public string SrUrl {
-        get { return _srUrl; }
-        set {
-            _srUrl = value;
-            OnPropertyChanged(nameof(SrUrl));
+        get {
+            if (SelectedRecord == null)
+                return string.Empty;
+
+            return SelectedRecord.URL;
         }
     }
     public string SrNotes {
-        get { return _srNotes; }
-        set {
-            _srNotes = value;
-            OnPropertyChanged(nameof(SrNotes));
+        get {
+            if (SelectedRecord == null)
+                return string.Empty;
+
+            return SelectedRecord.Notes;
         }
     }
     public string SrExpirationDate {
-        get { return _srExpirationDate; }
-        set {
-            _srExpirationDate = value;
-            OnPropertyChanged(nameof(SrExpirationDate));
+        get {
+            if (SelectedRecord == null)
+                return string.Empty;
+
+            if (SelectedRecord.ExpirationDate == null)
+                return string.Empty;
+
+            return SelectedRecord.ExpirationDate.ToString();
         }
     }
     public string SrCreatedDate {
-        get { return _srCreatedDate; }
-        set {
-            _srCreatedDate = value;
-            OnPropertyChanged(nameof(SrCreatedDate));
+        get {
+            if (SelectedRecord == null)
+                return string.Empty;
+
+            return SelectedRecord.CreatedDate.ToString();
         }
     }
     public string SrModifiedDate {
-        get { return _srModifiedDate; }
-        set {
-            _srModifiedDate = value;
-            OnPropertyChanged(nameof(SrModifiedDate));
+        get {
+            if (SelectedRecord == null)
+                return string.Empty;
+
+            return SelectedRecord.ModifiedDate.ToString();
         }
     }
     public string SrGuid {
-        get { return _srGuid; }
-        set {
-            _srGuid = value;
-            OnPropertyChanged(nameof(SrGuid));
+        get {
+            if (SelectedRecord == null)
+                return string.Empty;
+
+            return SelectedRecord.GUID;
         }
     }
 
     //DelegetCommand Properties
-    public Utils.DelegateCommand? OnGroupSelectionChangedCommand { get; set; }
+    public Utils.DelegateCommand? GroupSelectedItemChangedCommand { get; set; }
     public Utils.DelegateCommand? OnRecordSelectionChangedCommand { get; set; }
     public Utils.DelegateCommand? CopyToClipboardCommand { get; set; }
     public Utils.DelegateCommand? ToggleUsernameMaskCommand { get; set; }
@@ -241,7 +264,7 @@ internal class Database_ViewModel : ViewModelBase {
                     GUID=Guid.NewGuid().ToString(),
                     HasExpirationDate=true,
                     ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes again..."
+                    HasNotes=true, Notes="here are some notes again...\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAnd a bunch of empty lines..."
                 },
                 new Models.Record() {
                     Title="TestTitle",
@@ -481,7 +504,7 @@ internal class Database_ViewModel : ViewModelBase {
         //SrModifiedDate = SelectedRecord.ModifiedDate.ToString(); //"TestModifiedDate",
         //SrGuid = "TestGuid";
 
-        OnGroupSelectionChangedCommand = new Utils.DelegateCommand(OnGroupSelectionChanged);
+        GroupSelectedItemChangedCommand = new Utils.DelegateCommand(OnGroupSelectionChanged);
         OnRecordSelectionChangedCommand = new Utils.DelegateCommand(OnRecordSelectionChanged);
         CopyToClipboardCommand = new Utils.DelegateCommand(CopyValueToClipboard);
         ToggleUsernameMaskCommand = new Utils.DelegateCommand(ToggleUsernameMask);
@@ -493,31 +516,48 @@ internal class Database_ViewModel : ViewModelBase {
         SomeCommand = new Utils.DelegateCommand(OnSomeCommand);
     }
     private void OnSomeCommand(object obj) {
-        System.Diagnostics.Debug.WriteLine(obj.ToString());
+        //System.Diagnostics.Debug.WriteLine(obj.ToString());
+        if (SelectedGroup != null)
+            System.Diagnostics.Debug.WriteLine($"SelectedGroup.Title: {SelectedGroup.Title}");
+        else
+            System.Diagnostics.Debug.WriteLine("SelectedGroup is null");
+
+        if (SelectedRecord != null)
+            System.Diagnostics.Debug.WriteLine($"SelectedRecord.Title: {SelectedRecord.Title}");
+        else
+            System.Diagnostics.Debug.WriteLine("SelectedRecord is null");
+
     }
     #endregion Constructors
 
     #region Other Methods
     private void OnGroupSelectionChanged(object obj) {
         //do something
-        GroupSelectionChanged?.Invoke(obj);
+        SelectedGroup = null;
+        //System.Diagnostics.Debug.WriteLine("OnGroupSelectionChanged obj type: " + obj.GetType());
+        if (obj is Models.Group)//.GetType().Equals(typeof(Models.Group)))
+            SelectedGroup = obj as Models.Group;
+        //System.Diagnostics.Debug.WriteLine("SelectedGroup title: " + SelectedGroup.Title);
+        SelectedGroupChanged?.Invoke(obj == null ? true : false);
     }
     private void OnRecordSelectionChanged(object obj) { //need to fix -- throwing errors
-        System.Diagnostics.Debug.WriteLine("OnRecordSelectionChanged obj type: " + obj.GetType());
         //do somehting
-        if (obj == null)
-            return;
+        //if (obj == null)
+        //    return;
+        //System.Diagnostics.Debug.WriteLine("OnRecordSelectionChanged obj type: " + obj.GetType());
 
-        SrPassword = string.Empty;  //reset password before setting new password
+        //SrPassword = string.Empty;  //reset password before setting new password
+        SelectedRecord = null;
 
         if (obj is Models.Record) {
-            Models.Record rec = (Models.Record)obj;
-            SrPassword = rec.Password;
+            //Models.Record rec = (Models.Record)obj;
+            //SrPassword = rec.Password;
+            SelectedRecord = obj as Models.Record;
         }
+        //System.Diagnostics.Debug.WriteLine("SelectedRecord title: " + SelectedRecord.Title);
+        SelectedRecordChanged?.Invoke(obj == null ? true : false);
 
-        RecordSelectionChanged?.Invoke(obj);
-
-        System.Diagnostics.Debug.WriteLine("obj to string: " + obj.ToString());
+        //System.Diagnostics.Debug.WriteLine("obj to string: " + obj.ToString());
     }
     private void CopyValueToClipboard(object obj) {
         //do something
@@ -531,10 +571,10 @@ internal class Database_ViewModel : ViewModelBase {
 
         if (objAsBool == true) {
             //mask
-            SrUsername = MASK_STRING;
+            //SrUsername = MASK_STRING;
         } else {
             //unmask
-            SrUsername = SelectedRecord.Username;
+            //SrUsername = SelectedRecord.Username;
         }
 
         System.Diagnostics.Debug.WriteLine("ToggleUsernameMask");
@@ -546,10 +586,10 @@ internal class Database_ViewModel : ViewModelBase {
 
         if (objAsBool == true) {
             //mask
-            SrEmail = MASK_STRING;
+            //SrEmail = MASK_STRING;
         } else {
             //unmask
-            SrEmail = SelectedRecord.Email;
+            //SrEmail = SelectedRecord.Email;
         }
     }
     private void TogglePasswordMask(object obj) {
@@ -559,10 +599,10 @@ internal class Database_ViewModel : ViewModelBase {
 
         if (objAsBool == true) {
             //mask
-            SrPassword = MASK_STRING;
+            //SrPassword = MASK_STRING;
         } else {
             //unmask
-            SrPassword = SelectedRecord.Password;
+            //SrPassword = SelectedRecord.Password;
         }
     }
     private void ToggleUrlMask(object obj) {
@@ -572,10 +612,10 @@ internal class Database_ViewModel : ViewModelBase {
 
         if (objAsBool == true) {
             //mask
-            SrUrl = MASK_STRING;
+            //SrUrl = MASK_STRING;
         } else {
             //unmask
-            SrUrl = SelectedRecord.URL;
+            //SrUrl = SelectedRecord.URL;
         }
     }
     private void ToggleNotesMask(object obj) {
@@ -585,10 +625,10 @@ internal class Database_ViewModel : ViewModelBase {
 
         if (objAsBool == true) {
             //mask
-            SrNotes = MASK_STRING;
+            //SrNotes = MASK_STRING;
         } else {
             //unmask
-            SrNotes = SelectedRecord.Notes;
+            //SrNotes = SelectedRecord.Notes;
         }
     }
     #endregion Other Methods

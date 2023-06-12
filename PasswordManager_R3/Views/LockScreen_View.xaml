@@ -11,6 +11,7 @@
              d:DesignWidth="400"
              Width="400"
              Height="180"
+             SnapsToDevicePixels="True"
              Unloaded="UserControl_Unloaded">
 
     <!--<UserControl.DataContext>

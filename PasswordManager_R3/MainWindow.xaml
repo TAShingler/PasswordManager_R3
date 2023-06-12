@@ -13,6 +13,7 @@
         Height="600"
         MinWidth="800"
         Width="800"
+        SnapsToDevicePixels="True"
         Background="{StaticResource solidColorBrush-static-background}"
         WindowState="{Binding WinState}"
         x:Name="WinMain">
@@ -48,9 +49,11 @@
             <views:AddEditGroup_View />
         </DataTemplate>
         
-        <!--//  CONVERTERS  //-->
+        <!--#region //  CONVERTERS  //-->
         <converters:ViewStateToVisibilityConverter x:Key="ViewStateToVisibilityConverter" />
         <converters:ViewStateToBorderThicknessConverter x:Key="ViewStateToBorderThicknessConverter" />
+        <converters:BooleanToEnabledConverter x:Key="BooleanToEnabledConverter" />
+        <!--#endregion //  CONVERTERS  //-->
 
         <!--//  COLORS  //-->
         <Color x:Key="ThemeTextColor" A="255" R="230" G="230" B="230" />

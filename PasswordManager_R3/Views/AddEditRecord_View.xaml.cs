@@ -68,4 +68,14 @@ public partial class AddEditRecord_View : UserControl {
     private void UserControl_Loaded(object sender, RoutedEventArgs e) {
         pWrdBox.Password = textBoxPassword.Text;
     }
+
+    private void listViewTabDecrementButton_Click(object sender, RoutedEventArgs e) {
+        if (listViewTabSelector.SelectedIndex > 0)
+            listViewTabSelector.SelectedIndex--;
+    }
+
+    private void listViewTabIncrementButton_Click(object sender, RoutedEventArgs e) {
+        if (listViewTabSelector.SelectedIndex < listViewTabSelector.Items.Count)
+            listViewTabSelector.SelectedIndex++;
+    }
 }

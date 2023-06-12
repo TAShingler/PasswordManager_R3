@@ -26,6 +26,9 @@ public partial class Database_View : UserControl {
         if (selectedRecordInfoPane.Visibility == Visibility.Collapsed) {
             selectedRecordInfoPane.Visibility = Visibility.Visible;
             buttonSelectedRecordInfoPaneExpander.Visibility = Visibility.Collapsed;
+
+            rowRightColBottomRow.MinHeight = selectedRecordInfoPane.MinHeight;
+            rowRightColBottomRow.Height = new GridLength(1, GridUnitType.Star);
             //selectedRecordInfoPaneGridRow.MinHeight = 220;
             //selectedRecordInfoPaneGridRow.Height = new GridLength(0.75, GridUnitType.Star);
         } else {
@@ -33,6 +36,8 @@ public partial class Database_View : UserControl {
             buttonSelectedRecordInfoPaneExpander.Visibility = Visibility.Visible;
             //selectedRecordInfoPaneGridRow.MinHeight = 24;
             //selectedRecordInfoPaneGridRow.Height = GridLength.Auto;
+            rowRightColBottomRow.MinHeight = 0;
+            rowRightColBottomRow.Height = GridLength.Auto;
         }
     }
 
@@ -47,6 +52,10 @@ public partial class Database_View : UserControl {
         //            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, (Action)(() => scrollViewer.ScrollToLeftEnd()));
         //    }
         //}
+    }
+
+    private void buttonTreeViewDisplayContextMenu_Click(object sender, RoutedEventArgs e) {
+
     }
 
     //private void TreeViewItem_MouseDoubleClick(object sender, MouseEventArgs e) {

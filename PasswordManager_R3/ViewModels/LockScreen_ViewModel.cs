@@ -77,6 +77,8 @@ internal class LockScreen_ViewModel : ViewModelBase {
             return;
         }
 
+        //Add check for specific criteria?
+
         if (FIRST_RUN == true) {
             CreateMasterPassword(objAsString);
         }

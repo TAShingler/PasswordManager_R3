@@ -1,11 +1,4 @@
-﻿using PasswordManager_R3.Views;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 
 namespace PasswordManager_R3.ViewModels;
@@ -343,18 +336,18 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
 
         Database_ViewModel databaseVM = new Database_ViewModel(this);
-        databaseVM.RecordSelectionChanged += OnRecordSelectionChanged;
-        databaseVM.GroupSelectionChanged += OnGroupSelectionChanged;
+        databaseVM.SelectedRecordChanged += OnSelectedRecordChanged;
+        databaseVM.SelectedGroupChanged += OnSelectedGroupChanged;
         SelectedViewModel = databaseVM;
 
         ButtonLockDatabaseIsEnabled = true;
-        ButtonAddRecordIsEnabled = true;
-        ButtonEditRecordIsEnabled = true;
-        ButtonDeleteRecordIsEnabled = true;
-        ButtonUsernameToClipboardIsEnabled = true;
-        ButtonPasswordToClipboardIsEnabled = true;
-        ButtonUrlToClipboardIsEnabled = true;
-        ButtonPasswordGeneratorIsEnabled = true;
+        ButtonAddRecordIsEnabled = false;
+        ButtonEditRecordIsEnabled = false;
+        ButtonDeleteRecordIsEnabled = false;
+        ButtonUsernameToClipboardIsEnabled = false;
+        ButtonPasswordToClipboardIsEnabled = false;
+        ButtonUrlToClipboardIsEnabled = false;
+        ButtonPasswordGeneratorIsEnabled = false;
         ButtonAppSettingsIsEnabled = true;
         WindowStatusBarContentGridVisibility = Visibility.Visible;
     }
@@ -454,17 +447,45 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //does not change views; copies url of selected record to system clipboard
     }
     //Event handler to handle GroupSelected event propogated in Database_ViewModel and bubbled to MainWindow_ViewModel
-    private void OnGroupSelectionChanged(object obj) {
+    private void OnSelectedGroupChanged(object obj) {
         //do somehting
-        SelectedGroup = (Models.Group)obj;
+        //SelectedGroup = (Models.Group)obj;
+
+        System.Diagnostics.Debug.WriteLine("OnSelectedGroupChanged obj: " + obj);
+
+        bool objAsBool = (bool)obj;
+
+        if (objAsBool == false) {    //ViewModels.Database_ViewModel.SelectedRecord is null
+            ButtonAddRecordIsEnabled = true;
+        } else {    //ViewModels.Database_ViewModel.SelectedRecord is not null
+            ButtonEditRecordIsEnabled = false;
+        }
     }
     //Event handler to handle RecordSelected event propogated in Database_ViewModel and bubbled to MainWindow_ViewModel
-    private void OnRecordSelectionChanged(object obj) {
+    private void OnSelectedRecordChanged(object obj) {
         //do something
-        if (SelectedRecord != null) {
-            SelectedRecord = (Models.Record)obj;
-        } else {
-            SelectedRecord = null;
+        //if (SelectedRecord != null) {
+        //    SelectedRecord = (Models.Record)obj;
+        //} else {
+        //    SelectedRecord = null;
+        //}
+        System.Diagnostics.Debug.WriteLine("OnSelectedRecordChanged obj: " + obj);
+
+
+        bool objAsBool = (bool)obj;
+
+        if (objAsBool == false) {    //ViewModels.Database_ViewModel.SelectedRecord is null
+            ButtonEditRecordIsEnabled = true;
+            ButtonDeleteRecordIsEnabled = true;
+            ButtonUsernameToClipboardIsEnabled = true;
+            ButtonPasswordToClipboardIsEnabled = true;
+            ButtonUrlToClipboardIsEnabled = true;
+        } else {    //ViewModels.Database_ViewModel.SelectedRecord is not null
+            ButtonEditRecordIsEnabled = false;
+            ButtonDeleteRecordIsEnabled = false;
+            ButtonUsernameToClipboardIsEnabled = false;
+            ButtonPasswordToClipboardIsEnabled = false;
+            ButtonUrlToClipboardIsEnabled = false;
         }
     }
     #endregion Misc. Event Handlers

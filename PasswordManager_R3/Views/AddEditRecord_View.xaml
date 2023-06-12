@@ -1801,13 +1801,15 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Button Grid.Row="0"
+                        <Button x:Name="listViewTabDecrementButton"
+                                Grid.Row="0"
                                 Height="16"
                                 Foreground="Gainsboro"
                                 Background="#333"
                                 BorderBrush="#666"
                                 BorderThickness="0"
-                                Style="{StaticResource ListViewUpButtonStyle}" />
+                                Style="{StaticResource ListViewUpButtonStyle}"
+                                Click="listViewTabDecrementButton_Click"/>
                         <!--//  Eventually need to make ListView width Auto and scale with ListViewItem contents  //-->
                         <ListView x:Name="listViewTabSelector"
                                   Grid.Row="1"
@@ -1828,13 +1830,15 @@
                             <ListViewItem Content="Properties"
                                           Style="{StaticResource EntryPropertiesListViewItem}" />
                         </ListView>
-                        <Button Grid.Row="2"
+                        <Button x:Name="listViewTabIncrementButton"
+                                Grid.Row="2"
                                 Height="16"
                                 Foreground="Gainsboro"
                                 Background="#333"
                                 BorderBrush="#666"
                                 BorderThickness="0"
-                                Style="{StaticResource ListViewDownButtonStyle}" />
+                                Style="{StaticResource ListViewDownButtonStyle}"
+                                Click="listViewTabIncrementButton_Click"/>
                     </Grid>
                 </Border>
 
