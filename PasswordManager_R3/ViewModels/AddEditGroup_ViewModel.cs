@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PasswordManager_R3.ViewModels;
 internal class AddEditGroup_ViewModel : ViewModelBase {
     #region Fields
+    private readonly bool _isNewGroup = true;
+    private readonly Models.Group _parentGroup;
+
+    //group selected in DataGrid in Databse_View
+    private readonly Models.Group? _selectedGroup = null;
+
     //Group object fields
-    private readonly Models.Group? _selectedGroup = new();
     private string _sgName = string.Empty;
     private bool _sgHasExpriationDate = false;
     private string? _sgExpirationDate = string.Empty;
@@ -83,6 +91,7 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
     public string SgGuid {
         get { return _sgGuid; }
     }
+
     //DelegateCommands
     public Utils.DelegateCommand OkButtonCommand { get; set; }
     public Utils.DelegateCommand CancelButtonCommand { get; set; }
@@ -92,11 +101,12 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
     public AddEditGroup_ViewModel(ViewModelBase parentVM, Models.Group? selectedGroup = null) : base(parentVM) {
         //do something
         if (selectedGroup != null) {
+            _isNewGroup = false;
             _selectedGroup = selectedGroup;
 
             SgName = selectedGroup.Title;
             SgHasExpirationDate = selectedGroup.HasExpirationDate;
-            SgExpirationDate = selectedGroup.ExpirationDate.ToString();
+            SgExpirationDate = selectedGroup.ExpirationDate != null ? selectedGroup.ExpirationDate.ToString() : string.Empty;
             SgSearchOptions = string.Empty; //selectedGroup.SearchOptions;
             SgHasNotes = selectedGroup.HasNotes;
             SgNotes = selectedGroup.Notes;
@@ -113,7 +123,72 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
 
     #region Other Methods
     private void OnOkButtonCommand(object obj) {
-        System.Diagnostics.Debug.WriteLine("Group_ViewModel OnOkButtonCommand() executed...");
+        System.Diagnostics.Debug.WriteLine("AddEditGroup_ViewModel OnOkButtonCommand() executed...");
+        DateTime? userExpirationDate;
+
+        if (!String.IsNullOrEmpty(SgExpirationDate)) {
+            try {
+                userExpirationDate = DateTime.Parse(SgExpirationDate);
+            } catch (FormatException ex) {
+                MessageBox.Show(
+                    "Expriation Date entered is not formatted correctly.",
+                    "Expriation Date Format Exception",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
+        } else {
+            userExpirationDate = null;
+        }
+
+        System.Diagnostics.Debug.WriteLine(
+            $"\n\nSgTitle = {SgName}" +
+            $"\nSgHasExpirationDate = {SgHasExpirationDate}" +
+            $"\nSgExpriationDate = {SgExpirationDate}" +
+            $"\nSgSearchOptions = {SgSearchOptions}" +
+            $"\nSgHasNotes = {SgHasNotes}" +
+            $"\nSgNotes = {SgNotes}" +
+            $"\nSgCreatedDate = {SgCreatedDate}" +
+            $"\nSgModifiedDate = {SgUpdatedDate}" +
+            $"\nSgGuid = {SgGuid}\n\n");
+
+        //check whether is new record
+        if (_isNewGroup == true) { //true
+            //create Models.Record obj and set values from corresponding UIElements for created obj
+            Models.Group newGroup = new() {
+                //ParentGUID = _parentGroup.GUID,
+                //ParentGroup = _parentGroup,
+                GUID = Guid.NewGuid().ToString(),   //will need method to loop through all objects in database to avoid duplicate GUIDs
+                Title = SgName, 
+                HasExpirationDate = SgHasExpirationDate,
+                ExpirationDate = userExpirationDate,
+                HasNotes = SgHasNotes,
+                Notes = SgNotes
+            };
+            System.Diagnostics.Debug.WriteLine("AddEditGroup_ViewModel _isNewGroup = true");
+
+            //write obj to database
+            //AppVariables.DatabaseConnection.InsertData(newRecord);
+
+            //invoke CreateRecord event to change view
+            CreateGroup?.Invoke();// this, EventArgs.Empty);
+        } else {    //false
+            //set values from corresponding UIElements for _selectedRecord
+            _selectedGroup.Title = SgName;
+            _selectedGroup.HasExpirationDate = SgHasExpirationDate;
+            _selectedGroup.ExpirationDate = userExpirationDate;
+            _selectedGroup.HasNotes = SgHasNotes;
+            _selectedGroup.Notes = SgNotes;
+            _selectedGroup.ModifiedDate = DateTime.Now;
+            System.Diagnostics.Debug.WriteLine("AddEditGroup_ViewModel _isNewRecord = false");
+
+            //write updated obj to database
+            //AppVariables.DatabaseConnection.InsertData(newRecord);
+
+            //invoke UpdateRecord event to change view
+            UpdateGroup?.Invoke();// this, EventArgs.Empty);
+        }
+
     }
     private void OnCancelButtonCommand(object obj) {
         CancelAddEditGroup?.Invoke();

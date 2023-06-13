@@ -134,10 +134,10 @@ internal class DatabaseOperations {
         System.Data.SQLite.SQLiteCommand sqlCommand;
 
         //serialize object passed to method to JSON string
-        string serializedObj = Newtonsoft.Json.JsonConvert.SerializeObject(obj, _serializerSettings);
+        string serializedObj = Newtonsoft.Json.JsonConvert.SerializeObject(obj, _serializerSettings);   //may need try block
 
         //encrypt serialized object string
-        string encryptedObj = Utils.EncryptionTools.EncryptObjectStringToBase64String(serializedObj);
+        string encryptedObj = Utils.EncryptionTools.EncryptObjectStringToBase64String(serializedObj);   //may need try block
 
         //write encrypted serialized object string to DB
         OpenConnection();
@@ -148,13 +148,24 @@ internal class DatabaseOperations {
         if (obj is Models.Group) {
             sqlCommand.CommandText = $"INSERT INTO {GROUPS_TABLE_NAME} (Data) VALUES (@encryptedObj);";
             //sqlCommand.CommandText = $"INSERT INTO {GROUPS_TABLE_NAME} (Data) VALUES ({encryptedObj});";
-        } else {
+        }
+
+        if (obj is Models.Record) {
             sqlCommand.CommandText = $"INSERT INTO {RECORDS_TABLE_NAME} (Data) VALUES (@encryptedObj);";
             //sqlCommand.CommandText = $"INSERT INTO {RECORDS_TABLE_NAME} (Data) VALUES ({encryptedObj});";
         }
 
-        sqlCommand.Parameters.Add("@encryptedObj", System.Data.DbType.String, encryptedObj.Length).Value = encryptedObj;
-        sqlCommand.ExecuteNonQuery();
+        try {
+            sqlCommand.Parameters.Add("@encryptedObj", System.Data.DbType.String, encryptedObj.Length).Value = encryptedObj;
+            sqlCommand.ExecuteNonQuery();
+        } catch(Exception ex) {
+            System.Windows.MessageBox.Show(
+                $"Failed to write object of type {obj.GetType().FullName} to database.\nAborting Insert operation...",
+                $"{ex.GetType().Name} Exception",
+                System.Windows.MessageBoxButton.OK,
+                System.Windows.MessageBoxImage.Error);
+            return;
+        }
 
         sqlCommand.Dispose();
         CloseConnection();

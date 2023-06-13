@@ -355,10 +355,21 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private void OnAddRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onAddRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel();
-        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);
-        addEditRecordVM.CreateRecord += (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
-        addEditRecordVM.CancelAddEditRecord += OnSetDatabaseView;
-        SelectedViewModel = addEditRecordVM;
+
+        //AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);
+        //addEditRecordVM.CreateRecord += (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
+        //addEditRecordVM.CancelAddEditRecord += OnSetDatabaseView;
+        //SelectedViewModel = addEditRecordVM;
+
+        AddEditGroup_ViewModel addEditGroupVM = new(this);
+        addEditGroupVM.CreateGroup += () => {
+            System.Diagnostics.Debug.WriteLine("addEditGroup_ViewModel Ok Button clicked to create group");
+        };
+        addEditGroupVM.UpdateGroup += () => {
+            System.Diagnostics.Debug.WriteLine("addEditGroup_ViewModel Ok Button clicked to update group");
+        };
+        addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
+        SelectedViewModel = addEditGroupVM;
 
         ButtonLockDatabaseIsEnabled = false;
         ButtonAddRecordIsEnabled = false;
@@ -377,7 +388,47 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //CurrentView = new ViewModels.AddEditRecord_ViewModel(); //will need to have 2 constructors -- one for add record, the other for edit record
         //AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);// this);
         //SelectedViewModel = addEditRecordVM;
-        AddEditGroup_ViewModel addEditGroupVM = new(this);
+
+        //AddEditGroup_ViewModel addEditGroupVM = new(this);
+        //addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
+        //SelectedViewModel = addEditGroupVM;
+
+        //AddEditRecord_ViewModel addEditRecordVM = new(this, new Models.Record() {
+        //    Title = "Record passed to ViewModel Title",
+        //    Username = "Record passed to ViewModel Username",
+        //    Email = "Record passed to ViewModel Email",
+        //    Password = "Record passed to ViewModel Password",
+        //    URL = "Record passed to ViewModel Url",
+        //    Notes = "Record passed to ViewModel Notes",
+        //    CreatedDate = DateTime.Now,
+        //    ExpirationDate = DateTime.Now.AddMonths(6),
+        //    GUID = Guid.NewGuid().ToString(),
+        //    HasNotes = true,
+        //    HasExpirationDate = true,
+        //    ModifiedDate = DateTime.Now.AddDays(8),
+        //    Tags = "Record passed to ViewModel Tags"
+        //});
+        //addEditRecordVM.CreateRecord += (object obj, EventArgs e) => {
+        //    System.Diagnostics.Debug.WriteLine("Edited object saved to database");
+        //};
+        //addEditRecordVM.CancelAddEditRecord += OnSetDatabaseView;
+        //SelectedViewModel = addEditRecordVM;
+
+        AddEditGroup_ViewModel addEditGroupVM = new(
+            this,
+            new() { Title="test group title",
+                ExpirationDate = DateTime.Now,
+                HasExpirationDate = true,
+                HasNotes = true,
+                Notes = "test group notes...",
+                GUID = Guid.NewGuid().ToString()
+        });
+        addEditGroupVM.CreateGroup += () => {
+            System.Diagnostics.Debug.WriteLine("addEditGroup_ViewModel Ok Button clicked to create group");
+        };
+        addEditGroupVM.UpdateGroup += () => {
+            System.Diagnostics.Debug.WriteLine("addEditGroup_ViewModel Ok Button clicked to update group");
+        };
         addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
         SelectedViewModel = addEditGroupVM;
 
