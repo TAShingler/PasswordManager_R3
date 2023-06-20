@@ -23,22 +23,34 @@ public partial class AddEditRecord_View : UserControl {
     }
 
     private void textBoxPassword_TextChanged(object sender, TextChangedEventArgs e) {
-        if (textBoxPassword.Visibility == Visibility.Visible &&
-            pWrdBox.Visibility == Visibility.Collapsed) {
+        //if (textBoxPassword.Visibility == Visibility.Visible &&
+        //    pWrdBox.Visibility == Visibility.Collapsed) {
 
-            pWrdBox.Password = textBoxPassword.Text;
-        }
+            //System.Diagnostics.Debug.WriteLine("textBoxPassword_TextChanged executed...");
+            
+            //System.Diagnostics.Debug.WriteLine($"textBoxPassword_TextChanged e.Handled before setting pWrdBox.Password = {e.Handled}");
+            //if (pWrdBox.Password.Equals(textBoxPassword.Text) == false)
+        pWrdBox.Password = textBoxPassword.Text;
+        e.Handled = true;
+            //System.Diagnostics.Debug.WriteLine($"textBoxPassword_TextChanged e.Handled after setting pWrdBox.Password = {e.Handled}");
+        //}
     }
 
     private void pWrdBox_PasswordChanged(object sender, RoutedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("pWrdBoxPassword_TextChanged executed...");
+
         if (pWrdBox.Visibility == Visibility.Visible &&
             textBoxPassword.Visibility == Visibility.Collapsed) {
 
+            //System.Diagnostics.Debug.WriteLine($"textBoxPassword_TextChanged e.Handled before setting pWrdBox.Password = {e.Handled}");
             textBoxPassword.Text = pWrdBox.Password;
+            e.Handled = true;
+            //System.Diagnostics.Debug.WriteLine($"textBoxPassword_TextChanged e.Handled after setting pWrdBox.Password = {e.Handled}");
         }
 
         pWrdBox.Focus();
         pWrdBox.GetType().GetMethod("Select", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).Invoke(pWrdBox, new object[] { pWrdBox.Password.Length, 0 });
+        e.Handled = true;
     }
 
     private void toggleButtonMaskPassword_Click(object sender, RoutedEventArgs e) {
@@ -77,5 +89,34 @@ public partial class AddEditRecord_View : UserControl {
     private void listViewTabIncrementButton_Click(object sender, RoutedEventArgs e) {
         if (listViewTabSelector.SelectedIndex < listViewTabSelector.Items.Count)
             listViewTabSelector.SelectedIndex++;
+    }
+
+    private void expirationDateCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e) {
+        //System.Diagnostics.Debug.WriteLine("Expiration Date changed to " + expirationDateCalendar.SelectedDate);
+        System.Diagnostics.Debug.WriteLine("expirationDateCalendar_SelectedDatesChanged called...");
+    }
+
+    private void expirationDateCalendar_SelectionModeChanged(object sender, EventArgs e) {
+        System.Diagnostics.Debug.WriteLine("expirationDateCalendar_SelectionModeChanged called...");
+    }
+
+    private void expirationDateCalendar_DisplayDateChanged(object sender, CalendarDateChangedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("expirationDateCalendar_DisplayDateChanged called...");
+    }
+
+    private void expirationDateCalendar_SourceUpdated(object sender, DataTransferEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("expirationDateCalendar_SourceUpdated called...");
+    }
+
+    private void expirationDateCalendar_TargetUpdated(object sender, DataTransferEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("expirationDateCalendar_TargetUpdated called...");
+    }
+
+    private void expirationDateCalendar_TextInput(object sender, TextCompositionEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("expirationDateCalendar_TextInput called...");
+    }
+
+    private void comboBoxExpirationDatePresets_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+        comboBoxExpirationDatePresets.SelectedIndex = -1;
     }
 }

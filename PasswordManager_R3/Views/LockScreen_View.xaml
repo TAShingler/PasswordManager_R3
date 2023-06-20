@@ -60,13 +60,23 @@
                         </Grid>
 
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="MaskContentGlyph" Property="Fill" Value="DimGray" />
-                                <Setter TargetName="UnmaskContentGlyph" Property="Fill" Value="DimGray" />
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+                                <Setter TargetName="MaskContentGlyph"
+                                        Property="Fill"
+                                        Value="DimGray" />
+                                <Setter TargetName="UnmaskContentGlyph"
+                                        Property="Fill"
+                                        Value="DimGray" />
                             </Trigger>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="MaskContentGlyph" Property="Visibility" Value="Collapsed" />
-                                <Setter TargetName="UnmaskContentGlyph" Property="Visibility" Value="Visible" />
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+                                <Setter TargetName="MaskContentGlyph"
+                                        Property="Visibility"
+                                        Value="Collapsed" />
+                                <Setter TargetName="UnmaskContentGlyph"
+                                        Property="Visibility"
+                                        Value="Visible" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
                                 <Setter TargetName="MaskContentGlyph" Property="Visibility" Value="Visible" />

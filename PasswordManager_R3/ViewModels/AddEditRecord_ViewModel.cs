@@ -11,6 +11,11 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
     #region Fields
     private readonly bool _isNewRecord = true;
     private readonly Models.Group _parentGroup;
+    private const int MAX_PASSWORD_LENGTH = 128;    //may move fields, properties, and methods related to password generator Popup to their own ViewModel for the Popup -- maybe...
+    private const int MIN_PASSWORD_LENGTH = 8;
+    private const string LOWERCASE_LETTERS = "abcdefghijklmnopqrstuvwxyz";
+    private const string NUMBERS = "0123456789";
+    private const string SPECIAL_CHARACTERS = @"%-_@~! =[]&#+,."; //allowed in Windows OS, but not Linux/UNIX: $, apostrophe, quotation marks, parantheses -- not sure about accent (tilde button w/out holding shift)
 
     //record selected in DataGrid in Databse_View
     private readonly Models.Record? _selectedRecord = null;
@@ -29,6 +34,16 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
     private readonly string _srCreatedDate = string.Empty;
     private readonly string _srModifiedDate = string.Empty;
     private readonly string _srGuid = string.Empty;
+
+    //fields for Properties Popup in View binds to
+    private int _pgLength = 12;
+    private bool _pgIncludesUppercaseLetters = false;
+    private bool _pgIncludesLowercaseLetters = false;
+    private bool _pgIncludesNumbers = false;
+    private bool _pgIncludesSpecialCharacters = false;
+
+    //calendar UIElement fields
+    private bool _isCalendarDisplayed = false;
     #endregion Fields
 
     #region Properties
@@ -141,9 +156,72 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
         //}
     }
 
+    //properties for password generator Popup
+    public int PgMinPasswordLength {
+        get { return MIN_PASSWORD_LENGTH; }
+    }
+    public int PgMaxPasswordLength {
+        get { return MAX_PASSWORD_LENGTH; }
+    }
+    public int PgLength {
+        get { return _pgLength; }
+        set {
+            _pgLength = value;
+
+            OnPropertyChanged(nameof(PgLength));
+        }
+    }
+    public bool PgIncludesUppercaseLetters {
+        get { return _pgIncludesUppercaseLetters; }
+        set {
+            _pgIncludesUppercaseLetters = value;
+
+            OnPropertyChanged(nameof(PgIncludesUppercaseLetters));
+        }
+    }
+    public bool PgIncludesLowercaseLetters {
+        get { return _pgIncludesLowercaseLetters; }
+        set {
+            _pgIncludesLowercaseLetters = value;
+
+            OnPropertyChanged(nameof(PgIncludesLowercaseLetters));
+        }
+    }
+    public bool PgIncludesNumbers {
+        get {return _pgIncludesNumbers; }
+        set {
+            _pgIncludesNumbers = value;
+
+            OnPropertyChanged(nameof(PgIncludesNumbers));
+        }
+    }
+    public bool PgIncludesSpecialCharacters {
+        get { return _pgIncludesSpecialCharacters; }
+        set {
+            _pgIncludesSpecialCharacters = value;
+
+            OnPropertyChanged(nameof(PgIncludesSpecialCharacters));
+        }
+    }
+
+    //calendar UIElement properties
+    public bool IsCalendarDisplayed {
+        get { return _isCalendarDisplayed; }
+        set {
+            _isCalendarDisplayed = value;
+
+            OnPropertyChanged(nameof(IsCalendarDisplayed));
+        }
+    }
+
     //DelegateCommands
     public Utils.DelegateCommand OkButtonCommand { get; set; }
     public Utils.DelegateCommand CancelButtonCommand { get; set; }
+    public Utils.DelegateCommand GeneratePasswordCommand { get; set; }
+    public Utils.DelegateCommand IncrementPasswordLengthCommand { get; set; }
+    public Utils.DelegateCommand DecrementPasswordLengthCommand { get; set; }
+    public Utils.DelegateCommand CalendarDateSelectionChangedCommand { get; set; }
+    public Utils.DelegateCommand ComboBoxExpirationDatePresetsSelectionChangedCommand { get; set; }
     #endregion Properties
 
     //Delegates to bubble events to MainWindow_ViewModel
@@ -206,6 +284,15 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
     private void SetDelegateCommands() {
         OkButtonCommand = new Utils.DelegateCommand(OnOkButtonCommand);
         CancelButtonCommand = new Utils.DelegateCommand(OnCancelButtonCommand);
+
+        //password generator Popup
+        GeneratePasswordCommand = new Utils.DelegateCommand(OnGeneratePasswordCommand);
+        IncrementPasswordLengthCommand = new(OnIncrementPasswordLengthCommand);
+        DecrementPasswordLengthCommand = new(OnDecrementPasswordLengthCommand);
+
+        CalendarDateSelectionChangedCommand = new(OnCalendarDateSelectionChangedCommand);
+
+        ComboBoxExpirationDatePresetsSelectionChangedCommand = new(OnComboBoxExpirationDatePresetsSelectionChangedCommand);
     }
 
     //DelegateCommand event handlers
@@ -293,5 +380,117 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
     }
     private void OnCancelButtonCommand(object obj) {
         CancelAddEditRecord?.Invoke();// this, EventArgs.Empty);
+    }
+    private void OnGeneratePasswordCommand(object obj) {
+        //System.Diagnostics.Debug.WriteLine(
+        //    $"\n\nPgLength = {PgLength}" +
+        //    $"\nPgIncludesUppercaseLetters = {PgIncludesUppercaseLetters}" +
+        //    $"\nPgIncludesLowercaseLetters = {PgIncludesLowercaseLetters}" +
+        //    $"\nPgIncludesNumbers = {PgIncludesNumbers}" +
+        //    $"\nPgIncludesSpecialCharacters = {PgIncludesSpecialCharacters}\n\n"
+        //);
+        if (PgIncludesUppercaseLetters == false &
+            PgIncludesLowercaseLetters == false &
+            PgIncludesNumbers == false &
+            PgIncludesSpecialCharacters == false) {
+            //MessageBox.Show();
+            System.Diagnostics.Debug.WriteLine("No options selected to generate password...");
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder(); //used to create string of all possible characters in password, then used for generated password
+
+        if (PgIncludesUppercaseLetters == true)
+            sb.Append(LOWERCASE_LETTERS.ToUpper());
+
+        if (PgIncludesLowercaseLetters == true)
+            sb.Append(LOWERCASE_LETTERS.ToLower());
+
+        if (PgIncludesNumbers == true)
+            sb.Append(NUMBERS);
+
+        if (PgIncludesSpecialCharacters == true)
+            sb.Append(SPECIAL_CHARACTERS);
+
+        string possibleCharacters = sb.ToString();
+        Random rng = new Random();
+
+        sb.Clear();
+
+        for (int i=0; i<PgLength; i++) {
+            sb.Append(possibleCharacters[rng.Next(possibleCharacters.Length)]);
+        }
+
+        //System.Diagnostics.Debug.WriteLine("Generated password: " + sb.ToString());
+        SrPassword = sb.ToString();
+    }
+    private void OnIncrementPasswordLengthCommand(object obj) {
+        if (PgLength < MAX_PASSWORD_LENGTH)
+            PgLength++;
+    }
+    private void OnDecrementPasswordLengthCommand(object obj) {
+        if (PgLength > MIN_PASSWORD_LENGTH)
+            PgLength--;
+    }
+    private void OnCalendarDateSelectionChangedCommand(object obj) {
+        if (obj == null)
+            return;
+
+        DateTime selectedDate = ((System.Windows.Controls.SelectedDatesCollection)obj).ElementAt(0);
+
+        //System.Windows.Controls.SelectedDatesCollection objAsSelectedDatesCollection = (System.Windows.Controls.SelectedDatesCollection)obj;
+
+        //foreach (var item in (System.Windows.Controls.SelectedDatesCollection)obj) {
+        //    System.Diagnostics.Debug.WriteLine($"OnCalendarDateSelectionChangedCommand obj = {item.ToString()}");
+        //    System.Diagnostics.Debug.WriteLine($"OnCalendarDateSelectionChangedCommand obj type = {item.GetType()}");
+        //}
+
+        System.Diagnostics.Debug.WriteLine($"OnCalendarDateSelectionChangedCommand selectedDate = {selectedDate.ToString()}");
+        
+        SrExpirationDate = selectedDate.ToString();
+        IsCalendarDisplayed = false;
+    }
+    private void OnComboBoxExpirationDatePresetsSelectionChangedCommand(object obj) {
+        if (obj == null)
+            return;
+
+        var objAsInt = (int)obj;
+
+        switch (objAsInt) {
+            case 0:
+                SrExpirationDate = DateTime.Now.AddHours(12).ToString();
+                break;
+            case 1:
+                SrExpirationDate = DateTime.Now.AddHours(24).ToString();
+                break;
+            case 3:
+                SrExpirationDate = DateTime.Now.AddDays(7).ToString();
+                break;
+            case 4:
+                SrExpirationDate = DateTime.Now.AddDays(14).ToString();
+                break;
+            case 5:
+                SrExpirationDate = DateTime.Now.AddDays(21).ToString();
+                break;
+            case 7:
+                SrExpirationDate = DateTime.Now.AddMonths(1).ToString();
+                break;
+            case 8:
+                SrExpirationDate = DateTime.Now.AddMonths(3).ToString();
+                break;
+            case 9:
+                SrExpirationDate = DateTime.Now.AddMonths(6).ToString();
+                break;
+            case 11:
+                SrExpirationDate = DateTime.Now.AddYears(1).ToString();
+                break;
+            case 12:
+                SrExpirationDate = DateTime.Now.AddYears(2).ToString();
+                break;
+            case 13:
+                SrExpirationDate = DateTime.Now.AddYears(3).ToString();
+                break;
+        }
+        //SrExpirationDate = DateTime.Now.Add();
     }
 }

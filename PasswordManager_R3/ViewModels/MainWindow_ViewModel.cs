@@ -356,20 +356,20 @@ internal class MainWindow_ViewModel : ViewModelBase {
         System.Diagnostics.Debug.WriteLine("onAddRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel();
 
-        //AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);
-        //addEditRecordVM.CreateRecord += (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
-        //addEditRecordVM.CancelAddEditRecord += OnSetDatabaseView;
-        //SelectedViewModel = addEditRecordVM;
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);
+        addEditRecordVM.CreateRecord += (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
+        addEditRecordVM.CancelAddEditRecord += OnSetDatabaseView;
+        SelectedViewModel = addEditRecordVM;
 
-        AddEditGroup_ViewModel addEditGroupVM = new(this);
-        addEditGroupVM.CreateGroup += () => {
-            System.Diagnostics.Debug.WriteLine("addEditGroup_ViewModel Ok Button clicked to create group");
-        };
-        addEditGroupVM.UpdateGroup += () => {
-            System.Diagnostics.Debug.WriteLine("addEditGroup_ViewModel Ok Button clicked to update group");
-        };
-        addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
-        SelectedViewModel = addEditGroupVM;
+        //AddEditGroup_ViewModel addEditGroupVM = new(this);
+        //addEditGroupVM.CreateGroup += () => {
+        //    System.Diagnostics.Debug.WriteLine("addEditGroup_ViewModel Ok Button clicked to create group");
+        //};
+        //addEditGroupVM.UpdateGroup += () => {
+        //    System.Diagnostics.Debug.WriteLine("addEditGroup_ViewModel Ok Button clicked to update group");
+        //};
+        //addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
+        //SelectedViewModel = addEditGroupVM;
 
         ButtonLockDatabaseIsEnabled = false;
         ButtonAddRecordIsEnabled = false;
