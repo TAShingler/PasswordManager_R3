@@ -264,7 +264,7 @@ internal class Database_ViewModel : ViewModelBase {
                     GUID=Guid.NewGuid().ToString(),
                     HasExpirationDate=true,
                     ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes again...\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAnd a bunch of empty lines..."
+                    HasNotes=true, Notes="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nunc sed id semper risus. Justo eget magna fermentum iaculis eu non diam phasellus vestibulum. Ipsum dolor sit amet consectetur adipiscing elit ut. Diam volutpat commodo sed egestas egestas. Tortor pretium viverra suspendisse potenti nullam ac tortor vitae purus. Vel orci porta non pulvinar neque laoreet suspendisse. Pretium fusce id velit ut tortor pretium. Platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Eget magna fermentum iaculis eu non diam. Non curabitur gravida arcu ac tortor. Eget gravida cum sociis natoque penatibus et magnis dis. Vel eros donec ac odio.\n\nAliquam etiam erat velit scelerisque in dictum non consectetur a. Ac turpis egestas maecenas pharetra convallis posuere morbi leo urna. Volutpat odio facilisis mauris sit amet. Platea dictumst vestibulum rhoncus est pellentesque elit. Purus ut faucibus pulvinar elementum integer enim neque. At quis risus sed vulputate. Sagittis orci a scelerisque purus semper eget duis at tellus. Pellentesque id nibh tortor id aliquet lectus proin nibh nisl. Congue nisi vitae suscipit tellus mauris a diam maecenas. Et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit. Morbi tristique senectus et netus et. Vestibulum lorem sed risus ultricies. Faucibus nisl tincidunt eget nullam non nisi est sit amet. Gravida rutrum quisque non tellus orci. Velit sed ullamcorper morbi tincidunt ornare massa. Purus sit amet luctus venenatis."
                 },
                 new Models.Record() {
                     Title="TestTitle",
@@ -453,7 +453,9 @@ internal class Database_ViewModel : ViewModelBase {
                 }
             }
         });
-        Groups.Add(new());
+        Groups.Add(new() {
+            GUID = Guid.NewGuid().ToString()
+        });
         Groups.Add(new());
         Groups.Add(new());
         Groups.Add(new());

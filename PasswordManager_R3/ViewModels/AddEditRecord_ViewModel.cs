@@ -257,7 +257,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
 
         SetDelegateCommands();
     }
-    public AddEditRecord_ViewModel(ViewModelBase parentVM, Models.Group parentGroup, Models.Record? selectedRecord = null) {
+    public AddEditRecord_ViewModel(ViewModelBase parentVM, Models.Group parentGroup, Models.Record? selectedRecord = null) : base(parentVM) {
         if (selectedRecord != null) {
             _isNewRecord = false;
             _selectedRecord = selectedRecord;
@@ -301,7 +301,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
         //CreateRecord?.Invoke(this, EventArgs.Empty);
         DateTime? userExpirationDate;
 
-        if (!String.IsNullOrEmpty(SrExpirationDate)) {
+        if (String.IsNullOrEmpty(SrExpirationDate) == false) {
             try {
                 userExpirationDate = DateTime.Parse(SrExpirationDate);
             } catch (FormatException ex) {
@@ -317,7 +317,9 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
         }
 
         System.Diagnostics.Debug.WriteLine(
-            $"\n\nSrTitle = {SrTitle}" +
+            $"\n\nParentGUID = {_parentGroup.GUID}" +
+            $"\nParent Group = {_parentGroup.Title}" +
+            $"\nSrTitle = {SrTitle}" +
             $"\nSrUsername = {SrUsername}" +
             $"\nSrEmail = {SrEmail}" +
             $"\nSrPassword = {SrPassword}" +
@@ -491,6 +493,8 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
                 SrExpirationDate = DateTime.Now.AddYears(3).ToString();
                 break;
         }
+
+        SrHasExpirationDate = true;
         //SrExpirationDate = DateTime.Now.Add();
     }
 }

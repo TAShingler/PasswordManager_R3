@@ -10,9 +10,9 @@
         mc:Ignorable="d"
         Title="MainWindow"
         MinHeight="600"
-        Height="600"
+        Height="720"
         MinWidth="800"
-        Width="800"
+        Width="960"
         SnapsToDevicePixels="True"
         Background="{StaticResource solidColorBrush-static-background}"
         WindowState="{Binding WinState}"
@@ -79,7 +79,73 @@
         <SolidColorBrush x:Key="ActiveSelectedGlyphBrush" Color="{StaticResource ActiveSelectedGlyphColor}" />
         <SolidColorBrush x:Key="InactiveSelectedGlyphBrush" Color="{StaticResource InactiveSelectedGlyphColor}" />
 
+        <Color x:Key="ButtonAppMenuMouseOverBackgroundColor" A="80" R="173" G="216" B="230" />
+        <Color x:Key="ButtonAppMenuMouseOverBorderColor" A="200" R="0" G="206" B="209" />
         <!--//  TITLE BAR BUTTON STYLES  //-->
+        <Style x:Key="TitleBarButtonAppMenu"
+               TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="bounds"
+                                TextBlock.Foreground="{TemplateBinding Foreground}"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                Opacity="1.0">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <!--<ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="PowderBlue" />
+                                            </ColorAnimationUsingKeyFrames>-->
+                                            <!--<ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DeepSkyBlue" />
+                                            </ColorAnimationUsingKeyFrames>-->
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Viewbox Width="24"
+                                     Height="24">
+                                <Canvas Width="24"
+                                        Height="24">
+                                    <Path x:Name="glyphTopLine"
+                                          Fill="{Binding ElementName=bounds, Path=(TextBlock.Foreground)}"
+                                          Data="m 4,6 h 16 c 0.554,0 1,0.446 1,1 0,0.554 -0.446,1 -1,1 H 4 C 3.446,8 3,7.554 3,7 3,6.446 3.446,6 4,6 Z" />
+                                    <Path x:Name="glyphMiddleLine"
+                                          Fill="{Binding ElementName=bounds, Path=(TextBlock.Foreground)}"
+                                          Data="m 4,11 h 16 c 0.554,0 1,0.446 1,1 0,0.554 -0.446,1 -1,1 H 4 C 3.446,13 3,12.554 3,12 3,11.446 3.446,11 4,11 Z" />
+                                    <Path x:Name="glyphBottomLine"
+                                          Fill="{Binding ElementName=bounds, Path=(TextBlock.Foreground)}"
+                                          Data="m 4,16 h 16 c 0.554,0 1,0.446 1,1 0,0.554 -0.446,1 -1,1 H 4 C 3.446,18 3,17.554 3,17 3,16.446 3.446,16 4,16 Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="TitleBarButtonMinimizeWindowStyle" TargetType="Button">
             <Setter Property="SnapsToDevicePixels" Value="False" />
             <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -595,7 +661,7 @@
                                       Converter={StaticResource ViewStateToBorderThicknessConverter}}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="30" />
+                <RowDefinition Height="32" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -606,9 +672,9 @@
                     Background="#333"
                     BorderBrush="#666"
                     BorderThickness="0 0 0 0">
-                <Grid Height="30">
+                <Grid Height="32">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="32" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
@@ -639,7 +705,7 @@
                         </Canvas>
                     </Viewbox>
 
-                    <Menu Grid.Column="1"
+                    <!--<Menu Grid.Column="1"
                           Panel.ZIndex="0"
                           WindowChrome.IsHitTestVisibleInChrome="True"
                           Background="Transparent"
@@ -648,7 +714,16 @@
                         <MenuItem Header="File" />
                         <MenuItem Header="Edit" />
                         <MenuItem Header="About" />
-                    </Menu>
+                    </Menu>-->
+                    <ToggleButton Grid.Column="1"
+                                  Panel.ZIndex="0"
+                                  WindowChrome.IsHitTestVisibleInChrome="True"
+                                  Width="32"
+                                  Height="32"
+                                  Foreground="Gainsboro"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  Style="{StaticResource TitleBarButtonAppMenu}"/>
 
                     <TextBlock Grid.Column="0"
                                Grid.ColumnSpan="7"
@@ -702,7 +777,8 @@
                     BorderBrush="#666"
                     BorderThickness="0 0 0 0"
                     Margin="0"
-                    Padding="4 4">
+                    Padding="4 4"
+                    Height="Auto">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
