@@ -1036,9 +1036,14 @@
                           Height="32"
                           Background="Transparent"
                           Foreground="{StaticResource solidColorBrush-theme-foreground}">
+                        <!--<Menu.Resources>
+                            <DataTemplate DataType="{x:Type MenuItem}">
+                                <StackPanel Orientation="Vertical" />
+                            </DataTemplate>
+                        </Menu.Resources>-->
                         <MenuItem x:Name="menuItemMain"
-                                  Style="{StaticResource MenuItemStyle1}">
-                            <!--<MenuItem.Header>
+                                  Padding="3">
+                            <MenuItem.Header>
                                 <Viewbox Width="24"
                                          Height="24">
                                     <Canvas Width="24"
@@ -1052,9 +1057,27 @@
                                         <Path x:Name="glyphBottomLine"
                                               Fill="{StaticResource solidColorBrush-theme-foreground}"
                                               Data="m 4,16 h 16 c 0.554,0 1,0.446 1,1 0,0.554 -0.446,1 -1,1 H 4 C 3.446,18 3,17.554 3,17 3,16.446 3.446,16 4,16 Z" />
+                                        <!--<Path x:Name="glyphTopLine"
+                                              Stroke="{StaticResource solidColorBrush-theme-foreground}"
+                                              StrokeThickness="2.5"
+                                              StrokeStartLineCap="Round"
+                                              StrokeEndLineCap="Round"
+                                              Data="M 4,6 H 20" />
+                                        <Path x:Name="glyphMiddleLine"
+                                              Stroke="{StaticResource solidColorBrush-theme-foreground}"
+                                              StrokeThickness="2.5"
+                                              StrokeStartLineCap="Round"
+                                              StrokeEndLineCap="Round"
+                                              Data="M 4,12 H 20" />
+                                        <Path x:Name="glyphBottomLine"
+                                              Stroke="{StaticResource solidColorBrush-theme-foreground}"
+                                              StrokeThickness="2.5"
+                                              StrokeStartLineCap="Round"
+                                              StrokeEndLineCap="Round"
+                                              Data="M 4,18 H 20" />-->
                                     </Canvas>
                                 </Viewbox>
-                            </MenuItem.Header>-->
+                            </MenuItem.Header>
                             <MenuItem Header="item 1" />
                             <MenuItem Header="item 2" />
                             <MenuItem Header="item 3" />
