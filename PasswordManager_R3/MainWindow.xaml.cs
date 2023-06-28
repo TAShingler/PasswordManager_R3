@@ -21,4 +21,26 @@ public partial class MainWindow : Window {
     public MainWindow() {
         InitializeComponent();
     }
+
+    private void toggleButtonAppMenu_Click(object sender, RoutedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("toggleButtonAppMenu_Click called");
+        //System.Diagnostics.Debug.WriteLine("toggleButtonAppMenu isChecked = " + toggleButtonAppMenu.IsChecked);
+    }
+
+    private void toggleButtonAppMenu_MouseEnter(object sender, MouseEventArgs e) {
+        //toggleButtonAppMenu.IsChecked = true;
+    }
+
+    private void toggleButtonAppMenu_MouseLeave(object sender, MouseEventArgs e) {
+        //toggleButtonAppMenu.IsChecked = false;
+    }
+
+    //private void MenuItem_MouseEnter(object sender, MouseEventArgs e) {
+    //    menuItemMain.IsSubmenuOpen = true;
+    //}
+
+    //private void MenuItem_MouseLeave(object sender, MouseEventArgs e) {
+    //    menuItemMain.IsSubmenuOpen = false;
+    //    menuItemMain.
+    //}
 }
