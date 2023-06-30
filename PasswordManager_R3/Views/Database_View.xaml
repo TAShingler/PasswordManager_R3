@@ -671,6 +671,8 @@
 
             <EventSetter Event="RequestBringIntoView"
                          Handler="TreeViewItem_RequestBringIntoView"/>
+            <!--<EventSetter Event="MouseRightButtonUp"
+                         Handler="TreeViewItem_MouseRightButtonUp" />-->
         </Style>
         <!--#endregion TreeView Styles-->
 
@@ -1020,7 +1022,7 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="SnapsToDevicePixels"
-                    Value="true" />
+                    Value="True" />
             <Setter Property="Validation.ErrorTemplate"
                     Value="{x:Null}" />
             <Setter Property="ValidationErrorTemplate">
@@ -1918,6 +1920,7 @@
             </Setter>
         </Style>
             
+        <!--//  ScrollBar Styles  //-->
         <!--#region ScrollBar Styles-->
         <Style x:Key="ScrollBarLineButton"
                TargetType="{x:Type RepeatButton}">
@@ -2567,6 +2570,80 @@
             </Style.Triggers>
         </Style>
         <!--#endregion ScrollBar Styles-->
+
+        <!--//  ContextMenu Styles  //-->
+        <!--#region ContextMenu Styles-->
+        <!-- ContextMenu -->
+        <ContextMenu x:Key="TreeViewItemContextMenu"
+                     DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
+                                           Path=DataContext}">
+            <MenuItem Header="cMenuAddGroup"
+                      Command="{Binding CreateGroupCommand}"
+                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}},
+                                                 Path=PlacementTarget.TemplatedParent.Header}"/>
+            <!-- CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />-->
+            <MenuItem Header="cMenuEditGroup"
+                      Command="{Binding UpdateGroupCommand}"
+                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}},
+                                                 Path=PlacementTarget.TemplatedParent.Header}"/>
+            <!-- CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />-->
+            <MenuItem Header="cMenuDeleteGroup"
+                      Command="{Binding DeleteGroupCommand}"
+                      CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}},
+                                                 Path=PlacementTarget.TemplatedParent.Header}"/>
+            <!-- CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />-->
+        </ContextMenu>
+            
+        <!-- Styles -->
+        <Style TargetType="{x:Type MenuItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type MenuItem}">
+                        <Grid>
+                            <ContentPresenter Margin="12 4 24 4" Content="{TemplateBinding Header}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type ContextMenu}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="OverridesDefaultStyle"
+                    Value="True" />
+            <Setter Property="Grid.IsSharedSizeScope"
+                    Value="False" />
+            <Setter Property="HasDropShadow"
+                    Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ContextMenu}">
+                        <Border x:Name="Border"
+                                Background="#333"
+                                BorderThickness="1">
+                            <!--Background="{StaticResource MenuPopupBrush}"-->
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="{StaticResource BorderMediumColor}" />
+                            </Border.BorderBrush>
+                            <StackPanel IsItemsHost="True"
+                                        KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasDropShadow"
+                                     Value="true">
+                                <!--<Setter TargetName="Border"
+                                        Property="Padding"
+                                        Value="0,3,0,3" />
+                                <Setter TargetName="Border"
+                                        Property="CornerRadius"
+                                        Value="4" />-->
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--#endregion-->
     </UserControl.Resources>
     
     <Border x:Name="userControlBoundary"
@@ -2681,10 +2758,11 @@
                     <Border x:Name="dataGridOpacityMask"
                             Grid.Row="0"
                             CornerRadius="2"
-                            Background="{StaticResource solidColorBrush-static-background}"/>
+                            Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                                 Path=Background}"/>
                     <DataGrid x:Name="dataGridRecords"
                               Grid.Row="0"
-                              Background="Green"
+                              Background="Transparent"
                               BorderBrush="LightBlue"
                               BorderThickness="0"
                               SnapsToDevicePixels="True"

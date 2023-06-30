@@ -8,12 +8,13 @@
         xmlns:vm="clr-namespace:PasswordManager_R3.ViewModels"
         xmlns:views="clr-namespace:PasswordManager_R3.Views"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="Password LockBox"
         MinHeight="600"
         Height="720"
         MinWidth="800"
         Width="960"
         SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Display"
         Background="{StaticResource solidColorBrush-static-background}"
         WindowState="{Binding WinState}"
         x:Name="WinMain">
@@ -1285,16 +1286,24 @@
                         </Canvas>
                     </Viewbox>
 
-                    <!--<Menu Grid.Column="1"
+                    <Menu Grid.Column="1"
                           Panel.ZIndex="0"
                           WindowChrome.IsHitTestVisibleInChrome="True"
                           Background="Transparent"
                           Foreground="{StaticResource ThemeTextBrush}"
                           VerticalAlignment="Center">
-                        <MenuItem Header="File" />
-                        <MenuItem Header="Edit" />
-                        <MenuItem Header="About" />
-                    </Menu>-->
+                        <MenuItem Header="File">
+                            <MenuItem Header="Item1" />
+                        </MenuItem>
+                        <MenuItem Header="Edit">
+                            <MenuItem Header="Item1">
+                                <MenuItem Header="subitem 1" />
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem Header="About">
+                            <MenuItem Header="Item1" />
+                        </MenuItem>
+                    </Menu>
                     <!--<ToggleButton x:Name="toggleButtonAppMenu"
                                   Grid.Column="1"
                                   Panel.ZIndex="0"
@@ -1345,7 +1354,7 @@
                            PlacementTarget="{Binding ElementName=toggleButtonAppMenu}"
                            Placement="Bottom">
                         <Border>-->
-                            <Menu x:Name="menuApplicationMenu"
+                            <!--<Menu x:Name="menuApplicationMenu"
                                   Grid.Column="1"
                                   WindowChrome.IsHitTestVisibleInChrome="True"
                                   Width="32"
@@ -1399,7 +1408,7 @@
                                         <MenuItem Header="subitem 2"  />
                                     </MenuItem>
                                 </MenuItem>
-                            </Menu>
+                            </Menu>-->
                         <!--</Border>
                     </Popup>-->
 
@@ -1409,7 +1418,8 @@
                                Foreground="{StaticResource ThemeTextBrush}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center"
-                               Text="Super Cool Awesome Password Manager that will get your passwords stolen" />
+                               Text="{Binding ElementName=WinMain,
+                                              Path=Title}" />
 
                     <StackPanel Grid.Column="3"
                                 Panel.ZIndex="0"

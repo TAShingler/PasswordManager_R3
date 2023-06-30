@@ -55,7 +55,70 @@ public partial class Database_View : UserControl {
     }
 
     private void buttonTreeViewDisplayContextMenu_Click(object sender, RoutedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("sender type: " + sender.GetType());
+        System.Diagnostics.Debug.WriteLine("sender parent: " + ((Button)sender).Parent);
+        System.Diagnostics.Debug.WriteLine("sender templated parent: " + ((Button)sender).TemplatedParent);
 
+        if (sender == null) { System.Diagnostics.Debug.WriteLine("parameter \'object\' is null"); return; }
+
+        if (sender.GetType() == typeof(Button)) {
+            Button btnSender = (Button)sender;
+
+            if (btnSender.TemplatedParent is TreeViewItem) {
+                TreeViewItem tempParent = (TreeViewItem)btnSender.TemplatedParent;
+
+                if (tempParent.IsSelected == false) {
+                    tempParent.IsSelected = true;
+                }
+
+                System.Diagnostics.Debug.WriteLine("tempParent header group name: " + ((Models.Group)tempParent.Header).Title);
+
+                var cm = this.FindResource("TreeViewItemContextMenu");
+
+                if (cm != null) {
+                    ((ContextMenu)cm).PlacementTarget = btnSender;
+                    ((ContextMenu)cm).Placement = System.Windows.Controls.Primitives.PlacementMode.Right;
+                    ((ContextMenu)cm).HorizontalOffset = 8;
+
+                    if (((Models.Group)tempParent.Header).ParentGroup == null) {
+                        ((MenuItem)((ContextMenu)cm).Items[2]).IsEnabled = false;
+                    } else {
+                        ((MenuItem)((ContextMenu)cm).Items[2]).IsEnabled = true;
+                    }
+
+                    ((ContextMenu)cm).IsOpen = true;
+                }
+
+                e.Handled = true;
+            }
+        }
+    }
+    private void TreeViewItem_MouseRightButtonUp(object sender, MouseButtonEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("TreeViewItem_MouseRightButtonUp event handler:");
+        System.Diagnostics.Debug.WriteLine("    - sender type: " + sender.GetType());
+        System.Diagnostics.Debug.WriteLine("    - source: " + e.Source);
+        System.Diagnostics.Debug.WriteLine("    - original source: " + e.OriginalSource);
+        ((TreeViewItem)sender).IsSelected = true;
+        //TreeViewItemContextMenu.PlacementTarget = (TreeViewItem)sender;
+        //TreeViewItemContextMenu.Placement = PlacementMode.Mouse;
+        //TreeViewItemContextMenu.IsOpen = true;
+
+        var cm = this.FindResource("TreeViewItemContextMenu");
+        if (cm != null) {
+            //Debug.WriteLine("cm is not null");
+            ((ContextMenu)cm).PlacementTarget = (TreeViewItem)sender;
+            ((ContextMenu)cm).Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
+
+            if (((Models.Group)treeViewGroups.SelectedItem).ParentGroup == null) {
+                ((MenuItem)((ContextMenu)cm).Items[2]).IsEnabled = false;
+            } else if (((Models.Group)treeViewGroups.SelectedItem).ParentGroup != null) {
+                ((MenuItem)((ContextMenu)cm).Items[2]).IsEnabled = true;
+            }
+
+            ((ContextMenu)cm).IsOpen = true;
+        }
+
+        e.Handled = true;
     }
 
     //private void TreeViewItem_MouseDoubleClick(object sender, MouseEventArgs e) {

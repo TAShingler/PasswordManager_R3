@@ -317,8 +317,8 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
         }
 
         System.Diagnostics.Debug.WriteLine(
-            $"\n\nParentGUID = {_parentGroup.GUID}" +
-            $"\nParent Group = {_parentGroup.Title}" +
+            $"\n\nParentGUID = {_parentGroup?.GUID}" +
+            $"\nParent Group = {_parentGroup?.Title}" +
             $"\nSrTitle = {SrTitle}" +
             $"\nSrUsername = {SrUsername}" +
             $"\nSrEmail = {SrEmail}" +

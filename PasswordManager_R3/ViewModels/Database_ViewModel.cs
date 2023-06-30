@@ -41,9 +41,15 @@ internal class Database_ViewModel : ViewModelBase {
     //delegates
     internal delegate void SelectedGroupChangedEventHandler(object obj);
     internal delegate void SelectedRecordChangedEventHandler(object obj);
+    internal delegate void CreateGroupEventHandler(Models.Group g);// object sender, EventArgs e);
+    internal delegate void UpdateGroupEventHandler(object sender, EventArgs e);
+    internal delegate void DeleteGroupEventHandler(object sender, EventArgs e);
     //events
     internal event SelectedGroupChangedEventHandler? SelectedGroupChanged;
     internal event SelectedRecordChangedEventHandler? SelectedRecordChanged;
+    internal event CreateGroupEventHandler CreateGroup;
+    internal event UpdateGroupEventHandler UpdateGroup;
+    internal event DeleteGroupEventHandler DeleteGroup;
     #endregion Delegates and Events
 
     #region Properties
@@ -209,6 +215,10 @@ internal class Database_ViewModel : ViewModelBase {
 
     public Utils.DelegateCommand? SomeCommand { get; set; }
 
+    public Utils.DelegateCommand? CreateGroupCommand { get; set; }
+    public Utils.DelegateCommand? UpdateGroupCommand { get; set; }
+    public Utils.DelegateCommand? DeleteGroupCommand { get; set; }
+
     //ObservableCollection for Group objects
     public System.Collections.ObjectModel.ObservableCollection<Models.Group> Groups {
         get { return _groups; }
@@ -244,187 +254,187 @@ internal class Database_ViewModel : ViewModelBase {
 
         Groups = new();
 
-        Groups.Add(new() {
-            ChildrenRecords=new() {
+        Models.Group root = new() { Title = "Root", GUID = Guid.NewGuid().ToString() };
+        root.ChildrenRecords = new() {
                 new Models.Record() {
-                    Title="TestTitle",
-                    Username="TestUsername",
-                    Password="TestPassword",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes..."
+                    Title = "TestTitle",
+                    Username = "TestUsername",
+                    Password = "TestPassword",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "here are some notes..."
                 },
                 new Models.Record() {
-                    Title="TestTitle2",
-                    Username="TestUsername2",
-                    Password="TestPassword2",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nunc sed id semper risus. Justo eget magna fermentum iaculis eu non diam phasellus vestibulum. Ipsum dolor sit amet consectetur adipiscing elit ut. Diam volutpat commodo sed egestas egestas. Tortor pretium viverra suspendisse potenti nullam ac tortor vitae purus. Vel orci porta non pulvinar neque laoreet suspendisse. Pretium fusce id velit ut tortor pretium. Platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Eget magna fermentum iaculis eu non diam. Non curabitur gravida arcu ac tortor. Eget gravida cum sociis natoque penatibus et magnis dis. Vel eros donec ac odio.\n\nAliquam etiam erat velit scelerisque in dictum non consectetur a. Ac turpis egestas maecenas pharetra convallis posuere morbi leo urna. Volutpat odio facilisis mauris sit amet. Platea dictumst vestibulum rhoncus est pellentesque elit. Purus ut faucibus pulvinar elementum integer enim neque. At quis risus sed vulputate. Sagittis orci a scelerisque purus semper eget duis at tellus. Pellentesque id nibh tortor id aliquet lectus proin nibh nisl. Congue nisi vitae suscipit tellus mauris a diam maecenas. Et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit. Morbi tristique senectus et netus et. Vestibulum lorem sed risus ultricies. Faucibus nisl tincidunt eget nullam non nisi est sit amet. Gravida rutrum quisque non tellus orci. Velit sed ullamcorper morbi tincidunt ornare massa. Purus sit amet luctus venenatis."
+                    Title = "TestTitle2",
+                    Username = "TestUsername2",
+                    Password = "TestPassword2",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nunc sed id semper risus. Justo eget magna fermentum iaculis eu non diam phasellus vestibulum. Ipsum dolor sit amet consectetur adipiscing elit ut. Diam volutpat commodo sed egestas egestas. Tortor pretium viverra suspendisse potenti nullam ac tortor vitae purus. Vel orci porta non pulvinar neque laoreet suspendisse. Pretium fusce id velit ut tortor pretium. Platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Eget magna fermentum iaculis eu non diam. Non curabitur gravida arcu ac tortor. Eget gravida cum sociis natoque penatibus et magnis dis. Vel eros donec ac odio.\n\nAliquam etiam erat velit scelerisque in dictum non consectetur a. Ac turpis egestas maecenas pharetra convallis posuere morbi leo urna. Volutpat odio facilisis mauris sit amet. Platea dictumst vestibulum rhoncus est pellentesque elit. Purus ut faucibus pulvinar elementum integer enim neque. At quis risus sed vulputate. Sagittis orci a scelerisque purus semper eget duis at tellus. Pellentesque id nibh tortor id aliquet lectus proin nibh nisl. Congue nisi vitae suscipit tellus mauris a diam maecenas. Et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit. Morbi tristique senectus et netus et. Vestibulum lorem sed risus ultricies. Faucibus nisl tincidunt eget nullam non nisi est sit amet. Gravida rutrum quisque non tellus orci. Velit sed ullamcorper morbi tincidunt ornare massa. Purus sit amet luctus venenatis."
                 },
                 new Models.Record() {
-                    Title="TestTitle",
-                    Username="TestUsername",
-                    Password="TestPassword",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes..."
+                    Title = "TestTitle",
+                    Username = "TestUsername",
+                    Password = "TestPassword",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "here are some notes..."
                 },
                 new Models.Record() {
-                    Title="TestTitle",
-                    Username="TestUsername",
-                    Password="TestPassword",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes..."
+                    Title = "TestTitle",
+                    Username = "TestUsername",
+                    Password = "TestPassword",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "here are some notes..."
                 },
                 new Models.Record() {
-                    Title="TestTitle",
-                    Username="TestUsername",
-                    Password="TestPassword",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes..."
+                    Title = "TestTitle",
+                    Username = "TestUsername",
+                    Password = "TestPassword",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "here are some notes..."
                 },
                 new Models.Record() {
-                    Title="TestTitle",
-                    Username="TestUsername",
-                    Password="TestPassword",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes..."
+                    Title = "TestTitle",
+                    Username = "TestUsername",
+                    Password = "TestPassword",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "here are some notes..."
                 },
                 new Models.Record() {
-                    Title="TestTitle",
-                    Username="TestUsername",
-                    Password="TestPassword",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes..."
+                    Title = "TestTitle",
+                    Username = "TestUsername",
+                    Password = "TestPassword",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "here are some notes..."
                 },
                 new Models.Record() {
-                    Title="TestTitle",
-                    Username="TestUsername",
-                    Password="TestPassword",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes..."
+                    Title = "TestTitle",
+                    Username = "TestUsername",
+                    Password = "TestPassword",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "here are some notes..."
                 },
                 new Models.Record() {
-                    Title="TestTitle",
-                    Username="TestUsername",
-                    Password="TestPassword",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes..."
+                    Title = "TestTitle",
+                    Username = "TestUsername",
+                    Password = "TestPassword",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "here are some notes..."
                 },
                 new Models.Record() {
-                    Title="TestTitle",
-                    Username="TestUsername",
-                    Password="TestPassword",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes..."
+                    Title = "TestTitle",
+                    Username = "TestUsername",
+                    Password = "TestPassword",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "here are some notes..."
                 },
                 new Models.Record() {
-                    Title="TestTitle",
-                    Username="TestUsername",
-                    Password="TestPassword",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes..."
+                    Title = "TestTitle",
+                    Username = "TestUsername",
+                    Password = "TestPassword",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "here are some notes..."
                 },
                 new Models.Record() {
-                    Title="TestTitle",
-                    Username="TestUsername",
-                    Password="TestPassword",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes..."
+                    Title = "TestTitle",
+                    Username = "TestUsername",
+                    Password = "TestPassword",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "here are some notes..."
                 },
                 new Models.Record() {
-                    Title="TestTitle",
-                    Username="TestUsername",
-                    Password="TestPassword",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes..."
+                    Title = "TestTitle",
+                    Username = "TestUsername",
+                    Password = "TestPassword",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "here are some notes..."
                 },
                 new Models.Record() {
-                    Title="TestTitle",
-                    Username="TestUsername",
-                    Password="TestPassword",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes..."
+                    Title = "TestTitle",
+                    Username = "TestUsername",
+                    Password = "TestPassword",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "here are some notes..."
                 },
                 new Models.Record() {
-                    Title="TestTitle",
-                    Username="TestUsername",
-                    Password="TestPassword",
-                    Email="TestEmail",
-                    GUID=Guid.NewGuid().ToString(),
-                    HasExpirationDate=true,
-                    ExpirationDate=DateTime.Now.AddDays(30),
-                    HasNotes=true, Notes="here are some notes..."
+                    Title = "TestTitle",
+                    Username = "TestUsername",
+                    Password = "TestPassword",
+                    Email = "TestEmail",
+                    GUID = Guid.NewGuid().ToString(),
+                    HasExpirationDate = true,
+                    ExpirationDate = DateTime.Now.AddDays(30),
+                    HasNotes = true, Notes = "here are some notes..."
                 }
-            },
-            ChildrenGroups=new() {
-                new Models.Group() {
-                    Title="Item1",
-                    ChildrenGroups = new() {
-                        new() {
-                            ChildrenGroups=new() {
-                                new() {
-                                    ChildrenGroups = new() {
-                                        new() { 
-                                            ChildrenGroups = new() {
-                                                new() {
-                                                    ChildrenGroups = new() {
-                                                        new() {
-                                                            ChildrenGroups=new() {
-                                                                new() {
-                                                                    ChildrenGroups = new() {
-                                                                        new() {
-                                                                            ChildrenGroups = new() {
-                                                                                new() {
-                                                                                    ChildrenGroups = new() {
-                                                                                        new() {
-                                                                                            ChildrenGroups=new() {
-                                                                                                new() {
-                                                                                                    ChildrenGroups = new() {
-                                                                                                        new() {
-                                                                                                            ChildrenGroups = new() {
-                                                                                                                new()
-                                                                                                            }
+            };
+        root.ChildrenGroups = new() {
+            new Models.Group() {
+                ParentGroup = root,
+                Title="Item1",
+                ChildrenGroups = new() {
+                    new() {
+                        ChildrenGroups=new() {
+                            new() {
+                                ChildrenGroups = new() {
+                                    new() {
+                                        ChildrenGroups = new() {
+                                            new() {
+                                                ChildrenGroups = new() {
+                                                    new() {
+                                                        ChildrenGroups=new() {
+                                                            new() {
+                                                                ChildrenGroups = new() {
+                                                                    new() {
+                                                                        ChildrenGroups = new() {
+                                                                            new() {
+                                                                                ChildrenGroups = new() {
+                                                                                    new() {
+                                                                                        ChildrenGroups=new() {
+                                                                                            new() {
+                                                                                                ChildrenGroups = new() {
+                                                                                                    new() {
+                                                                                                        ChildrenGroups = new() {
+                                                                                                            new()
                                                                                                         }
                                                                                                     }
                                                                                                 }
@@ -447,12 +457,14 @@ internal class Database_ViewModel : ViewModelBase {
                             }
                         }
                     }
-                },
-                new Models.Group() {
-                    Title="Item2"
                 }
+            },
+            new Models.Group() {
+                Title="Item2"
             }
-        });
+        };
+
+        Groups.Add(root);
         Groups.Add(new() {
             GUID = Guid.NewGuid().ToString()
         });
@@ -516,7 +528,14 @@ internal class Database_ViewModel : ViewModelBase {
         ToggleNotesMaskCommand = new Utils.DelegateCommand(ToggleNotesMask);
 
         SomeCommand = new Utils.DelegateCommand(OnSomeCommand);
+
+        CreateGroupCommand = new Utils.DelegateCommand(OnCreateGroup);
+        UpdateGroupCommand = new Utils.DelegateCommand(OnUpdateGroup);
+        DeleteGroupCommand = new Utils.DelegateCommand(OnDeleteGroup);
     }
+    #endregion Constructors
+
+    // used for testing purposes
     private void OnSomeCommand(object obj) {
         //System.Diagnostics.Debug.WriteLine(obj.ToString());
         if (SelectedGroup != null)
@@ -530,7 +549,6 @@ internal class Database_ViewModel : ViewModelBase {
             System.Diagnostics.Debug.WriteLine("SelectedRecord is null");
 
     }
-    #endregion Constructors
 
     #region Other Methods
     private void OnGroupSelectionChanged(object obj) {
@@ -632,6 +650,28 @@ internal class Database_ViewModel : ViewModelBase {
             //unmask
             //SrNotes = SelectedRecord.Notes;
         }
+    }
+
+    private void OnCreateGroup(object obj) {
+        //if (obj == null) { System.Diagnostics.Debug.WriteLine("OnCreateGroup obj is null"); return; }
+
+        //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj to string = {obj.ToString()}");
+        //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj type = {obj.GetType()}");
+        //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj GUID = {((Models.Group)obj).GUID}");
+        //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj child groups count = {((Models.Group)obj).ChildrenGroups.Count}");
+        //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj child records count = {((Models.Group)obj).ChildrenRecords.Count}");
+        CreateGroup?.Invoke((Models.Group)obj);//, EventArgs.Empty);
+    }
+    private void OnUpdateGroup(object obj) {
+        System.Diagnostics.Debug.WriteLine("OnUpdateGroup called");
+        System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj Title = {((Models.Group)obj).Title}");
+        UpdateGroup?.Invoke(obj, EventArgs.Empty);
+    }
+    private void OnDeleteGroup(object obj) {
+        System.Diagnostics.Debug.WriteLine("OnDeleteGroup called");
+        System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj Title = {((Models.Group)obj).Title}");
+
+        //DeleteGroup?.Invoke(obj, EventArgs.Empty);  //may not need to elevate since ObservableCollections are in DatabaseVM
     }
     #endregion Other Methods
 }
