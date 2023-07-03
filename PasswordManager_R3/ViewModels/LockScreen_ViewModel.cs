@@ -84,6 +84,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
         }
 
         TryUnlockDatabase(objAsString); */
+        //var result = 
         Models.AppVariables.DatabaseConnection = new Utils.DatabaseOperations();
         DatabaseUnlocked?.Invoke();
         //System.Diagnostics.Debug.WriteLine("UserPassword: " + obj.ToString());

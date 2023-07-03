@@ -21,4 +21,14 @@ public partial class AppSettings_View : UserControl {
     public AppSettings_View() {
         InitializeComponent();
     }
+
+    private void listViewTabDecrementButton_Click(object sender, RoutedEventArgs e) {
+        if (listViewTabSelector.SelectedIndex > 0)
+            listViewTabSelector.SelectedIndex--;
+    }
+
+    private void listViewTabIncrementButton_Click(object sender, RoutedEventArgs e) {
+        if (listViewTabSelector.SelectedIndex < listViewTabSelector.Items.Count)
+            listViewTabSelector.SelectedIndex++;
+    }
 }

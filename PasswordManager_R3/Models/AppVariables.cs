@@ -12,4 +12,8 @@ internal static class AppVariables {
         get { return _databaseConnection; }
         set { _databaseConnection = value; }
     }
+    
+    internal static void ClearValues() {
+        _databaseConnection = null;
+    }
 }

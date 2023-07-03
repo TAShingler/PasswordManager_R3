@@ -5,8 +5,897 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PasswordManager_R3.Views"
              mc:Ignorable="d"
-             d:DesignHeight="450"
+             d:DesignHeight="900"
              d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <!--#region ScrollBar Styles-->
+        <Style x:Key="ScrollBarLineButton"
+               TargetType="{x:Type RepeatButton}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="OverridesDefaultStyle"
+                    Value="true" />
+            <Setter Property="Focusable"
+                    Value="false" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="arrow"
+                                                              Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                         Value="DeepSkyBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="arrow"
+                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused" />
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Valid" />
+                                    <VisualState x:Name="InvalidFocused" />
+                                    <VisualState x:Name="InvalidUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="border"
+                                Margin="1"
+                                CornerRadius="2"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" />
+                            <Path x:Name="arrow"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Fill="{TemplateBinding Foreground}"
+                                  Data="{Binding Content,
+                                                 RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ScrollBarPageButton"
+               TargetType="{x:Type RepeatButton}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="OverridesDefaultStyle"
+                    Value="true" />
+            <Setter Property="IsTabStop"
+                    Value="false" />
+            <Setter Property="Focusable"
+                    Value="false" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border Background="Transparent" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ScrollBarThumb"
+               TargetType="{x:Type Thumb}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="OverridesDefaultStyle"
+                    Value="true" />
+            <Setter Property="IsTabStop"
+                    Value="false" />
+            <Setter Property="Focusable"
+                    Value="false" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border x:Name="border"
+                                CornerRadius="2"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="0">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="border"
+                                                              Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                         Value="DeepSkyBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="border"
+                                                                          Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused" />
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Valid" />
+                                    <VisualState x:Name="InvalidFocused" />
+                                    <VisualState x:Name="InvalidUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--<ControlTemplate x:Key="VerticalScrollBar"
+                         TargetType="{x:Type ScrollBar}">
+            <Grid x:Name="bounds"
+                  Width="14"
+                  Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="0.00001*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineUpButton"
+                                                               Storyboard.TargetProperty="Height"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="4" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineUpButton"
+                                                               Storyboard.TargetProperty="Width"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="0" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Track"
+                                                               Storyboard.TargetProperty="Width"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="6" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineDownButton"
+                                                               Storyboard.TargetProperty="Height"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="4" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineDownButton"
+                                                               Storyboard.TargetProperty="Width"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="0" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="border"
+                                                               Storyboard.TargetProperty="Visibility"
+                                                               BeginTime="0:0:0.35">
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0"
+                                                            Value="{x:Static Visibility.Hidden}" />
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState x:Name="MouseOver">
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineUpButton"
+                                                               Storyboard.TargetProperty="Height"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="14" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineUpButton"
+                                                               Storyboard.TargetProperty="Width"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="14" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Track"
+                                                               Storyboard.TargetProperty="Width"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="14" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineDownButton"
+                                                               Storyboard.TargetProperty="Height"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="14" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineDownButton"
+                                                               Storyboard.TargetProperty="Width"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="14" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="border"
+                                                               Storyboard.TargetProperty="Visibility"
+                                                               BeginTime="0:0:0.25">
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0"
+                                                            Value="{x:Static Visibility.Visible}" />
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState x:Name="Disabled" />
+                    </VisualStateGroup>
+                    <VisualStateGroup x:Name="ValidationStates">
+                        <VisualState x:Name="Valid" />
+                        <VisualState x:Name="InvalidFocused" />
+                        <VisualState x:Name="InvalidUnfocused" />
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                
+                <Border x:Name="border"
+                        Grid.Column="1"
+                        Grid.RowSpan="3"
+                        CornerRadius="2"
+                        Background="#333"
+                        Visibility="Hidden"/>
+                <RepeatButton x:Name="scrollBarLineUpButton"
+                              Grid.Column="1"
+                              Grid.Row="0"
+                              Style="{StaticResource ScrollBarLineButton}"
+                              Width="0"
+                              Height="4"
+                              Foreground="{StaticResource solidColorBrush-theme-foreground}"
+                              Background="#333"
+                              BorderBrush="#333"
+                              BorderThickness="0"
+                              Command="ScrollBar.LineUpCommand"
+                              Content="M 0 4 L 8 4 L 4 0 Z"/>
+                <Track x:Name="PART_Track"
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       Width="6"
+                       IsDirectionReversed="true">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource ScrollBarPageButton}"
+                                      Command="ScrollBar.PageUpCommand" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Background="{StaticResource solidColorBrush-theme-foreground}"
+                               BorderBrush="#333"
+                               BorderThickness="0"
+                               Style="{StaticResource ScrollBarThumb}"
+                               Margin="2 0" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource ScrollBarPageButton}"
+                                      Command="ScrollBar.PageDownCommand" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                <RepeatButton x:Name="scrollBarLineDownButton"
+                              Grid.Row="2"
+                              Grid.Column="1"
+                              Style="{StaticResource ScrollBarLineButton}"
+                              Width="0"
+                              Height="18"
+                              Foreground="{StaticResource solidColorBrush-theme-foreground}"
+                              Background="#333"
+                              BorderBrush="#333"
+                              BorderThickness="0"
+                              Command="ScrollBar.LineDownCommand"
+                              Content="M 0 0 L 4 4 L 8 0 Z"/>
+            </Grid>
+        </ControlTemplate>-->
+        <!--<ControlTemplate x:Key="HorizontalScrollBar"
+                         TargetType="{x:Type ScrollBar}">
+            <Grid x:Name="bounds"
+                  Height="14"
+                  Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="0.00001*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineLeftButton"
+                                                               Storyboard.TargetProperty="Width"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="4" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineLeftButton"
+                                                               Storyboard.TargetProperty="Height"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="0" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Track"
+                                                               Storyboard.TargetProperty="Height"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="6" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineRightButton"
+                                                               Storyboard.TargetProperty="Width"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="4" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineRightButton"
+                                                               Storyboard.TargetProperty="Height"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="0" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="border"
+                                                               Storyboard.TargetProperty="Visibility"
+                                                               BeginTime="0:0:0.35">
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0"
+                                                            Value="{x:Static Visibility.Hidden}" />
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState x:Name="MouseOver">
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineLeftButton"
+                                                               Storyboard.TargetProperty="Width"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="14" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineLeftButton"
+                                                               Storyboard.TargetProperty="Height"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="14" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_Track"
+                                                               Storyboard.TargetProperty="Height"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="14" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineRightButton"
+                                                               Storyboard.TargetProperty="Width"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="14" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scrollBarLineRightButton"
+                                                               Storyboard.TargetProperty="Height"
+                                                               BeginTime="0:0:0.25">
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                          Value="14" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="border"
+                                                               Storyboard.TargetProperty="Visibility"
+                                                               BeginTime="0:0:0.25">
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0"
+                                                            Value="{x:Static Visibility.Visible}" />
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState x:Name="Disabled" />
+                    </VisualStateGroup>
+                    <VisualStateGroup x:Name="ValidationStates">
+                        <VisualState x:Name="Valid" />
+                        <VisualState x:Name="InvalidFocused" />
+                        <VisualState x:Name="InvalidUnfocused" />
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                
+                <Border x:Name="border"
+                        Grid.Row="1"
+                        Grid.ColumnSpan="3"
+                        CornerRadius="2"
+                        Background="#333"
+                        Visibility="Hidden"/>
+                <RepeatButton x:Name="scrollBarLineLeftButton"
+                              Grid.Column="0"
+                              Grid.Row="1"
+                              Style="{StaticResource ScrollBarLineButton}"
+                              Width="4"
+                              Height="0"
+                              Foreground="{StaticResource solidColorBrush-theme-foreground}"
+                              Background="#333"
+                              BorderBrush="#333"
+                              BorderThickness="0"
+                              Command="ScrollBar.LineLeftCommand"
+                              Content="M 4 0 L 4 8 L 0 4 Z" />
+                <Track x:Name="PART_Track"
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       Height="6"
+                       IsDirectionReversed="False">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource ScrollBarPageButton}"
+                                      Command="ScrollBar.PageLeftCommand" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Background="{StaticResource solidColorBrush-theme-foreground}"
+                               BorderBrush="#333"
+                               BorderThickness="0"
+                               Style="{StaticResource ScrollBarThumb}"
+                               Margin="0 2" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource ScrollBarPageButton}"
+                                      Command="ScrollBar.PageRightCommand" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                <RepeatButton x:Name="scrollBarLineRightButton"
+                              Grid.Column="2"
+                              Grid.Row="1"
+                              Style="{StaticResource ScrollBarLineButton}"
+                              Width="4"
+                              Height="0"
+                              Foreground="{StaticResource solidColorBrush-theme-foreground}"
+                              Background="#333"
+                              BorderBrush="#333"
+                              BorderThickness="0"
+                              Command="ScrollBar.LineRightCommand"
+                              Content="M 0 0 L 4 4 L 0 8 Z" />
+            </Grid>
+        </ControlTemplate>-->
+        <ControlTemplate x:Key="VerticalScrollBar"
+                         TargetType="{x:Type ScrollBar}">
+            <Grid x:Name="bounds"
+                  Width="14"
+                  Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="0.00001*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Border x:Name="border"
+                        Grid.RowSpan="3"
+                        CornerRadius="0"
+                        Background="#333"
+                        Visibility="Visible"/>
+                <RepeatButton x:Name="scrollBarLineUpButton"
+                              Grid.Row="0"
+                              Style="{StaticResource ScrollBarLineButton}"
+                              Width="14"
+                              Height="14"
+                              Foreground="{StaticResource solidColorBrush-theme-foreground}"
+                              Background="#333"
+                              BorderBrush="#333"
+                              BorderThickness="0"
+                              Command="ScrollBar.LineUpCommand"
+                              Content="M 0 4 L 8 4 L 4 0 Z"/>
+                <Track x:Name="PART_Track"
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       Width="14"
+                       IsDirectionReversed="true">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource ScrollBarPageButton}"
+                                      Command="ScrollBar.PageUpCommand" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb x:Name="trackThumb"
+                               Background="{StaticResource solidColorBrush-theme-foreground}"
+                               BorderBrush="#333"
+                               BorderThickness="0"
+                               Style="{StaticResource ScrollBarThumb}"
+                               Margin="2 0" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource ScrollBarPageButton}"
+                                      Command="ScrollBar.PageDownCommand" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                <RepeatButton x:Name="scrollBarLineDownButton"
+                              Grid.Row="2"
+                              Grid.Column="1"
+                              Style="{StaticResource ScrollBarLineButton}"
+                              Width="14"
+                              Height="14"
+                              Foreground="{StaticResource solidColorBrush-theme-foreground}"
+                              Background="#333"
+                              BorderBrush="#333"
+                              BorderThickness="0"
+                              Command="ScrollBar.LineDownCommand"
+                              Content="M 0 0 L 4 4 L 8 0 Z"/>
+            </Grid>
+        </ControlTemplate>
+        <ControlTemplate x:Key="HorizontalScrollBar"
+                         TargetType="{x:Type ScrollBar}">
+            <Grid x:Name="bounds"
+                  Height="14"
+                  Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="0.00001*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="MouseOver" />
+                        <VisualState x:Name="Disabled" />
+                    </VisualStateGroup>
+                    <VisualStateGroup x:Name="ValidationStates">
+                        <VisualState x:Name="Valid" />
+                        <VisualState x:Name="InvalidFocused" />
+                        <VisualState x:Name="InvalidUnfocused" />
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+
+                <Border x:Name="border"
+                        Grid.ColumnSpan="3"
+                        CornerRadius="0"
+                        Background="#333"
+                        Visibility="Visible"/>
+                <RepeatButton x:Name="scrollBarLineLeftButton"
+                              Grid.Column="0"
+                              Style="{StaticResource ScrollBarLineButton}"
+                              Width="14"
+                              Height="14"
+                              Foreground="{StaticResource solidColorBrush-theme-foreground}"
+                              Background="#333"
+                              BorderBrush="#333"
+                              BorderThickness="0"
+                              Command="ScrollBar.LineLeftCommand"
+                              Content="M 4 0 L 4 8 L 0 4 Z" />
+                <Track x:Name="PART_Track"
+                       Grid.Column="1"
+                       Height="14"
+                       IsDirectionReversed="False">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource ScrollBarPageButton}"
+                                      Command="ScrollBar.PageLeftCommand" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Background="{StaticResource solidColorBrush-theme-foreground}"
+                               BorderBrush="#333"
+                               BorderThickness="0"
+                               Style="{StaticResource ScrollBarThumb}"
+                               Margin="0 2" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource ScrollBarPageButton}"
+                                      Command="ScrollBar.PageRightCommand" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                <RepeatButton x:Name="scrollBarLineRightButton"
+                              Grid.Column="2"
+                              Style="{StaticResource ScrollBarLineButton}"
+                              Width="14"
+                              Height="14"
+                              Foreground="{StaticResource solidColorBrush-theme-foreground}"
+                              Background="#333"
+                              BorderBrush="#333"
+                              BorderThickness="0"
+                              Command="ScrollBar.LineRightCommand"
+                              Content="M 0 0 L 4 4 L 0 8 Z" />
+            </Grid>
+        </ControlTemplate>
+        <Style x:Key="{x:Type ScrollBar}"
+               TargetType="{x:Type ScrollBar}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="OverridesDefaultStyle"
+                    Value="true" />
+            <Style.Triggers>
+                <Trigger Property="Orientation"
+                         Value="Horizontal">
+                    <Setter Property="Width"
+                            Value="Auto" />
+                    <Setter Property="Height"
+                            Value="Auto" />
+                    <Setter Property="Template"
+                            Value="{StaticResource HorizontalScrollBar}" />
+                </Trigger>
+                <Trigger Property="Orientation"
+                         Value="Vertical">
+                    <Setter Property="Width"
+                            Value="Auto" />
+                    <Setter Property="Height"
+                            Value="Auto" />
+                    <Setter Property="Template"
+                            Value="{StaticResource VerticalScrollBar}" />
+                </Trigger>
+                <!--<MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="Orientation"
+                                   Value="Horizontal" />
+                        <Condition Property="IsMouseOver"
+                                   Value="True" />
+                    </MultiTrigger.Conditions>
+                    <MultiTrigger.Setters>
+                        <Setter Property="Width"
+                                Value="Auto" />
+                        <Setter Property="Height"
+                                Value="18" />
+                        <Setter Property="Template"
+                                Value="{StaticResource HorizontalScrollBar}" />
+                    </MultiTrigger.Setters>
+                </MultiTrigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="Orientation"
+                                   Value="Vertical" />
+                        <Condition Property="IsMouseOver"
+                                   Value="True" />
+                    </MultiTrigger.Conditions>
+                    <MultiTrigger.Setters>
+                        <Setter Property="Width"
+                                Value="18" />
+                        <Setter Property="Height"
+                                Value="Auto" />
+                        <Setter Property="Template"
+                                Value="{StaticResource VerticalScrollBar}" />
+                    </MultiTrigger.Setters>
+                </MultiTrigger>-->
+            </Style.Triggers>
+        </Style>
+        <!--#endregion ScrollBar Styles-->
+        
+        <!--#region //  ListView Styles  // -->
+        <Style x:Key="EntryInfoListViewItem"
+               TargetType="{x:Type ListViewItem}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border x:Name="bounds"
+                                Width="96"
+                                Height="96"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="2">
+
+                            <Grid VerticalAlignment="Center"
+                                  HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Viewbox Grid.Row="0"
+                                         Width="36"
+                                         Height="36"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center">
+                                    <Canvas Width="24"
+                                            Height="24">
+                                        <Path x:Name="listViewItemGlyph"
+                                              Fill="Gainsboro"
+                                              Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87
+                                                    M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                                    </Canvas>
+                                </Viewbox>
+                                <ContentPresenter x:Name="cPresenter"
+                                                  Grid.Row="1"
+                                                  TextBlock.Foreground="Gainsboro"
+                                                  Content="{TemplateBinding Content}"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="DeepSkyblue" />
+                                <Setter TargetName="listViewItemGlyph"
+                                        Property="Fill"
+                                        Value="DeepSkyBlue" />
+                                <Setter TargetName="cPresenter"
+                                        Property="TextBlock.Foreground"
+                                        Value="DeepSkyBlue" />
+                            </Trigger>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="listViewItemGlyph"
+                                        Property="Fill"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="cPresenter"
+                                        Property="TextBlock.Foreground"
+                                        Value="DodgerBlue" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ListViewUpButtonStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bounds"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2 2 0 0">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                              Storyboard.TargetProperty="BorderThickness">
+                                                <EasingThicknessKeyFrame KeyTime="0"
+                                                                         Value="1" />
+                                            </ThicknessAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="arrowGlyph"
+                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                              Storyboard.TargetProperty="BorderThickness">
+                                                <EasingThicknessKeyFrame KeyTime="0"
+                                                                         Value="1" />
+                                            </ThicknessAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="arrowGlyph"
+                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused" />
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Valid" />
+                                    <VisualState x:Name="InvalidFocused" />
+                                    <VisualState x:Name="InvalidUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Canvas Height="12"
+                                    Width="12">
+                                <Path x:Name="arrowGlyph"
+                                      Fill="{TemplateBinding Foreground}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Data="M 0 9 L 12 9 L 6 3 Z" />
+                            </Canvas>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ListViewDownButtonStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bounds"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="0 0 2 2">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                              Storyboard.TargetProperty="BorderThickness">
+                                                <EasingThicknessKeyFrame KeyTime="0"
+                                                                         Value="1" />
+                                            </ThicknessAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="arrowGlyph"
+                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                              Storyboard.TargetProperty="BorderThickness">
+                                                <EasingThicknessKeyFrame KeyTime="0"
+                                                                         Value="1" />
+                                            </ThicknessAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="arrowGlyph"
+                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused" />
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Valid" />
+                                    <VisualState x:Name="InvalidFocused" />
+                                    <VisualState x:Name="InvalidUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Canvas Height="12"
+                                    Width="12">
+                                <Path x:Name="arrowGlyph"
+                                      Fill="{TemplateBinding Foreground}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Data="M 0 3 L 12 3 L 6 9 Z" />
+                            </Canvas>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--#endregion //  ListView Styles  // -->
+    </UserControl.Resources>
     
     <DockPanel LastChildFill="True">
         <!--#region //  Top Panel  //-->
@@ -48,65 +937,333 @@
 
         <!--#region //  Left Panel  //-->
         <Border DockPanel.Dock="Left"
-                Width="124"
+                Width="Auto"
                 Background="#262626"
-                Padding="12 6"/>
+                Padding="12 6">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Button x:Name="listViewTabDecrementButton"
+                                Grid.Row="0"
+                                Height="16"
+                                Foreground="Gainsboro"
+                                Background="#333"
+                                BorderBrush="#666"
+                                BorderThickness="0"
+                                Style="{StaticResource ListViewUpButtonStyle}"
+                                Click="listViewTabDecrementButton_Click"/>
+                <!--//  Eventually need to make ListView width Auto and scale with ListViewItem contents  //-->
+                <ListView x:Name="listViewTabSelector"
+                                  Grid.Row="1"
+                                  Width="100"
+                                  Foreground="Gainsboro"
+                                  Background="#333"
+                                  BorderBrush="#666"
+                                  BorderThickness="0"
+                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                  SelectedIndex="0">
+                    <ListViewItem Content="Basic"
+                                          Style="{StaticResource EntryInfoListViewItem}" />
+                    <ListViewItem Content="Advanced"
+                                          Style="{StaticResource EntryInfoListViewItem}" />
+                    <!--<ListViewItem Content="Advanced"
+                                          Style="{StaticResource EntryInfoListViewItem}" />-->
+                    <!--<ListViewItem Content="Lockout"
+                                          Style="{StaticResource EntryInfoListViewItem}" />-->
+                </ListView>
+                <Button x:Name="listViewTabIncrementButton"
+                                Grid.Row="2"
+                                Height="16"
+                                Foreground="Gainsboro"
+                                Background="#333"
+                                BorderBrush="#666"
+                                BorderThickness="0"
+                                Style="{StaticResource ListViewDownButtonStyle}"
+                                Click="listViewTabIncrementButton_Click"/>
+            </Grid>
+        </Border>
         <!--#endregion //  Left Panel  //-->
 
         <!--#region //  Right Panel  //-->
         <Border Background="Transparent"
                 Padding="10 20 5 20">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="120" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="1*" />
-                </Grid.RowDefinitions>
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
 
-                <!-- Row 1 -->
-                <CheckBox Grid.Row="0"
+                    <!--#region Row 1 -->
+                    <!--<CheckBox Grid.Row="0"
                           Grid.Column="0"
                           Width="14"
                           Height="14"
-                          Visibility="Hidden" />
-                <Label Grid.Row="0"
+                          Visibility="Hidden" />-->
+                    <Label Grid.Row="0"
                        Grid.Column="1"
                        Foreground="Gainsboro"
                        Content="Theme:" />
-                <ComboBox Grid.Row="0"
+                    <ComboBox Grid.Row="0"
                           Grid.Column="2" />
-                
-                <!-- Row 2 -->
-                <Label Grid.Row="1"
-                       Grid.Column="1"
-                       Foreground="Gainsboro"
-                       Content="Backup location:" />
-                <TextBox Grid.Row="1"
-                         Grid.Column="2" /> <!-- might need to add button to select path -->
+                    <!--#endregion Row 1 -->
 
-                <!-- Row 3 -->
-                <Label Grid.Row="2"
-                       Grid.Column="1"
-                       Foreground="Gainsboro"
-                       Content="Backup frequency:"/>
-                <ComboBox Grid.Row="2"
-                          Grid.Column="2" />
-                
-                <!-- Row 4 -->
-                <Label Grid.Row="3"
+                    <!--#region Row 2 -->
+                    <Border Grid.Row="1"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                            Margin="0 10 0 5"
+                        Padding="5"
+                        Background="#444"
+                        CornerRadius="2">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Foreground="Gainsboro"
+                                   Text="Backup Options"
+                                   HorizontalAlignment="Left" />
+                            <Separator Margin="0 5"
+                                   Background="#777"/>
+                            <Grid Margin="11 0 0 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <!--#region  Allow Backups -->
+                                <CheckBox Grid.Row="0"
+                                      Grid.Column="0"
+                                      Foreground="Gainsboro"
+                                      Content="Allow automatic backups" />
+                                <!--#endregion Allow Backups -->
+
+                                <!--#region Backup Count -->
+                                <Label Grid.Row="1"
+                                   Grid.Column="0"
+                                   Foreground="Gainsboro"
+                                   Content="Auto backup count:" />
+                                <TextBox Grid.Row="1"
+                                     Grid.Column="1" />
+                                <!--#endregion Backup Count -->
+
+                                <!--#region Backup Location -->
+                                <Label Grid.Row="2"
+                               Grid.Column="0"
+                               Foreground="Gainsboro"
+                               Content="Backup location:" />
+                                <TextBox Grid.Row="2"
+                                 Grid.Column="1" />
+                                <!-- might need to add button to select path -->
+                                <!--#endregion Backup Location -->
+
+                                <!--#region Backup Frequency -->
+                                <Label Grid.Row="3"
+                               Grid.Column="0"
+                               Foreground="Gainsboro"
+                               Content="Backup frequency:"/>
+                                <ComboBox Grid.Row="3"
+                                  Grid.Column="1" />
+                                <!--#endregion Backup Frequency -->
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    <!--#endregion Row 2 -->
+
+                    <!--#region Row 3 -->
+                    <!--<Label Grid.Row="2"
                        Grid.Column="1"
                        Foreground="Gainsboro"
                        Content="Time before lockout:" />
-                <TextBox Grid.Row="3"
-                         Grid.Column="2" />
+                <TextBox Grid.Row="2"
+                         Grid.Column="2" />-->
+                    <Border Grid.Row="2"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="3"
+                            Margin="0 10"
+                        Padding="5"
+                        Background="#444"
+                        CornerRadius="2">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Foreground="Gainsboro"
+                                   Text="Database Options"
+                                   HorizontalAlignment="Left"/>
+                            <Separator Margin="0 5"
+                                   Background="#777"/>
+                            <Grid Margin="11 0 0 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <!--#region Erase Database -->
+                                <CheckBox Grid.Row="0"
+                                      Grid.Column="0"
+                                      Foreground="Gainsboro"
+                                      Content="Erase database after set amount of attempts" />
+
+                                <TextBlock Grid.Row="1"
+                                       Grid.Column="0"
+                                       Foreground="Gainsboro"
+                                       Text="Attempts before erasing:" />
+                                <TextBox Grid.Row="1"
+                                     Grid.Column="1" />
+                                <!--#endregion -->
+                                <Separator Grid.Row="2"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       Margin="0 5"/>
+                                <!--#region Database Lockout-->
+                                <TextBlock Grid.Row="3"
+                                       Grid.Column="0"
+                                       Foreground="Gainsboro"
+                                       Text="Security timeout (in minutes):" />
+                                <TextBox Grid.Row="3"
+                                     Grid.Column="1" />
+
+                                <CheckBox Grid.Row="4"
+                                      Grid.Column="0"
+                                      Foreground="Gainsboro"
+                                      Content="Log deleted items" />
+                                <!--#endregion Database Lockout -->
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    <!--#endregion Row 3 -->
+
+                    <!--#region Row 4 -->
+                    <Border Grid.Row="3"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
+                            Margin="0 10"
+                            Padding="5"
+                            Background="#444"
+                            CornerRadius="2">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Foreground="Gainsboro"
+                                       Text="Display Options"
+                                       HorizontalAlignment="Left" />
+                            <Separator Margin="0 5"
+                                       Background="#777" />
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                                
+                                <!--#region TreeView Options -->
+                            <TextBlock Grid.Row="0"
+                                           Grid.Column="0"
+                                           Foreground="Gainsboro"
+                                           Text="Default tree display:" />
+                            <StackPanel Grid.Row="0"
+                                            Grid.Column="1"
+                                            Orientation="Vertical">
+                                <RadioButton Foreground="Gainsboro"
+                                             Content="Expand all" />
+                                <RadioButton Foreground="Gainsboro"
+                                             Content="Collapse all" />
+                                <RadioButton Foreground="Gainsboro"
+                                             Content="Remember last" />
+                            </StackPanel>
+
+                            <TextBlock Grid.Row="1"
+                                           Grid.Column="0"
+                                       Foreground="Gainsboro"
+                                       Text="Expand/Collapse buttons:"/>
+                            <StackPanel Grid.Row="1"
+                                            Grid.Column="1"
+                                            Orientation="Vertical">
+                                <RadioButton Foreground="Gainsboro"
+                                             Content="Plus/Minus signs" />
+                                <RadioButton Foreground="Gainsboro"
+                                             Content="Arrows" />
+                                <RadioButton Foreground="Gainsboro"
+                                             Content="Folders" />
+                            </StackPanel>
+                            <!--#endregion TreeView Options -->
+
+                            <Separator Grid.Row="2"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                       Margin="0 5"/>
+                                
+                            <!--#region DataGrid Options -->
+                            <CheckBox Grid.Row="3"
+                                       Grid.Column="0"
+                                       Foreground="Gainsboro"
+                                       Content="Display information pane" />
+                            <!--#endregion DataGrid Options -->
+
+                            <Separator Grid.Row="4"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Margin="0 5" />
+                                
+                            <!--#region -->
+                            <TextBlock Grid.Row="5"
+                                           Grid.Column="0"
+                                           Foreground="Gainsboro"
+                                           Text="Icon size:" />
+                            <StackPanel Grid.Row="5"
+                                            Grid.Column="1"
+                                            Orientation="Vertical">
+                                <RadioButton Foreground="Gainsboro"
+                                             Content="Small" />
+                                <RadioButton Foreground="Gainsboro"
+                                             Content="Medium" />
+                                <RadioButton Foreground="Gainsboro"
+                                             Content="Large" />
+                            </StackPanel>
+                            <!--#endregion -->
+                        </Grid>
+                        </StackPanel>
+                    </Border>
+                    <!--#endregion Row 4 -->
+                        
+                <!--#region Row 5-->
+
+                <!--#endregion Row 5-->
             </Grid>
+            </ScrollViewer>
         </Border>
         <!--#endregion //  Right Panel  //-->
     </DockPanel>
