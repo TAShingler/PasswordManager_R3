@@ -115,14 +115,15 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="TreeView">
                         <Border Name="Border"
+                                Background="#464646"
                                 CornerRadius="1"
                                 Padding="0">
                             <Border.BorderBrush>
                                 <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
                             </Border.BorderBrush>
-                            <Border.Background>
-                                <SolidColorBrush Color="Transparent" /><!-- Color="{DynamicResource ControlLightColor}" />-->
-                            </Border.Background>
+                            <!--<Border.Background>
+                                <SolidColorBrush Color="Transparent" />--><!-- Color="{DynamicResource ControlLightColor}" />--><!--
+                            </Border.Background>-->
                             <ScrollViewer Focusable="False"
                                           CanContentScroll="False"
                                           Padding="4">
@@ -191,6 +192,9 @@
                                                        Maximum="{TemplateBinding ScrollableWidth}"
                                                        ViewportSize="{TemplateBinding ViewportWidth}"
                                                        Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>-->
+                                            <Border Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Background="#333" />
                                         </Grid>
                                     </ControlTemplate>
                                 </ScrollViewer.Template>
@@ -1005,6 +1009,7 @@
                                 </Grid.ColumnDefinitions>
                                 
                                 <ContentPresenter Grid.Column="1"
+                                                  VerticalAlignment="Center"
                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </Grid>
                         </Border>
@@ -1755,10 +1760,14 @@
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>-->
                             
-                            <Path Width="6"
+                            <!--<Path Width="6"
                                   Height="4"
                                   Fill="{TemplateBinding Foreground}"
-                                  Data="M 0 1 3 4 6 1 Z" />
+                                  Data="M 0 1 3 4 6 1 Z" />-->
+                            <Path Width="10"
+                                  Height="5"
+                                  Fill="{TemplateBinding Foreground}"
+                                  Data="M 0 0 H 10 L 5 5 Z" />
                         </Border>
 
                         <ControlTemplate.Triggers>
@@ -1933,72 +1942,53 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RepeatButton}">
-                        <Border x:Name="Border"
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="arrow"
+                                                              Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                         Value="DeepSkyBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="arrow"
+                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused" />
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Valid" />
+                                    <VisualState x:Name="InvalidFocused" />
+                                    <VisualState x:Name="InvalidUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="border"
                                 Margin="1"
                                 CornerRadius="2"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
-                            <!--<Border.BorderBrush>
-                                <LinearGradientBrush StartPoint="0,0"
-                                                     EndPoint="0,1">
-                                    <LinearGradientBrush.GradientStops>
-                                        <GradientStopCollection>
-                                            <GradientStop Color="{DynamicResource BorderMediumColor}"
-                                                          Offset="0.0" />
-                                            <GradientStop Color="{DynamicResource BorderDarkColor}"
-                                                          Offset="1.0" />
-                                        </GradientStopCollection>
-                                    </LinearGradientBrush.GradientStops>
-                                </LinearGradientBrush>
-                            </Border.BorderBrush>-->
-                            <!--<Border.Background>
-                                <LinearGradientBrush StartPoint="0,0"
-                                                     EndPoint="0,1">
-                                    <LinearGradientBrush.GradientStops>
-                                        <GradientStopCollection>
-                                            <GradientStop Color="{DynamicResource ControlLightColor}"/>
-                                            <GradientStop Color="{DynamicResource ControlMediumColor}"
-                                                          Offset="1.0" />
-                                        </GradientStopCollection>
-                                    </LinearGradientBrush.GradientStops>
-                                </LinearGradientBrush>
-                            </Border.Background>-->
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="MouseOver" />
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
-                                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
-                                                <EasingColorKeyFrame KeyTime="0"
-                                                                     Value="{StaticResource ControlPressedColor}" />
-                                            </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled">
-                                        <Storyboard>
-                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Arrow"
-                                                                          Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
-                                                <EasingColorKeyFrame KeyTime="0"
-                                                                     Value="{StaticResource DisabledForegroundColor}" />
-                                            </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Path x:Name="Arrow"
+                                BorderThickness="{TemplateBinding BorderThickness}" />
+                            <Path x:Name="arrow"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Fill="{TemplateBinding Foreground}"
                                   Data="{Binding Content,
-                                                 RelativeSource={RelativeSource TemplatedParent}}" >
-                                <!--<Path.Fill>
-                                    <SolidColorBrush Color="{DynamicResource GlyphColor}"/>
-                                </Path.Fill>-->
-                            </Path>
-                        </Border>
+                                                 RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -2034,10 +2024,45 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Border CornerRadius="2"
+                        <Border x:Name="border"
+                                CornerRadius="2"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="0" />
+                                BorderThickness="0">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="border"
+                                                              Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                         Value="DeepSkyBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="border"
+                                                                          Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused" />
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Valid" />
+                                    <VisualState x:Name="InvalidFocused" />
+                                    <VisualState x:Name="InvalidUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -2371,18 +2396,6 @@
                     <RowDefinition Height="0.00001*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal" />
-                        <VisualState x:Name="MouseOver" />
-                        <VisualState x:Name="Disabled" />
-                    </VisualStateGroup>
-                    <VisualStateGroup x:Name="ValidationStates">
-                        <VisualState x:Name="Valid" />
-                        <VisualState x:Name="InvalidFocused" />
-                        <VisualState x:Name="InvalidUnfocused" />
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
 
                 <Border x:Name="border"
                         Grid.RowSpan="3"
@@ -2410,7 +2423,8 @@
                                       Command="ScrollBar.PageUpCommand" />
                     </Track.DecreaseRepeatButton>
                     <Track.Thumb>
-                        <Thumb Background="{StaticResource solidColorBrush-theme-foreground}"
+                        <Thumb x:Name="trackThumb"
+                               Background="{StaticResource solidColorBrush-theme-foreground}"
                                BorderBrush="#333"
                                BorderThickness="0"
                                Style="{StaticResource ScrollBarThumb}"
@@ -2659,55 +2673,54 @@
                 <ColumnDefinition MinWidth="300" Width="1*" />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0"
-                    Background="#464646"
-                    BorderBrush="#464646"
+            <Border x:Name="treeViewOpacityMask"
+                    Grid.Column="0"
+                    Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                         Path=Background}"
                     BorderThickness="0"
                     CornerRadius="2"
-                    Padding="0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <!--<RowDefinition Height="5" />
-                        <RowDefinition Height="Auto" />-->
-                    </Grid.RowDefinitions>
-                    <TreeView x:Name="treeViewGroups"
-                              Background="Transparent"
-                              BorderBrush="Transparent"
-                              BorderThickness="0"
-                              IsEnabled="True"
-                              ItemsSource="{Binding Groups}">
-                        <!--Background="#464646"
-                            BorderBrush="#666"
-                            BorderThickness="0"-->
-                        <!--<TreeView.Resources>
-                            <Style TargetType="{x:Type TreeView}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type TreeView}">
-                                            <Border Background="{TemplateBinding Background}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                                    CornerRadius="4">
+                    Padding="0" />
+            <TreeView x:Name="treeViewGroups"
+                      Grid.Column="0"
+                      Background="Transparent"
+                      BorderBrush="#464646"
+                      BorderThickness="0"
+                      IsEnabled="True"
+                      ItemsSource="{Binding Groups}">
+                <!--Background="#464646"
+                        BorderBrush="#666"
+                        BorderThickness="0"-->
+                <!--<TreeView.Resources>
+                        <Style TargetType="{x:Type TreeView}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TreeView}">
+                                        <Border Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="4">
                                             
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </TreeView.Resources>-->
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectedItemChanged">
-                                <i:InvokeCommandAction Command="{Binding GroupSelectedItemChangedCommand}"
-                                                       CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}},
-                                                                                  Path=SelectedItem}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        <!--<TreeViewItem Header="parent">
-                            <TreeViewItem Header="child" />
-                        </TreeViewItem>-->
-                    </TreeView>
-                    <!--<Rectangle Grid.Row="1"
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TreeView.Resources>-->
+                <TreeView.OpacityMask>
+                    <VisualBrush Visual="{Binding ElementName=treeViewOpacityMask}" />
+                </TreeView.OpacityMask>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectedItemChanged">
+                        <i:InvokeCommandAction Command="{Binding GroupSelectedItemChangedCommand}"
+                                                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}},
+                                                                                Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <!--<TreeViewItem Header="parent">
+                        <TreeViewItem Header="child" />
+                    </TreeViewItem>-->
+            </TreeView>
+                <!--<Rectangle Grid.Row="1"
                                Fill="#121212"
                                Margin="-1 0"/>
                     <Label Grid.Row="2"
@@ -2722,8 +2735,7 @@
                            HorizontalContentAlignment="Center"
                            VerticalContentAlignment="Center"
                            Content="Total Vaults: 000" />-->
-                </Grid>
-            </Border>
+
             <GridSplitter Grid.Column="1"
                           Width="5"
                           Background="Transparent"
@@ -2888,8 +2900,8 @@
                             <!--Text="{Binding SrTitle}" />-->
                             <Button Grid.Column="2"
                                     Grid.Row="0"
-                                    Height="16"
-                                    Width="16"
+                                    Height="24"
+                                    Width="24"
                                     Style="{StaticResource ButtonCollapseSelectedRecordPanelStyle}"
                                     Click="Button_Click" />
                             <!-- ="{Binding SomeCommand}" />--><!-- Click="Button_Click"/>-->

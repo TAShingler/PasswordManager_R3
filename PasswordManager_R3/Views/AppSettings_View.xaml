@@ -4,9 +4,110 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PasswordManager_R3.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+    
+    <DockPanel LastChildFill="True">
+        <!--#region //  Top Panel  //-->
+        <Border DockPanel.Dock="Top"
+                Height="42"
+                Background="#333"
+                CornerRadius="2 2 0 0">
+            <TextBlock FontSize="12"
+                       Padding="12"
+                       Foreground="Gainsboro"
+                       Text="Application Settings" />
+        </Border>
+        <!--#endregion //  Top Panel  //-->
+
+        <!--#region //  Bottom Panel  //-->
+        <Border DockPanel.Dock="Bottom"
+                Height="42"
+                Background="#333"
+                CornerRadius="0 0 2 2">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Height="30"
+                        Width="100"
+                        Margin="5"
+                        Foreground="Gainsboro"
+                        Background="#222"
+                        BorderThickness="0"
+                        Content="OK"/>
+                <Button Height="30"
+                        Width="100"
+                        Margin="5"
+                        Foreground="Gainsboro"
+                        Background="#222"
+                        BorderThickness="0"
+                        Content="Cancel"/>
+            </StackPanel>
+        </Border>
+        <!--#endregion //  Bottom Panel  //-->
+
+        <!--#region //  Left Panel  //-->
+        <Border DockPanel.Dock="Left"
+                Width="124"
+                Background="#262626"
+                Padding="12 6"/>
+        <!--#endregion //  Left Panel  //-->
+
+        <!--#region //  Right Panel  //-->
+        <Border Background="Transparent"
+                Padding="10 20 5 20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <!-- Row 1 -->
+                <CheckBox Grid.Row="0"
+                          Grid.Column="0"
+                          Width="14"
+                          Height="14"
+                          Visibility="Hidden" />
+                <Label Grid.Row="0"
+                       Grid.Column="1"
+                       Foreground="Gainsboro"
+                       Content="Theme:" />
+                <ComboBox Grid.Row="0"
+                          Grid.Column="2" />
+                
+                <!-- Row 2 -->
+                <Label Grid.Row="1"
+                       Grid.Column="1"
+                       Foreground="Gainsboro"
+                       Content="Backup location:" />
+                <TextBox Grid.Row="1"
+                         Grid.Column="2" /> <!-- might need to add button to select path -->
+
+                <!-- Row 3 -->
+                <Label Grid.Row="2"
+                       Grid.Column="1"
+                       Foreground="Gainsboro"
+                       Content="Backup frequency:"/>
+                <ComboBox Grid.Row="2"
+                          Grid.Column="2" />
+                
+                <!-- Row 4 -->
+                <Label Grid.Row="3"
+                       Grid.Column="1"
+                       Foreground="Gainsboro"
+                       Content="Time before lockout:" />
+                <TextBox Grid.Row="3"
+                         Grid.Column="2" />
+            </Grid>
+        </Border>
+        <!--#endregion //  Right Panel  //-->
+    </DockPanel>
 </UserControl>

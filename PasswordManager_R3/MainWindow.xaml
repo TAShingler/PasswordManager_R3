@@ -49,6 +49,9 @@
         <DataTemplate DataType="{x:Type vm:AddEditGroup_ViewModel}">
             <views:AddEditGroup_View />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AppSettings_ViewModel}">
+            <views:AppSettings_View />
+        </DataTemplate>
         
         <!--#region //  CONVERTERS  //-->
         <converters:ViewStateToVisibilityConverter x:Key="ViewStateToVisibilityConverter" />
@@ -1296,9 +1299,21 @@
                             <MenuItem Header="Item1" />
                         </MenuItem>
                         <MenuItem Header="Edit">
-                            <MenuItem Header="Item1">
+                            <MenuItem Header="Item1" />
+                            <MenuItem Header="Item2" />
+                            <MenuItem Header="Item3">
                                 <MenuItem Header="subitem 1" />
+                                <MenuItem Header="subitem 2" />
+                                <MenuItem Header="subitem 3" />
+                                <MenuItem Header="subitem 4" />
+                                <MenuItem Header="subitem 5" />
                             </MenuItem>
+                            <Separator />
+                            <MenuItem Header="Item4" />
+                            <MenuItem Header="Item5" />
+                            <MenuItem Header="Item6" />
+                            <Separator />
+                            <MenuItem Header="Item7" />
                         </MenuItem>
                         <MenuItem Header="About">
                             <MenuItem Header="Item1" />
@@ -1327,7 +1342,8 @@
                                 <Path x:Name="glyphBottomLine"
                                       Fill="{StaticResource solidColorBrush-theme-foreground}"
                                       Data="m 4,16 h 16 c 0.554,0 1,0.446 1,1 0,0.554 -0.446,1 -1,1 H 4 C 3.446,18 3,17.554 3,17 3,16.446 3.446,16 4,16 Z" />
-                                --><!--<Path x:Name="glyphTopLine"
+                                -->
+                    <!--<Path x:Name="glyphTopLine"
                                               Stroke="{StaticResource solidColorBrush-theme-foreground}"
                                               StrokeThickness="2.5"
                                               StrokeStartLineCap="Round"
@@ -1344,7 +1360,8 @@
                                               StrokeThickness="2.5"
                                               StrokeStartLineCap="Round"
                                               StrokeEndLineCap="Round"
-                                              Data="M 4,18 H 20" />--><!--
+                                              Data="M 4,18 H 20" />-->
+                    <!--
                             </Canvas>
                         </Viewbox>
                     </ToggleButton>
@@ -1422,8 +1439,10 @@
                                               Path=Title}" />
 
                     <StackPanel Grid.Column="3"
+                                WindowChrome.IsHitTestVisibleInChrome="True"
                                 Panel.ZIndex="0"
-                                Orientation="Horizontal" />
+                                Orientation="Horizontal"
+                                Margin="24 0" />
 
                     <Button Grid.Column="4"
                             Panel.ZIndex="0"

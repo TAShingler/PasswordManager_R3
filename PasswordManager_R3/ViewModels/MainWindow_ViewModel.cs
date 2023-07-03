@@ -471,10 +471,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
     }
     //Set CurrentView to AppSettings_View event handler
     private void OnAppSettingsCommand(object obj) {
-        System.Diagnostics.Debug.WriteLine("onAppSettingsCommand clicked, but it's not implemented yet...");
+        //System.Diagnostics.Debug.WriteLine("onAppSettingsCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AppSettings_ViewModel();
+        AppSettings_ViewModel appSettingsVM = new();
+        SelectedViewModel = appSettingsVM;
 
-        ButtonLockDatabaseIsEnabled = false;
+        ButtonLockDatabaseIsEnabled = true;
         ButtonAddRecordIsEnabled = false;
         ButtonEditRecordIsEnabled = false;
         ButtonDeleteRecordIsEnabled = false;
