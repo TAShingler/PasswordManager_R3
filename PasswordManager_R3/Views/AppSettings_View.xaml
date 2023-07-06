@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PasswordManager_R3.Views"
              mc:Ignorable="d"
              d:DesignHeight="900"
-             d:DesignWidth="800">
+             d:DesignWidth="1000">
 
     <UserControl.Resources>
         <!--#region ScrollBar Styles-->
@@ -990,16 +990,15 @@
         <!--#endregion //  Left Panel  //-->
 
         <!--#region //  Right Panel  //-->
-        <Border Background="Transparent"
-                Padding="10 20 5 20">
+        <Border Background="Transparent">
             <ScrollViewer VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled">
-                <Grid>
-                    <Grid.ColumnDefinitions>
+                <Grid Margin="10">
+                    <!--<Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="120" />
                         <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
+                    </Grid.ColumnDefinitions>-->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -1008,164 +1007,211 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
 
-                    <!--#region Row 1 -->
+                    <!--#region Row 1 - deprecated -->
                     <!--<CheckBox Grid.Row="0"
                           Grid.Column="0"
                           Width="14"
                           Height="14"
                           Visibility="Hidden" />-->
-                    <Label Grid.Row="0"
+                    <!--<Label Grid.Row="0"
                        Grid.Column="1"
                        Foreground="Gainsboro"
                        Content="Theme:" />
                     <ComboBox Grid.Row="0"
-                          Grid.Column="2" />
+                          Grid.Column="2" />-->
                     <!--#endregion Row 1 -->
 
-                    <!--#region Row 2 -->
-                    <Border Grid.Row="1"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                            Margin="0 10 0 5"
-                        Padding="5"
-                        Background="#444"
-                        CornerRadius="2">
+                    <!--#region Row 1 -->
+                    <Border Grid.Row="0"
+                            Margin="0 0 0 5"
+                            Padding="4"
+                            Background="#444"
+                            CornerRadius="2">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Foreground="Gainsboro"
-                                   Text="Backup Options"
-                                   HorizontalAlignment="Left" />
+                                       Text="Backup Options"
+                                       HorizontalAlignment="Left" />
                             <Separator Margin="0 5"
-                                   Background="#777"/>
-                            <Grid Margin="11 0 0 0">
+                                       Background="#777"/>
+                            <Grid Margin="12 0 0 0">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
+                                    <RowDefinition Height="24" />
+                                    <RowDefinition Height="28" />
+                                    <RowDefinition Height="28" />
+                                    <RowDefinition /><!-- Height="28" />-->
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="180" />
+                                    <ColumnDefinition Width="420" />
+                                    <ColumnDefinition Width="1*" />
                                 </Grid.ColumnDefinitions>
 
                                 <!--#region  Allow Backups -->
                                 <CheckBox Grid.Row="0"
-                                      Grid.Column="0"
-                                      Foreground="Gainsboro"
-                                      Content="Allow automatic backups" />
+                                          Grid.Column="0"
+                                          Grid.ColumnSpan="3"
+                                          Foreground="Gainsboro"
+                                          Content="Allow automatic backups" />
                                 <!--#endregion Allow Backups -->
 
                                 <!--#region Backup Count -->
                                 <Label Grid.Row="1"
-                                   Grid.Column="0"
-                                   Foreground="Gainsboro"
-                                   Content="Auto backup count:" />
-                                <TextBox Grid.Row="1"
-                                     Grid.Column="1" />
+                                       Grid.Column="0"
+                                       Padding="0"
+                                       Margin="0"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="Gainsboro"
+                                       Content="Auto backup count:" />
+                                <Grid Grid.Row="1"
+                                      Grid.Column="1"
+                                      Margin="0 2"
+                                      HorizontalAlignment="Left">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="1*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition Width="24" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Row="0"
+                                             Grid.RowSpan="2"
+                                             Grid.Column="0"
+                                             Text="999"
+                                             VerticalContentAlignment="Center"
+                                             HorizontalContentAlignment="Right"/>
+                                    <RepeatButton Grid.Row="0"
+                                                  Grid.Column="1"/>
+                                    <RepeatButton Grid.Row="1"
+                                                  Grid.Column="1" />
+                                </Grid>
                                 <!--#endregion Backup Count -->
 
                                 <!--#region Backup Location -->
                                 <Label Grid.Row="2"
-                               Grid.Column="0"
-                               Foreground="Gainsboro"
-                               Content="Backup location:" />
-                                <TextBox Grid.Row="2"
-                                 Grid.Column="1" />
+                                       Grid.Column="0"
+                                       Padding="0"
+                                       Margin="0"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="Gainsboro"
+                                       Content="Backup location:" />
+                                <Grid Grid.Row="2"
+                                      Grid.Column="1"
+                                      Margin="0 2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="4" />
+                                        <ColumnDefinition Width="75" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <TextBox Grid.Column="0"
+                                             VerticalContentAlignment="Center"/>
+                                    <Button Grid.Column="2"
+                                            Content="Browse..."/>
+                                </Grid>
                                 <!-- might need to add button to select path -->
                                 <!--#endregion Backup Location -->
 
                                 <!--#region Backup Frequency -->
-                                <Label Grid.Row="3"
-                               Grid.Column="0"
-                               Foreground="Gainsboro"
-                               Content="Backup frequency:"/>
-                                <ComboBox Grid.Row="3"
-                                  Grid.Column="1" />
+                                <!--<Label Grid.Row="3"
+                                       Grid.Column="0"
+                                       Padding="0"
+                                       Margin="0"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="Gainsboro"
+                                       Content="Backup frequency:"/>-->
+                                <!--<ComboBox Grid.Row="3"
+                                          Grid.Column="1"
+                                          Margin="0 2">
+                                    <ComboBoxItem Content="Item 1" />
+                                    <ComboBoxItem Content="Item 2" />
+                                    <ComboBoxItem Content="Item 3" />
+                                    <ComboBoxItem Content="Item 3" />
+                                    <ComboBoxItem Content="Item 4" />
+                                </ComboBox>-->
                                 <!--#endregion Backup Frequency -->
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    <!--#endregion Row 1 -->
+
+                    <!--#region Row 2 -->
+                    <Border Grid.Row="1"
+                            Margin="0 5"
+                            Padding="4"
+                            Background="#444"
+                            CornerRadius="2">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Foreground="Gainsboro"
+                                       Text="Database Options"
+                                       HorizontalAlignment="Left"/>
+                            <Separator Margin="0 5"
+                                       Background="#777"/>
+                            <Grid Margin="12 0 0 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="24" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="24" />
+                                    <RowDefinition Height="1*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180" />
+                                    <ColumnDefinition Width="420" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--#region Erase Database -->
+                                <CheckBox Grid.Row="0"
+                                          Grid.Column="0"
+                                          Grid.ColumnSpan="3"
+                                          VerticalContentAlignment="Center"
+                                          Foreground="Gainsboro"
+                                          Content="Erase database after set amount of attempts" />
+
+                                <Label Grid.Row="1"
+                                       Grid.Column="0"
+                                       Padding="0"
+                                       Margin="0"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="Gainsboro"
+                                       Content="Attempts before erasing:" />
+                                <TextBox Grid.Row="1"
+                                         Grid.Column="1"
+                                         Margin="0 2"/>
+                                <!--#endregion -->
+                                <Separator Grid.Row="2"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Margin="0 5"/>
+                                <!--#region Database Lockout-->
+                                <Label Grid.Row="3"
+                                       Grid.Column="0"
+                                       Padding="0"
+                                       Margin="0"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="Gainsboro"
+                                       Content="Security timeout (in minutes):" />
+                                <TextBox Grid.Row="3"
+                                         Grid.Column="1"
+                                         Margin="0 2"/>
+
+                                <CheckBox Grid.Row="4"
+                                          Grid.Column="0"
+                                          Foreground="Gainsboro"
+                                          VerticalContentAlignment="Center"
+                                          Content="Log deleted items" />
+                                <!--#endregion Database Lockout -->
                             </Grid>
                         </StackPanel>
                     </Border>
                     <!--#endregion Row 2 -->
 
                     <!--#region Row 3 -->
-                    <!--<Label Grid.Row="2"
-                       Grid.Column="1"
-                       Foreground="Gainsboro"
-                       Content="Time before lockout:" />
-                <TextBox Grid.Row="2"
-                         Grid.Column="2" />-->
                     <Border Grid.Row="2"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="3"
-                            Margin="0 10"
-                        Padding="5"
-                        Background="#444"
-                        CornerRadius="2">
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Foreground="Gainsboro"
-                                   Text="Database Options"
-                                   HorizontalAlignment="Left"/>
-                            <Separator Margin="0 5"
-                                   Background="#777"/>
-                            <Grid Margin="11 0 0 0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-
-                                <!--#region Erase Database -->
-                                <CheckBox Grid.Row="0"
-                                      Grid.Column="0"
-                                      Foreground="Gainsboro"
-                                      Content="Erase database after set amount of attempts" />
-
-                                <TextBlock Grid.Row="1"
-                                       Grid.Column="0"
-                                       Foreground="Gainsboro"
-                                       Text="Attempts before erasing:" />
-                                <TextBox Grid.Row="1"
-                                     Grid.Column="1" />
-                                <!--#endregion -->
-                                <Separator Grid.Row="2"
-                                       Grid.Column="0"
-                                       Grid.ColumnSpan="2"
-                                       Margin="0 5"/>
-                                <!--#region Database Lockout-->
-                                <TextBlock Grid.Row="3"
-                                       Grid.Column="0"
-                                       Foreground="Gainsboro"
-                                       Text="Security timeout (in minutes):" />
-                                <TextBox Grid.Row="3"
-                                     Grid.Column="1" />
-
-                                <CheckBox Grid.Row="4"
-                                      Grid.Column="0"
-                                      Foreground="Gainsboro"
-                                      Content="Log deleted items" />
-                                <!--#endregion Database Lockout -->
-                            </Grid>
-                        </StackPanel>
-                    </Border>
-                    <!--#endregion Row 3 -->
-
-                    <!--#region Row 4 -->
-                    <Border Grid.Row="3"
-                            Grid.Column="1"
-                            Grid.ColumnSpan="3"
-                            Margin="0 10"
-                            Padding="5"
+                            Margin="0 5"
+                            Padding="4"
                             Background="#444"
                             CornerRadius="2">
                         <StackPanel Orientation="Vertical">
@@ -1174,43 +1220,54 @@
                                        HorizontalAlignment="Left" />
                             <Separator Margin="0 5"
                                        Background="#777" />
-                            <Grid>
+                            <Grid Margin="12 0 0 0">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
+                                    <RowDefinition Height="50" />
+                                    <RowDefinition Height="50" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="24" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="54" />
+                                    <RowDefinition Height="1*" />
+                                </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180" />
+                                    <ColumnDefinition Width="420" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
                                 
-                                <!--#region TreeView Options -->
-                            <TextBlock Grid.Row="0"
+                            <!--#region TreeView Options -->
+                                <!--<StackPanel Grid.Row="0"
+                                            Grid.Column="0"
+                                            Orientation="Horizontal">-->
+                                    <Label Grid.Row="0"
                                            Grid.Column="0"
+                                           Padding="0"
+                                           Margin="0 1"
+                                           VerticalContentAlignment="Top"
                                            Foreground="Gainsboro"
-                                           Text="Default tree display:" />
-                            <StackPanel Grid.Row="0"
-                                            Grid.Column="1"
-                                            Orientation="Vertical">
-                                <RadioButton Foreground="Gainsboro"
+                                           Content="Default tree display:" />
+                                    <StackPanel Grid.Row="0"
+                                                Grid.Column="1"
+                                                Orientation="Vertical"
+                                                Margin="0 2">
+                                        <RadioButton Foreground="Gainsboro"
                                              Content="Expand all" />
-                                <RadioButton Foreground="Gainsboro"
+                                        <RadioButton Foreground="Gainsboro"
                                              Content="Collapse all" />
-                                <RadioButton Foreground="Gainsboro"
+                                        <RadioButton Foreground="Gainsboro"
                                              Content="Remember last" />
-                            </StackPanel>
+                                    </StackPanel>
+                                <!--</StackPanel>-->
 
-                            <TextBlock Grid.Row="1"
+                                <TextBlock Grid.Row="1"
                                            Grid.Column="0"
-                                       Foreground="Gainsboro"
-                                       Text="Expand/Collapse buttons:"/>
-                            <StackPanel Grid.Row="1"
+                                           Margin="0 1"
+                                           Foreground="Gainsboro"
+                                           Text="Expand/Collapse buttons:"/>
+                                <StackPanel Grid.Row="1"
                                             Grid.Column="1"
+                                            Margin="0 2"
                                             Orientation="Vertical">
                                 <RadioButton Foreground="Gainsboro"
                                              Content="Plus/Minus signs" />
@@ -1223,29 +1280,32 @@
 
                             <Separator Grid.Row="2"
                                            Grid.Column="0"
-                                           Grid.ColumnSpan="2"
+                                           Grid.ColumnSpan="3"
                                        Margin="0 5"/>
                                 
                             <!--#region DataGrid Options -->
                             <CheckBox Grid.Row="3"
-                                       Grid.Column="0"
-                                       Foreground="Gainsboro"
-                                       Content="Display information pane" />
+                                      Grid.Column="0"
+                                      Foreground="Gainsboro"
+                                      VerticalContentAlignment="Center"
+                                      Content="Display information pane" />
                             <!--#endregion DataGrid Options -->
 
                             <Separator Grid.Row="4"
                                            Grid.Column="0"
-                                           Grid.ColumnSpan="2"
+                                           Grid.ColumnSpan="3"
                                            Margin="0 5" />
                                 
                             <!--#region -->
                             <TextBlock Grid.Row="5"
-                                           Grid.Column="0"
-                                           Foreground="Gainsboro"
-                                           Text="Icon size:" />
+                                       Grid.Column="0"
+                                       Margin="0 1"
+                                       Foreground="Gainsboro"
+                                       Text="Quick access icon size:" />
                             <StackPanel Grid.Row="5"
-                                            Grid.Column="1"
-                                            Orientation="Vertical">
+                                        Grid.Column="1"
+                                        Margin="0 2"
+                                        Orientation="Vertical">
                                 <RadioButton Foreground="Gainsboro"
                                              Content="Small" />
                                 <RadioButton Foreground="Gainsboro"
@@ -1257,11 +1317,85 @@
                         </Grid>
                         </StackPanel>
                     </Border>
-                    <!--#endregion Row 4 -->
+                    <!--#endregion Row 3 -->
                         
-                <!--#region Row 5-->
+                    <!--#region Row 4 -->
+                    <Border Grid.Row="3"
+                            Margin="0 5 0 0"
+                            Padding="4"
+                            Background="#444"
+                            CornerRadius="2"
+                            Visibility="Collapsed">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Foreground="Gainsboro"
+                                       Text="Backup Options"
+                                       HorizontalAlignment="Left" />
+                            <Separator Margin="0 5"
+                                       Background="#777"/>
+                            <Grid Margin="12 0 0 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="24" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180" />
+                                    <ColumnDefinition Width="420" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
 
-                <!--#endregion Row 5-->
+                                <!--#region  Allow Backups -->
+                                <CheckBox Grid.Row="0"
+                                          Grid.Column="0"
+                                          Grid.ColumnSpan="2"
+                                          Foreground="Gainsboro"
+                                          Content="Allow automatic backups" />
+                                <!--#endregion Allow Backups -->
+
+                                <!--#region Backup Count -->
+                                <Label Grid.Row="1"
+                                       Grid.Column="0"
+                                       Padding="0"
+                                       Margin="0"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="Gainsboro"
+                                       Content="Auto backup count:" />
+                                <TextBox Grid.Row="1"
+                                         Grid.Column="1"
+                                         Margin="0 2"/>
+                                <!--#endregion Backup Count -->
+
+                                <!--#region Backup Location -->
+                                <Label Grid.Row="2"
+                                       Grid.Column="0"
+                                       Padding="0"
+                                       Margin="0"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="Gainsboro"
+                                       Content="Backup location:" />
+                                <TextBox Grid.Row="2"
+                                         Grid.Column="1"
+                                         Margin="0 2"/>
+                                <!-- might need to add button to select path -->
+                                <!--#endregion Backup Location -->
+
+                                <!--#region Backup Frequency -->
+                                <Label Grid.Row="3"
+                                       Grid.Column="0"
+                                       Padding="0"
+                                       Margin="0"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="Gainsboro"
+                                       Content="Backup frequency:"/>
+                                <ComboBox Grid.Row="3"
+                                          Grid.Column="1"
+                                          Margin="0 2"/>
+                                <!--#endregion Backup Frequency -->
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    <!--#endregion Row 4 -->
             </Grid>
             </ScrollViewer>
         </Border>

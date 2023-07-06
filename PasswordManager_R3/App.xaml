@@ -21,7 +21,5 @@
         <SolidColorBrush x:Key="solidColorBrush-theme-midground" Color="{StaticResource color-theme-midground}" />
         <SolidColorBrush x:Key="solidColorBrush-theme-foreground" Color="{StaticResource color-theme-foregound}" />
         <SolidColorBrush x:Key="solidColorBrush-theme-background" Color="{StaticResource color-theme-background}" />
-
-        
     </Application.Resources>
 </Application>

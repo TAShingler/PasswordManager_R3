@@ -26,6 +26,14 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private bool _buttonUrlToClipboardIsEnabled = false;
     private bool _buttonPasswordGeneratorIsEnabled = false;
     private bool _buttonAppSettingsIsEnabled = false;
+    private Visibility _buttonLockDatabaseTextVisibility = Visibility.Collapsed;
+    private Visibility _buttonAddRecordTextVisibility = Visibility.Collapsed;
+    private Visibility _buttonEditRecordTextVisibility = Visibility.Collapsed;
+    private Visibility _buttonDeleteRecordTextVisibility = Visibility.Collapsed;
+    private Visibility _buttonUsernameToclipboardTextVisibility = Visibility.Collapsed;
+    private Visibility _buttonPasswordToClipboardTextVisibility = Visibility.Collapsed;
+    private Visibility _buttonUrlToClipboardTextVisibility = Visibility.Collapsed;
+    private Visibility _buttonAppSettingsTextVisibility = Visibility.Collapsed;
     #endregion Fields
 
     #region Properties
@@ -151,6 +159,62 @@ internal class MainWindow_ViewModel : ViewModelBase {
         set {
             _buttonAppSettingsIsEnabled = value;
             OnPropertyChanged(nameof(ButtonAppSettingsIsEnabled));
+        }
+    }
+    public Visibility ButtonLockDatabaseTextVisibility {
+        get { return _buttonLockDatabaseTextVisibility; }
+        set {
+            _buttonLockDatabaseTextVisibility = value;
+            OnPropertyChanged(nameof(ButtonLockDatabaseTextVisibility));
+        }
+    }
+    public Visibility ButtonAddRecordTextVisibility {
+        get { return _buttonAddRecordTextVisibility; }
+        set {
+            _buttonAddRecordTextVisibility = value;
+            OnPropertyChanged(nameof(ButtonAddRecordTextVisibility));
+        }
+    }
+    public Visibility ButtonEditRecordTextVisibility {
+        get { return _buttonEditRecordTextVisibility; }
+        set {
+            _buttonEditRecordTextVisibility = value;
+            OnPropertyChanged(nameof(ButtonEditRecordTextVisibility));
+        }
+    }
+    public Visibility ButtonDeleteRecordTextVisibility {
+        get { return _buttonDeleteRecordTextVisibility; }
+        set {
+            _buttonDeleteRecordTextVisibility = value;
+            OnPropertyChanged(nameof(ButtonDeleteRecordTextVisibility));
+        }
+    }
+    public Visibility ButtonUsernameToclipboardTextVisibility {
+        get { return _buttonUsernameToclipboardTextVisibility; }
+        set {
+            _buttonUsernameToclipboardTextVisibility = value;
+            OnPropertyChanged(nameof(ButtonUsernameToclipboardTextVisibility));
+        }
+    }
+    public Visibility ButtonPasswordToClipboardTextVisibility {
+        get { return _buttonPasswordToClipboardTextVisibility; }
+        set {
+            _buttonPasswordToClipboardTextVisibility = value;
+            OnPropertyChanged(nameof(ButtonPasswordToClipboardTextVisibility));
+        }
+    }
+    public Visibility ButtonUrlToClipboardTextVisibility {
+        get { return _buttonUrlToClipboardTextVisibility; }
+        set {
+            _buttonUrlToClipboardTextVisibility = value;
+            OnPropertyChanged(nameof(ButtonUrlToClipboardTextVisibility));
+        }
+    }
+    public Visibility ButtonAppSettingsTextVisibility {
+        get { return _buttonAppSettingsTextVisibility; }
+        set {
+            _buttonAppSettingsTextVisibility = value;
+            OnPropertyChanged(nameof(ButtonAppSettingsTextVisibility));
         }
     }
 
