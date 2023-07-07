@@ -537,7 +537,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private void OnAppSettingsCommand(object obj) {
         //System.Diagnostics.Debug.WriteLine("onAppSettingsCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AppSettings_ViewModel();
-        AppSettings_ViewModel appSettingsVM = new();
+        AppSettings_ViewModel appSettingsVM = new(this);
         SelectedViewModel = appSettingsVM;
 
         ButtonLockDatabaseIsEnabled = true;
