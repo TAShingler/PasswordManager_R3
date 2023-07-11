@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <!--//  Converters  //-->
         <converters:CheckedToVisibilityConverter x:Key="CheckedToVisibilityConverter" />
-        
+
         <!--#region //  ScrollBar Styles  //-->
         <Style x:Key="ScrollBarLineButton"
                TargetType="{x:Type RepeatButton}">
@@ -97,7 +97,7 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            
+
                             <Path x:Name="Arrow"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
@@ -237,7 +237,7 @@
                                     <EasingColorKeyFrame KeyTime="0"
                                                          Value="#888" />
                                 </ColorAnimationUsingKeyFrames>
-                                
+
                                 <!-- Foreground Colors -->
                             </Storyboard>
                         </VisualState>
@@ -404,7 +404,7 @@
             </Style.Triggers>
         </Style>
         <!--#endregion //  ScrollBar Styles  //-->
-        
+
         <!--#region //  ScrollViewer Styles  //-->
         <!-- ScrollViewer with ScrollBar on left -->
         <Style x:Key="LeftScrollViewer"
@@ -492,8 +492,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <!--#endregion //  ScrollViewer Styles  //--> 
-        
+        <!--#endregion //  ScrollViewer Styles  //-->
+
         <!--#region //  TextBoxBase Styles  //-->
         <Style x:Key="InputTextBoxStyle"
                TargetType="{x:Type TextBox}">
@@ -877,7 +877,7 @@
                                                     M20.2,16.9L14.1,23H12V20.9L18.1,14.8L20.2,16.9Z" />
                                     </Canvas>
                                 </Viewbox>
-                                
+
                                 <StackPanel Grid.Row="1"
                                             Orientation="Vertical">
                                     <TextBlock x:Name="tBlock1"
@@ -1270,7 +1270,7 @@
                 </Setter.Value>
             </Setter>
         </Style>-->
-        
+
         <!--//  Confirm/Cancel Button Styles  //-->
         <Style x:Key="SaveRecordButtonStyle"
                TargetType="{x:Type Button}">
@@ -1358,7 +1358,7 @@
                                     <VisualState x:Name="InvalidUnfocused" />
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            
+
                             <ContentPresenter TextBlock.Foreground="{Binding ElementName=bounds,
                                                                              Path=(TextBlock.Foreground)}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -1466,7 +1466,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <!--//  Password Button Styles  //-->
         <Style x:Key="ToggleButtonGeneratePasswordStyle"
                TargetType="{x:Type ToggleButton}">
@@ -1588,7 +1588,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <!--//  CheckBox Styles  //-->
         <!--<Style x:Key="{x:Type CheckBox}"
                TargetType="{x:Type CheckBox}">
@@ -1789,7 +1789,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <!--//  ComboBox Styles  //-->
         <ControlTemplate x:Key="ComboBoxToggleButton"
                          TargetType="{x:Type ToggleButton}">
@@ -1987,7 +1987,8 @@
                                      Margin="3,3,23,3"
                                      Focusable="True"
                                      Background="Transparent"
-                                     Visibility="Hidden" /><!--
+                                     Visibility="Hidden" />
+                            <!--
                             IsReadOnly="{TemplateBinding IsReadOnly}" />-->
                             <Popup x:Name="Popup"
                                    Placement="Bottom"
@@ -2151,7 +2152,8 @@
                                      Margin="3,3,23,3"
                                      Focusable="True"
                                      Background="Transparent"
-                                     Visibility="Hidden" /><!--
+                                     Visibility="Hidden" />
+                            <!--
                             IsReadOnly="{TemplateBinding IsReadOnly}" />-->
                             <Popup x:Name="Popup"
                                    Placement="Bottom"
@@ -2279,7 +2281,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <!--//  ListBox Styles  //-->
         <Style x:Key="ListBoxItemIconSelectorStyle"
                TargetType="{x:Type ListBoxItem}">
@@ -2304,18 +2306,18 @@
                                 Padding="2"
                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                            
+
                             <ItemsPresenter />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-    
+
         <!--//  PasswordGenerator Popup Styles  //-->
         <Style x:Key="ProgressBarPasswordGeneratorStyle"
                TargetType="{x:Type ProgressBar}">
-            
+
         </Style>
         <Style x:Key="SliderPasswordGeneratorStyle"
                TargetType="{x:Type Slider}">
@@ -2323,11 +2325,11 @@
         </Style>
         <Style x:Key="TextBoxPasswordGeneratorLengthStyle"
                TargetType="{x:Type TextBox}">
-            
+
         </Style>
         <Style x:Key="RepeatButtonPasswordGeneratorIncreaseLengthStyle"
                TargetType="{x:Type RepeatButton}">
-            
+
         </Style>
         <Style x:Key="RepeatButtonPasswordGeneratorDecreaseLengthStyle"
                TargetType="{x:Type RepeatButton}">
@@ -2416,7 +2418,7 @@
                                     <VisualState x:Name="InvalidUnfocused" />
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            
+
                             <ContentPresenter x:Name="cPresenter"
                                               TextBlock.Foreground="{TemplateBinding Foreground}"
                                               Content="{TemplateBinding Content}"
@@ -2427,7 +2429,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <!--//  Expiration Date Styles  //-->
         <Style x:Key="ToggleButtonExpirationDateStyle"
                TargetType="{x:Type ToggleButton}">
@@ -2901,7 +2903,7 @@
                                             <ColumnDefinition Width="1*" />
                                             <ColumnDefinition Width="24" />
                                         </Grid.ColumnDefinitions>
-                                        
+
                                         <TextBox x:Name="textBoxExpirationDate"
                                                  Grid.Column="0"
                                                  IsEnabled="{Binding ElementName=checkBoxExpirationDate,
@@ -3119,7 +3121,7 @@
                 </Border>
             </DockPanel>
         </Border>
-        
+
         <Popup x:Name="popupPasswordGenerator"
                PlacementTarget="{Binding ElementName=toggleButtonGeneratePassword}"
                Placement="Bottom"
@@ -3259,7 +3261,7 @@
                                     <ColumnDefinition Width="26" />
                                     <ColumnDefinition Width="18" />
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <TextBox x:Name="textBoxPasswordLength"
                                          Grid.Column="0"
                                          Grid.ColumnSpan="1"
@@ -3310,7 +3312,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        
+
                         <CheckBox Grid.Column="0"
                                   Grid.Row="0"
                                   Foreground="Gainsboro"
@@ -3384,7 +3386,8 @@
                                                CommandParameter="{Binding ElementName=expirationDateCalendar,Path=SelectedDates}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-            </Calendar><!-- need to add method to get selected date to textbox and close popup -->
+            </Calendar>
+            <!-- need to add method to get selected date to textbox and close popup -->
         </Popup>
     </Grid>
 </UserControl>

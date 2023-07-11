@@ -32,18 +32,13 @@ public partial class AppSettings_View : UserControl {
             listViewTabSelector.SelectedIndex++;
     }
 
-    private void txtBoxAutoBackupCount_PreviewTextInput(object sender, TextCompositionEventArgs e) {
-        System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"^\d+$");  //^\d+$ also works
-        e.Handled = !regex.IsMatch(e.Text);
-    }
+    private void NumericUpDownTextBox_PreviewKeyDown(object sender, KeyEventArgs e) {
+        if (e.Key == Key.Tab || e.Key == Key.Left || e.Key == Key.Right) {
+            e.Handled = false;
+            return;
+        }
 
-    private void txtBoxUnlockAttempts_PreviewTextInput(object sender, TextCompositionEventArgs e) {
-        System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex("^[0-9]+$");  //^\d+$ also works
-        e.Handled = !regex.IsMatch(e.Text);
-    }
-
-    private void txtBoxTimeoutMinutes_PreviewTextInput(object sender, TextCompositionEventArgs e) {
-        System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex("^[0-9]+$");  //^\d+$ also works
-        e.Handled = !regex.IsMatch(e.Text);
+        System.Text.RegularExpressions.Regex regex = new("^D(\\d)$");
+        e.Handled = !regex.IsMatch(e.Key.ToString());
     }
 }

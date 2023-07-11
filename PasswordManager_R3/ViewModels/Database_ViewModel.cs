@@ -42,7 +42,7 @@ internal class Database_ViewModel : ViewModelBase {
     internal delegate void SelectedGroupChangedEventHandler(object obj);
     internal delegate void SelectedRecordChangedEventHandler(object obj);
     internal delegate void CreateGroupEventHandler(Models.Group g);// object sender, EventArgs e);
-    internal delegate void UpdateGroupEventHandler(object sender, EventArgs e);
+    internal delegate void UpdateGroupEventHandler(Models.Group g);
     internal delegate void DeleteGroupEventHandler(object sender, EventArgs e);
     //events
     internal event SelectedGroupChangedEventHandler? SelectedGroupChanged;
@@ -665,7 +665,7 @@ internal class Database_ViewModel : ViewModelBase {
     private void OnUpdateGroup(object obj) {
         System.Diagnostics.Debug.WriteLine("OnUpdateGroup called");
         System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj Title = {((Models.Group)obj).Title}");
-        UpdateGroup?.Invoke(obj, EventArgs.Empty);
+        UpdateGroup?.Invoke(SelectedGroup);
     }
     private void OnDeleteGroup(object obj) {
         System.Diagnostics.Debug.WriteLine("OnDeleteGroup called");

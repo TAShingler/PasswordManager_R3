@@ -365,7 +365,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
     #endregion Quick Access Bar Event Handlers
 
     #region Change CurrentView Event Handlers
-    //Set CurrentView to LockScreen_View event handler
+    /// <summary>
+    /// Set CurrentView to LockScreen_View event handler
+    /// </summary>
+    /// <param name="obj"></param>
     private void OnLockDatabaseCommand(object obj) {
         Utils.EncryptionTools.Key = null;
         LockScreen_ViewModel lockScreenVM = new(this);
@@ -390,7 +393,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonAppSettingsIsEnabled = false;
         WindowStatusBarContentGridVisibility = Visibility.Hidden;
     }
-    //Set CurrentView to Database_View event handler
+    /// <summary>
+    /// Set CurrentView to Database_View event handler
+    /// </summary>
     private void OnSetDatabaseView() {
         //Database_ViewModel databaseVM = new Database_ViewModel(this);
         ////add event handlers
@@ -402,14 +407,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         Database_ViewModel databaseVM = new Database_ViewModel(this);
         databaseVM.SelectedRecordChanged += OnSelectedRecordChanged;
         databaseVM.SelectedGroupChanged += OnSelectedGroupChanged;
-        databaseVM.CreateGroup += (Models.Group g) => {
-            System.Diagnostics.Debug.WriteLine("MainWindow: databaseVM.UpdateGroup event elevated");
-
-            //set Edit Group View
-            //AddEditGroup_ViewModel addEditGroupVM = new AddEditGroup_ViewModel(this, s);
-            //SelectedViewModel = addEditGroupVM;
-        };
-        databaseVM.UpdateGroup += (object s, EventArgs e) => { System.Diagnostics.Debug.WriteLine("MainWindow: databaseVM.UpdateGroup event elevated"); };
+        databaseVM.CreateGroup += OnCreateGroup;
+        databaseVM.UpdateGroup += OnUpdateGroup;
         databaseVM.DeleteGroup += (object s, EventArgs e) => { System.Diagnostics.Debug.WriteLine("MainWindow: databaseVM.DeleteGroup event elevated"); };
         SelectedViewModel = databaseVM;
 
@@ -424,7 +423,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonAppSettingsIsEnabled = true;
         WindowStatusBarContentGridVisibility = Visibility.Visible;
     }
-    //Set CurrentView to AddEditRecord_View (to add record to database) event handler
+    /// <summary>
+    /// Set CurrentView to AddEditRecord_View (to add record to database) event handler
+    /// </summary>
+    /// <param name="obj"></param>
     private void OnAddRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onAddRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel();
@@ -455,7 +457,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonAppSettingsIsEnabled = false;
         WindowStatusBarContentGridVisibility = Visibility.Hidden;
     }
-    //Set CurrentView to AddEditRecord_View (to edit record in database) event handler
+    /// <summary>
+    /// Set CurrentView to AddEditRecord_View (to edit record in database) event handler
+    /// </summary>
+    /// <param name="obj"></param>
     private void OnEditRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onEditRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel(); //will need to have 2 constructors -- one for add record, the other for edit record
@@ -518,7 +523,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonAppSettingsIsEnabled = false;
         WindowStatusBarContentGridVisibility = Visibility.Hidden;
     }
-    //Set CurrentView to PasswordGenerator_View event handler
+    /// <summary>
+    /// Set CurrentView to PasswordGenerator_View event handler
+    /// </summary>
+    /// <param name="obj"></param>
     private void OnGeneratePasswordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onGeneratePasswordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.PasswordGenerator_ViewModel();
@@ -533,11 +541,16 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonPasswordGeneratorIsEnabled = false;
         ButtonAppSettingsIsEnabled = false;
     }
-    //Set CurrentView to AppSettings_View event handler
+    /// <summary>
+    /// Set CurrentView to AppSettings_View event handler
+    /// </summary>
+    /// <param name="obj"></param>
     private void OnAppSettingsCommand(object obj) {
         //System.Diagnostics.Debug.WriteLine("onAppSettingsCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AppSettings_ViewModel();
         AppSettings_ViewModel appSettingsVM = new(this);
+        appSettingsVM.ConfirmSettings += OnSetDatabaseView;
+        appSettingsVM.CancelSettings += OnSetDatabaseView;
         SelectedViewModel = appSettingsVM;
 
         ButtonLockDatabaseIsEnabled = true;
@@ -551,30 +564,67 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonAppSettingsIsEnabled = false;
         WindowStatusBarContentGridVisibility = Visibility.Hidden;
     }
+    /// <summary>
+    /// Set CurrentView to AddeditGroup_View (to add Group to database).
+    /// </summary>
+    /// <param name="obj"></param>
+    private void OnCreateGroup(object parentGroup) {
+        AddEditGroup_ViewModel addEditGroupVM = new(this, ((Database_ViewModel)SelectedViewModel).SelectedGroup);
+        addEditGroupVM.CreateGroup += () => { /*do something*/ };
+        addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
+
+        SelectedViewModel = addEditGroupVM;
+    }
+    /// <summary>
+    /// Event Handler for AddEditGroup_ViewModel.UpdateGroup event. Changes current view to AddEditGroup_View.
+    /// </summary>
+    /// <param name="obj"></param>
+    private void OnUpdateGroup(object obj) {
+        AddEditGroup_ViewModel addEditGroupVM = new(this, ((Database_ViewModel)SelectedViewModel).SelectedGroup, false);
+        addEditGroupVM.CreateGroup += () => { /*do something*/ };
+        addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
+
+        SelectedViewModel = addEditGroupVM;
+    }
     #endregion Change CurrentView Event Handlers
 
     #region Misc. Event Handlers
-    //Event Handler to delete record from DB
+    /// <summary>
+    /// Event Handler to delete record from DB
+    /// </summary>
+    /// <param name="obj"></param>
     private void OnDeleteRecordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onDeleteRecordCommand clicked, but it's not implemented yet...");
         //does not change views, but might need to add code to refresh DB -- will figure ot for sure later
     }
-    //Event Handler to copy username of selected record to the system clipboard
+    /// <summary>
+    /// Event Handler to copy username of selected record to the system clipboard
+    /// </summary>
+    /// <param name="obj"></param>
     private void OnCopyUsernameToClipboardCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onCopyUsernameToClipboardCommand clicked, but it's not implemented yet...");
         //does not change views; copies username of selected record to system clipboard
     }
-    //Event Handler to copy password of selected record to the system clipboard
+    /// <summary>
+    /// Event Handler to copy password of selected record to the system clipboard
+    /// </summary>
+    /// <param name="obj"></param>
     private void OnCopyPasswordToClipboardCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onCopyPasswordToClipboardCommand clicked, but it's not implemented yet...");
         //does not change views; copies password of selected record to system clipboard
     }
-    //Event Handler to copy URL of selected record to the system clipboard
+    /// <summary>
+    /// Event Handler to copy URL of selected record to the system clipboard
+    /// </summary>
+    /// <param name="obj"></param>
     private void OnCopyUrlToClipboardCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onCopyUrlToClipboardCommand clicked, but it's not implemented yet...");
         //does not change views; copies url of selected record to system clipboard
     }
-    //Event handler to handle GroupSelected event propogated in Database_ViewModel and bubbled to MainWindow_ViewModel
+    /// <summary>
+    /// Event handler to handle GroupSelected event propogated in Database_ViewModel and bubbled to MainWindow_ViewModel
+    /// </summary>
+    /// <param name="obj"></param>
     private void OnSelectedGroupChanged(object obj) {
         //do somehting
         //SelectedGroup = (Models.Group)obj;
@@ -589,7 +639,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
             ButtonEditRecordIsEnabled = false;
         }
     }
-    //Event handler to handle RecordSelected event propogated in Database_ViewModel and bubbled to MainWindow_ViewModel
+    /// <summary>
+    /// Event handler to handle RecordSelected event propogated in Database_ViewModel and bubbled to MainWindow_ViewModel
+    /// </summary>
+    /// <param name="obj"></param>
     private void OnSelectedRecordChanged(object obj) {
         //do something
         //if (SelectedRecord != null) {

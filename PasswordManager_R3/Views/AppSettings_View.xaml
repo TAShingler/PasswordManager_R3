@@ -4,11 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PasswordManager_R3.Views"
+             xmlns:convert="clr-namespace:PasswordManager_R3.Converters"
+             xmlns:enum="clr-namespace:PasswordManager_R3.Enums"
              mc:Ignorable="d"
              d:DesignHeight="900"
              d:DesignWidth="1000">
 
     <UserControl.Resources>
+        <!--#region Converters-->
+        <convert:BooleanToEnabledConverter x:Key="BooleanToEnabledConverter" />
+        <!--#endregion Converters-->
+        
         <!--#region ScrollBar Styles-->
         <Style x:Key="ScrollBarLineButton"
                TargetType="{x:Type RepeatButton}">
@@ -923,14 +929,16 @@
                         Foreground="Gainsboro"
                         Background="#222"
                         BorderThickness="0"
-                        Content="OK"/>
+                        Content="OK"
+                        Command="{Binding ConfirmButtonCommand}"/>
                 <Button Height="30"
                         Width="100"
                         Margin="5"
                         Foreground="Gainsboro"
                         Background="#222"
                         BorderThickness="0"
-                        Content="Cancel"/>
+                        Content="Cancel"
+                        Command="{Binding CancelButtonCommand}"/>
             </StackPanel>
         </Border>
         <!--#endregion //  Bottom Panel  //-->
@@ -1047,7 +1055,8 @@
                                 </Grid.ColumnDefinitions>
 
                                 <!--#region  Allow Backups -->
-                                <CheckBox Grid.Row="0"
+                                <CheckBox x:Name="checkBoxAllowAutoBackups"
+                                          Grid.Row="0"
                                           Grid.Column="0"
                                           Grid.ColumnSpan="3"
                                           Foreground="Gainsboro"
@@ -1079,12 +1088,17 @@
                                              Grid.Row="0"
                                              Grid.RowSpan="2"
                                              Grid.Column="0"
+                                             IsEnabled="{Binding ElementName=checkBoxAllowAutoBackups,
+                                                                 Path=IsChecked}"
                                              Text="{Binding AutoBackupCount}"
                                              VerticalContentAlignment="Center"
-                                             HorizontalContentAlignment="Right" PreviewTextInput="txtBoxAutoBackupCount_PreviewTextInput"/>
+                                             HorizontalContentAlignment="Right"
+                                             PreviewKeyDown="NumericUpDownTextBox_PreviewKeyDown"/>
                                     <RepeatButton x:Name="rptBtnIncrementAutoBackupCount"
                                                   Grid.Row="0"
                                                   Grid.Column="1"
+                                                  IsEnabled="{Binding ElementName=checkBoxAllowAutoBackups,
+                                                                      Path=IsChecked}"
                                                   Command="{Binding IncrementAutoBackupCountCommand}">
                                         <Canvas Width="8"
                                                 Height="4">
@@ -1095,6 +1109,8 @@
                                     <RepeatButton x:Name="rptBtnDecrementAutoBackupCount"
                                                   Grid.Row="1"
                                                   Grid.Column="1"
+                                                  IsEnabled="{Binding ElementName=checkBoxAllowAutoBackups,
+                                                                      Path=IsChecked}"
                                                   Command="{Binding DecrementAutoBackupCountCommand}">
                                         <Canvas Width="8"
                                                 Height="4">
@@ -1181,7 +1197,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <!--#region Erase Database -->
-                                <CheckBox Grid.Row="0"
+                                <CheckBox x:Name="checkBoxEnableEraseAttempts" Grid.Row="0"
                                           Grid.Column="0"
                                           Grid.ColumnSpan="3"
                                           VerticalContentAlignment="Center"
@@ -1214,11 +1230,16 @@
                                              Grid.Row="0"
                                              Grid.RowSpan="2"
                                              Grid.Column="0"
+                                             IsEnabled="{Binding ElementName=checkBoxEnableEraseAttempts,
+                                                                 Path=IsChecked}"
                                              Text="{Binding UnlockAttempts}"
                                              VerticalContentAlignment="Center"
-                                             HorizontalContentAlignment="Right" PreviewTextInput="txtBoxUnlockAttempts_PreviewTextInput"/>
+                                             HorizontalContentAlignment="Right"
+                                             PreviewKeyDown="NumericUpDownTextBox_PreviewKeyDown"/>
                                     <RepeatButton Grid.Row="0"
                                                   Grid.Column="1"
+                                                  IsEnabled="{Binding ElementName=checkBoxEnableEraseAttempts,
+                                                                      Path=IsChecked}"
                                                   Command="{Binding IncrementUnlockAttemptsCommand}">
                                         <Canvas Width="8"
                                                 Height="4">
@@ -1228,6 +1249,8 @@
                                     </RepeatButton>
                                     <RepeatButton Grid.Row="1"
                                                   Grid.Column="1"
+                                                  IsEnabled="{Binding ElementName=checkBoxEnableEraseAttempts,
+                                                                      Path=IsChecked}"
                                                   Command="{Binding DecrementUnlockAttemptsCommand}">
                                         <Canvas Width="8"
                                                 Height="4">
@@ -1270,7 +1293,8 @@
                                              Grid.Column="0"
                                              Text="{Binding TimeoutMinutes}"
                                              VerticalContentAlignment="Center"
-                                             HorizontalContentAlignment="Right" PreviewTextInput="txtBoxTimeoutMinutes_PreviewTextInput"/>
+                                             HorizontalContentAlignment="Right"
+                                             PreviewKeyDown="NumericUpDownTextBox_PreviewKeyDown"/>
                                     <RepeatButton Grid.Row="0"
                                                   Grid.Column="1"
                                                   Command="{Binding IncrementTimeoutMinutesCommand}">
@@ -1346,11 +1370,17 @@
                                                 Orientation="Vertical"
                                                 Margin="0 2">
                                         <RadioButton Foreground="Gainsboro"
-                                             Content="Expand all" />
+                                                     Content="Expand all"
+                                                     Command="{Binding DefaultTreeDisplayCommand}"
+                                                     CommandParameter="{x:Static enum:TreeDisplayType.ExpandAll}" />
                                         <RadioButton Foreground="Gainsboro"
-                                             Content="Collapse all" />
+                                                     Content="Collapse all"
+                                                     Command="{Binding DefaultTreeDisplayCommand}"
+                                                     CommandParameter="{x:Static enum:TreeDisplayType.CollapseAll}" />
                                         <RadioButton Foreground="Gainsboro"
-                                             Content="Remember last" />
+                                                     Content="Remember last"
+                                                     Command="{Binding DefaultTreeDisplayCommand}"
+                                                     CommandParameter="{x:Static enum:TreeDisplayType.RememberLast}" />
                                     </StackPanel>
                                 <!--</StackPanel>-->
 
@@ -1364,11 +1394,14 @@
                                             Margin="0 2"
                                             Orientation="Vertical">
                                 <RadioButton Foreground="Gainsboro"
-                                             Content="Plus/Minus signs" />
+                                             Content="Plus/Minus signs"
+                                             Command="{Binding ExpandCollapseButtonsCommand}"/>
                                 <RadioButton Foreground="Gainsboro"
-                                             Content="Arrows" />
+                                             Content="Arrows"
+                                             Command="{Binding ExpandCollapseButtonsCommand}" />
                                 <RadioButton Foreground="Gainsboro"
-                                             Content="Folders" />
+                                             Content="Folders"
+                                             Command="{Binding ExpandCollapseButtonsCommand}" />
                             </StackPanel>
                             <!--#endregion TreeView Options -->
 
@@ -1401,11 +1434,14 @@
                                         Margin="0 2"
                                         Orientation="Vertical">
                                 <RadioButton Foreground="Gainsboro"
-                                             Content="Small" />
+                                             Content="Small"
+                                             Command="{Binding QuickAccessIconSizeCommand}" />
                                 <RadioButton Foreground="Gainsboro"
-                                             Content="Medium" />
+                                             Content="Medium"
+                                             Command="{Binding QuickAccessIconSizeCommand}" />
                                 <RadioButton Foreground="Gainsboro"
-                                             Content="Large" />
+                                             Content="Large"
+                                             Command="{Binding QuickAccessIconSizeCommand}" />
                             </StackPanel>
                             <!--#endregion -->
                         </Grid>

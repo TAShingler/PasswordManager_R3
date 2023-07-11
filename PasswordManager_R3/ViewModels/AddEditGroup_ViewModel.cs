@@ -17,6 +17,7 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
     private readonly Models.Group? _selectedGroup = null;
 
     //Group object fields
+    private readonly string _groupPath;
     private string _sgName = string.Empty;
     private bool _sgHasExpriationDate = false;
     private string? _sgExpirationDate = string.Empty;
@@ -30,16 +31,19 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
     //delegates
     internal delegate void CreateGroupEventHandler();
     internal delegate void UpdateGroupEventHandler();
-    internal delegate void CancelAddEditGroupEventHandler();
+    public delegate void CancelAddEditGroupEventHandler();
 
     //events
     internal event CreateGroupEventHandler? CreateGroup;
     internal event UpdateGroupEventHandler? UpdateGroup;
-    internal event CancelAddEditGroupEventHandler? CancelAddEditGroup;
+    public event CancelAddEditGroupEventHandler? CancelAddEditGroup;
     #endregion Fields
 
     #region Properties
     //Group obj properties
+    public string GroupPath {
+        get { return _groupPath; }
+    }
     public string SgName {
         get { return _sgName; }
         set {
@@ -98,10 +102,36 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
     #endregion Properties
 
     #region Constructors
-    public AddEditGroup_ViewModel(ViewModelBase parentVM, Models.Group? selectedGroup = null) : base(parentVM) {
-        //do something
-        if (selectedGroup != null) {
-            _isNewGroup = false;
+    public AddEditGroup_ViewModel(ViewModelBase parentVM, Models.Group? selectedGroup, bool isNewGroup = true) : base(parentVM) {
+        //StringBuilder sb = new();
+        //sb.Append(selectedGroup.Title);
+        //sb.Append(" \u2022 ");
+
+        //_isNewGroup = isNewGroup;
+
+        //if (isNewGroup == false) {
+        //    sb.Append();
+        //    _selectedGroup = selectedGroup;
+
+        //    SgName = selectedGroup.Title;
+        //    SgHasExpirationDate = selectedGroup.HasExpirationDate;
+        //    SgExpirationDate = selectedGroup.ExpirationDate != null ? selectedGroup.ExpirationDate.ToString() : string.Empty;
+        //    SgSearchOptions = string.Empty; //selectedGroup.SearchOptions;
+        //    SgHasNotes = selectedGroup.HasNotes;
+        //    SgNotes = selectedGroup.Notes;
+        //    _sgCreatedDate = selectedGroup.CreatedDate.ToString();
+        //    _sgUpdatedDate = selectedGroup.ModifiedDate.ToString();
+        //    _sgGuid = selectedGroup.GUID;
+        //}
+
+        ////DelegateCommands
+        //OkButtonCommand = new Utils.DelegateCommand(OnOkButtonCommand);
+        //CancelButtonCommand = new Utils.DelegateCommand(OnCancelButtonCommand);
+
+        _isNewGroup = isNewGroup;
+
+        if (isNewGroup == false) {
+            _groupPath = selectedGroup.Title + " \u2022 Edit Group";
             _selectedGroup = selectedGroup;
 
             SgName = selectedGroup.Title;
@@ -113,11 +143,12 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
             _sgCreatedDate = selectedGroup.CreatedDate.ToString();
             _sgUpdatedDate = selectedGroup.ModifiedDate.ToString();
             _sgGuid = selectedGroup.GUID;
+        } else {
+            _groupPath = selectedGroup.Title + " \u2022 Create Group";
         }
 
-        //DelegateCommands
-        OkButtonCommand = new Utils.DelegateCommand(OnOkButtonCommand);
-        CancelButtonCommand = new Utils.DelegateCommand(OnCancelButtonCommand);
+        OkButtonCommand = new(OnOkButtonCommand);
+        CancelButtonCommand = new(OnCancelButtonCommand);
     }
     #endregion Constructors
 

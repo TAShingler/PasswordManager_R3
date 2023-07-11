@@ -1126,7 +1126,7 @@
                            FontWeight="Bold"
                            Padding="12"
                            Foreground="Gainsboro"
-                           Text="New Group" />
+                           Text="{Binding GroupPath}" />
             </Border>
 
             <!--//  BOTTOM PANEL  //-->
