@@ -1358,30 +1358,35 @@
                                 <!--<StackPanel Grid.Row="0"
                                             Grid.Column="0"
                                             Orientation="Horizontal">-->
-                                    <Label Grid.Row="0"
-                                           Grid.Column="0"
-                                           Padding="0"
-                                           Margin="0 1"
-                                           VerticalContentAlignment="Top"
-                                           Foreground="Gainsboro"
-                                           Content="Default tree display:" />
-                                    <StackPanel Grid.Row="0"
-                                                Grid.Column="1"
-                                                Orientation="Vertical"
-                                                Margin="0 2">
-                                        <RadioButton Foreground="Gainsboro"
-                                                     Content="Expand all"
-                                                     Command="{Binding DefaultTreeDisplayCommand}"
-                                                     CommandParameter="{x:Static enum:TreeDisplayType.ExpandAll}" />
-                                        <RadioButton Foreground="Gainsboro"
-                                                     Content="Collapse all"
-                                                     Command="{Binding DefaultTreeDisplayCommand}"
-                                                     CommandParameter="{x:Static enum:TreeDisplayType.CollapseAll}" />
-                                        <RadioButton Foreground="Gainsboro"
-                                                     Content="Remember last"
-                                                     Command="{Binding DefaultTreeDisplayCommand}"
-                                                     CommandParameter="{x:Static enum:TreeDisplayType.RememberLast}" />
-                                    </StackPanel>
+                                <Label Grid.Row="0"
+                                       Grid.Column="0"
+                                       Padding="0"
+                                       Margin="0 1"
+                                       VerticalContentAlignment="Top"
+                                       Foreground="Gainsboro"
+                                       Content="Default tree display:" />
+                                <StackPanel Grid.Row="0"
+                                            Grid.Column="1"
+                                            Orientation="Vertical"
+                                            Margin="0 2">
+                                    <RadioButton IsChecked="{Binding ExpandAllRadioButtonIsChecked}"
+                                                 Foreground="Gainsboro"
+                                                 Content="Expand all"
+                                                 VerticalContentAlignment="Center"
+                                                 Command="{Binding DefaultTreeDisplayCommand}"
+                                                 CommandParameter="{x:Static enum:TreeDisplayType.ExpandAll}" Click="RadioButton_Click" />
+                                    <RadioButton IsChecked="{Binding CollapseAllRadioButtonIsChecked}"
+                                                 Foreground="Gainsboro"
+                                                 Content="Collapse all"
+                                                 VerticalContentAlignment="Center"
+                                                 Command="{Binding DefaultTreeDisplayCommand}"
+                                                 CommandParameter="{x:Static enum:TreeDisplayType.CollapseAll}" />
+                                    <RadioButton IsChecked="{Binding RememberLastRadioButtonIsChecked}" Foreground="Gainsboro"
+                                                 Content="Remember last"
+                                                 VerticalContentAlignment="Center"
+                                                 Command="{Binding DefaultTreeDisplayCommand}"
+                                                 CommandParameter="{x:Static enum:TreeDisplayType.RememberLast}" />
+                                </StackPanel>
                                 <!--</StackPanel>-->
 
                                 <TextBlock Grid.Row="1"
@@ -1395,13 +1400,19 @@
                                             Orientation="Vertical">
                                 <RadioButton Foreground="Gainsboro"
                                              Content="Plus/Minus signs"
-                                             Command="{Binding ExpandCollapseButtonsCommand}"/>
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding ExpandCollapseButtonsCommand}"
+                                             CommandParameter="{x:Static enum:TreeExpandCollapseButtonStyle.PlusMinusSigns}" />
                                 <RadioButton Foreground="Gainsboro"
                                              Content="Arrows"
-                                             Command="{Binding ExpandCollapseButtonsCommand}" />
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding ExpandCollapseButtonsCommand}"
+                                             CommandParameter="{x:Static enum:TreeExpandCollapseButtonStyle.Arrows}" />
                                 <RadioButton Foreground="Gainsboro"
                                              Content="Folders"
-                                             Command="{Binding ExpandCollapseButtonsCommand}" />
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding ExpandCollapseButtonsCommand}"
+                                             CommandParameter="{x:Static enum:TreeExpandCollapseButtonStyle.Folders}" />
                             </StackPanel>
                             <!--#endregion TreeView Options -->
 
@@ -1435,13 +1446,19 @@
                                         Orientation="Vertical">
                                 <RadioButton Foreground="Gainsboro"
                                              Content="Small"
-                                             Command="{Binding QuickAccessIconSizeCommand}" />
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding QuickAccessIconSizeCommand}"
+                                             CommandParameter="{x:Static enum:QuickAccessIconSize.Small}" />
                                 <RadioButton Foreground="Gainsboro"
                                              Content="Medium"
-                                             Command="{Binding QuickAccessIconSizeCommand}" />
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding QuickAccessIconSizeCommand}"
+                                             CommandParameter="{x:Static enum:QuickAccessIconSize.Medium}" />
                                 <RadioButton Foreground="Gainsboro"
                                              Content="Large"
-                                             Command="{Binding QuickAccessIconSizeCommand}" />
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding QuickAccessIconSizeCommand}"
+                                             CommandParameter="{x:Static enum:QuickAccessIconSize.Large}" />
                             </StackPanel>
                             <!--#endregion -->
                         </Grid>
