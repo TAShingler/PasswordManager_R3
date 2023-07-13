@@ -234,6 +234,11 @@ internal class Database_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(Records));
         }
     }
+
+    //TreeView Expander Button properties
+    public Enums.TreeExpandCollapseButtonStyle TreeExpandCollapseButtonStyle {
+        get { return AppVariables.TreeExpandCollapseButtonStyle; }
+    }
     #endregion Properties
 
     #region Constructors
