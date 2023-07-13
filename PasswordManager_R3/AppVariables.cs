@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PasswordManager_R3.Models;
+namespace PasswordManager_R3;
 internal static class AppVariables {
     #region Fields
     private static Utils.DatabaseOperations? _databaseConnection = null;

@@ -41,8 +41,4 @@ public partial class AppSettings_View : UserControl {
         System.Text.RegularExpressions.Regex regex = new("^D(\\d)$");
         e.Handled = !regex.IsMatch(e.Key.ToString());
     }
-
-    private void RadioButton_Click(object sender, RoutedEventArgs e) {
-        System.Diagnostics.Debug.WriteLine("sender is checked = " + ((RadioButton)sender).IsChecked);
-    }
 }

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace PasswordManager_R3.ViewModels;
 internal class AppSettings_ViewModel : ViewModelBase {
@@ -16,9 +18,22 @@ internal class AppSettings_ViewModel : ViewModelBase {
     private int _autoBackupCount = 10;
     private int _unlockAttemtps = 10;
     private int _timeoutMinutes = 10;
-    private bool _expandAllRadioButtonIsChecked = true;
-    private bool _collapseAllRadioButtonIsChecked = false;
-    private bool _rememberLastRadioButtonIsChecked = false;
+    private Enums.TreeDisplayType _treeDisplayType;
+    private Enums.TreeExpandCollapseButtonStyle _treeExpandCollapseButtonStyle;
+    private Enums.QuickAccessIconSize _quickAccessIconSize;
+    private bool _expandAllRadioButtonIsChecked;
+    private bool _collapseAllRadioButtonIsChecked;
+    private bool _rememberLastRadioButtonIsChecked;
+    private bool _plusMinusSignsRadioButtonIsChecked;
+    private bool _arrowsRadioButtonIsChecked;
+    private bool _foldersRadioButtonIsChecked;
+    private bool _quickAccessSmallRadioButtonIsChecked;
+    private bool _quickAccessMediumRadioButtonIsChecked;
+    private bool _quickAccessLargeRadioButtonIsChecked;
+    private bool _displyInfoPaneCheckBoxIsChecked;
+    private bool _eraseDatabaseAfterSetAmountAttemptsCheckBoxIsChecked;
+    private bool _logDeletedItemsCheckBoxIsChecked;
+    private string _backupLocation;
     #endregion Fields
 
     #region Delegates and Events
@@ -103,49 +118,97 @@ internal class AppSettings_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(TimeoutMinutes));
         }
     }
-    private bool ExpandAllRadioButtonIsChecked {
+    public bool ExpandAllRadioButtonIsChecked {
         get { return _expandAllRadioButtonIsChecked; }
         set {
             _expandAllRadioButtonIsChecked = value;
             OnPropertyChanged(nameof(ExpandAllRadioButtonIsChecked));
         }
     }
-    private bool CollapseAllRadioButtonIsChecked {
+    public bool CollapseAllRadioButtonIsChecked {
         get { return _collapseAllRadioButtonIsChecked; }
         set {
             _collapseAllRadioButtonIsChecked = value;
             OnPropertyChanged(nameof(CollapseAllRadioButtonIsChecked));
         }
     }
-    private bool RememberLastRadioButtonIsChecked {
+    public bool RememberLastRadioButtonIsChecked {
         get { return _rememberLastRadioButtonIsChecked; }
         set {
             _rememberLastRadioButtonIsChecked = value;
             OnPropertyChanged(nameof(RememberLastRadioButtonIsChecked));
         }
     }
-
-    //public Enums.TreeDisplayType TreeDisplayType {
-    //    get { return Models.AppVariables.TreeDisplayType; }
-    //    set {
-    //        Models.AppVariables.TreeDisplayType = value;
-    //        OnPropertyChanged(nameof(TreeDisplayType));
-    //    }
-    //}
-    //public Enums.TreeExpandCollapseButtonStyle TreeExpandCollapseButtonStyle {
-    //    get { return Models.AppVariables.TreeExpandCollapseButtonStyle; }
-    //    set {
-    //        Models.AppVariables.TreeExpandCollapseButtonStyle = value;
-    //        OnPropertyChanged(nameof(TreeExpandCollapseButtonStyle));
-    //    }
-    //}
-    //public Enums.QuickAccessIconSize QuickAccessIconSize {
-    //    get { return Models.AppVariables.QuickAccessIconSize; }
-    //    set {
-    //        Models.AppVariables.QuickAccessIconSize = value;
-    //        OnPropertyChanged(nameof(QuickAccessIconSize));
-    //    }
-    //}
+    public bool PlusMinusSignsRadioButtonIsChecked {
+        get { return _plusMinusSignsRadioButtonIsChecked; }
+        set {
+            _plusMinusSignsRadioButtonIsChecked = value;
+            OnPropertyChanged(nameof(PlusMinusSignsRadioButtonIsChecked));
+        }
+    }
+    public bool ArrowsRadioButtonIsChecked {
+        get { return _arrowsRadioButtonIsChecked; }
+        set {
+            _arrowsRadioButtonIsChecked = value;
+            OnPropertyChanged(nameof(ArrowsRadioButtonIsChecked));
+        }
+    }
+    public bool FoldersRadioButtonIsChecked {
+        get { return _foldersRadioButtonIsChecked; }
+        set {
+            _foldersRadioButtonIsChecked = value;
+            OnPropertyChanged(nameof(FoldersRadioButtonIsChecked));
+        }
+    }
+    public bool QuickAccessSmallRadioButtonIsChecked {
+        get { return _quickAccessSmallRadioButtonIsChecked; }
+        set {
+            _quickAccessSmallRadioButtonIsChecked = value;
+            OnPropertyChanged(nameof(QuickAccessSmallRadioButtonIsChecked));
+        }
+    }
+    public bool QuickAccessMediumRadioButtonIsChecked {
+        get { return _quickAccessMediumRadioButtonIsChecked; }
+        set {
+            _quickAccessMediumRadioButtonIsChecked = value;
+            OnPropertyChanged(nameof(QuickAccessMediumRadioButtonIsChecked));
+        }
+    }
+    public bool QuickAccessLargeRadioButtonIsChecked {
+        get { return _quickAccessLargeRadioButtonIsChecked; }
+        set {
+            _quickAccessLargeRadioButtonIsChecked = value;
+            OnPropertyChanged(nameof(QuickAccessLargeRadioButtonIsChecked));
+        }
+    }
+    public bool DisplyInfoPaneCheckBoxIsChecked {
+        get { return _displyInfoPaneCheckBoxIsChecked; }
+        set {
+            _displyInfoPaneCheckBoxIsChecked = value;
+            OnPropertyChanged(nameof(DisplyInfoPaneCheckBoxIsChecked));
+        }
+    }
+    public bool EraseDatabaseAfterSetAmountAttemptsCheckBoxIsChecked {
+        get { return _eraseDatabaseAfterSetAmountAttemptsCheckBoxIsChecked; }
+        set {
+            _eraseDatabaseAfterSetAmountAttemptsCheckBoxIsChecked = value;
+            OnPropertyChanged(nameof(EraseDatabaseAfterSetAmountAttemptsCheckBoxIsChecked));
+        }
+    }
+    public bool LogDeletedItemsCheckBoxIsChecked {
+        get { return _logDeletedItemsCheckBoxIsChecked; }
+        set {
+            _logDeletedItemsCheckBoxIsChecked = value;
+            OnPropertyChanged(nameof(LogDeletedItemsCheckBoxIsChecked));
+        }
+    }
+    public string BackupLocation {
+        get { return _backupLocation; }
+        set {
+            _backupLocation = value;
+            OnPropertyChanged(nameof(BackupLocation));
+        }
+    }
 
     public Utils.DelegateCommand IncrementAutoBackupCountCommand { get; set; }
     public Utils.DelegateCommand DecrementAutoBackupCountCommand { get; set; }
@@ -155,6 +218,7 @@ internal class AppSettings_ViewModel : ViewModelBase {
     public Utils.DelegateCommand DecrementTimeoutMinutesCommand { get; set; }
     public Utils.DelegateCommand ConfirmButtonCommand { get; set; }
     public Utils.DelegateCommand CancelButtonCommand { get; set; }
+    public Utils.DelegateCommand BackupLocationButtonCommand { get; set; }
 
     public Utils.DelegateCommand DefaultTreeDisplayCommand { get; set; }
     public Utils.DelegateCommand ExpandCollapseButtonsCommand { get; set; }
@@ -163,6 +227,21 @@ internal class AppSettings_ViewModel : ViewModelBase {
 
     #region Constructors
     internal AppSettings_ViewModel(ViewModelBase parentVM) : base(parentVM) {
+        //set initial bool values
+        //TreeDisplayType
+        _expandAllRadioButtonIsChecked = AppVariables.TreeDisplayType.Equals(Enums.TreeDisplayType.ExpandAll);
+        _collapseAllRadioButtonIsChecked = AppVariables.TreeDisplayType.Equals(Enums.TreeDisplayType.CollapseAll);
+        _rememberLastRadioButtonIsChecked = AppVariables.TreeDisplayType.Equals(Enums.TreeDisplayType.RememberLast);
+        //TreeExpandCollapseButtonStyle
+        _plusMinusSignsRadioButtonIsChecked = AppVariables.TreeExpandCollapseButtonStyle.Equals(Enums.TreeExpandCollapseButtonStyle.PlusMinusSigns);
+        _arrowsRadioButtonIsChecked = AppVariables.TreeExpandCollapseButtonStyle.Equals(Enums.TreeExpandCollapseButtonStyle.Arrows);
+        _foldersRadioButtonIsChecked = AppVariables.TreeExpandCollapseButtonStyle.Equals(Enums.TreeExpandCollapseButtonStyle.Folders);
+        //QuickAccessIconSize
+        _quickAccessSmallRadioButtonIsChecked = AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Small);
+        _quickAccessMediumRadioButtonIsChecked = AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Medium);
+        _quickAccessLargeRadioButtonIsChecked = AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Large);
+
+        //set DelegateCommands
         IncrementAutoBackupCountCommand = new(OnIncrementAutoBackupCountCommand);
         DecrementAutoBackupCountCommand = new(OnDecrementAutoBackupCountCommand);
         IncrementUnlockAttemptsCommand = new(OnIncrementUnlockAttemtpsCommand);
@@ -174,6 +253,7 @@ internal class AppSettings_ViewModel : ViewModelBase {
         DefaultTreeDisplayCommand = new(OnDefaultTreeDisplayCommand);
         ExpandCollapseButtonsCommand = new(OnExpandCollapsButtonsCommand);
         QuickAccessIconSizeCommand = new(OnQuickAccessIconSizeCommand);
+        BackupLocationButtonCommand = new(OnBackupLocationButtonCommand);
     }
     #endregion Constructors
 
@@ -221,43 +301,47 @@ internal class AppSettings_ViewModel : ViewModelBase {
         TimeoutMinutes = decrement.ToString();
     }
     private void OnConfirmButtonCommand(object obj) {
-        //ConfirmSettings?.Invoke();
-        System.Diagnostics.Debug.WriteLine("ExpandAllRadioButtonIsChecked = " + ExpandAllRadioButtonIsChecked);
-        System.Diagnostics.Debug.WriteLine("CollapseAllRadioButtonIsChecked = " + CollapseAllRadioButtonIsChecked);
-        System.Diagnostics.Debug.WriteLine("RememberLastRadioButtonIsChecked = " + RememberLastRadioButtonIsChecked);
+        //commit changes to AppVariables
+        AppVariables.TreeDisplayType = _treeDisplayType;
+        AppVariables.TreeExpandCollapseButtonStyle = _treeExpandCollapseButtonStyle;
+        AppVariables.QuickAccessIconSize = _quickAccessIconSize;
+
+        ConfirmSettings?.Invoke();
     }
     private void OnCancelButtonCommand(object obj) {
         CancelSettings?.Invoke();
     }
+    private void OnBackupLocationButtonCommand(object obj) {
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        System.Windows.Forms.FolderBrowserDialog selectDialog = new();
+        selectDialog.RootFolder = Environment.SpecialFolder.MyDocuments;
+        selectDialog.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        var result = selectDialog.ShowDialog();
+
+        //System.Diagnostics.Debug.WriteLine("DialogResult = " + result.ToString());
+        //if (result == false)
+        if (result.Equals(System.Windows.Forms.DialogResult.Cancel))
+            return;
+
+        //BackupLocation = saveFileDialog.FileName;
+        BackupLocation = selectDialog.SelectedPath;
+    }
+
     private void OnDefaultTreeDisplayCommand(object obj) {//object obj) {
         //System.Diagnostics.Debug.WriteLine("enum val = " + obj.ToString());
 
         var objAsEnum = (Enums.TreeDisplayType)obj;
-
-        switch (objAsEnum) {
-            case Enums.TreeDisplayType.ExpandAll:
-                System.Diagnostics.Debug.WriteLine("enum val = Expand All");
-                Models.AppVariables.TreeDisplayType = Enums.TreeDisplayType.ExpandAll;
-                break;
-            case Enums.TreeDisplayType.CollapseAll:
-                System.Diagnostics.Debug.WriteLine("enum val = Collapse All");
-                Models.AppVariables.TreeDisplayType = Enums.TreeDisplayType.CollapseAll;
-                break;
-            case Enums.TreeDisplayType.RememberLast:
-                System.Diagnostics.Debug.WriteLine("enum val = Remember Last");
-                Models.AppVariables.TreeDisplayType = Enums.TreeDisplayType.RememberLast;
-                break;
-            default:
-                System.Diagnostics.Debug.WriteLine("No enum value set...");
-                Models.AppVariables.TreeDisplayType = Enums.TreeDisplayType.CollapseAll;
-                break;
-        }
+        _treeDisplayType = objAsEnum;
     }
     private void OnExpandCollapsButtonsCommand(object obj) {
-        System.Diagnostics.Debug.WriteLine("enum val = " + obj.ToString());
+        //System.Diagnostics.Debug.WriteLine("enum val = " + obj.ToString());
+        var objAsEnum = (Enums.TreeExpandCollapseButtonStyle)obj;
+        _treeExpandCollapseButtonStyle = objAsEnum;
     }
     private void OnQuickAccessIconSizeCommand(object obj) {
-        System.Diagnostics.Debug.WriteLine("enum val = " + obj.ToString());
+        //System.Diagnostics.Debug.WriteLine("enum val = " + obj.ToString());
+        var objAsEnum = (Enums.QuickAccessIconSize)obj;
+        _quickAccessIconSize = objAsEnum;
     }
     #endregion Other Methods
 }

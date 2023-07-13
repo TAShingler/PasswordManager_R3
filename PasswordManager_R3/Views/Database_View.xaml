@@ -16,7 +16,7 @@
         <!--#region//  Converters  //-->
         <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter" />
         <c:MutliplyDoubleConverter x:Key="MultiplyDoubleConverter" />
-        <c:DoubleToGridLengthConverter x:Key="DoubleToGridLengthConverter" />
+        <c:ActualSizeToMaxSizeConverter x:Key="ActualSizeToMaxSizeConverter" />
         <!--#endregion//  Converters  //-->
         
         <!--<PathGeometry x:Key="DownArrowGlyphGeometry" Figures="M 3,4 8,9 13,4 15,6 8,13 1,6 Z" />
@@ -1451,7 +1451,7 @@
         <!--#endregion DataGrid Styles-->
 
         <!--//  TabControl Styles  //-->
-        <Style  TargetType="{x:Type TabControl}">
+        <Style TargetType="{x:Type TabControl}">
             <!--<Setter Property="OverridesDefaultStyle"
           Value="True" />
             <Setter Property="SnapsToDevicePixels"
@@ -2668,7 +2668,8 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MinWidth="250" Width="0.01*" MaxWidth="{Binding ElementName=userControlBoundary,
                                                                                   Path=ActualWidth,
-                                                                                  Converter={StaticResource DoubleToGridLengthConverter}}" />
+                                                                                  Converter={StaticResource ActualSizeToMaxSizeConverter},
+                                                                                  ConverterParameter='width'}" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition MinWidth="300" Width="1*" />
             </Grid.ColumnDefinitions>
@@ -2754,7 +2755,8 @@
                                        Height="0.01*"
                                        MaxHeight="{Binding ElementName=userControlBoundary,
                                                            Path=ActualHeight,
-                                                           Converter={StaticResource DoubleToGridLengthConverter}}"/><!-- x:Name="selectedRecordInfoPaneGridRow"
+                                                           Converter={StaticResource ActualSizeToMaxSizeConverter},
+                                                           ConverterParameter='height'}"/><!-- x:Name="selectedRecordInfoPaneGridRow"
                                        MinHeight="24"
                                        Height="Auto" />-->
                         <!--<RowDefinition Height="0.001*" />-->
@@ -2815,18 +2817,23 @@
                                                 Binding="{Binding SrIcon}"/>-->
                             <DataGridTextColumn Header="Title"
                                                 MinWidth="112"
+                                                Width="Auto"
                                                 Binding="{Binding Title}" />
                             <DataGridTextColumn Header="Username"
                                                 MinWidth="112"
+                                                Width="Auto"
                                                 Binding="{Binding Username}" />
                             <DataGridTextColumn Header="Email"
                                                 MinWidth="112"
+                                                Width="Auto"
                                                 Binding="{Binding Email}" />
                             <DataGridTextColumn Header="Password"
                                                 MinWidth="112"
+                                                Width="Auto"
                                                 Binding="{Binding Password}" />
                             <DataGridTextColumn Header="Url"
-                                                MinWidth="112" 
+                                                MinWidth="112"
+                                                Width="Auto"
                                                 Binding="{Binding URL}" />
                             <!--<DataGridTextColumn Header="Notes"
                                                 MinWidth="100"
