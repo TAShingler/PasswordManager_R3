@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Windows;
 
 namespace PasswordManager_R3.ViewModels;
@@ -38,7 +39,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
     #region Properties
     //Window properties
-    public WindowState WinState { 
+    public WindowState WinState {
         get { return _winState; }
         set {
             _winState = value;
@@ -216,6 +217,11 @@ internal class MainWindow_ViewModel : ViewModelBase {
             _buttonAppSettingsTextVisibility = value;
             OnPropertyChanged(nameof(ButtonAppSettingsTextVisibility));
         }
+    }
+
+    //Quick Access Bar Button size properties
+    public Enums.QuickAccessIconSize QuickAccessIconSize {
+        get { return AppVariables.QuickAccessIconSize; }
     }
 
     //Delegates for Commands to handle events
@@ -403,6 +409,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //System.Diagnostics.Debug.WriteLine("OnSetDatabaseView() not implemented...");
         //System.Diagnostics.Debug.WriteLine("OnSetDatabaseView() obj to string: " + obj.ToString());
 
+        OnPropertyChanged(nameof(QuickAccessIconSize)); //might move to separate method called when AppSettings OK button clicked; calls OnSetDatabaseView method after
 
         Database_ViewModel databaseVM = new Database_ViewModel(this);
         databaseVM.SelectedRecordChanged += OnSelectedRecordChanged;

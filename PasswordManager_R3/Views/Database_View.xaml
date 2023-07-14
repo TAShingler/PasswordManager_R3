@@ -2967,30 +2967,32 @@
                                 <TabItem Header="Basic"
                                          Background="Transparent"
                                          Foreground="Gainsboro">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition MinHeight="28"
+                                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                                  VerticalScrollBarVisibility="Auto">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition MinHeight="28"
                                                            Height="Auto" />
-                                            <RowDefinition MinHeight="28"
+                                                <RowDefinition MinHeight="28"
                                                            Height="Auto" />
-                                            <RowDefinition MinHeight="28"
+                                                <RowDefinition MinHeight="28"
                                                            Height="Auto" />
-                                            <RowDefinition MinHeight="28"
+                                                <RowDefinition MinHeight="28"
                                                            Height="Auto" />
-                                            <RowDefinition Height="1*" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition MinWidth="20"
+                                                <RowDefinition Height="1*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition MinWidth="20"
                                                               Width="Auto" />
-                                            <ColumnDefinition MinWidth="20"
+                                                <ColumnDefinition MinWidth="20"
                                                               Width="Auto" />
-                                            <ColumnDefinition MinWidth="100"
+                                                <ColumnDefinition MinWidth="100"
                                                               Width="Auto" />
-                                            <ColumnDefinition Width="1*" />
-                                        </Grid.ColumnDefinitions>
-                                        
-                                        <!--//  Row 1  //-->
-                                        <Button Grid.Column="0"
+                                                <ColumnDefinition Width="1*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!--//  Row 1  //-->
+                                            <Button Grid.Column="0"
                                                 Grid.Row="0"
                                                 Width="16"
                                                 Height="16"
@@ -2998,7 +3000,7 @@
                                                 CommandParameter="{Binding ElementName=textBlockUsername,
                                                                            Path=Text}"
                                                 Style="{StaticResource ButtonCopyContentStyle}"/>
-                                        <ToggleButton Grid.Column="1"
+                                            <ToggleButton Grid.Column="1"
                                                       Grid.Row="0"
                                                       Width="16"
                                                       Height="16"
@@ -3006,19 +3008,19 @@
                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
                                                                                  Path=IsChecked}"
                                                       Style="{StaticResource ToggleButtonMaskContentStyle}"/>
-                                        <Label Grid.Column="2"
+                                            <Label Grid.Column="2"
                                                Grid.Row="0"
                                                Foreground="Gainsboro"
                                                Content="Username:" />
-                                        <TextBlock x:Name="textBlockUsername"
+                                            <TextBlock x:Name="textBlockUsername"
                                                    Grid.Column="3"
                                                    Grid.Row="0"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
                                                    Text="{Binding SrUsername}"/>
 
-                                        <!--//  Row 2  //-->
-                                        <Button Grid.Column="0"
+                                            <!--//  Row 2  //-->
+                                            <Button Grid.Column="0"
                                                 Grid.Row="1"
                                                 Width="16"
                                                 Height="16"
@@ -3026,7 +3028,7 @@
                                                 CommandParameter="{Binding ElementName=textBlockEmail,
                                                                            Path=Text}"
                                                 Style="{StaticResource ButtonCopyContentStyle}"/>
-                                        <ToggleButton Grid.Column="1"
+                                            <ToggleButton Grid.Column="1"
                                                       Grid.Row="1"
                                                       Width="16"
                                                       Height="16"
@@ -3034,19 +3036,19 @@
                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
                                                                                  Path=IsChecked}"
                                                       Style="{StaticResource ToggleButtonMaskContentStyle}"/>
-                                        <Label Grid.Column="2"
+                                            <Label Grid.Column="2"
                                                Grid.Row="1"
                                                Foreground="Gainsboro"
                                                Content="Email:" />
-                                        <TextBlock x:Name="textBlockEmail"
+                                            <TextBlock x:Name="textBlockEmail"
                                                    Grid.Column="3"
                                                    Grid.Row="1"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
                                                    Text="{Binding SrEmail}"/>
-                                        
-                                        <!--//  Row 3  //-->
-                                        <Button Grid.Column="0"
+
+                                            <!--//  Row 3  //-->
+                                            <Button Grid.Column="0"
                                                 Grid.Row="2"
                                                 Width="16"
                                                 Height="16"
@@ -3054,7 +3056,7 @@
                                                 CommandParameter="{Binding ElementName=textBlockPassword,
                                                                            Path=Text}"
                                                 Style="{StaticResource ButtonCopyContentStyle}"/>
-                                        <ToggleButton Grid.Column="1"
+                                            <ToggleButton Grid.Column="1"
                                                       Grid.Row="2"
                                                       Width="16"
                                                       Height="16"
@@ -3062,19 +3064,19 @@
                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
                                                                                  Path=IsChecked}"
                                                       Style="{StaticResource ToggleButtonMaskContentStyle}"/>
-                                        <Label Grid.Column="2"
+                                            <Label Grid.Column="2"
                                                Grid.Row="2"
                                                Foreground="Gainsboro"
                                                Content="Password:" />
-                                        <TextBlock x:Name="textBlockPassword"
+                                            <TextBlock x:Name="textBlockPassword"
                                                    Grid.Column="3"
                                                    Grid.Row="2"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
                                                    Text="{Binding SrPassword}"/>
-                                        
-                                        <!--//  Row 4  //-->
-                                        <Button Grid.Column="0"
+
+                                            <!--//  Row 4  //-->
+                                            <Button Grid.Column="0"
                                                 Grid.Row="3"
                                                 Width="16"
                                                 Height="16"
@@ -3082,7 +3084,7 @@
                                                 CommandParameter="{Binding ElementName=textBlockUrl,
                                                                            Path=Text}"
                                                 Style="{StaticResource ButtonCopyContentStyle}"/>
-                                        <ToggleButton Grid.Column="1"
+                                            <ToggleButton Grid.Column="1"
                                                       Grid.Row="3"
                                                       Width="16"
                                                       Height="16"
@@ -3090,39 +3092,42 @@
                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
                                                                                  Path=IsChecked}"
                                                       Style="{StaticResource ToggleButtonMaskContentStyle}"/>
-                                        <Label Grid.Column="2"
+                                            <Label Grid.Column="2"
                                                Grid.Row="3"
                                                Foreground="Gainsboro"
                                                Content="Url:" />
-                                        <TextBlock x:Name="textBlockUrl"
+                                            <TextBlock x:Name="textBlockUrl"
                                                    Grid.Column="3"
                                                    Grid.Row="3"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
                                                    Text="{Binding SrUrl}"/>
-                                    </Grid>
+                                        </Grid>
+                                    </ScrollViewer>
                                 </TabItem>
                                 <TabItem Header="Notes"
                                          Background="Transparent"
                                          Foreground="Gainsboro">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition MinHeight="28"
+                                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                                  VerticalScrollBarVisibility="Auto">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition MinHeight="28"
                                                            Height="Auto" />
-                                            <RowDefinition Height="1*" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition MinWidth="20"
+                                                <RowDefinition Height="1*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition MinWidth="20"
                                                               Width="Auto" />
-                                            <ColumnDefinition MinWidth="20"
+                                                <ColumnDefinition MinWidth="20"
                                                               Width="Auto" />
-                                            <ColumnDefinition MinWidth="100"
+                                                <ColumnDefinition MinWidth="100"
                                                               Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        
-                                        <!--//  Row 1  //-->
-                                        <Button Grid.Column="0"
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!--//  Row 1  //-->
+                                            <Button Grid.Column="0"
                                                 Grid.Row="0"
                                                 Width="16"
                                                 Height="16"
@@ -3130,7 +3135,7 @@
                                                 CommandParameter="{Binding ElementName=textBlockUsername,
                                                                            Path=Text}"
                                                 Style="{StaticResource ButtonCopyContentStyle}"/>
-                                        <ToggleButton Grid.Column="1"
+                                            <ToggleButton Grid.Column="1"
                                                       Grid.Row="0"
                                                       Width="16"
                                                       Height="16"
@@ -3138,91 +3143,95 @@
                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
                                                                                  Path=IsChecked}"
                                                       Style="{StaticResource ToggleButtonMaskContentStyle}"/>
-                                        <Label Grid.Column="2"
+                                            <Label Grid.Column="2"
                                                Grid.Row="0"
                                                Foreground="Gainsboro"
                                                Content="Notes:"/>
-                                        <ScrollViewer Grid.Column="3"
+                                            <ScrollViewer Grid.Column="3"
                                                       Grid.Row="0"
                                                       Grid.RowSpan="2"
                                                       VerticalScrollBarVisibility="Auto">
-                                            <TextBlock Foreground="Gainsboro"
+                                                <TextBlock Foreground="Gainsboro"
                                                        Background="Transparent"
                                                        Padding="5"
                                                        TextWrapping="Wrap"
                                                        Text="{Binding SrNotes}"/>
-                                        </ScrollViewer>
-                                    </Grid>
+                                            </ScrollViewer>
+                                        </Grid>
+                                    </ScrollViewer>
                                 </TabItem>
                                 <TabItem Header="Advanced"
                                          Background="Transparent"
                                          Foreground="Gainsboro">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition MinHeight="28"
+                                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                                  VerticalScrollBarVisibility="Auto">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition MinHeight="28"
                                                            Height="Auto" />
-                                            <RowDefinition MinHeight="28"
+                                                <RowDefinition MinHeight="28"
                                                            Height="Auto" />
-                                            <RowDefinition MinHeight="28"
+                                                <RowDefinition MinHeight="28"
                                                            Height="Auto" />
-                                            <RowDefinition MinHeight="28"
+                                                <RowDefinition MinHeight="28"
                                                            Height="Auto" />
-                                            <RowDefinition Height="1*" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition MinWidth="20"
+                                                <RowDefinition Height="1*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition MinWidth="20"
                                                               Width="Auto" />
-                                            <ColumnDefinition MinWidth="20"
+                                                <ColumnDefinition MinWidth="20"
                                                               Width="Auto" />
-                                            <ColumnDefinition MinWidth="100"
+                                                <ColumnDefinition MinWidth="100"
                                                               Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
 
-                                        <!--//  Row 1  //-->
-                                        <Label Grid.Column="2"
+                                            <!--//  Row 1  //-->
+                                            <Label Grid.Column="2"
                                                Grid.Row="0"
                                                Foreground="Gainsboro"
                                                Content="Expiration Date:" />
-                                        <TextBlock Grid.Column="3"
+                                            <TextBlock Grid.Column="3"
                                                    Grid.Row="0"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
                                                    Text="{Binding SrExpirationDate}"/>
 
-                                        <!--//  Row 2  //-->
-                                        <Label Grid.Column="2"
+                                            <!--//  Row 2  //-->
+                                            <Label Grid.Column="2"
                                                Grid.Row="1"
                                                Foreground="Gainsboro"
                                                Content="Created Date:" />
-                                        <TextBlock Grid.Column="3"
+                                            <TextBlock Grid.Column="3"
                                                    Grid.Row="1"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
                                                    Text="{Binding SrCreatedDate}"/>
 
-                                        <!--//  Row 3  //-->
-                                        <Label Grid.Column="2"
+                                            <!--//  Row 3  //-->
+                                            <Label Grid.Column="2"
                                                Grid.Row="2"
                                                Foreground="Gainsboro"
                                                Content="Modified Date:" />
-                                        <TextBlock Grid.Column="3"
+                                            <TextBlock Grid.Column="3"
                                                    Grid.Row="2"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
                                                    Text="{Binding SrModifiedDate}"/>
 
-                                        <!--//  Row 4  //-->
-                                        <Label Grid.Column="2"
+                                            <!--//  Row 4  //-->
+                                            <Label Grid.Column="2"
                                                Grid.Row="3"
                                                Foreground="Gainsboro"
                                                Content="GUID:" />
-                                        <TextBlock Grid.Column="3"
+                                            <TextBlock Grid.Column="3"
                                                    Grid.Row="3"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
                                                    Text="{Binding SrGuid}"/>
-                                    </Grid>
+                                        </Grid>
+                                    </ScrollViewer>
                                 </TabItem>
                                 <!--<TabItem Header="Item2"
                                          Background="Transparent"

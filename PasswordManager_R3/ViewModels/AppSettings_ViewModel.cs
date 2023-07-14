@@ -306,6 +306,8 @@ internal class AppSettings_ViewModel : ViewModelBase {
         AppVariables.TreeExpandCollapseButtonStyle = _treeExpandCollapseButtonStyle;
         AppVariables.QuickAccessIconSize = _quickAccessIconSize;
 
+        System.Diagnostics.Debug.WriteLine("QuickAccessIconSize = " + _quickAccessIconSize);
+
         ConfirmSettings?.Invoke();
     }
     private void OnCancelButtonCommand(object obj) {
