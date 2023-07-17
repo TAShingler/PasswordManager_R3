@@ -14,7 +14,7 @@
         <!--#region Converters-->
         <convert:BooleanToEnabledConverter x:Key="BooleanToEnabledConverter" />
         <!--#endregion Converters-->
-        
+
         <!--#region ScrollBar Styles-->
         <Style x:Key="ScrollBarLineButton"
                TargetType="{x:Type RepeatButton}">
@@ -669,7 +669,7 @@
             </Style.Triggers>
         </Style>
         <!--#endregion ScrollBar Styles-->
-        
+
         <!--#region //  ListView Styles  // -->
         <Style x:Key="BackupSettingsListViewItem"
                TargetType="{x:Type ListViewItem}">
@@ -1062,7 +1062,7 @@
         </Style>
         <!--#endregion //  ListView Styles  // -->
     </UserControl.Resources>
-    
+
     <DockPanel LastChildFill="True">
         <!--#region //  Top Panel  //-->
         <Border DockPanel.Dock="Top"
@@ -1141,8 +1141,6 @@
                                           Style="{StaticResource DatabaseSettingsListViewItem}" />
                     <ListViewItem Content="Display"
                                           Style="{StaticResource DisplaySettingsListViewItem}" />
-                    <!--<ListViewItem Content="Lockout"
-                                          Style="{StaticResource EntryInfoListViewItem}" />-->
                 </ListView>
                 <Button x:Name="listViewTabIncrementButton"
                                 Grid.Row="2"
@@ -1165,93 +1163,99 @@
                                             Path=SelectedIndex}">
             <!--#region Backup Options-->
             <TabItem Visibility="Collapsed">
-                <Border Grid.Row="0"
-                            Margin="0 0 0 5"
-                            Padding="4"
-                            Background="Transparent"
-                            CornerRadius="2">
+                <Border Margin="0 5"
+                        Padding="4"
+                        Background="Transparent"
+                        CornerRadius="2">
                     <StackPanel Orientation="Vertical">
                         <TextBlock Foreground="Gainsboro"
-                                       Text="Backup Options"
-                                       HorizontalAlignment="Left" />
+                                   Text="Backup Options"
+                                   HorizontalAlignment="Left" />
                         <Separator Margin="0 5"
-                                       Background="#777"/>
+                                   Background="#777"/>
                         <Grid Margin="12 0 0 0">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="24" />
-                                <RowDefinition Height="28" />
-                                <RowDefinition Height="28" />
-                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="1*" />
                                 <!-- Height="28" />-->
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="180" />
-                                <ColumnDefinition Width="420" />
+                                <ColumnDefinition MinWidth="180"
+                                                  Width="Auto" />
+                                <ColumnDefinition MinWidth="420"
+                                                  Width="Auto" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
 
                             <!--#region  Allow Backups -->
                             <CheckBox x:Name="checkBoxAllowAutoBackups"
-                                          Grid.Row="0"
-                                          Grid.Column="0"
-                                          Grid.ColumnSpan="3"
-                                          Foreground="Gainsboro"
-                                          VerticalContentAlignment="Center"
-                                          Content="Allow automatic backups" />
+                                      Grid.Row="0"
+                                      Grid.Column="0"
+                                      Grid.ColumnSpan="3"
+                                      Margin="0 4"
+                                      IsChecked="{Binding AllowAutoBackups}"
+                                      Foreground="Gainsboro"
+                                      VerticalContentAlignment="Center"
+                                      Content="Allow automatic backups" />
                             <!--#endregion Allow Backups -->
 
                             <!--#region Backup Count -->
                             <Label Grid.Row="1"
-                                       Grid.Column="0"
-                                       Padding="0"
-                                       Margin="0"
-                                       VerticalContentAlignment="Center"
-                                       Foreground="Gainsboro"
-                                       Content="Auto backup count:" />
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Center"
+                                   Foreground="Gainsboro"
+                                   Content="Auto backup count:" />
                             <Grid Grid.Row="1"
-                                      Grid.Column="1"
-                                      Margin="0 2"
-                                      HorizontalAlignment="Left">
+                                  Grid.Column="1"
+                                  Margin="0 4">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="1*" />
                                     <RowDefinition Height="1*" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="30" />
-                                    <ColumnDefinition Width="20" />
+                                    <ColumnDefinition MinWidth="30"
+                                                      Width="Auto" />
+                                    <ColumnDefinition MinWidth="20"
+                                                      Width="Auto" />
+                                    <ColumnDefinition Width="1*" />
                                 </Grid.ColumnDefinitions>
                                 <TextBox x:Name="txtBoxAutoBackupCount"
-                                             Grid.Row="0"
-                                             Grid.RowSpan="2"
-                                             Grid.Column="0"
-                                             IsEnabled="{Binding ElementName=checkBoxAllowAutoBackups,
-                                                                 Path=IsChecked}"
-                                             Text="{Binding AutoBackupCount}"
-                                             VerticalContentAlignment="Center"
-                                             HorizontalContentAlignment="Right"
-                                             PreviewKeyDown="NumericUpDownTextBox_PreviewKeyDown"/>
+                                         Grid.Row="0"
+                                         Grid.RowSpan="2"
+                                         Grid.Column="0"
+                                         MinHeight="20"
+                                         IsEnabled="{Binding ElementName=checkBoxAllowAutoBackups,
+                                                             Path=IsChecked}"
+                                         Text="{Binding AutoBackupCount}"
+                                         VerticalContentAlignment="Center"
+                                         HorizontalContentAlignment="Right"
+                                         PreviewKeyDown="NumericUpDownTextBox_PreviewKeyDown"/>
                                 <RepeatButton x:Name="rptBtnIncrementAutoBackupCount"
-                                                  Grid.Row="0"
-                                                  Grid.Column="1"
-                                                  IsEnabled="{Binding ElementName=checkBoxAllowAutoBackups,
-                                                                      Path=IsChecked}"
-                                                  Command="{Binding IncrementAutoBackupCountCommand}">
+                                              Grid.Row="0"
+                                              Grid.Column="1"
+                                              IsEnabled="{Binding ElementName=checkBoxAllowAutoBackups,
+                                                                  Path=IsChecked}"
+                                              Command="{Binding IncrementAutoBackupCountCommand}">
                                     <Canvas Width="8"
-                                                Height="4">
+                                            Height="4">
                                         <Path Fill="Black"
-                                                  Data="M 0 4 H 8 L 4 0 Z" />
+                                              Data="M 0 4 H 8 L 4 0 Z" />
                                     </Canvas>
                                 </RepeatButton>
                                 <RepeatButton x:Name="rptBtnDecrementAutoBackupCount"
-                                                  Grid.Row="1"
-                                                  Grid.Column="1"
-                                                  IsEnabled="{Binding ElementName=checkBoxAllowAutoBackups,
-                                                                      Path=IsChecked}"
-                                                  Command="{Binding DecrementAutoBackupCountCommand}">
+                                              Grid.Row="1"
+                                              Grid.Column="1"
+                                              IsEnabled="{Binding ElementName=checkBoxAllowAutoBackups,
+                                                                  Path=IsChecked}"
+                                              Command="{Binding DecrementAutoBackupCountCommand}">
                                     <Canvas Width="8"
-                                                Height="4">
+                                            Height="4">
                                         <Path Fill="Black"
-                                                  Data="M 0 0 H 8 L 4 4 Z" />
+                                              Data="M 0 0 H 8 L 4 4 Z" />
                                     </Canvas>
                                 </RepeatButton>
                             </Grid>
@@ -1259,15 +1263,15 @@
 
                             <!--#region Backup Location -->
                             <Label Grid.Row="2"
-                                       Grid.Column="0"
-                                       Padding="0"
-                                       Margin="0"
-                                       VerticalContentAlignment="Center"
-                                       Foreground="Gainsboro"
-                                       Content="Backup location:" />
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Center"
+                                   Foreground="Gainsboro"
+                                   Content="Backup location:" />
                             <Grid Grid.Row="2"
-                                      Grid.Column="1"
-                                      Margin="0 2">
+                                  Grid.Column="1"
+                                  Margin="0 4">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="4" />
@@ -1275,11 +1279,12 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBox Grid.Column="0"
-                                             VerticalContentAlignment="Center"
-                                             Text="{Binding BackupLocation}"/>
+                                         MinHeight="20"
+                                         VerticalContentAlignment="Center"
+                                         Text="{Binding BackupLocation}"/>
                                 <Button Grid.Column="2"
-                                            Content="Browse..."
-                                            Command="{Binding BackupLocationButtonCommand}"/>
+                                        Content="Browse..."
+                                        Command="{Binding BackupLocationButtonCommand}"/>
                             </Grid>
                             <!-- might need to add button to select path -->
                             <!--#endregion Backup Location -->
@@ -1307,58 +1312,57 @@
                 </Border>
             </TabItem>
             <!--#endregion Backup Options-->
-            
+
             <!--#region Database Options-->
             <TabItem Visibility="Collapsed">
-                <Border Grid.Row="1"
-                            Margin="0 5"
-                            Padding="4"
-                            Background="#444"
-                            CornerRadius="2">
+                <Border Margin="0 5"
+                        Padding="4"
+                        Background="Transparent"
+                        CornerRadius="2">
                     <StackPanel Orientation="Vertical">
                         <TextBlock Foreground="Gainsboro"
-                                       Text="Database Options"
-                                       HorizontalAlignment="Left"/>
+                                   Text="Database Options"
+                                   HorizontalAlignment="Left"/>
                         <Separator Margin="0 5"
-                                       Background="#777"/>
+                                   Background="#777"/>
                         <Grid Margin="12 0 0 0">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="24" />
-                                <RowDefinition Height="30" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="30" />
-                                <RowDefinition Height="24" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="180" />
-                                <ColumnDefinition Width="420" />
+                                <ColumnDefinition MinWidth="180"
+                                                  Width="Auto"/>
+                                <ColumnDefinition MinWidth="420"
+                                                  Width="Auto"/>
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
 
                             <!--#region Erase Database -->
                             <CheckBox x:Name="checkBoxEnableEraseAttempts"
-                                          Grid.Row="0"
-                                          Grid.Column="0"
-                                          Grid.ColumnSpan="3"
-                                          IsChecked="{Binding EraseDatabaseAfterSetAmountAttemptsCheckBoxIsChecked}"
-                                          VerticalContentAlignment="Center"
-                                          Foreground="Gainsboro"
-                                          Content="Erase database after set amount of attempts" />
+                                      Grid.Row="0"
+                                      Grid.Column="0"
+                                      Grid.ColumnSpan="3"
+                                      Margin="0 4"
+                                      IsChecked="{Binding EraseDatabaseAfterSetAmountAttempts}"
+                                      VerticalContentAlignment="Center"
+                                      Foreground="Gainsboro"
+                                      Content="Erase database after set amount of attempts" />
 
                             <Label Grid.Row="1"
-                                       Grid.Column="0"
-                                       Padding="0"
-                                       Margin="0"
-                                       VerticalContentAlignment="Center"
-                                       Foreground="Gainsboro"
-                                       Content="Attempts before erasing:" />
-                            <!--<TextBox Grid.Row="1"
-                                         Grid.Column="1"
-                                         Margin="0 2"/>-->
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Center"
+                                   Foreground="Gainsboro"
+                                   Content="Attempts before erasing:" />
                             <Grid Grid.Row="1"
                                       Grid.Column="1"
-                                      Margin="0 2"
+                                      Margin="0 4"
                                       HorizontalAlignment="Left">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="1*" />
@@ -1369,81 +1373,83 @@
                                     <ColumnDefinition Width="20" />
                                 </Grid.ColumnDefinitions>
                                 <TextBox x:Name="txtBoxUnlockAttempts"
-                                             Grid.Row="0"
-                                             Grid.RowSpan="2"
-                                             Grid.Column="0"
-                                             IsEnabled="{Binding ElementName=checkBoxEnableEraseAttempts,
-                                                                 Path=IsChecked}"
-                                             Text="{Binding UnlockAttempts}"
-                                             VerticalContentAlignment="Center"
-                                             HorizontalContentAlignment="Right"
-                                             PreviewKeyDown="NumericUpDownTextBox_PreviewKeyDown"/>
+                                         Grid.Row="0"
+                                         Grid.RowSpan="2"
+                                         Grid.Column="0"
+                                         MinHeight="20"
+                                         IsEnabled="{Binding ElementName=checkBoxEnableEraseAttempts,
+                                                             Path=IsChecked}"
+                                         Text="{Binding UnlockAttempts}"
+                                         VerticalContentAlignment="Center"
+                                         HorizontalContentAlignment="Right"
+                                         PreviewKeyDown="NumericUpDownTextBox_PreviewKeyDown"/>
                                 <RepeatButton Grid.Row="0"
-                                                  Grid.Column="1"
-                                                  IsEnabled="{Binding ElementName=checkBoxEnableEraseAttempts,
-                                                                      Path=IsChecked}"
-                                                  Command="{Binding IncrementUnlockAttemptsCommand}">
+                                              Grid.Column="1"
+                                              IsEnabled="{Binding ElementName=checkBoxEnableEraseAttempts,
+                                                                  Path=IsChecked}"
+                                              Command="{Binding IncrementUnlockAttemptsCommand}">
                                     <Canvas Width="8"
-                                                Height="4">
+                                            Height="4">
                                         <Path Fill="Black"
-                                                  Data="M 0 4 H 8 L 4 0 Z" />
+                                              Data="M 0 4 H 8 L 4 0 Z" />
                                     </Canvas>
                                 </RepeatButton>
                                 <RepeatButton Grid.Row="1"
-                                                  Grid.Column="1"
-                                                  IsEnabled="{Binding ElementName=checkBoxEnableEraseAttempts,
-                                                                      Path=IsChecked}"
-                                                  Command="{Binding DecrementUnlockAttemptsCommand}">
+                                              Grid.Column="1"
+                                              IsEnabled="{Binding ElementName=checkBoxEnableEraseAttempts,
+                                                                  Path=IsChecked}"
+                                              Command="{Binding DecrementUnlockAttemptsCommand}">
                                     <Canvas Width="8"
-                                                Height="4">
+                                            Height="4">
                                         <Path Fill="Black"
-                                                  Data="M 0 0 H 8 L 4 4 Z" />
+                                              Data="M 0 0 H 8 L 4 4 Z" />
                                     </Canvas>
                                 </RepeatButton>
                             </Grid>
                             <!--#endregion -->
+                            
                             <Separator Grid.Row="2"
-                                           Grid.Column="0"
-                                           Grid.ColumnSpan="2"
-                                           Margin="0 5"/>
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       Margin="0 5"/>
+                            
                             <!--#region Database Lockout-->
                             <Label Grid.Row="3"
-                                       Grid.Column="0"
-                                       Padding="0"
-                                       Margin="0"
-                                       VerticalContentAlignment="Center"
-                                       Foreground="Gainsboro"
-                                       Content="Security timeout (in minutes):" />
-                            <!--<TextBox Grid.Row="3"
-                                         Grid.Column="1"
-                                         Margin="0 2"/>-->
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Center"
+                                   Foreground="Gainsboro"
+                                   Content="Security timeout (in minutes):" />
                             <Grid Grid.Row="3"
                                       Grid.Column="1"
-                                      Margin="0 2"
+                                      Margin="0 4"
                                       HorizontalAlignment="Left">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="1*" />
                                     <RowDefinition Height="1*" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition MinWidth="30"
+                                                      Width="Auto" />
                                     <ColumnDefinition Width="20" />
                                 </Grid.ColumnDefinitions>
                                 <TextBox x:Name="txtBoxTimeoutMinutes"
-                                             Grid.Row="0"
-                                             Grid.RowSpan="2"
-                                             Grid.Column="0"
-                                             Text="{Binding TimeoutMinutes}"
-                                             VerticalContentAlignment="Center"
-                                             HorizontalContentAlignment="Right"
-                                             PreviewKeyDown="NumericUpDownTextBox_PreviewKeyDown"/>
+                                         Grid.Row="0"
+                                         Grid.RowSpan="2"
+                                         Grid.Column="0"
+                                         MinHeight="20"
+                                         Text="{Binding TimeoutMinutes}"
+                                         VerticalContentAlignment="Center"
+                                         HorizontalContentAlignment="Right"
+                                         PreviewKeyDown="NumericUpDownTextBox_PreviewKeyDown"/>
                                 <RepeatButton Grid.Row="0"
-                                                  Grid.Column="1"
-                                                  Command="{Binding IncrementTimeoutMinutesCommand}">
+                                              Grid.Column="1"
+                                              Command="{Binding IncrementTimeoutMinutesCommand}">
                                     <Canvas Width="8"
-                                                Height="4">
+                                            Height="4">
                                         <Path Fill="Black"
-                                                  Data="M 0 4 H 8 L 4 0 Z" />
+                                              Data="M 0 4 H 8 L 4 0 Z" />
                                     </Canvas>
                                 </RepeatButton>
                                 <RepeatButton Grid.Row="1"
@@ -1458,25 +1464,25 @@
                             </Grid>
 
                             <CheckBox Grid.Row="4"
-                                          Grid.Column="0"
-                                          IsChecked="{Binding LogDeletedItemsCheckBoxIsChecked}"
-                                          Foreground="Gainsboro"
-                                          VerticalContentAlignment="Center"
-                                          Content="Log deleted items" />
+                                      Grid.Column="0"
+                                      Margin="0 4"
+                                      IsChecked="{Binding LogDeletedItemsCheckBoxIsChecked}"
+                                      Foreground="Gainsboro"
+                                      VerticalContentAlignment="Center"
+                                      Content="Log deleted items" />
                             <!--#endregion Database Lockout -->
                         </Grid>
                     </StackPanel>
                 </Border>
             </TabItem>
             <!--#endregion Database Options-->
-            
+
             <!--#region Display Options-->
             <TabItem Visibility="Collapsed">
-                <Border Grid.Row="2"
-                            Margin="0 5"
-                            Padding="4"
-                            Background="#444"
-                            CornerRadius="2">
+                <Border Margin="0 5"
+                        Padding="4"
+                        Background="Transparent"
+                        CornerRadius="2">
                     <StackPanel Orientation="Vertical">
                         <TextBlock Foreground="Gainsboro"
                                        Text="Display Options"
@@ -1494,8 +1500,10 @@
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition MinWidth="180" Width="Auto" />
-                                <ColumnDefinition Width="420" />
+                                <ColumnDefinition MinWidth="180"
+                                                  Width="Auto" />
+                                <ColumnDefinition MinWidth="420"
+                                                  Width="Auto" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
 
@@ -1506,14 +1514,14 @@
                             <Label Grid.Row="0"
                                        Grid.Column="0"
                                        Padding="0"
-                                       Margin="0"
+                                       Margin="0 4"
                                        VerticalContentAlignment="Top"
                                        Foreground="Gainsboro"
                                        Content="Default tree display:" />
                             <StackPanel Grid.Row="0"
                                             Grid.Column="1"
                                             Orientation="Vertical"
-                                            Margin="0 1 0 10">
+                                            Margin="0 5">
                                 <RadioButton IsChecked="{Binding ExpandAllRadioButtonIsChecked}"
                                                  Foreground="Gainsboro"
                                                  Content="Expand all"
@@ -1537,14 +1545,14 @@
                             <Label Grid.Row="1"
                                        Grid.Column="0"
                                        Padding="0"
-                                       Margin="0"
+                                       Margin="0 4"
                                        VerticalContentAlignment="Top"
                                        Foreground="Gainsboro"
                                        Content="Expand/Collapse buttons:"/>
                             <StackPanel Grid.Row="1"
                                             Grid.Column="1"
                                             Orientation="Vertical"
-                                            Margin="0 1 0 10">
+                                            Margin="0 5">
                                 <RadioButton IsChecked="{Binding PlusMinusSignsRadioButtonIsChecked}"
                                                  Foreground="Gainsboro"
                                                  Content="Plus/Minus signs"
@@ -1574,7 +1582,7 @@
                             <!--#region DataGrid Options -->
                             <CheckBox Grid.Row="3"
                                           Grid.Column="0"
-                                          Margin="0 5"
+                                          Margin="0 4"
                                           IsChecked="{Binding DisplyInfoPaneCheckBoxIsChecked}"
                                           Foreground="Gainsboro"
                                           VerticalContentAlignment="Center"
@@ -1582,22 +1590,22 @@
                             <!--#endregion DataGrid Options -->
 
                             <Separator Grid.Row="4"
-                                           Grid.Column="0"
-                                           Grid.ColumnSpan="3"
-                                           Margin="0 5" />
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="3"
+                                       Margin="0 5" />
 
                             <!--#region Quick Access icon size options-->
                             <Label Grid.Row="5"
                                        Grid.Column="0"
                                        Padding="0"
-                                       Margin="0"
+                                       Margin="0 4"
                                        VerticalContentAlignment="Top"
                                        Foreground="Gainsboro"
                                        Content="Quick access icon size:" />
                             <StackPanel Grid.Row="5"
                                             Grid.Column="1"
                                             Orientation="Vertical"
-                                            Margin="0 1 0 0">
+                                            Margin="0 5">
                                 <RadioButton IsChecked="{Binding QuickAccessSmallRadioButtonIsChecked}"
                                                  Foreground="Gainsboro"
                                                  Content="Small"

@@ -3108,26 +3108,24 @@
                                 <TabItem Header="Notes"
                                          Background="Transparent"
                                          Foreground="Gainsboro">
-                                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                                  VerticalScrollBarVisibility="Auto">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition MinHeight="28"
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition MinHeight="28"
                                                            Height="Auto" />
-                                                <RowDefinition Height="1*" />
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition MinWidth="20"
+                                            <RowDefinition Height="1*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition MinWidth="20"
                                                               Width="Auto" />
-                                                <ColumnDefinition MinWidth="20"
+                                            <ColumnDefinition MinWidth="20"
                                                               Width="Auto" />
-                                                <ColumnDefinition MinWidth="100"
+                                            <ColumnDefinition MinWidth="100"
                                                               Width="Auto" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
 
-                                            <!--//  Row 1  //-->
-                                            <Button Grid.Column="0"
+                                        <!--//  Row 1  //-->
+                                        <Button Grid.Column="0"
                                                 Grid.Row="0"
                                                 Width="16"
                                                 Height="16"
@@ -3135,7 +3133,7 @@
                                                 CommandParameter="{Binding ElementName=textBlockUsername,
                                                                            Path=Text}"
                                                 Style="{StaticResource ButtonCopyContentStyle}"/>
-                                            <ToggleButton Grid.Column="1"
+                                        <ToggleButton Grid.Column="1"
                                                       Grid.Row="0"
                                                       Width="16"
                                                       Height="16"
@@ -3143,22 +3141,21 @@
                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
                                                                                  Path=IsChecked}"
                                                       Style="{StaticResource ToggleButtonMaskContentStyle}"/>
-                                            <Label Grid.Column="2"
+                                        <Label Grid.Column="2"
                                                Grid.Row="0"
                                                Foreground="Gainsboro"
                                                Content="Notes:"/>
-                                            <ScrollViewer Grid.Column="3"
+                                        <ScrollViewer Grid.Column="3"
                                                       Grid.Row="0"
                                                       Grid.RowSpan="2"
                                                       VerticalScrollBarVisibility="Auto">
-                                                <TextBlock Foreground="Gainsboro"
+                                            <TextBlock Foreground="Gainsboro"
                                                        Background="Transparent"
                                                        Padding="5"
                                                        TextWrapping="Wrap"
                                                        Text="{Binding SrNotes}"/>
-                                            </ScrollViewer>
-                                        </Grid>
-                                    </ScrollViewer>
+                                        </ScrollViewer>
+                                    </Grid>
                                 </TabItem>
                                 <TabItem Header="Advanced"
                                          Background="Transparent"

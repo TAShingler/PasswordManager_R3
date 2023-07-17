@@ -24,6 +24,8 @@ public partial class App : Application {
             Application.Current.Shutdown();
         }
 
+
+        System.Diagnostics.Debug.WriteLine("DatabaseBackupsPath = " + AppVariables.DatabaseBackupsPath);
         base.OnStartup(e);
     }
 }

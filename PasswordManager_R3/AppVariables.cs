@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,17 @@ internal static class AppVariables {
     private static Enums.TreeDisplayType _treeDisplayType = Enums.TreeDisplayType.ExpandAll;
     private static Enums.TreeExpandCollapseButtonStyle _treeExpandCollapseButtonStyle = Enums.TreeExpandCollapseButtonStyle.Arrows;
     private static Enums.QuickAccessIconSize _quickAccessIconSize = Enums.QuickAccessIconSize.Small;
+
+    //tabitem 1
+    private static bool _allowAutoBackups = true;
+    private static string _databaseBackupsPath = SpecialDirectories.MyDocuments + "\\Backups";
+
+    //tabitem 2
+    private static bool _eraseDatabaseAfterSetAmountAttempts = true;
+    private static bool _logDeletedItems = true;
+
+    //tabitem 3
+    private static bool _displyInfoPane = true;
     #endregion Fields
 
     #region Properties
@@ -31,6 +43,32 @@ internal static class AppVariables {
     internal static Enums.QuickAccessIconSize QuickAccessIconSize {
         get { return _quickAccessIconSize; }
         set { _quickAccessIconSize = value; }
+    }
+
+    //tabitem 1
+    internal static bool AllowAutoBackups {
+        get { return _allowAutoBackups; }
+        set { _allowAutoBackups = value; }
+    }
+    internal static string DatabaseBackupsPath {
+        get { return _databaseBackupsPath; }
+        set { _databaseBackupsPath = value; }
+    }
+
+    //tabitem 2
+    internal static bool EraseDatabaseAfterSetAmountAttempts {
+        get { return _eraseDatabaseAfterSetAmountAttempts; }
+        set { _eraseDatabaseAfterSetAmountAttempts = value; }
+    }
+    internal static bool LogDeletedItems {
+        get { return _logDeletedItems; }
+        set { _logDeletedItems = value; }
+    }
+
+    //tabitem 3
+    internal static bool DisplyInfoPane {
+        get { return _displyInfoPane; }
+        set { _displyInfoPane = value; }
     }
     #endregion Properties
 

@@ -21,19 +21,20 @@ internal class AppSettings_ViewModel : ViewModelBase {
     private Enums.TreeDisplayType _treeDisplayType;
     private Enums.TreeExpandCollapseButtonStyle _treeExpandCollapseButtonStyle;
     private Enums.QuickAccessIconSize _quickAccessIconSize;
-    private bool _expandAllRadioButtonIsChecked;
-    private bool _collapseAllRadioButtonIsChecked;
-    private bool _rememberLastRadioButtonIsChecked;
-    private bool _plusMinusSignsRadioButtonIsChecked;
-    private bool _arrowsRadioButtonIsChecked;
-    private bool _foldersRadioButtonIsChecked;
-    private bool _quickAccessSmallRadioButtonIsChecked;
-    private bool _quickAccessMediumRadioButtonIsChecked;
-    private bool _quickAccessLargeRadioButtonIsChecked;
-    private bool _displyInfoPaneCheckBoxIsChecked;
-    private bool _eraseDatabaseAfterSetAmountAttemptsCheckBoxIsChecked;
-    private bool _logDeletedItemsCheckBoxIsChecked;
-    private string _backupLocation;
+    private bool _allowAutoBackups = AppVariables.AllowAutoBackups;
+    private bool _expandAllRadioButtonIsChecked = AppVariables.TreeDisplayType.Equals(Enums.TreeDisplayType.ExpandAll);
+    private bool _collapseAllRadioButtonIsChecked = AppVariables.TreeDisplayType.Equals(Enums.TreeDisplayType.CollapseAll);
+    private bool _rememberLastRadioButtonIsChecked = AppVariables.TreeDisplayType.Equals(Enums.TreeDisplayType.RememberLast);
+    private bool _plusMinusSignsRadioButtonIsChecked = AppVariables.TreeExpandCollapseButtonStyle.Equals(Enums.TreeExpandCollapseButtonStyle.PlusMinusSigns);
+    private bool _arrowsRadioButtonIsChecked = AppVariables.TreeExpandCollapseButtonStyle.Equals(Enums.TreeExpandCollapseButtonStyle.Arrows);
+    private bool _foldersRadioButtonIsChecked = AppVariables.TreeExpandCollapseButtonStyle.Equals(Enums.TreeExpandCollapseButtonStyle.Folders);
+    private bool _quickAccessSmallRadioButtonIsChecked = AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Small);
+    private bool _quickAccessMediumRadioButtonIsChecked = AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Medium);
+    private bool _quickAccessLargeRadioButtonIsChecked = AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Large);
+    private bool _displyInfoPaneCheckBoxIsChecked = AppVariables.DisplyInfoPane;
+    private bool _eraseDatabaseAfterSetAmountAttempts = AppVariables.EraseDatabaseAfterSetAmountAttempts;
+    private bool _logDeletedItemsCheckBoxIsChecked = AppVariables.LogDeletedItems;
+    private string _backupLocation = AppVariables.DatabaseBackupsPath;
     #endregion Fields
 
     #region Delegates and Events
@@ -118,6 +119,13 @@ internal class AppSettings_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(TimeoutMinutes));
         }
     }
+    public bool AllowAutoBackups {
+        get { return _allowAutoBackups; }
+        set {
+            _allowAutoBackups = value;
+            OnPropertyChanged(nameof(AllowAutoBackups));
+        }
+    }
     public bool ExpandAllRadioButtonIsChecked {
         get { return _expandAllRadioButtonIsChecked; }
         set {
@@ -188,11 +196,11 @@ internal class AppSettings_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(DisplyInfoPaneCheckBoxIsChecked));
         }
     }
-    public bool EraseDatabaseAfterSetAmountAttemptsCheckBoxIsChecked {
-        get { return _eraseDatabaseAfterSetAmountAttemptsCheckBoxIsChecked; }
+    public bool EraseDatabaseAfterSetAmountAttempts {
+        get { return _eraseDatabaseAfterSetAmountAttempts; }
         set {
-            _eraseDatabaseAfterSetAmountAttemptsCheckBoxIsChecked = value;
-            OnPropertyChanged(nameof(EraseDatabaseAfterSetAmountAttemptsCheckBoxIsChecked));
+            _eraseDatabaseAfterSetAmountAttempts = value;
+            OnPropertyChanged(nameof(EraseDatabaseAfterSetAmountAttempts));
         }
     }
     public bool LogDeletedItemsCheckBoxIsChecked {
@@ -228,18 +236,18 @@ internal class AppSettings_ViewModel : ViewModelBase {
     #region Constructors
     internal AppSettings_ViewModel(ViewModelBase parentVM) : base(parentVM) {
         //set initial bool values
-        //TreeDisplayType
-        _expandAllRadioButtonIsChecked = AppVariables.TreeDisplayType.Equals(Enums.TreeDisplayType.ExpandAll);
-        _collapseAllRadioButtonIsChecked = AppVariables.TreeDisplayType.Equals(Enums.TreeDisplayType.CollapseAll);
-        _rememberLastRadioButtonIsChecked = AppVariables.TreeDisplayType.Equals(Enums.TreeDisplayType.RememberLast);
-        //TreeExpandCollapseButtonStyle
-        _plusMinusSignsRadioButtonIsChecked = AppVariables.TreeExpandCollapseButtonStyle.Equals(Enums.TreeExpandCollapseButtonStyle.PlusMinusSigns);
-        _arrowsRadioButtonIsChecked = AppVariables.TreeExpandCollapseButtonStyle.Equals(Enums.TreeExpandCollapseButtonStyle.Arrows);
-        _foldersRadioButtonIsChecked = AppVariables.TreeExpandCollapseButtonStyle.Equals(Enums.TreeExpandCollapseButtonStyle.Folders);
-        //QuickAccessIconSize
-        _quickAccessSmallRadioButtonIsChecked = AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Small);
-        _quickAccessMediumRadioButtonIsChecked = AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Medium);
-        _quickAccessLargeRadioButtonIsChecked = AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Large);
+        ////TreeDisplayType
+        //_expandAllRadioButtonIsChecked = AppVariables.TreeDisplayType.Equals(Enums.TreeDisplayType.ExpandAll);
+        //_collapseAllRadioButtonIsChecked = AppVariables.TreeDisplayType.Equals(Enums.TreeDisplayType.CollapseAll);
+        //_rememberLastRadioButtonIsChecked = AppVariables.TreeDisplayType.Equals(Enums.TreeDisplayType.RememberLast);
+        ////TreeExpandCollapseButtonStyle
+        //_plusMinusSignsRadioButtonIsChecked = AppVariables.TreeExpandCollapseButtonStyle.Equals(Enums.TreeExpandCollapseButtonStyle.PlusMinusSigns);
+        //_arrowsRadioButtonIsChecked = AppVariables.TreeExpandCollapseButtonStyle.Equals(Enums.TreeExpandCollapseButtonStyle.Arrows);
+        //_foldersRadioButtonIsChecked = AppVariables.TreeExpandCollapseButtonStyle.Equals(Enums.TreeExpandCollapseButtonStyle.Folders);
+        ////QuickAccessIconSize
+        //_quickAccessSmallRadioButtonIsChecked = AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Small);
+        //_quickAccessMediumRadioButtonIsChecked = AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Medium);
+        //_quickAccessLargeRadioButtonIsChecked = AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Large);
 
         //set DelegateCommands
         IncrementAutoBackupCountCommand = new(OnIncrementAutoBackupCountCommand);
