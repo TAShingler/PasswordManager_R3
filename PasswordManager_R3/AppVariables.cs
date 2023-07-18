@@ -16,10 +16,13 @@ internal static class AppVariables {
 
     //tabitem 1
     private static bool _allowAutoBackups = true;
-    private static string _databaseBackupsPath = SpecialDirectories.MyDocuments + "\\Backups";
+    private static int _autoBackupCount = 10;
+    private static string _backupLocation = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Auto Backups"; //SpecialDirectories.MyDocuments + "\\Backups";
 
     //tabitem 2
     private static bool _eraseDatabaseAfterSetAmountAttempts = true;
+    private static int _unlockAttemtps = 10;
+    private static int _timeoutMinutes = 10;
     private static bool _logDeletedItems = true;
 
     //tabitem 3
@@ -50,15 +53,27 @@ internal static class AppVariables {
         get { return _allowAutoBackups; }
         set { _allowAutoBackups = value; }
     }
-    internal static string DatabaseBackupsPath {
-        get { return _databaseBackupsPath; }
-        set { _databaseBackupsPath = value; }
+    internal static int AutoBackupCount {
+        get { return _autoBackupCount; }
+        set { _autoBackupCount = value; }
+    }
+    internal static string BackupLocation {
+        get { return _backupLocation; }
+        set { _backupLocation = value; }
     }
 
     //tabitem 2
     internal static bool EraseDatabaseAfterSetAmountAttempts {
         get { return _eraseDatabaseAfterSetAmountAttempts; }
         set { _eraseDatabaseAfterSetAmountAttempts = value; }
+    }
+    internal static int UnlockAttemtps {
+        get { return _unlockAttemtps; }
+        set { _unlockAttemtps = value; }
+    }
+    internal static int TimeoutMinutes {
+        get { return _timeoutMinutes; }
+        set { _timeoutMinutes = value; }
     }
     internal static bool LogDeletedItems {
         get { return _logDeletedItems; }

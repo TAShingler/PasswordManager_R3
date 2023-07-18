@@ -24,8 +24,13 @@ public partial class App : Application {
             Application.Current.Shutdown();
         }
 
+        var files = System.IO.Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
 
-        System.Diagnostics.Debug.WriteLine("DatabaseBackupsPath = " + AppVariables.DatabaseBackupsPath);
+        foreach (var file in files) {
+            System.Diagnostics.Debug.WriteLine($"file = {file}");
+        }
+
+        //System.Diagnostics.Debug.WriteLine("DatabaseBackupsPath = " + AppVariables.DatabaseBackupsPath);
         base.OnStartup(e);
     }
 }

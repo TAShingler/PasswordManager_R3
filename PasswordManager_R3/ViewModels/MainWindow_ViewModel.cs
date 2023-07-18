@@ -676,6 +676,22 @@ internal class MainWindow_ViewModel : ViewModelBase {
             ButtonUrlToClipboardIsEnabled = false;
         }
     }
+
+    //methods for database backup on CRUD ops... - will probably move to FileOperations class
+    private void CreateDatabaseBackup() {
+
+    }
+    private void RenameDatabaseBackup(string[] filePaths) {
+        //check directory exists...
+        Utils.FileOperations.DoesDirectoryExist("");
+        //create array of files in directory...
+        var backupFiles = System.IO.Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+        //rename file...
+        for(int i=1; i<=backupFiles.Length; i++) {
+            //System.IO.File.Move(backupFiles[i], backupFiles[i].Substring(0, backupFiles[i].Length - 2) + "_" + i);
+            System.Diagnostics.Debug.WriteLine("i = " + i);
+        }
+    }
     #endregion Misc. Event Handlers
 
     //public event PropertyChangedEventHandler? PropertyChanged;

@@ -316,22 +316,22 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             userExpirationDate = null;
         }
 
-        System.Diagnostics.Debug.WriteLine(
-            $"\n\nParentGUID = {_parentGroup?.GUID}" +
-            $"\nParent Group = {_parentGroup?.Title}" +
-            $"\nSrTitle = {SrTitle}" +
-            $"\nSrUsername = {SrUsername}" +
-            $"\nSrEmail = {SrEmail}" +
-            $"\nSrPassword = {SrPassword}" +
-            $"\nSrUrl = {SrUrl}" +
-            $"\nSrTags = {SrTags}" +
-            $"\nSrHasExpirationDate = {SrHasExpirationDate}" +
-            $"\nSrExpirationDate = {SrExpirationDate}" +
-            $"\nSrHasNotes = {SrHasNotes}" +
-            $"\nSrNotes = {SrNotes}" +
-            $"\nSrCreatedDate = {SrCreatedDate}" +
-            $"\nSrModifiedDate = {SrModifiedDate}" +
-            $"\nSrGuid = {SrGuid}\n\n");
+        //System.Diagnostics.Debug.WriteLine(
+        //    $"\n\nParentGUID = {_parentGroup?.GUID}" +
+        //    $"\nParent Group = {_parentGroup?.Title}" +
+        //    $"\nSrTitle = {SrTitle}" +
+        //    $"\nSrUsername = {SrUsername}" +
+        //    $"\nSrEmail = {SrEmail}" +
+        //    $"\nSrPassword = {SrPassword}" +
+        //    $"\nSrUrl = {SrUrl}" +
+        //    $"\nSrTags = {SrTags}" +
+        //    $"\nSrHasExpirationDate = {SrHasExpirationDate}" +
+        //    $"\nSrExpirationDate = {SrExpirationDate}" +
+        //    $"\nSrHasNotes = {SrHasNotes}" +
+        //    $"\nSrNotes = {SrNotes}" +
+        //    $"\nSrCreatedDate = {SrCreatedDate}" +
+        //    $"\nSrModifiedDate = {SrModifiedDate}" +
+        //    $"\nSrGuid = {SrGuid}\n\n");
 
         //check whether is new record
         if (_isNewRecord == true) { //true
@@ -351,7 +351,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
                 HasNotes = SrHasNotes,
                 Notes = SrNotes
             };
-            System.Diagnostics.Debug.WriteLine("AddEditRecord_ViewModel _isNewRecord = true");
+            //System.Diagnostics.Debug.WriteLine("AddEditRecord_ViewModel _isNewRecord = true");
 
             //write obj to database
             //AppVariables.DatabaseConnection.InsertData(newRecord);
@@ -371,7 +371,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             _selectedRecord.HasNotes = SrHasNotes;
             _selectedRecord.Notes = SrNotes;
             _selectedRecord.ModifiedDate = DateTime.Now;
-            System.Diagnostics.Debug.WriteLine("AddEditRecord_ViewModel _isNewRecord = false");
+            //System.Diagnostics.Debug.WriteLine("AddEditRecord_ViewModel _isNewRecord = false");
 
             //write updated obj to database
             //AppVariables.DatabaseConnection.InsertData(newRecord);
