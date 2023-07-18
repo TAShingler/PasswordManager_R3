@@ -18,7 +18,11 @@
         TextOptions.TextFormattingMode="Display"
         Background="{StaticResource solidColorBrush-static-background}"
         WindowState="{Binding WinState}"
-        x:Name="WinMain">
+        x:Name="WinMain"
+        Loaded="WinMain_Loaded"
+        PreviewMouseDown="WinMain_PreviewMouseDown"
+        Activated="WinMain_Activated"
+        Deactivated="WinMain_Deactivated">
 
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="24"
@@ -1806,7 +1810,8 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal">
@@ -1933,6 +1938,17 @@
                                       BorderBrush="Transparent"
                                       BorderThickness="0" />
                     </Grid>-->
+
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal">
+                        <TextBlock Text="Timer Elapsed Seconds:"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"
+                                   Margin="12 0" />
+                        <TextBlock x:Name="elapsedSecondsTimer"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
                 </Grid>
             </Border>
 

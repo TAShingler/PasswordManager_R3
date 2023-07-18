@@ -22,7 +22,7 @@ internal static class AppVariables {
     //tabitem 2
     private static bool _eraseDatabaseAfterSetAmountAttempts = true;
     private static int _unlockAttemtps = 10;
-    private static int _timeoutMinutes = 10;
+    private static int _timeoutMinutes = 1;
     private static bool _logDeletedItems = true;
 
     //tabitem 3

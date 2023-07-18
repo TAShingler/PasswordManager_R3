@@ -18,8 +18,29 @@ namespace PasswordManager_R3;
 /// Interaction logic for MainWindow.xaml
 /// </summary>
 public partial class MainWindow : Window {
+    System.Windows.Threading.DispatcherTimer dispatcherTimer = new();
+    int secondsSinceLastAction = 0;
     public MainWindow() {
+        dispatcherTimer.Tick += dispatcherTimer_Tick;
+        dispatcherTimer.Interval = new(0, 0, 1);
         InitializeComponent();
+
+        //if (Application.Current is App app) {
+        //    System.Diagnostics.Debug.WriteLine("Application.Current is App");
+        //    app.PropertyChanged += (s, e) => {
+        //        if (e.PropertyName == nameof(App.MillisecondsWithoutFocus)) {
+        //            Dispatcher.BeginInvoke(new Action(() => {
+        //                secondsSinceLastAction = app.MillisecondsWithoutFocus;   //in milliseconds
+        //                System.Diagnostics.Debug.WriteLine("secondsSinceLastAction = " + secondsSinceLastAction);
+
+        //                if (secondsSinceLastAction >= (AppVariables.TimeoutMinutes * 60000)) {
+        //                    ((ViewModels.MainWindow_ViewModel)this.DataContext).OnLockDatabaseCommand(new());
+        //                    System.Diagnostics.Debug.WriteLine("Database locked...");
+        //                }
+        //            }));
+        //        }
+        //    };
+        //}
     }
 
     private void toggleButtonAppMenu_Click(object sender, RoutedEventArgs e) {
@@ -33,6 +54,40 @@ public partial class MainWindow : Window {
 
     private void toggleButtonAppMenu_MouseLeave(object sender, MouseEventArgs e) {
         //toggleButtonAppMenu.IsChecked = false;
+    }
+
+    private void WinMain_Loaded(object sender, RoutedEventArgs e) {
+        dispatcherTimer.Start();
+    }
+
+    private void dispatcherTimer_Tick(object sender, EventArgs e) {
+        if (((ViewModels.MainWindow_ViewModel)this.DataContext).SelectedViewModel is ViewModels.LockScreen_ViewModel)
+            return;
+
+        secondsSinceLastAction += dispatcherTimer.Interval.Seconds;
+        elapsedSecondsTimer.Text = secondsSinceLastAction.ToString();
+
+        //System.Diagnostics.Debug.WriteLine(secondsSinceLastAction);
+
+        if (secondsSinceLastAction >= (AppVariables.TimeoutMinutes * 60)) {
+            ((ViewModels.MainWindow_ViewModel)this.DataContext).OnLockDatabaseCommand(new());
+            secondsSinceLastAction = 0;
+            System.Diagnostics.Debug.WriteLine("Database locked...");
+        }
+    }
+
+    private void WinMain_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+        dispatcherTimer.Stop();
+        secondsSinceLastAction = 0;
+        dispatcherTimer.Start();
+    }
+
+    private void WinMain_Deactivated(object sender, EventArgs e) {
+        dispatcherTimer.Stop();
+    }
+
+    private void WinMain_Activated(object sender, EventArgs e) {
+        dispatcherTimer.Start();
     }
 
     //private void MenuItem_MouseEnter(object sender, MouseEventArgs e) {

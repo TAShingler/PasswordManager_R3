@@ -35,6 +35,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private Visibility _buttonPasswordToClipboardTextVisibility = Visibility.Collapsed;
     private Visibility _buttonUrlToClipboardTextVisibility = Visibility.Collapsed;
     private Visibility _buttonAppSettingsTextVisibility = Visibility.Collapsed;
+
+    //timer for database lockout fields
+    private bool _windowHasFocus = true;
+    System.Windows.Threading.DispatcherTimer dispatchTimer = new() {
+        Interval = new TimeSpan(0, 0, 10)
+    };
     #endregion Fields
 
     #region Properties
@@ -219,6 +225,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
         }
     }
 
+    //timer for database lockout fields
+    public bool WindowHasFocus {
+        get { return _windowHasFocus; }
+        set { _windowHasFocus = value; }
+    }
+
     //Quick Access Bar Button size properties
     public Enums.QuickAccessIconSize QuickAccessIconSize {
         get { return AppVariables.QuickAccessIconSize; }
@@ -244,72 +256,13 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
     #region Constructors
     public MainWindow_ViewModel() : base() {
-        //System.Diagnostics.Debug.WriteLine("Does master password exist: " + Utils.FileOperations.DoesMasterPasswordExist(@"C:\ProgramData\PasswordManager_R2\Data\master_pass.dat"));
-        //WinState = WindowState.Normal;
-
         //Set delegates for commands
         SetDelegateCommands();
+
+        //DispatchTimer Tick event handler
+        dispatchTimer.Tick += dispatchTimer_Tick;
+
         OnLockDatabaseCommand(new object());
-
-        //LockScreen_ViewModel lockScreen_ViewModel = new LockScreen_ViewModel();
-        //lockScreen_ViewModel.ParentVM = this;
-
-        //SelectedViewModel = new ViewModels.LockScreen_ViewModel(); //Views.LockScreen_View();
-        //((LockScreen_ViewModel)SelectedViewModel).DatabaseUnlocked += new LockScreen_ViewModel.UnlockDatabaseDelegate(TryUnlockDatabase);
-        //SelectedViewModel.ParentVM = this;
-
-
-        /*  Default to LockScreen_View  */
-        //LockScreen_ViewModel lockScreenVM = new LockScreen_ViewModel(this);
-        //lockScreenVM.DatabaseUnlocked += OnSetDatabaseView;
-        //lockScreenVM.WindowClosed += OnWindowCloseCommand;
-        //SelectedViewModel = lockScreenVM;
-
-        /*  Default to Database_View  */
-        //Database_ViewModel databaseVM = new Database_ViewModel(this);
-        //databaseVM.GroupSelectionChanged += OnGroupSelectionChanged;
-        //databaseVM.RecordSelectionChanged += OnRecordSelectionChanged;
-        //SelectedViewModel = databaseVM;
-
-        /*  Default to AddEditRecord_View  */
-        //AddEditRecord_ViewModel addEditRecordVM = new(this, new Models.Record() {
-        //    Title = "TestTitle",
-        //    Username = "TestUsername",
-        //    Email = "TestEmail",
-        //    Password = "TestPassword",
-        //    URL = "TestUrl",
-        //    Tags = "TestTags",
-        //    HasExpirationDate = true,
-        //    ExpirationDate = DateTime.Today.AddDays(45),
-        //    HasNotes = false,
-        //    Notes = "some notes that should not exist",
-        //    GUID = Guid.NewGuid().ToString()
-        //});
-        ////AddEditRecord_ViewModel addEditRecordVM = new(this);// this);
-        //addEditRecordVM.CreateRecord += void (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
-        //SelectedViewModel = addEditRecordVM;
-
-        /*  Default to AddEditGroup_View  */
-        //AddEditGroup_ViewModel addEditGroupVM = new AddEditGroup_ViewModel(this, new Models.Group() {
-        //    Title = "TestGroup1",
-        //    HasExpirationDate = true,
-        //    ExpirationDate = DateTime.Now.AddDays(30),
-        //    HasNotes = true,
-        //    Notes = "Here are some notes. I will probably delete them.",
-        //    GUID = Guid.NewGuid().ToString()
-        //});
-        //AddEditGroup_ViewModel addEditGroupVM = new(this);
-        //SelectedViewModel = addEditGroupVM;
-
-        //ButtonLockDatabaseIsEnabled = false;
-        //ButtonAddRecordIsEnabled = false;
-        //ButtonEditRecordIsEnabled = false;
-        //ButtonDeleteRecordIsEnabled = false;
-        //ButtonUsernameToClipboardIsEnabled = false;
-        //ButtonPasswordToClipboardIsEnabled = false;
-        //ButtonUrlToClipboardIsEnabled = false;
-        //ButtonPasswordGeneratorIsEnabled = false;
-        //ButtonAppSettingsIsEnabled = false;
     }
     #endregion Constructors
 
@@ -375,7 +328,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// Set CurrentView to LockScreen_View event handler
     /// </summary>
     /// <param name="obj"></param>
-    private void OnLockDatabaseCommand(object obj) {
+    public void OnLockDatabaseCommand(object obj) {
         Utils.EncryptionTools.Key = null;
         LockScreen_ViewModel lockScreenVM = new(this);
 
@@ -692,6 +645,20 @@ internal class MainWindow_ViewModel : ViewModelBase {
             System.Diagnostics.Debug.WriteLine("i = " + i);
         }
     }
+
+    //DispatcherTimer Tick event handler
+    private void dispatchTimer_Tick(object sender, EventArgs e) {
+        //
+    }
+
+    private void OnMainWindowGotFocusCommand(object obj) {
+        _windowHasFocus = true;
+        System.Diagnostics.Debug.WriteLine("OnMainWindowGotFocusCommand called... _windowHasFocus = " + _windowHasFocus);
+    }
+    private void OnMainWindowLostFocusCommand(object obj) {
+        _windowHasFocus = false;
+        System.Diagnostics.Debug.WriteLine("OnMainWindowLostFocusCommand called... _windowHasFocus = " + _windowHasFocus);
+    }
     #endregion Misc. Event Handlers
 
     //public event PropertyChangedEventHandler? PropertyChanged;
@@ -720,5 +687,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         CopyUrlToClipboardCommand = new Utils.DelegateCommand(OnCopyUrlToClipboardCommand);
         GeneratePasswordCommand = new Utils.DelegateCommand(OnGeneratePasswordCommand);
         AppSettingsCommand = new Utils.DelegateCommand(OnAppSettingsCommand);
+
+        //MainWindowGotFocusCommand = new(OnMainWindowGotFocusCommand);
+        //MainWindowLostFocusCommand = new(OnMainWindowLostFocusCommand);
     }
 }

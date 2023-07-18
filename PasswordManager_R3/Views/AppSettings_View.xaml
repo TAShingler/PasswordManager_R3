@@ -1583,7 +1583,7 @@
                             <CheckBox Grid.Row="3"
                                           Grid.Column="0"
                                           Margin="0 4"
-                                          IsChecked="{Binding DisplyInfoPaneCheckBoxIsChecked}"
+                                          IsChecked="{Binding DisplyInfoPane}"
                                           Foreground="Gainsboro"
                                           VerticalContentAlignment="Center"
                                           Content="Display information pane" />
