@@ -1947,7 +1947,9 @@
                                    Margin="12 0" />
                         <TextBlock x:Name="elapsedSecondsTimer"
                                    Foreground="White"
-                                   VerticalAlignment="Center"/>
+                                   VerticalAlignment="Center"
+                                   DataContext="{Binding ElementName=WinMain}"
+                                   Text="{Binding SecondsSinceLastAction}"/>
                     </StackPanel>
                 </Grid>
             </Border>

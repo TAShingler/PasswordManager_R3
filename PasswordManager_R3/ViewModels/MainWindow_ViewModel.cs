@@ -230,6 +230,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         get { return _windowHasFocus; }
         set { _windowHasFocus = value; }
     }
+    public int SecondsSinceLastAction { get; set; }
 
     //Quick Access Bar Button size properties
     public Enums.QuickAccessIconSize QuickAccessIconSize {
