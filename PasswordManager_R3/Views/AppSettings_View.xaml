@@ -1497,6 +1497,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
@@ -1581,28 +1582,35 @@
 
                             <!--#region DataGrid Options -->
                             <CheckBox Grid.Row="3"
-                                          Grid.Column="0"
-                                          Margin="0 4"
-                                          IsChecked="{Binding DisplyInfoPane}"
-                                          Foreground="Gainsboro"
-                                          VerticalContentAlignment="Center"
-                                          Content="Display information pane" />
+                                      Grid.Column="0"
+                                      Margin="0 4"
+                                      IsChecked="{Binding DisplayTreeView}"
+                                      Foreground="Gainsboro"
+                                      VerticalContentAlignment="Center"
+                                      Content="Display Groups Tree?" />
+                            <CheckBox Grid.Row="4"
+                                      Grid.Column="0"
+                                      Margin="0 4"
+                                      IsChecked="{Binding DisplyInfoPane}"
+                                      Foreground="Gainsboro"
+                                      VerticalContentAlignment="Center"
+                                      Content="Display information pane?" />
                             <!--#endregion DataGrid Options -->
 
-                            <Separator Grid.Row="4"
+                            <Separator Grid.Row="5"
                                        Grid.Column="0"
                                        Grid.ColumnSpan="3"
                                        Margin="0 5" />
 
                             <!--#region Quick Access icon size options-->
-                            <Label Grid.Row="5"
+                            <Label Grid.Row="6"
                                        Grid.Column="0"
                                        Padding="0"
                                        Margin="0 4"
                                        VerticalContentAlignment="Top"
                                        Foreground="Gainsboro"
                                        Content="Quick access icon size:" />
-                            <StackPanel Grid.Row="5"
+                            <StackPanel Grid.Row="6"
                                             Grid.Column="1"
                                             Orientation="Vertical"
                                             Margin="0 5">

@@ -37,9 +37,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private Visibility _buttonAppSettingsTextVisibility = Visibility.Collapsed;
 
     //timer for database lockout fields
-    private bool _windowHasFocus = true;
-    System.Windows.Threading.DispatcherTimer dispatchTimer = new() {
-        Interval = new TimeSpan(0, 0, 10)
+    private int _secondsSinceLastAction = 0;
+    private readonly System.Windows.Threading.DispatcherTimer dispatcherTimer = new() {
+        Interval = new TimeSpan(0, 0, 1)
     };
     #endregion Fields
 
@@ -226,11 +226,17 @@ internal class MainWindow_ViewModel : ViewModelBase {
     }
 
     //timer for database lockout fields
-    public bool WindowHasFocus {
-        get { return _windowHasFocus; }
-        set { _windowHasFocus = value; }
+    //public bool WindowHasFocus {
+    //    get { return _windowHasFocus; }
+    //    set { _windowHasFocus = value; }
+    //}
+    public int SecondsSinceLastAction {
+        get { return _secondsSinceLastAction; }
+        set {
+            _secondsSinceLastAction = value;
+            OnPropertyChanged(nameof(SecondsSinceLastAction));
+        }
     }
-    public int SecondsSinceLastAction { get; set; }
 
     //Quick Access Bar Button size properties
     public Enums.QuickAccessIconSize QuickAccessIconSize {
@@ -253,6 +259,11 @@ internal class MainWindow_ViewModel : ViewModelBase {
     public Utils.DelegateCommand? CopyUrlToClipboardCommand { get; set; }
     public Utils.DelegateCommand? GeneratePasswordCommand { get; set; }
     public Utils.DelegateCommand? AppSettingsCommand { get; set; }
+
+    public Utils.DelegateCommand? WindowActivatedCommand { get; set; }
+    public Utils.DelegateCommand? WindowDeactivatedCommand { get; set; }
+    public Utils.DelegateCommand? WindowPreviewMouseDownCommand { get; set; }
+    public Utils.DelegateCommand? WindowPreviewKeyDownCommand { get; set; }
     #endregion Properties
 
     #region Constructors
@@ -261,7 +272,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         SetDelegateCommands();
 
         //DispatchTimer Tick event handler
-        dispatchTimer.Tick += dispatchTimer_Tick;
+        dispatcherTimer.Tick += dispatcherTimer_Tick;
 
         OnLockDatabaseCommand(new object());
     }
@@ -631,34 +642,41 @@ internal class MainWindow_ViewModel : ViewModelBase {
         }
     }
 
-    //methods for database backup on CRUD ops... - will probably move to FileOperations class
-    private void CreateDatabaseBackup() {
+    
 
-    }
-    private void RenameDatabaseBackup(string[] filePaths) {
-        //check directory exists...
-        Utils.FileOperations.DoesDirectoryExist("");
-        //create array of files in directory...
-        var backupFiles = System.IO.Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-        //rename file...
-        for(int i=1; i<=backupFiles.Length; i++) {
-            //System.IO.File.Move(backupFiles[i], backupFiles[i].Substring(0, backupFiles[i].Length - 2) + "_" + i);
-            System.Diagnostics.Debug.WriteLine("i = " + i);
+    //DispatcherTimer Tick event handler
+    private void dispatcherTimer_Tick(object sender, EventArgs e) {
+        if (SelectedViewModel is ViewModels.LockScreen_ViewModel)
+            return;
+
+        //SecondsSinceLastAction += dispatcherTimer.Interval.Seconds > int.MaxValue ?
+        //    SecondsSinceLastAction = int.MaxValue :
+        //    SecondsSinceLastAction += dispatcherTimer.Interval.Seconds;
+        if (SecondsSinceLastAction + dispatcherTimer.Interval.Seconds > int.MaxValue) {
+            SecondsSinceLastAction = int.MaxValue;
+        } else {
+            SecondsSinceLastAction += dispatcherTimer.Interval.Seconds;
+        }
+
+        if (SecondsSinceLastAction >= (AppVariables.TimeoutMinutes * 60)) {
+            OnLockDatabaseCommand(new());
+            SecondsSinceLastAction = 0;
         }
     }
 
-    //DispatcherTimer Tick event handler
-    private void dispatchTimer_Tick(object sender, EventArgs e) {
-        //
+    private void OnWindowActivatedCommand(object obj) {
+        SecondsSinceLastAction = 0;
+        if (dispatcherTimer.IsEnabled == false)
+            dispatcherTimer.Start();
     }
-
-    private void OnMainWindowGotFocusCommand(object obj) {
-        _windowHasFocus = true;
-        System.Diagnostics.Debug.WriteLine("OnMainWindowGotFocusCommand called... _windowHasFocus = " + _windowHasFocus);
+    private void OnWindowDeactivatedCommand(object obj) {
+        //System.Diagnostics.Debug.WriteLine("OnWindowDeactivatedCommand called...");
     }
-    private void OnMainWindowLostFocusCommand(object obj) {
-        _windowHasFocus = false;
-        System.Diagnostics.Debug.WriteLine("OnMainWindowLostFocusCommand called... _windowHasFocus = " + _windowHasFocus);
+    private void OnWindowPreviewMouseDownCommand(object obj) {
+        SecondsSinceLastAction = 0;
+    }
+    private void OnWindowPreviewKeyDownCommand(object obj) {
+        SecondsSinceLastAction = 0;
     }
     #endregion Misc. Event Handlers
 
@@ -689,7 +707,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
         GeneratePasswordCommand = new Utils.DelegateCommand(OnGeneratePasswordCommand);
         AppSettingsCommand = new Utils.DelegateCommand(OnAppSettingsCommand);
 
-        //MainWindowGotFocusCommand = new(OnMainWindowGotFocusCommand);
-        //MainWindowLostFocusCommand = new(OnMainWindowLostFocusCommand);
+        WindowActivatedCommand = new(OnWindowActivatedCommand);
+        WindowDeactivatedCommand = new(OnWindowDeactivatedCommand);
+        WindowPreviewMouseDownCommand = new(OnWindowPreviewMouseDownCommand);
+        WindowPreviewKeyDownCommand = new(OnWindowPreviewKeyDownCommand);
     }
 }

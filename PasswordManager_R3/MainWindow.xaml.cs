@@ -19,10 +19,10 @@ namespace PasswordManager_R3;
 /// </summary>
 public partial class MainWindow : Window {
     System.Windows.Threading.DispatcherTimer dispatcherTimer = new();
-    System.Timers.Timer timer = new System.Timers.Timer() {
-        Interval = 1000
-    };
-    private int SecondsSinceLastAction { get; set; } = 0;
+    //System.Timers.Timer timer = new System.Timers.Timer() {
+    //    Interval = 1000
+    //};
+    private int secondsSinceLastAction = 0;
     //public int SecondsSinceLastAction {
     //    get => secondsSinceLastAction;
     //    set {
@@ -31,11 +31,11 @@ public partial class MainWindow : Window {
     //    }
     //}
     public MainWindow() {
-        dispatcherTimer.Tick += dispatcherTimer_Tick;
-        dispatcherTimer.Interval = new(0, 0, 1);
+        ////dispatcherTimer.Tick += dispatcherTimer_Tick;
+        ////dispatcherTimer.Interval = new(0, 0, 1);
         InitializeComponent();
 
-        timer.Elapsed += Timer_Elapsed;
+        //timer.Elapsed += Timer_Elapsed;
         //if (Application.Current is App app) {
         //    System.Diagnostics.Debug.WriteLine("Application.Current is App");
         //    app.PropertyChanged += (s, e) => {
@@ -54,9 +54,9 @@ public partial class MainWindow : Window {
         //}
     }
 
-    private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e) {
-        SecondsSinceLastAction++;
-    }
+    //private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e) {
+    //    SecondsSinceLastAction++;
+    //}
 
     private void toggleButtonAppMenu_Click(object sender, RoutedEventArgs e) {
         System.Diagnostics.Debug.WriteLine("toggleButtonAppMenu_Click called");
@@ -72,33 +72,33 @@ public partial class MainWindow : Window {
     }
 
     private void WinMain_Loaded(object sender, RoutedEventArgs e) {
-        dispatcherTimer.Start();
+        ////dispatcherTimer.Start();
     }
 
     private void dispatcherTimer_Tick(object sender, EventArgs e) {
-        //if (((ViewModels.MainWindow_ViewModel)this.DataContext).SelectedViewModel is ViewModels.LockScreen_ViewModel)
-        //    return;
+        ////if (((ViewModels.MainWindow_ViewModel)this.DataContext).SelectedViewModel is ViewModels.LockScreen_ViewModel)
+        ////    return;
 
-        //secondsSinceLastAction += dispatcherTimer.Interval.Seconds;
-        //elapsedSecondsTimer.Text = secondsSinceLastAction.ToString();
+        ////secondsSinceLastAction += dispatcherTimer.Interval.Seconds;
+        ////elapsedSecondsTimer.Text = secondsSinceLastAction.ToString();
 
-        ////System.Diagnostics.Debug.WriteLine(secondsSinceLastAction);
+        //////System.Diagnostics.Debug.WriteLine(secondsSinceLastAction);
 
-        //if (secondsSinceLastAction >= (AppVariables.TimeoutMinutes * 60)) {
-        //    ((ViewModels.MainWindow_ViewModel)this.DataContext).OnLockDatabaseCommand(new());
-        //    secondsSinceLastAction = 0;
-        //    System.Diagnostics.Debug.WriteLine("Database locked...");
-        //}
+        ////if (secondsSinceLastAction >= (AppVariables.TimeoutMinutes * 60)) {
+        ////    ((ViewModels.MainWindow_ViewModel)this.DataContext).OnLockDatabaseCommand(new());
+        ////    secondsSinceLastAction = 0;
+        ////    System.Diagnostics.Debug.WriteLine("Database locked...");
+        ////}
     }
 
     private void WinMain_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
         //dispatcherTimer.Stop();
-        //secondsSinceLastAction = 0;
+        ////secondsSinceLastAction = 0;
         //dispatcherTimer.Start();
 
         //timer.Stop();
-        SecondsSinceLastAction = 0;
-        timer.Start();
+        //SecondsSinceLastAction = 0;
+        //timer.Start();
     }
 
     private void WinMain_Deactivated(object sender, EventArgs e) {
@@ -108,9 +108,11 @@ public partial class MainWindow : Window {
     }
 
     private void WinMain_Activated(object sender, EventArgs e) {
-        //dispatcherTimer.Start();
-        SecondsSinceLastAction = 0;
-        timer.Start();
+        ////secondsSinceLastAction = 0;
+        ////if (dispatcherTimer.IsEnabled == false)
+        ////    dispatcherTimer.Start();
+        //SecondsSinceLastAction = 0;
+        //timer.Start();
     }
 
     //private void MenuItem_MouseEnter(object sender, MouseEventArgs e) {

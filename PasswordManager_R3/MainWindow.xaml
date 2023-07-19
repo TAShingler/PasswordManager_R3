@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PasswordManager_R3"
         xmlns:converters="clr-namespace:PasswordManager_R3.Converters"
@@ -19,10 +20,24 @@
         Background="{StaticResource solidColorBrush-static-background}"
         WindowState="{Binding WinState}"
         x:Name="WinMain"
-        Loaded="WinMain_Loaded"
-        PreviewMouseDown="WinMain_PreviewMouseDown"
+        Loaded="WinMain_Loaded">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Activated">
+            <i:InvokeCommandAction Command="{Binding WindowActivatedCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Deactivated">
+            <i:InvokeCommandAction Command="{Binding WindowDeactivatedCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewMouseDown">
+            <i:InvokeCommandAction Command="{Binding WindowPreviewMouseDownCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="PreviewKeyDown">
+            <i:InvokeCommandAction Command="{Binding WindowPreviewKeyDownCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <!--PreviewMouseDown="WinMain_PreviewMouseDown"
         Activated="WinMain_Activated"
-        Deactivated="WinMain_Deactivated">
+        Deactivated="WinMain_Deactivated">-->
 
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="24"
@@ -1948,7 +1963,6 @@
                         <TextBlock x:Name="elapsedSecondsTimer"
                                    Foreground="White"
                                    VerticalAlignment="Center"
-                                   DataContext="{Binding ElementName=WinMain}"
                                    Text="{Binding SecondsSinceLastAction}"/>
                     </StackPanel>
                 </Grid>
