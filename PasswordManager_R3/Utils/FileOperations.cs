@@ -61,6 +61,20 @@ internal static class FileOperations {
         fs.Dispose();
         fs.Close();
     }
+    internal static void OverwriteFile(string path, string dataToFile) {
+        System.IO.FileStream fs = System.IO.File.Open(path, System.IO.FileMode.Truncate);
+        System.IO.StreamWriter writer = new(fs);
+
+        writer.Write(dataToFile);
+
+        writer.Flush();
+        writer.Dispose();
+        writer.Close();
+
+        fs.Flush();
+        fs.Dispose();
+        fs.Close();
+    }
     internal static string ReadFromFile(string path) {
         System.IO.FileStream fs = System.IO.File.OpenRead(path);
         System.IO.StreamReader reader = new(fs);
@@ -119,7 +133,8 @@ internal static class FileOperations {
         //rename file...
         for (int i = 1; i <= backupFiles.Length; i++) {
             //System.IO.File.Move(backupFiles[i], backupFiles[i].Substring(0, backupFiles[i].Length - 2) + "_" + i);
-            System.Diagnostics.Debug.WriteLine("i = " + i);
+            var currentFileText = ReadFromFile(backupFiles[i]);
+            WriteToFile(backupFiles[i], currentFileText);
         }
 
         System.IO.FileInfo fi = new(backupFiles[0]);
