@@ -47,22 +47,8 @@ internal static class FileOperations {
         fs.Dispose();
         fs.Close();
     }
-    internal static void WriteToFile(string path, string dataToFile) {  //pass encrypted/unencrypted data to method
-        System.IO.FileStream fs = System.IO.File.OpenWrite(path);
-        System.IO.StreamWriter writer = new(fs);
-
-        writer.Write(dataToFile);
-
-        writer.Flush();
-        writer.Dispose();
-        writer.Close();
-
-        fs.Flush();
-        fs.Dispose();
-        fs.Close();
-    }
-    internal static void OverwriteFile(string path, string dataToFile) {
-        System.IO.FileStream fs = System.IO.File.Open(path, System.IO.FileMode.Truncate);
+    internal static void WriteToFile(string path, string dataToFile, System.IO.FileMode fileMode = System.IO.FileMode.Open) {  //pass encrypted/unencrypted data to method
+        System.IO.FileStream fs = System.IO.File.Open(path, fileMode, System.IO.FileAccess.Write);
         System.IO.StreamWriter writer = new(fs);
 
         writer.Write(dataToFile);
