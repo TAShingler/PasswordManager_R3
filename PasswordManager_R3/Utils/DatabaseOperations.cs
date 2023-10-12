@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace PasswordManager_R3.Utils;
 internal class DatabaseOperations {
     #region Fields
+    //maybe add File extension string?
     private readonly string _databaseName = "pass_data";    //will probably change default value
     private const string GROUPS_TABLE_NAME = "App_Groups";  //will probably change default value and rename variable
     private const string RECORDS_TABLE_NAME = "App_Records";    //will probably change default value and rename variable

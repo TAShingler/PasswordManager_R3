@@ -542,7 +542,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// <param name="obj"></param>
     private void OnCreateGroup(object parentGroup) {
         AddEditGroup_ViewModel addEditGroupVM = new(this, ((Database_ViewModel)SelectedViewModel).SelectedGroup);
-        addEditGroupVM.CreateGroup += () => { /*do something*/ };
+        addEditGroupVM.CreateGroup += () => {   //maybe use a concrete method and not an anonymous method...
+            /*do something*/
+            OnSetDatabaseView();
+        };
         addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
 
         SelectedViewModel = addEditGroupVM;

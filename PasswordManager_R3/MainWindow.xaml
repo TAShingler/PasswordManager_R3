@@ -14,7 +14,7 @@
         Height="720"
         MinWidth="800"
         Width="960"
-        FontSize="24"
+        FontSize="14"
         SnapsToDevicePixels="True"
         TextOptions.TextFormattingMode="Display"
         Background="{StaticResource solidColorBrush-static-background}"

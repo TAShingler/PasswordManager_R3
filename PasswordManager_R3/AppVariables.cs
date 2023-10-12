@@ -9,6 +9,7 @@ namespace PasswordManager_R3;
 internal static class AppVariables {
     #region Fields
     private static Utils.DatabaseOperations? _databaseConnection = null;
+    //private static string _dbPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\PasswordManager_R3\\Data\\";    //might change to readonly/constant?
 
     private static Enums.TreeDisplayType _treeDisplayType = Enums.TreeDisplayType.ExpandAll;
     private static Enums.TreeExpandCollapseButtonStyle _treeExpandCollapseButtonStyle = Enums.TreeExpandCollapseButtonStyle.Arrows;
@@ -34,6 +35,10 @@ internal static class AppVariables {
         get { return _databaseConnection; }
         set { _databaseConnection = value; }
     }
+    //internal static string DbPath {
+    //    get { return _dbPath; }
+    //    set { _dbPath = value; }
+    //}
 
     internal static Enums.TreeDisplayType TreeDisplayType {
         get { return _treeDisplayType; }

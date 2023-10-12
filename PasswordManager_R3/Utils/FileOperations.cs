@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PasswordManager_R3.Utils;
 internal static class FileOperations {
     #region Fields
-
+    private static readonly string _backupFileName = "PMR3";
     #endregion Fields
 
     #region Properties
@@ -88,43 +88,61 @@ internal static class FileOperations {
         return result;
     }
     //methods for database backup on CRUD ops... - will probably move to FileOperations class
-    internal static void CreateDatabaseBackup() {
-        if (AppVariables.AllowAutoBackups == false)
-            return;
+    internal static void CreateDatabaseBackup(int backupFilesLength) {
+        //exit method if Database connection is null -- probably should check sooner; might be able to remove
+        //if (AppVariables.DatabaseConnection == null) {
+        //    //throw exception
+        //    return;
+        //}
 
-        //check that directory exists
-            //throw error if false
-        if (DoesDirectoryExist(AppVariables.BackupLocation) == false)
-            return; //maybe create directory instead
+        //read bytes from Database file
+        var dbBytes = System.IO.File.ReadAllBytes(AppVariables.DatabaseConnection.DatabaseFilePath);
 
-        //get files from directory
-        var backupFiles = System.IO.Directory.GetFiles(AppVariables.BackupLocation);
+        //create file path to save the the database backup to
+        string backupFilePath = AppVariables.BackupLocation + @"\" + _backupFileName + $"_{(backupFilesLength + 1):000}.bak";
 
-        //if files count < AppVariables.BackupCount (x)
-        if (backupFiles.Length < AppVariables.AutoBackupCount) {
-            //get x most recent files and delete rest
-            //var backupMostRecentiles = backupFiles.
-            //write x files to directory
-        }
-
-        //if files count > 0
-            //RenameDatabaseBackup on all files in directory
-        //else save file to directory
+        //write bytes to backup file
+        System.IO.File.WriteAllBytes(backupFilePath, dbBytes);
     }
     internal static void RenameDatabaseBackup(string[] filePaths) {
-        //check directory exists...
-        Utils.FileOperations.DoesDirectoryExist(AppVariables.BackupLocation);
-        //create array of files in directory...
-        var backupFiles = System.IO.Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-        //rename file...
-        for (int i = 1; i <= backupFiles.Length; i++) {
-            //System.IO.File.Move(backupFiles[i], backupFiles[i].Substring(0, backupFiles[i].Length - 2) + "_" + i);
-            var currentFileText = ReadFromFile(backupFiles[i]);
-            WriteToFile(backupFiles[i], currentFileText);
+        //rename files in DB backups directory using the System.IO.File.Move() method
+        for (int i = 0; i <= filePaths.Length; i++) {
+            System.IO.File.Move(filePaths[i], $"{filePaths[i][..^8]}_{(i+1):000}.txt");
+            //System.IO.File.Move(filePaths[i], $"{filePaths[i].Substring(0, filePaths[i].Length - 8)}_{(i + 1):000}.txt");
         }
 
-        System.IO.FileInfo fi = new(backupFiles[0]);
+        //System.IO.FileInfo fi = new(filePaths[0]);
         //fi.MoveTo(backupFiles[0].Substring(0, backupFiles[0].Length-3),
+    }
+    internal static void DeleteDatabaseBackup(string filePath) {
+        if (DoesFileExist(filePath) == false) {
+            //throw exception
+            return;
+        }
+
+        DeleteFile(filePath);
+    }
+
+    //Database backup method
+    internal static void DatabaseBackup() {
+        if (DoesDirectoryExist(AppVariables.BackupLocation) == false) {
+            //throw excception -- try to provide user usefule information
+            return;
+        }
+
+        //get DB backup files from backup files directory
+        var backupFiles = System.IO.Directory.GetFiles(AppVariables.BackupLocation);
+
+        //if backup files count is greater than the value for the amount of backup files to retain, delete first file in array; subsequent files in array will be decremented by 1 (e.g., BackupFile002 -> BackupFile001)
+        if (backupFiles.Count() >= AppVariables.AutoBackupCount) {
+            //delete first DB backup file
+            DeleteDatabaseBackup(backupFiles[0]);
+
+            //rename subsequent files in backupFiles array
+            RenameDatabaseBackup(backupFiles[1..]);
+        }
+
+        CreateDatabaseBackup(backupFiles.Length);
     }
     #endregion Other Methods
 }
