@@ -14,7 +14,7 @@ internal class DatabaseOperations {
     private System.Data.SQLite.SQLiteConnection _dbConnection; //might not be using SQLite; might use LiteDB instead
     //private System.Data.SQLite.SQLiteCommand _sqlCommand;      //might not be using SQLite; might use LiteDB instead
     //private System.Data.SQLite.SQLiteDataReader _sqlReader;    //might not be using SQLite; might use LiteDB instead
-    private readonly string _dbFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\PasswordManager_R3\\Data\\";    //will probably allow user to set this in app settings; will set this value in constructor if that is the case
+    private readonly string _dbFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\PasswordManager_R3\\Data\\";    //will probably allow user to set this in app settings; will set this value in constructor if that is the case
     private readonly string _dbFilePath;    //might remove -- seems unnecessary
     private readonly Newtonsoft.Json.JsonSerializerSettings _serializerSettings = new() {   //might change how this is handled -- change from global, set values using app settings (?), might make a property for
         PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All,
@@ -51,6 +51,7 @@ internal class DatabaseOperations {
     #region Constructors
     internal DatabaseOperations() {
         _dbFilePath = _dbFolderPath + _databaseName;
+        System.Diagnostics.Debug.WriteLine("DB path: " + _dbFilePath);
         CreateConnection();
     }
     #endregion Constructors

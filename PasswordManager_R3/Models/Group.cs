@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PasswordManager_R3.Models;
+[Serializable]
 internal class Group : Models.VaultObjectBase {
     #region Fields
     private protected System.Collections.ObjectModel.ObservableCollection<Group> _childrenGroups;

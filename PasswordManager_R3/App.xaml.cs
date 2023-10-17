@@ -19,6 +19,14 @@ public partial class App : Application, System.ComponentModel.INotifyPropertyCha
 
     private System.Threading.Thread FileIOThread = new(new System.Threading.ThreadStart(void () => { }));
 
+    private Models.AppVariables _appVariables;
+
+    #region PROPERTIES
+    internal Models.AppVariables AppVariables {
+        get => _appVariables;
+    }
+    #endregion PROPERTIES
+
     protected override void OnStartup(StartupEventArgs e) {
         //Utils.FileOperations.DatabaseBackup();
         const string appName = "PasswordManager_R3";
@@ -31,13 +39,27 @@ public partial class App : Application, System.ComponentModel.INotifyPropertyCha
             Application.Current.Shutdown();
         }
 
-        //var files = System.IO.Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+        //verify that app files exist...
+        if (Utils.FileOperations.DoesDirectoryExist(Utils.FileOperations.AppSettingsDirectory) == false) {
+            //create directory
+            System.IO.Directory.CreateDirectory(Utils.FileOperations.AppSettingsDirectory);
+        }
 
-        //foreach (var file in files) {
-        //    System.Diagnostics.Debug.WriteLine($"file = {file}");
-        //}
+        //verify that master pass exists
+            //create file otherwise?
 
-        //System.Diagnostics.Debug.WriteLine("DatabaseBackupsPath = " + AppVariables.DatabaseBackupsPath);
+        //verify that database exists
+            //create file otherwise?
+
+        //verify that app variables file exists
+        if (Utils.FileOperations.DoesFileExist(Utils.FileOperations.AppSettingsDirectory + @"\" + Utils.FileOperations.AppSettingsFileName) == false) {
+            //deserialize file and pass data to Models.AppVariables class
+            _appVariables = new Models.AppVariables();
+        } else {
+            _appVariables = new Models.AppVariables();
+        }
+
+        //enter app
         base.OnStartup(e);
     }
 

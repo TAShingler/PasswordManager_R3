@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PasswordManager_R3.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -237,7 +238,7 @@ internal class Database_ViewModel : ViewModelBase {
 
     //TreeView Expander Button properties
     public Enums.TreeExpandCollapseButtonStyle TreeExpandCollapseButtonStyle {
-        get { return AppVariables.TreeExpandCollapseButtonStyle; }
+        get { return ((App)App.Current).AppVariables.TreeExpandCollapseButtonStyle; }
     }
     #endregion Properties
 

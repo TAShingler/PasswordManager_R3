@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using PasswordManager_R3.Models;
 using System;
 using System.Windows;
 
@@ -240,7 +241,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
     //Quick Access Bar Button size properties
     public Enums.QuickAccessIconSize QuickAccessIconSize {
-        get { return AppVariables.QuickAccessIconSize; }
+        get { return ((App)App.Current).AppVariables.QuickAccessIconSize; }
     }
 
     //Delegates for Commands to handle events
@@ -661,7 +662,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
             SecondsSinceLastAction += dispatcherTimer.Interval.Seconds;
         }
 
-        if (SecondsSinceLastAction >= (AppVariables.TimeoutMinutes * 60)) {
+        if (SecondsSinceLastAction >= (((App)App.Current).AppVariables.TimeoutMinutes * 60)) {
             OnLockDatabaseCommand(new());
             SecondsSinceLastAction = 0;
         }

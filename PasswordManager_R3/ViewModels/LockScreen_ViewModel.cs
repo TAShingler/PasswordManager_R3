@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PasswordManager_R3.Models;
+using System;
 using System.Windows;
 
 namespace PasswordManager_R3.ViewModels;
@@ -85,7 +86,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
 
         TryUnlockDatabase(objAsString); */
         //var result = 
-        AppVariables.DatabaseConnection = new Utils.DatabaseOperations();
+        ((App)App.Current).AppVariables.DatabaseConnection = new Utils.DatabaseOperations();
         DatabaseUnlocked?.Invoke();
         //System.Diagnostics.Debug.WriteLine("UserPassword: " + obj.ToString());
     }

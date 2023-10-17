@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PasswordManager_R3.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,11 +8,18 @@ using System.Threading.Tasks;
 namespace PasswordManager_R3.Utils;
 internal static class FileOperations {
     #region Fields
-    private static readonly string _backupFileName = "PMR3";
+    private static readonly string _backupFileName = "AutoBackup";
+    private static readonly string _appSettingsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\PMR3";
+    private static readonly string _appSettingsFileName = "appSettings";
     #endregion Fields
 
     #region Properties
-
+    internal static string AppSettingsDirectory {
+        get => _appSettingsDirectory;
+    }
+    internal static string AppSettingsFileName {
+        get => _appSettingsFileName;
+    }
     #endregion Properties
 
     #region Constructors
@@ -96,10 +104,10 @@ internal static class FileOperations {
         //}
 
         //read bytes from Database file
-        var dbBytes = System.IO.File.ReadAllBytes(AppVariables.DatabaseConnection.DatabaseFilePath);
+        var dbBytes = System.IO.File.ReadAllBytes(((App)App.Current).AppVariables.DatabaseConnection.DatabaseFilePath);
 
         //create file path to save the the database backup to
-        string backupFilePath = AppVariables.BackupLocation + @"\" + _backupFileName + $"_{(backupFilesLength + 1):000}.bak";
+        string backupFilePath = ((App)App.Current).AppVariables.BackupLocation + @"\" + _backupFileName + $"_{(backupFilesLength + 1):000}.bak";
 
         //write bytes to backup file
         System.IO.File.WriteAllBytes(backupFilePath, dbBytes);
@@ -125,16 +133,16 @@ internal static class FileOperations {
 
     //Database backup method
     internal static void DatabaseBackup() {
-        if (DoesDirectoryExist(AppVariables.BackupLocation) == false) {
+        if (DoesDirectoryExist(((App)App.Current).AppVariables.BackupLocation) == false) {
             //throw excception -- try to provide user usefule information
             return;
         }
 
         //get DB backup files from backup files directory
-        var backupFiles = System.IO.Directory.GetFiles(AppVariables.BackupLocation);
+        var backupFiles = System.IO.Directory.GetFiles(((App)App.Current).AppVariables.BackupLocation);
 
         //if backup files count is greater than the value for the amount of backup files to retain, delete first file in array; subsequent files in array will be decremented by 1 (e.g., BackupFile002 -> BackupFile001)
-        if (backupFiles.Count() >= AppVariables.AutoBackupCount) {
+        if (backupFiles.Count() >= ((App)App.Current).AppVariables.AutoBackupCount) {
             //delete first DB backup file
             DeleteDatabaseBackup(backupFiles[0]);
 
@@ -144,5 +152,95 @@ internal static class FileOperations {
 
         CreateDatabaseBackup(backupFiles.Length);
     }
+
+    //method to write AppVariables values to file
+    internal static void WriteAppVariablesToFile() {
+        //check that directory exists
+        if (DoesDirectoryExist(_appSettingsDirectory) == false) {
+            //error message
+            return;
+        }
+
+        //check that file exists
+        if (DoesFileExist(_appSettingsDirectory) == false) {
+            //error message
+            return;
+        }
+
+        //write to file
+        //WriteToFile(_appSettingsDirectory + @"\" + _appSettingsFileName, AppVariables.VariablesToStirng());
+
+        ((App)App.Current).AppVariables.TreeDisplayType = Enums.TreeDisplayType.CollapseAll;
+    }
+    //method to read AppVariables values from file
+    internal static void ReadAppVariablesFromFile() {
+        //check that directory exists
+        if (DoesDirectoryExist(_appSettingsDirectory) == false) {
+            //error message
+            return;
+        }
+
+        //check that file exists
+        if (DoesFileExist(_appSettingsDirectory) == false) {
+            //error message
+            return;
+        }
+
+        //read data from file
+        var appVariablesData = ReadFromFile(_appSettingsDirectory + @"\" + _appSettingsFileName);
+
+        //split data strings
+        var appVariablesDataStrings = appVariablesData.Split("\n");
+
+        //set AppVariables values
+        //switch (appVariablesDataStrings[0]) {
+        //    case "CollapseAll":
+        //        AppVariables.TreeDisplayType = Enums.TreeDisplayType.CollapseAll;
+        //        break;
+        //    case "ExpandAll":
+        //        AppVariables.TreeDisplayType = Enums.TreeDisplayType.ExpandAll;
+        //        break;
+        //    case "RememberLast":
+        //        AppVariables.TreeDisplayType = Enums.TreeDisplayType.RememberLast;
+        //        break;
+        //    default:
+        //        break;
+        //}
+        //switch (appVariablesDataStrings[1]) {
+        //    case "Arrows":
+        //        AppVariables.TreeExpandCollapseButtonStyle = Enums.TreeExpandCollapseButtonStyle.Arrows;
+        //        break;
+        //    case "Folders":
+        //        AppVariables.TreeExpandCollapseButtonStyle = Enums.TreeExpandCollapseButtonStyle.Folders;
+        //        break;
+        //    case "PlusMinusSigns":
+        //        AppVariables.TreeExpandCollapseButtonStyle = Enums.TreeExpandCollapseButtonStyle.PlusMinusSigns;
+        //        break;
+        //    default:
+        //        break;
+        //}
+        //switch (appVariablesDataStrings[2]) {
+        //    case "Small":
+        //        AppVariables.QuickAccessIconSize = Enums.QuickAccessIconSize.Small;
+        //        break;
+        //    case "Medium":
+        //        AppVariables.QuickAccessIconSize = Enums.QuickAccessIconSize.Medium;
+        //        break;
+        //    case "Large":
+        //        AppVariables.QuickAccessIconSize = Enums.QuickAccessIconSize.Large;
+        //        break;
+        //    default:
+        //        break;
+        //}
+        //AppVariables.AllowAutoBackups = bool.Parse(appVariablesDataStrings[3]);
+        //AppVariables.AutoBackupCount = int.Parse(appVariablesDataStrings[4]);
+        //AppVariables.BackupLocation = appVariablesDataStrings[5];
+        //AppVariables.EraseDatabaseAfterSetAmountAttempts = bool.Parse(appVariablesDataStrings[6]);
+        //AppVariables.UnlockAttempts = int.Parse(appVariablesDataStrings[7]);
+        //AppVariables.TimeoutMinutes = int.Parse(appVariablesDataStrings[8]);
+        //AppVariables.LogDeletedItems = bool.Parse(appVariablesDataStrings[9]);
+        //AppVariables.DisplayInfoPane = bool.Parse(appVariablesDataStrings[10]);
+    }
+    //private static void SetAppVariablesValues() { }
     #endregion Other Methods
 }

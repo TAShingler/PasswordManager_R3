@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PasswordManager_R3.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -6,13 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PasswordManager_R3.Converters;
-internal class IsCheckedToGeometryConverter : System.Windows.Data.IValueConverter {
+internal class CheckedToGeometryConverter : System.Windows.Data.IValueConverter {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
         string pathGeometryFiguresData = string.Empty;
 
         if (value.Equals(true)) {
             //IsChecked == true
-            switch (AppVariables.TreeExpandCollapseButtonStyle) {
+            switch (((App)App.Current).AppVariables.TreeExpandCollapseButtonStyle) {
                 case Enums.TreeExpandCollapseButtonStyle.PlusMinusSigns:
                     pathGeometryFiguresData = "M 4 4 L 4 13 L 13 13 L 13 4 L 4 4 z M 5 5 L 12 5 L 12 12 L 5 12 L 5 5 z M 6 8 L 6 9 L 11 9 L 11 8 L 6 8 z ";
                     break;
@@ -28,7 +29,7 @@ internal class IsCheckedToGeometryConverter : System.Windows.Data.IValueConverte
             }
         } else {
             //IsChecked == false
-            switch (AppVariables.TreeExpandCollapseButtonStyle) {
+            switch (((App)App.Current).AppVariables.TreeExpandCollapseButtonStyle) {
                 case Enums.TreeExpandCollapseButtonStyle.PlusMinusSigns:
                     pathGeometryFiguresData = "m 4,4 v 9 h 9 V 4 Z m 1,1 h 7 v 7 H 5 Z m 1,3 v 1 h 2 v 2 H 9 V 9 h 2 V 8 H 9 V 6 H 8 v 2 z";
                     break;

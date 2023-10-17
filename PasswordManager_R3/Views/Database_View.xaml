@@ -18,7 +18,7 @@
         <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter" />
         <c:MutliplyDoubleConverter x:Key="MultiplyDoubleConverter" />
         <c:ActualSizeToMaxSizeConverter x:Key="ActualSizeToMaxSizeConverter" />
-        <c:IsCheckedToGeometryConverter x:Key="IsCheckedToGeometryConverter" />
+        <c:CheckedToGeometryConverter x:Key="CheckedToGeometryConverter" />
         <!--#endregion//  Converters  //-->
         
         <!--<PathGeometry x:Key="DownArrowGlyphGeometry" Figures="M 3,4 8,9 13,4 15,6 8,13 1,6 Z" />
@@ -557,7 +557,7 @@
                                           Fill="#999"
                                           Data="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}},
                                                          Path=IsChecked,
-                                                         Converter={StaticResource IsCheckedToGeometryConverter}}" />
+                                                         Converter={StaticResource CheckedToGeometryConverter}}" />
                                 </Canvas>
                             </Viewbox>
                         </Border>
