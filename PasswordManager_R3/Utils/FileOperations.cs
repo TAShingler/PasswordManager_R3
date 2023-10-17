@@ -104,7 +104,7 @@ internal static class FileOperations {
         //}
 
         //read bytes from Database file
-        var dbBytes = System.IO.File.ReadAllBytes(((App)App.Current).AppVariables.DatabaseConnection.DatabaseFilePath);
+        var dbBytes = System.IO.File.ReadAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath);
 
         //create file path to save the the database backup to
         string backupFilePath = ((App)App.Current).AppVariables.BackupLocation + @"\" + _backupFileName + $"_{(backupFilesLength + 1):000}.bak";
@@ -173,17 +173,17 @@ internal static class FileOperations {
         ((App)App.Current).AppVariables.TreeDisplayType = Enums.TreeDisplayType.CollapseAll;
     }
     //method to read AppVariables values from file
-    internal static void ReadAppVariablesFromFile() {
+    internal static string ReadAppVariablesFromFile() {
         //check that directory exists
         if (DoesDirectoryExist(_appSettingsDirectory) == false) {
             //error message
-            return;
+            throw new Exception();  //catch in calling class
         }
 
         //check that file exists
         if (DoesFileExist(_appSettingsDirectory) == false) {
             //error message
-            return;
+            throw new Exception();  //catch in calling class
         }
 
         //read data from file
@@ -192,54 +192,7 @@ internal static class FileOperations {
         //split data strings
         var appVariablesDataStrings = appVariablesData.Split("\n");
 
-        //set AppVariables values
-        //switch (appVariablesDataStrings[0]) {
-        //    case "CollapseAll":
-        //        AppVariables.TreeDisplayType = Enums.TreeDisplayType.CollapseAll;
-        //        break;
-        //    case "ExpandAll":
-        //        AppVariables.TreeDisplayType = Enums.TreeDisplayType.ExpandAll;
-        //        break;
-        //    case "RememberLast":
-        //        AppVariables.TreeDisplayType = Enums.TreeDisplayType.RememberLast;
-        //        break;
-        //    default:
-        //        break;
-        //}
-        //switch (appVariablesDataStrings[1]) {
-        //    case "Arrows":
-        //        AppVariables.TreeExpandCollapseButtonStyle = Enums.TreeExpandCollapseButtonStyle.Arrows;
-        //        break;
-        //    case "Folders":
-        //        AppVariables.TreeExpandCollapseButtonStyle = Enums.TreeExpandCollapseButtonStyle.Folders;
-        //        break;
-        //    case "PlusMinusSigns":
-        //        AppVariables.TreeExpandCollapseButtonStyle = Enums.TreeExpandCollapseButtonStyle.PlusMinusSigns;
-        //        break;
-        //    default:
-        //        break;
-        //}
-        //switch (appVariablesDataStrings[2]) {
-        //    case "Small":
-        //        AppVariables.QuickAccessIconSize = Enums.QuickAccessIconSize.Small;
-        //        break;
-        //    case "Medium":
-        //        AppVariables.QuickAccessIconSize = Enums.QuickAccessIconSize.Medium;
-        //        break;
-        //    case "Large":
-        //        AppVariables.QuickAccessIconSize = Enums.QuickAccessIconSize.Large;
-        //        break;
-        //    default:
-        //        break;
-        //}
-        //AppVariables.AllowAutoBackups = bool.Parse(appVariablesDataStrings[3]);
-        //AppVariables.AutoBackupCount = int.Parse(appVariablesDataStrings[4]);
-        //AppVariables.BackupLocation = appVariablesDataStrings[5];
-        //AppVariables.EraseDatabaseAfterSetAmountAttempts = bool.Parse(appVariablesDataStrings[6]);
-        //AppVariables.UnlockAttempts = int.Parse(appVariablesDataStrings[7]);
-        //AppVariables.TimeoutMinutes = int.Parse(appVariablesDataStrings[8]);
-        //AppVariables.LogDeletedItems = bool.Parse(appVariablesDataStrings[9]);
-        //AppVariables.DisplayInfoPane = bool.Parse(appVariablesDataStrings[10]);
+        return "";
     }
     //private static void SetAppVariablesValues() { }
     #endregion Other Methods

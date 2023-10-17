@@ -156,7 +156,7 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
     #region Other Methods
     private void OnOkButtonCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("AddEditGroup_ViewModel OnOkButtonCommand() executed...");
-        System.Diagnostics.Debug.WriteLine("AppVariables.DatabaseConnection = " + ((App)App.Current).AppVariables.DatabaseConnection);
+        System.Diagnostics.Debug.WriteLine("AppVariables.DatabaseConnection = " + ((App)App.Current).DatabaseConnection);
         DateTime? userExpirationDate;
 
         if (!String.IsNullOrEmpty(SgExpirationDate)) {
@@ -201,7 +201,7 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
             System.Diagnostics.Debug.WriteLine("AddEditGroup_ViewModel _isNewGroup = true");
 
             //write obj to database
-            ((App)App.Current).AppVariables.DatabaseConnection?.InsertData(newGroup);
+            ((App)App.Current).DatabaseConnection?.InsertData(newGroup);
 
             //invoke CreateRecord event to change view
             CreateGroup?.Invoke();// this, EventArgs.Empty);
@@ -216,7 +216,7 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
             System.Diagnostics.Debug.WriteLine("AddEditGroup_ViewModel _isNewRecord = false");
 
             //write updated obj to database
-            ((App)App.Current).AppVariables.DatabaseConnection?.InsertData(_selectedGroup);
+            ((App)App.Current).DatabaseConnection?.InsertData(_selectedGroup);
 
             //invoke UpdateRecord event to change view
             UpdateGroup?.Invoke();// this, EventArgs.Empty);

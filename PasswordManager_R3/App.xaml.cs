@@ -20,10 +20,14 @@ public partial class App : Application, System.ComponentModel.INotifyPropertyCha
     private System.Threading.Thread FileIOThread = new(new System.Threading.ThreadStart(void () => { }));
 
     private Models.AppVariables _appVariables;
+    private readonly Utils.DatabaseOperations? _databaseOps = new();
 
     #region PROPERTIES
     internal Models.AppVariables AppVariables {
         get => _appVariables;
+    }
+    internal Utils.DatabaseOperations? DatabaseOps {
+        get => _databaseOps;
     }
     #endregion PROPERTIES
 
@@ -39,24 +43,18 @@ public partial class App : Application, System.ComponentModel.INotifyPropertyCha
             Application.Current.Shutdown();
         }
 
-        //verify that app files exist...
+        //verify that app app data directory exist...
         if (Utils.FileOperations.DoesDirectoryExist(Utils.FileOperations.AppSettingsDirectory) == false) {
             //create directory
             System.IO.Directory.CreateDirectory(Utils.FileOperations.AppSettingsDirectory);
         }
-
-        //verify that master pass exists
-            //create file otherwise?
-
-        //verify that database exists
-            //create file otherwise?
 
         //verify that app variables file exists
         if (Utils.FileOperations.DoesFileExist(Utils.FileOperations.AppSettingsDirectory + @"\" + Utils.FileOperations.AppSettingsFileName) == false) {
             //deserialize file and pass data to Models.AppVariables class
             _appVariables = new Models.AppVariables();
         } else {
-            _appVariables = new Models.AppVariables();
+            var _appVariables = Utils.FileOperations.ReadAppVariablesFromFile(Utils.FileOperations.AppSettingsDirectory + @"\" + Utils.FileOperations.AppSettingsFileName);
         }
 
         //enter app
@@ -73,6 +71,10 @@ public partial class App : Application, System.ComponentModel.INotifyPropertyCha
     //        millisecondsWithoutFocus = value;
     //        PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(nameof(MillisecondsWithoutFocus)));
     //    }
+    //}
+
+    //internal void ClearValues() {
+    //    _databaseOperations = null;
     //}
 }
 

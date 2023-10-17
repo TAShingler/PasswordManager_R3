@@ -9,7 +9,7 @@ namespace PasswordManager_R3.Models;
 [Serializable]
 internal class AppVariables {    //might change from static and instantiate in App.xaml.cs class as global
     #region Fields
-    private Utils.DatabaseOperations? _databaseConnection = null;
+    //private Utils.DatabaseOperations? _databaseConnection = null;
     //private static string _dbPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\PasswordManager_R3\\Data\\";    //might change to readonly/constant?
 
     private Enums.TreeDisplayType _treeDisplayType = Enums.TreeDisplayType.ExpandAll;
@@ -32,11 +32,11 @@ internal class AppVariables {    //might change from static and instantiate in A
     #endregion Fields
 
     #region Properties
-    [Newtonsoft.Json.JsonIgnore]
-    internal Utils.DatabaseOperations? DatabaseConnection {
-        get { return _databaseConnection; }
-        set { _databaseConnection = value; }
-    }
+    //[Newtonsoft.Json.JsonIgnore]
+    //internal Utils.DatabaseOperations? DatabaseConnection {
+    //    get { return _databaseConnection; }
+    //    set { _databaseConnection = value; }
+    //}
     //internal static string DbPath {
     //    get { return _dbPath; }
     //    set { _dbPath = value; }
@@ -105,8 +105,8 @@ internal class AppVariables {    //might change from static and instantiate in A
     #endregion Properties
 
     #region Other Methods
-    internal void ClearValues() {
-        _databaseConnection = null;
-    }
+    //internal void ClearValues() {
+    //    _databaseConnection = null;
+    //}
     #endregion Other Methods
 }
