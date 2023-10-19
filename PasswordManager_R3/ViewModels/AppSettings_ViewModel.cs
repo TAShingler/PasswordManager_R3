@@ -19,9 +19,9 @@ internal class AppSettings_ViewModel : ViewModelBase {
     private int _autoBackupCount = ((App)App.Current).AppVariables.AutoBackupCount;
     private int _unlockAttempts = ((App)App.Current).AppVariables.UnlockAttempts;
     private int _timeoutMinutes = ((App)App.Current).AppVariables.TimeoutMinutes;
-    private Enums.TreeDisplayType _treeDisplayType;
-    private Enums.TreeExpandCollapseButtonStyle _treeExpandCollapseButtonStyle;
-    private Enums.QuickAccessIconSize _quickAccessIconSize;
+    private Enums.TreeDisplayType _treeDisplayType = ((App)App.Current).AppVariables.TreeDisplayType;
+    private Enums.TreeExpandCollapseButtonStyle _treeExpandCollapseButtonStyle = ((App)App.Current).AppVariables.TreeExpandCollapseButtonStyle;
+    private Enums.QuickAccessIconSize _quickAccessIconSize = ((App)App.Current).AppVariables.QuickAccessIconSize;
     private bool _allowAutoBackups = ((App)App.Current).AppVariables.AllowAutoBackups;
     private bool _expandAllRadioButtonIsChecked = ((App)App.Current).AppVariables.TreeDisplayType.Equals(Enums.TreeDisplayType.ExpandAll);
     private bool _collapseAllRadioButtonIsChecked= ((App)App.Current).AppVariables.TreeDisplayType.Equals(Enums.TreeDisplayType.CollapseAll);
@@ -312,6 +312,22 @@ internal class AppSettings_ViewModel : ViewModelBase {
         ((App)App.Current).AppVariables.TreeExpandCollapseButtonStyle = _treeExpandCollapseButtonStyle;
         ((App)App.Current).AppVariables.DisplayInfoPane = _displayInfoPane;
         ((App)App.Current).AppVariables.QuickAccessIconSize = _quickAccessIconSize;
+
+        //System.Diagnostics.Debug.WriteLine(
+        //    "\n_allowAutoBackups = " + _allowAutoBackups +
+        //    "\n_autoBackupCount = " + _autoBackupCount +
+        //    "\n_backupLocation = " + _backupLocation +
+        //    "\n_eraseDatabaseAfterSetAmountAttempts = " + _eraseDatabaseAfterSetAmountAttempts +
+        //    "\n_unlockAttempts = " + _unlockAttempts +
+        //    "\n_timeoutMinutes = " + _timeoutMinutes +
+        //    "\n_logDeletedItems = " + _logDeletedItems +
+        //    "\n_treeDisplayType = " + _treeDisplayType +
+        //    "\n_treeExpandCollapseButtonStyle = " + _treeExpandCollapseButtonStyle +
+        //    "\n_displayInfoPane = " + _displayInfoPane +
+        //    "\n_quickAccessIconSize = " + _quickAccessIconSize +
+        //    "\n");
+
+        Utils.FileOperations.WriteAppVariablesToFile();
 
         ConfirmSettings?.Invoke();
     }

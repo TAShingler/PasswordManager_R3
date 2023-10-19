@@ -48,7 +48,7 @@ internal static class FileOperations {
     internal static void CreateDirectory(string path) {
         System.IO.Directory.CreateDirectory(path);
     }
-    internal static void CreateFile(string path) {
+    internal static void CreateEmptyFile(string path) {
         System.IO.FileStream fs = System.IO.File.Create(path);
 
         fs.Flush();
@@ -65,7 +65,7 @@ internal static class FileOperations {
         writer.Dispose();
         writer.Close();
 
-        fs.Flush();
+        //fs.Flush();
         fs.Dispose();
         fs.Close();
     }
@@ -78,7 +78,7 @@ internal static class FileOperations {
         reader.Dispose();
         reader.Close();
 
-        fs.Flush();
+        //fs.Flush();
         fs.Dispose();
         fs.Close();
 
@@ -157,20 +157,21 @@ internal static class FileOperations {
     internal static void WriteAppVariablesToFile() {
         //check that directory exists
         if (DoesDirectoryExist(_appSettingsDirectory) == false) {
-            //error message
-            return;
+            //create directory
+            CreateDirectory(_appSettingsDirectory);
         }
 
         //check that file exists
         if (DoesFileExist(_appSettingsDirectory) == false) {
-            //error message
-            return;
+            //create file
+            CreateEmptyFile(_appSettingsDirectory + @"\" + _appSettingsFileName + ".dat");
         }
 
-        //write to file
-        //WriteToFile(_appSettingsDirectory + @"\" + _appSettingsFileName, AppVariables.VariablesToStirng());
+        //serialize AppVariables
+        var serializedObj = Newtonsoft.Json.JsonConvert.SerializeObject(((App)App.Current).AppVariables);
 
-        ((App)App.Current).AppVariables.TreeDisplayType = Enums.TreeDisplayType.CollapseAll;
+        //write to file
+        WriteToFile(_appSettingsDirectory + @"\" + _appSettingsFileName + ".dat", serializedObj);
     }
     //method to read AppVariables values from file
     internal static string ReadAppVariablesFromFile() {
@@ -181,18 +182,15 @@ internal static class FileOperations {
         }
 
         //check that file exists
-        if (DoesFileExist(_appSettingsDirectory) == false) {
+        if (DoesFileExist(_appSettingsDirectory + @"\" + _appSettingsFileName + ".dat") == false) {
             //error message
             throw new Exception();  //catch in calling class
         }
 
         //read data from file
-        var appVariablesData = ReadFromFile(_appSettingsDirectory + @"\" + _appSettingsFileName);
+        return ReadFromFile(_appSettingsDirectory + @"\" + _appSettingsFileName + ".dat");
 
-        //split data strings
-        var appVariablesDataStrings = appVariablesData.Split("\n");
-
-        return "";
+        //return "";
     }
     //private static void SetAppVariablesValues() { }
     #endregion Other Methods

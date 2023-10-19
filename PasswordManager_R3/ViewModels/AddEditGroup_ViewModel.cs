@@ -146,6 +146,7 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
             _sgGuid = selectedGroup.GUID;
         } else {
             _groupPath = selectedGroup.Title + " \u2022 Create Group";
+            _parentGroup = selectedGroup;
         }
 
         OkButtonCommand = new(OnOkButtonCommand);
@@ -155,8 +156,8 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
 
     #region Other Methods
     private void OnOkButtonCommand(object obj) {
-        System.Diagnostics.Debug.WriteLine("AddEditGroup_ViewModel OnOkButtonCommand() executed...");
-        System.Diagnostics.Debug.WriteLine("AppVariables.DatabaseConnection = " + ((App)App.Current).DatabaseConnection);
+        //System.Diagnostics.Debug.WriteLine("AddEditGroup_ViewModel OnOkButtonCommand() executed...");
+        //System.Diagnostics.Debug.WriteLine("AppVariables.DatabaseConnection = " + ((App)App.Current).DatabaseConnection);
         DateTime? userExpirationDate;
 
         if (!String.IsNullOrEmpty(SgExpirationDate)) {
@@ -189,8 +190,8 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
         if (_isNewGroup == true) { //true
             //create Models.Record obj and set values from corresponding UIElements for created obj
             Models.Group newGroup = new() {
-                //ParentGUID = _parentGroup.GUID,
-                //ParentGroup = _parentGroup,
+                ParentGUID = _parentGroup.GUID,
+                ParentGroup = _parentGroup,
                 GUID = Guid.NewGuid().ToString(),   //will need method to loop through all objects in database to avoid duplicate GUIDs
                 Title = SgName, 
                 HasExpirationDate = SgHasExpirationDate,
@@ -198,10 +199,13 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
                 HasNotes = SgHasNotes,
                 Notes = SgNotes
             };
+
+            //add new group to _parentGroup's children?
+            _parentGroup.ChildrenGroups.Add(newGroup);
             System.Diagnostics.Debug.WriteLine("AddEditGroup_ViewModel _isNewGroup = true");
 
             //write obj to database
-            ((App)App.Current).DatabaseConnection?.InsertData(newGroup);
+            ((App)App.Current).DatabaseOps?.InsertData(newGroup);
 
             //invoke CreateRecord event to change view
             CreateGroup?.Invoke();// this, EventArgs.Empty);
@@ -215,8 +219,12 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
             _selectedGroup.ModifiedDate = DateTime.Now;
             System.Diagnostics.Debug.WriteLine("AddEditGroup_ViewModel _isNewRecord = false");
 
+            //get group row id
+            var rowId = ((MainWindow_ViewModel)ParentVM).GroupsFromDb.ElementAt(((MainWindow_ViewModel)ParentVM).GroupsFromDb.Values.ToList().IndexOf(_selectedGroup)).Key;
+            System.Diagnostics.Debug.WriteLine("_selectedGroup rowId = " + rowId);
+
             //write updated obj to database
-            ((App)App.Current).DatabaseConnection?.InsertData(_selectedGroup);
+            ((App)App.Current).DatabaseOps?.UpdateData(rowId,_selectedGroup);
 
             //invoke UpdateRecord event to change view
             UpdateGroup?.Invoke();// this, EventArgs.Empty);

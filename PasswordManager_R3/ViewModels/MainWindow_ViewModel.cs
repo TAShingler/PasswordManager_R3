@@ -13,6 +13,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private int _totalRecordsInDatabase = 23;
     private Models.Group _selectedGroup;
     private Models.Record _selectedRecord;
+    private System.Collections.Generic.Dictionary<int, Models.Group> _groupsFromDb;
+    private System.Collections.Generic.Dictionary<int, Models.Record> _recordsFromDb;
 
     //Window UIElement properties
     private Visibility _windowStatusBarVisibility = Visibility.Visible;
@@ -87,6 +89,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
             _selectedRecord = value;
             OnPropertyChanged(nameof(SelectedRecord));
         }
+    }
+    internal System.Collections.Generic.Dictionary<int,Models.Group> GroupsFromDb {
+        get => _groupsFromDb;
+    }
+    internal System.Collections.Generic.Dictionary<int, Models.Record> RecordsFromDb {
+        get => _recordsFromDb;
     }
 
     //Window UIElement properties
@@ -275,7 +283,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //DispatchTimer Tick event handler
         dispatcherTimer.Tick += dispatcherTimer_Tick;
 
-        OnLockDatabaseCommand(new object());
+        OnLockDatabaseCommand(new());
     }
     #endregion Constructors
 
@@ -350,8 +358,27 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //    lockScreenVM = new(this, false);
         //}
 
-        lockScreenVM.DatabaseUnlocked += OnSetDatabaseView;
+        lockScreenVM.DatabaseUnlocked += () => {
+            ((App)App.Current).DatabaseOps.CreateConnection();
+
+            //retrieve Groups and Records from DB
+            _groupsFromDb = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
+            _recordsFromDb = ((App)App.Current).DatabaseOps.RetrieveRecordsData();
+
+            if (_groupsFromDb != null) { TotalGroupsInDatabase = _groupsFromDb.Count; }
+            if (_recordsFromDb != null) { TotalRecordsInDatabase = _recordsFromDb.Count; }
+            OnSetDatabaseView();
+        };
         lockScreenVM.WindowClosed += OnWindowCloseCommand;
+
+        ((App)App.Current).DatabaseOps.DisposeConnection();
+        System.Diagnostics.Debug.WriteLine("_groupsFromDb size: " + _groupsFromDb?.Count);
+        System.Diagnostics.Debug.WriteLine("_recordsFromDb size: " + _recordsFromDb?.Count);
+        _groupsFromDb?.Clear();
+        _recordsFromDb?.Clear();
+        System.Diagnostics.Debug.WriteLine("_groupsFromDb size: " + _groupsFromDb?.Count);
+        System.Diagnostics.Debug.WriteLine("_recordsFromDb size: " + _recordsFromDb?.Count);
+
         SelectedViewModel = lockScreenVM;
 
         ButtonLockDatabaseIsEnabled = false;

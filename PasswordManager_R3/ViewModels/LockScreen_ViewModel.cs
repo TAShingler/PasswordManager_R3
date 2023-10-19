@@ -45,7 +45,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
     //    System.Security.Principal.WindowsIdentity.GetCurrent().User.GetBinaryForm(sidBinaryForm, 0);
     //    Utils.EncryptionTools.Key = sidBinaryForm;
     //}
-    internal LockScreen_ViewModel(ViewModelBase parentVM, bool doesMasterPasswordExist = true) : base(parentVM) {
+    internal LockScreen_ViewModel(ViewModelBase parentVM) : base(parentVM) {
         UnlockDatabaseCommand = new Utils.DelegateCommand(OnUnlockDatabaseCommand);
         CloseWindowCommand = new Utils.DelegateCommand(OnCloseWindowCommand);
 
@@ -54,9 +54,9 @@ internal class LockScreen_ViewModel : ViewModelBase {
         System.Security.Principal.WindowsIdentity.GetCurrent().User.GetBinaryForm(sidBinaryForm, 0);
         Utils.EncryptionTools.Key = sidBinaryForm;
 
-        FIRST_RUN = !doesMasterPasswordExist;
+        FIRST_RUN = !Utils.FileOperations.DoesMasterPasswordExist(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat");
 
-        if (doesMasterPasswordExist == false) {
+        if (FIRST_RUN == true) {
             OutputMessage = "Please enter a password to set the master password.";
         }
     }
@@ -64,8 +64,8 @@ internal class LockScreen_ViewModel : ViewModelBase {
 
     #region Event Handlers
     private void OnUnlockDatabaseCommand(object obj) {
-        /* if (obj.GetType().Equals(typeof(string)) == false) {
-            //throw new Exception();
+        if (obj.GetType().Equals(typeof(string)) == false) {
+            //throw new Exception();    ?
             return;
         }
 
@@ -80,13 +80,29 @@ internal class LockScreen_ViewModel : ViewModelBase {
 
         //Add check for specific criteria?
 
-        if (FIRST_RUN == true) {
+        if (FIRST_RUN == false) {
+            TryUnlockDatabase(objAsString);
+        } else {
             CreateMasterPassword(objAsString);
+
+            //create db tables?
+            ((App)App.Current).DatabaseOps.CreateConnection();
+            //if (Utils.FileOperations.DoesDirectoryExist(((App)App.Current).DatabaseOps.DatabaseFolderPath) == false) { //might not be necessary
+            //    Utils.FileOperations.CreateDirectory(((App)App.Current).DatabaseOps.DatabaseFolderPath);
+            //}
+            //if (Utils.FileOperations.DoesFileExist(((App)App.Current).DatabaseOps.DatabaseFilePath) == false) {
+            //    Utils.FileOperations.CreateEmptyFile(((App)App.Current).DatabaseOps.DatabaseFilePath);
+            //}
+            ((App)App.Current).DatabaseOps.CreateTables();
+            ((App)App.Current).DatabaseOps.CheckForTables();
         }
 
-        TryUnlockDatabase(objAsString); */
+        System.Diagnostics.Debug.WriteLine("Is App.Current.DatabaseOps == null? " + (((App)App.Current).DatabaseOps == null ? "true" : "false"));
+        System.Diagnostics.Debug.WriteLine($"Does DB directory exist at {Utils.FileOperations.DoesDirectoryExist(((App)App.Current).DatabaseOps.DatabaseFolderPath)}? " + Utils.FileOperations.DoesDirectoryExist(((App)App.Current).DatabaseOps.DatabaseFolderPath));
+        System.Diagnostics.Debug.WriteLine($"Does DB file exist at {Utils.FileOperations.DoesFileExist(((App)App.Current).DatabaseOps.DatabaseFilePath)}? " + Utils.FileOperations.DoesFileExist(((App)App.Current).DatabaseOps.DatabaseFilePath));
+
         //var result = 
-        ((App)App.Current).DatabaseConnection = new Utils.DatabaseOperations();
+        /*((App)App.Current).DatabaseConnection = new Utils.DatabaseOperations();*/
         DatabaseUnlocked?.Invoke();
         //System.Diagnostics.Debug.WriteLine("UserPassword: " + obj.ToString());
     }
@@ -102,7 +118,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
 
     #region OTHER METHODS
     private void TryUnlockDatabase(string password) {
-        string passwordFromFile = Utils.FileOperations.ReadFromFile(string.Empty);
+        string passwordFromFile = Utils.FileOperations.ReadFromFile(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat");
         string storedPasswordHash = Utils.EncryptionTools.DecryptBase64StringToObjectString(passwordFromFile); //ReadMasterPasswordFromFile();
 
         //compare password passed to method with stored hash of master password
@@ -130,15 +146,29 @@ internal class LockScreen_ViewModel : ViewModelBase {
         //_wrongAttemptsCount = MAX_ATTEMPTS;
 
         //raise event -- pass something?
-        DatabaseUnlocked?.Invoke();
+        //DatabaseUnlocked?.Invoke();
 
         //return false;
     }
     private void DeleteDatabase() { //might move this method to app.cs and process there; possibly in MainWindow
-        Utils.FileOperations.DeleteFile(string.Empty);
+        //check that DB file directory exists
+        if (Utils.FileOperations.DoesDirectoryExist(((App)App.Current).DatabaseOps.DatabaseFolderPath) == false) {
+            //error message?
+            return;
+        }
+
+        //check that DB file exists
+        if (Utils.FileOperations.DoesFileExist(((App)App.Current).DatabaseOps.DatabaseFilePath + ".db")) {
+            //error message
+            return;
+        }
+
+        //delete DB file
+        Utils.FileOperations.DeleteFile(((App)App.Current).DatabaseOps.DatabaseFilePath + ".db");
     }
     private void CreateMasterPassword(string passwordToHash) {   //might move this app.cs
         string hashedPassword = Utils.Hasher.Hash(passwordToHash);
+        System.Diagnostics.Debug.WriteLine("hashed pass: " + hashedPassword);
 
         //might move FileStream to WriteMasterPasswordToFile()
         //System.IO.FileStream fs = System.IO.File.Open(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\PasswordManager_R3\Data\master_pass.dat", System.IO.FileMode.Append);
@@ -147,12 +177,17 @@ internal class LockScreen_ViewModel : ViewModelBase {
         string encryptedHashedPassword = Utils.EncryptionTools.EncryptObjectStringToBase64String(hashedPassword);
 
         //WriteMasterPasswordToFile(hashedPassword);
-        Utils.FileOperations.WriteToFile(string.Empty, encryptedHashedPassword);
+        Utils.FileOperations.CreateEmptyFile(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat");
+        Utils.FileOperations.WriteToFile(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat", encryptedHashedPassword);
 
         //fs.Dispose();
         //fs.Close();
 
+        //split stored hash into parts
+        string[] hashedPasswordParts = hashedPassword.Split(':');
+
         //set EncryptionTools key to hashed password as byte array
+        Utils.EncryptionTools.Key = Convert.FromHexString(hashedPasswordParts[0]);
     }
     #endregion OTHER METHODS
 }

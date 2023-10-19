@@ -16,26 +16,31 @@ internal class Record : Models.VaultObjectBase {
     #endregion Fields
 
     #region Properties
+    [Newtonsoft.Json.JsonProperty("Username")]
     public string Username {
         get { return _username; }
         set { _username = value; }
     }
+    [Newtonsoft.Json.JsonProperty("Email")]
     public string Email {
         get { return _email; }
         set { _email = value; }
     }
+    [Newtonsoft.Json.JsonProperty("Password")]
     public string Password {  //will need to secure in future; might change back to internal
         get { return _password; }
         set { _password = value; }
     }
+    [Newtonsoft.Json.JsonProperty("Url")]
     public string URL {
         get { return _url; }
         set { _url = value; }
     }
+    [Newtonsoft.Json.JsonProperty("Tags")]
     public string Tags {
         get { return _tags; }
         set { _tags = value; }
-    }
+    }   //will probably remove... does not seem necessary...
     #endregion Properties
 
     #region Constructors

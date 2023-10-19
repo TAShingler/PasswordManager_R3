@@ -43,7 +43,9 @@ public partial class App : Application, System.ComponentModel.INotifyPropertyCha
             Application.Current.Shutdown();
         }
 
-        //verify that app app data directory exist...
+
+        /*
+        //verify that app data directory exist...
         if (Utils.FileOperations.DoesDirectoryExist(Utils.FileOperations.AppSettingsDirectory) == false) {
             //create directory
             System.IO.Directory.CreateDirectory(Utils.FileOperations.AppSettingsDirectory);
@@ -54,7 +56,27 @@ public partial class App : Application, System.ComponentModel.INotifyPropertyCha
             //deserialize file and pass data to Models.AppVariables class
             _appVariables = new Models.AppVariables();
         } else {
-            var _appVariables = Utils.FileOperations.ReadAppVariablesFromFile(Utils.FileOperations.AppSettingsDirectory + @"\" + Utils.FileOperations.AppSettingsFileName);
+            var fromFile = Utils.FileOperations.ReadAppVariablesFromFile();// Utils.FileOperations.AppSettingsDirectory + @"\" + Utils.FileOperations.AppSettingsFileName);
+            System.Diagnostics.Debug.WriteLine("fromFile length: " + fromFile.Length);
+        //}
+        */
+
+        //set AppVariables - retrieve from file; create new if file does not exist
+        try {
+            var appSettingsString = Utils.FileOperations.ReadAppVariablesFromFile();
+
+            //deserialize
+            var deserializedAppSettings = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.AppVariables>(appSettingsString);
+
+            _appVariables = deserializedAppSettings;
+        } catch (Exception ex) {
+            MessageBox.Show("There was an error retrieving saved application settings.\nNew file has been created.","Load App Settings Error",MessageBoxButton.OK,MessageBoxImage.Error);
+
+            //set new AppVariables instance for _appVariables
+            _appVariables = new();
+
+            //create new AppSettings file
+            Utils.FileOperations.WriteAppVariablesToFile();
         }
 
         //enter app
@@ -77,5 +99,3 @@ public partial class App : Application, System.ComponentModel.INotifyPropertyCha
     //    _databaseOperations = null;
     //}
 }
-
-

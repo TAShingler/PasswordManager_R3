@@ -14,7 +14,7 @@ internal class DatabaseOperations {
     private System.Data.SQLite.SQLiteConnection _dbConnection; //might not be using SQLite; might use LiteDB instead
     //private System.Data.SQLite.SQLiteCommand _sqlCommand;      //might not be using SQLite; might use LiteDB instead
     //private System.Data.SQLite.SQLiteDataReader _sqlReader;    //might not be using SQLite; might use LiteDB instead
-    private readonly string _dbFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\PMR3\\Data\\";    //will probably allow user to set this in app settings; will set this value in constructor if that is the case
+    private readonly string _dbFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\PMR3";    //will probably allow user to set this in app settings; will set this value in constructor if that is the case
     private readonly string _dbFilePath;    //might remove -- seems unnecessary
     private readonly Newtonsoft.Json.JsonSerializerSettings _serializerSettings = new() {   //might change how this is handled -- change from global, set values using app settings (?), might make a property for
         PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All,
@@ -50,7 +50,7 @@ internal class DatabaseOperations {
 
     #region Constructors
     internal DatabaseOperations() {
-        _dbFilePath = _dbFolderPath + _databaseName;
+        _dbFilePath = _dbFolderPath + @"\" + _databaseName + ".db";
         System.Diagnostics.Debug.WriteLine("DB path: " + _dbFilePath);
         //CreateConnection();
     }
@@ -58,15 +58,25 @@ internal class DatabaseOperations {
 
     #region Other Methods
     /*  MIGHT CREATE EXECUTE NON QUERY AND EXECUTE SCALAR METHODS  */
-    private void CreateConnection() {
-        _dbConnection = new System.Data.SQLite.SQLiteConnection($"Data Source={_dbFilePath}.db;Version=3;");
-        //throw new NotImplementedException("Not implemented yet...");
+    internal void CreateConnection() {
+        if (_dbConnection == null) {
+            _dbConnection = new System.Data.SQLite.SQLiteConnection($"Data Source={_dbFilePath};Version=3;");
+            //throw new NotImplementedException("Not implemented yet...");
+        }
+        System.Diagnostics.Debug.WriteLine("DB connection established...");
+    }
+    internal void DisposeConnection() {
+        if (_dbConnection != null) {
+            _dbConnection.Dispose();
+        }
+        System.Diagnostics.Debug.WriteLine("DB connection disposed...");
     }
     private void OpenConnection() {
         try {
             _dbConnection.Open();
         } catch (Exception ex) {
             //display error message
+            System.Diagnostics.Debug.WriteLine("DB connection not opened...");
         }
         //throw new NotImplementedException("Not implemented yet...");
     }
@@ -84,7 +94,7 @@ internal class DatabaseOperations {
 
         OpenConnection();
 
-        sqlCommand = _dbConnection.CreateCommand();
+        sqlCommand = DatabaseConnection.CreateCommand();
         
         //create table for Group objects
         sqlCommand.CommandText = $"CREATE TABLE {GROUPS_TABLE_NAME} (RowID INTEGER UNIQUE, Data TEXT, PRIMARY KEY(RowID AUTOINCREMENT));";
@@ -98,6 +108,19 @@ internal class DatabaseOperations {
 
         sqlCommand.Dispose();
 
+        //create root node
+        Models.Group rootNode = new() {
+            ChildrenGroups = new(),
+            ChildrenRecords = new(),
+            GUID = Guid.NewGuid().ToString(),
+            Title = "Root",
+            HasNotes = true,
+            Notes = "Root group node."
+        };
+
+        //insert root node date into database
+        InsertData(rootNode);
+
         CloseConnection();
     }
     internal void CheckForTables() {    //might make private and call at beginning of CreateTables method
@@ -110,6 +133,7 @@ internal class DatabaseOperations {
         sqlCommand = _dbConnection.CreateCommand();
         sqlCommand.CommandText = $"SELECT name FROM sqlite_master WHERE type='table' AND name='{GROUPS_TABLE_NAME}';";
         var result = sqlCommand.ExecuteScalar();
+        System.Diagnostics.Debug.WriteLine($"Does Groups table exist? {result}");
 
         if (result == null) {
             sqlCommand.Reset();
@@ -121,6 +145,7 @@ internal class DatabaseOperations {
         sqlCommand.Reset();
         sqlCommand.CommandText = $"SELECT name FROM sqlite_master WHERE type='table' AND name='{RECORDS_TABLE_NAME}';";
         result = sqlCommand.ExecuteScalar();
+        System.Diagnostics.Debug.WriteLine($"Does Records table exist? {result}");
 
         if (result == null) {
             sqlCommand.Reset();

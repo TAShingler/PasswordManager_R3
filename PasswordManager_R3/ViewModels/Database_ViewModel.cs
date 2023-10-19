@@ -258,6 +258,8 @@ internal class Database_ViewModel : ViewModelBase {
         //    GUID = "TestGuid"
         //};
 
+
+        /* FOR TESTING PURPOSES ONLY
         Groups = new();
 
         Models.Group root = new() { Title = "Root", GUID = Guid.NewGuid().ToString() };
@@ -512,6 +514,11 @@ internal class Database_ViewModel : ViewModelBase {
         //Groups.Add(new());
         //Groups.Add(new());
         //Groups.Add(new());
+
+        */
+
+        Groups = new System.Collections.ObjectModel.ObservableCollection<Models.Group>(((MainWindow_ViewModel)ParentVM).GroupsFromDb.Values);
+        Records = new System.Collections.ObjectModel.ObservableCollection<Models.Record>(((MainWindow_ViewModel)ParentVM).RecordsFromDb.Values);
 
         //SrTitle = SelectedRecord.Title;
         //SrUsername = SelectedRecord.Username;
