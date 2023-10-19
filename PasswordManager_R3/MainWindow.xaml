@@ -72,7 +72,7 @@
         <DataTemplate DataType="{x:Type vm:AppSettings_ViewModel}">
             <views:AppSettings_View />
         </DataTemplate>
-        
+
         <!--#region //  CONVERTERS  //-->
         <converters:ViewStateToVisibilityConverter x:Key="ViewStateToVisibilityConverter" />
         <converters:ViewStateToBorderThicknessConverter x:Key="ViewStateToBorderThicknessConverter" />
@@ -106,7 +106,7 @@
 
         <Color x:Key="ButtonAppMenuMouseOverBackgroundColor" A="80" R="173" G="216" B="230" />
         <Color x:Key="ButtonAppMenuMouseOverBorderColor" A="200" R="0" G="206" B="209" />
-        
+
         <!--#region //  TITLE BAR MENU STYLES  //-->
         <SolidColorBrush x:Key="Menu.Static.Background" Color="#FF444444"/>
         <SolidColorBrush x:Key="Menu.Static.Border" Color="#FF999999"/>
@@ -483,7 +483,8 @@
                         <ColumnDefinition MinWidth="22"
                                           SharedSizeGroup="MenuItemIconColumnGroup"
                                           Width="Auto"/>
-                        <ColumnDefinition Width="13"/> <!-- Spacer between glyph and text -->
+                        <ColumnDefinition Width="13"/>
+                        <!-- Spacer between glyph and text -->
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="30"/>
                         <ColumnDefinition SharedSizeGroup="MenuItemIGTColumnGroup"
@@ -747,7 +748,7 @@
             </Style.Triggers>
         </Style>
         <!--#endregion //  TITLE BAR MENU STYLES  //-->
-        
+
         <!--#region //  TITLE BAR BUTTON STYLES  //-->
         <Style x:Key="TitleBarButtonMinimizeWindowStyle" TargetType="Button">
             <Setter Property="SnapsToDevicePixels" Value="False" />
@@ -787,8 +788,8 @@
                             </VisualStateManager.VisualStateGroups>
                             <!--<ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <ContentPresenter.Content>-->
-                                    <Path Width="10" Height="10" ClipToBounds="True" Data="M 0,5.5 H 10" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" />
-                                <!--</ContentPresenter.Content>
+                            <Path Width="10" Height="10" ClipToBounds="True" Data="M 0,5.5 H 10" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" />
+                            <!--</ContentPresenter.Content>
                             </ContentPresenter>-->
                         </Border>
                         <ControlTemplate.Triggers />
@@ -834,8 +835,8 @@
                             </VisualStateManager.VisualStateGroups>
                             <!--<ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <ContentPresenter.Content>-->
-                                    <Rectangle Width="10" Height="10" ClipToBounds="True" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" />
-                                <!--</ContentPresenter.Content>
+                            <Rectangle Width="10" Height="10" ClipToBounds="True" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" />
+                            <!--</ContentPresenter.Content>
                             </ContentPresenter>-->
                         </Border>
                         <ControlTemplate.Triggers />
@@ -881,8 +882,8 @@
                             </VisualStateManager.VisualStateGroups>
                             <!--<ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <ContentPresenter.Content>-->
-                                    <Path Width="10" Height="10" ClipToBounds="True" Data="M 0.5,2.5 V 9.5 H 7.5 V 2.5 H 0.5 M 2.5,2.5 2.5,0.5 9.5,0.5 9.5,7.5 7.5,7.5" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" StrokeStartLineCap="Square" StrokeEndLineCap="Square" />
-                                <!--</ContentPresenter.Content>
+                            <Path Width="10" Height="10" ClipToBounds="True" Data="M 0.5,2.5 V 9.5 H 7.5 V 2.5 H 0.5 M 2.5,2.5 2.5,0.5 9.5,0.5 9.5,7.5 7.5,7.5" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" StrokeStartLineCap="Square" StrokeEndLineCap="Square" />
+                            <!--</ContentPresenter.Content>
                             </ContentPresenter>-->
                         </Border>
                         <ControlTemplate.Triggers />
@@ -928,8 +929,8 @@
                             </VisualStateManager.VisualStateGroups>
                             <!--<ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <ContentPresenter.Content>-->
-                                    <Path Width="10" Height="10" ClipToBounds="True" Data="M 0,0 10,10 M 0,10 10,0" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" />
-                                <!--</ContentPresenter.Content>
+                            <Path Width="10" Height="10" ClipToBounds="True" Data="M 0,0 10,10 M 0,10 10,0" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" />
+                            <!--</ContentPresenter.Content>
                             </ContentPresenter>-->
                         </Border>
                         <ControlTemplate.Triggers />
@@ -938,7 +939,7 @@
             </Setter>
         </Style>
         <!--#endregion //  TITLE BAR BUTTON STYLES  //-->
-        
+
         <!--#region //  QUICK ACCESS BAR BUTTON STYLES  //-->
         <Style x:Key="QuickAccessButtonLockDatabaseStyle"
                TargetType="{x:Type Button}">
@@ -1118,7 +1119,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                
+
                                 <Viewbox Grid.Row="0"
                                          Height="{Binding QuickAccessIconSize,
                                                           Converter={StaticResource QuickAccessIconSizeToDoubleConverter}}"
@@ -1579,6 +1580,10 @@
                                       Path=WindowState,
                                       Converter={StaticResource ViewStateToBorderThicknessConverter}}">
         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="0*"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="32" />
                 <RowDefinition Height="Auto" />
@@ -1591,7 +1596,7 @@
                     Background="#333"
                     BorderBrush="#666"
                     BorderThickness="0 0 0 0"
-                    TextBlock.FontSize="12">
+                    TextBlock.FontSize="12" Grid.ColumnSpan="2">
                 <Grid Height="32">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="32" />
@@ -1707,7 +1712,7 @@
                            PlacementTarget="{Binding ElementName=toggleButtonAppMenu}"
                            Placement="Bottom">
                         <Border>-->
-                            <!--<Menu x:Name="menuApplicationMenu"
+                    <!--<Menu x:Name="menuApplicationMenu"
                                   Grid.Column="1"
                                   WindowChrome.IsHitTestVisibleInChrome="True"
                                   Width="32"
@@ -1762,7 +1767,7 @@
                                     </MenuItem>
                                 </MenuItem>
                             </Menu>-->
-                        <!--</Border>
+                    <!--</Border>
                     </Popup>-->
 
                     <TextBlock Grid.Column="0"
@@ -1819,9 +1824,8 @@
                     Background="#333"
                     BorderBrush="#666"
                     BorderThickness="0 0 0 0"
-                    Margin="0"
                     Padding="4 4"
-                    Height="Auto">
+                    Height="Auto" Grid.ColumnSpan="2">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -1973,7 +1977,7 @@
                     Padding="5"
                     Background="Transparent"
                     BorderBrush="#666"
-                    BorderThickness="0">
+                    BorderThickness="0" Grid.ColumnSpan="2">
                 <ContentControl x:Name="viewPresenter"
                                 VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"
@@ -1986,7 +1990,7 @@
                     Background="#333"
                     BorderBrush="#666"
                     BorderThickness="0 0 0 0"
-                    Visibility="{Binding WindowStatusBarVisibility}">
+                    Visibility="{Binding WindowStatusBarVisibility}" Grid.ColumnSpan="2">
                 <Grid Height="24"
                       Margin="4 0"
                       Visibility="{Binding WindowStatusBarContentGridVisibility}">

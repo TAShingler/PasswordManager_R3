@@ -517,6 +517,8 @@ internal class Database_ViewModel : ViewModelBase {
 
         */
 
+        GroupsAsObsColl();
+
         Groups = new System.Collections.ObjectModel.ObservableCollection<Models.Group>(((MainWindow_ViewModel)ParentVM).GroupsFromDb.Values);
         Records = new System.Collections.ObjectModel.ObservableCollection<Models.Record>(((MainWindow_ViewModel)ParentVM).RecordsFromDb.Values);
 
@@ -685,6 +687,62 @@ internal class Database_ViewModel : ViewModelBase {
         System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj Title = {((Models.Group)obj).Title}");
 
         //DeleteGroup?.Invoke(obj, EventArgs.Empty);  //may not need to elevate since ObservableCollections are in DatabaseVM
+    }
+
+    private System.Collections.ObjectModel.ObservableCollection<Models.Group> GroupsAsObsColl() {
+        System.Collections.ObjectModel.ObservableCollection<Models.Group> groupsColl = new();
+        bool hasRootNode = false;   //might be able to get rid off...
+
+        //loop through groupsDictionary for root node
+        foreach (Group g in ((MainWindow_ViewModel)ParentVM).GroupsFromDb.Values) {
+            if (g.ParentGUID == null) {
+                //hasRootNode = true;
+                
+                //add root node parentless node to ObsColl
+                groupsColl.Add(g);
+
+                //loop through all groups in 
+            }
+        }
+
+        if (hasRootNode) {
+            //maybe redo foreach loops in future...
+            foreach (Group g in groupsDictionary.Values) {
+                //add parents to groupsColl
+                if (g.ParentGUID == null) {
+                    g.ParentGroup = null;
+                    //((ViewModels.DatabaseViewModel)DataContext).GroupsArrayList.Add(g);
+                    groupsColl.Add(g);
+                }
+
+                foreach (Group child in groupsDictionary.Values) {
+                    if (child.ParentGUID == g.GUID) {
+                        child.ParentGroup = g;
+                        g.ChildrenGroups.Add(child);
+                    }
+                }
+            }
+
+            foreach (Record r in recordsDictionary.Values) {
+                foreach (Group parent in groupsDictionary.Values) {
+                    if (r.ParentGUID == parent.GUID) {
+                        r.ParentGroup = parent;
+                        parent.ChildrenRecords.Add(r);
+                    }
+                }
+            }
+        } else {
+            Group root = new Group {
+                GUID = Guid.NewGuid().ToString(),
+                GroupName = "Root",
+            };
+            dbOps.InsertData(root);
+
+            groupsColl.Add(root);
+        }
+
+
+        return new System.Collections.ObjectModel.ObservableCollection<Models.Group>();
     }
     #endregion Other Methods
 }
