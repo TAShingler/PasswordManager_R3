@@ -13,12 +13,12 @@ internal class Group : Models.VaultObjectBase {
     #endregion Fields
 
     #region Properties
-    [Newtonsoft.Json.JsonProperty("ChildGroups")]
+    [Newtonsoft.Json.JsonIgnore]
     public System.Collections.ObjectModel.ObservableCollection<Group> ChildrenGroups {
         get { return _childrenGroups; }
         set { _childrenGroups = value; }
     }
-    [Newtonsoft.Json.JsonProperty("ChildRecords")]
+    [Newtonsoft.Json.JsonIgnore]
     public System.Collections.ObjectModel.ObservableCollection<Record> ChildrenRecords {
         get { return _childrenRecords; }
         set { _childrenRecords = value; }

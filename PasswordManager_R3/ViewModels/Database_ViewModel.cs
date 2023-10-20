@@ -517,10 +517,10 @@ internal class Database_ViewModel : ViewModelBase {
 
         */
 
-        GroupsAsObsColl();
+        Groups = GroupsAsObsColl();
 
-        Groups = new System.Collections.ObjectModel.ObservableCollection<Models.Group>(((MainWindow_ViewModel)ParentVM).GroupsFromDb.Values);
-        Records = new System.Collections.ObjectModel.ObservableCollection<Models.Record>(((MainWindow_ViewModel)ParentVM).RecordsFromDb.Values);
+        //Groups = new System.Collections.ObjectModel.ObservableCollection<Models.Group>(((MainWindow_ViewModel)ParentVM).GroupsFromDb.Values);
+        //Records = new System.Collections.ObjectModel.ObservableCollection<Models.Record>(((MainWindow_ViewModel)ParentVM).RecordsFromDb.Values);
 
         //SrTitle = SelectedRecord.Title;
         //SrUsername = SelectedRecord.Username;
@@ -573,6 +573,10 @@ internal class Database_ViewModel : ViewModelBase {
         if (obj is Models.Group)//.GetType().Equals(typeof(Models.Group)))
             SelectedGroup = obj as Models.Group;
         //System.Diagnostics.Debug.WriteLine("SelectedGroup title: " + SelectedGroup.Title);
+
+        //get child records
+        Records = SelectedGroup?.ChildrenRecords;
+
         SelectedGroupChanged?.Invoke(obj == null ? true : false);
     }
     private void OnRecordSelectionChanged(object obj) { //need to fix -- throwing errors
@@ -691,58 +695,34 @@ internal class Database_ViewModel : ViewModelBase {
 
     private System.Collections.ObjectModel.ObservableCollection<Models.Group> GroupsAsObsColl() {
         System.Collections.ObjectModel.ObservableCollection<Models.Group> groupsColl = new();
-        bool hasRootNode = false;   //might be able to get rid off...
 
-        //loop through groupsDictionary for root node
+        //maybe redo foreach loops in future...
         foreach (Group g in ((MainWindow_ViewModel)ParentVM).GroupsFromDb.Values) {
+            //add parents to groupsColl
             if (g.ParentGUID == null) {
-                //hasRootNode = true;
-                
-                //add root node parentless node to ObsColl
+                //g.ParentGroup = null;
+                //((ViewModels.DatabaseViewModel)DataContext).GroupsArrayList.Add(g);
                 groupsColl.Add(g);
+            }
 
-                //loop through all groups in 
+            foreach (Group child in ((MainWindow_ViewModel)ParentVM).GroupsFromDb.Values) {
+                if (child.ParentGUID == g.GUID) {
+                    child.ParentGroup = g;
+                    g.ChildrenGroups.Add(child);
+                }
             }
         }
 
-        if (hasRootNode) {
-            //maybe redo foreach loops in future...
-            foreach (Group g in groupsDictionary.Values) {
-                //add parents to groupsColl
-                if (g.ParentGUID == null) {
-                    g.ParentGroup = null;
-                    //((ViewModels.DatabaseViewModel)DataContext).GroupsArrayList.Add(g);
-                    groupsColl.Add(g);
-                }
-
-                foreach (Group child in groupsDictionary.Values) {
-                    if (child.ParentGUID == g.GUID) {
-                        child.ParentGroup = g;
-                        g.ChildrenGroups.Add(child);
-                    }
+        foreach (Record r in ((MainWindow_ViewModel)ParentVM).RecordsFromDb.Values) {
+            foreach (Group parent in ((MainWindow_ViewModel)ParentVM).GroupsFromDb.Values) {
+                if (r.ParentGUID == parent.GUID) {
+                    r.ParentGroup = parent;
+                    parent.ChildrenRecords.Add(r);
                 }
             }
-
-            foreach (Record r in recordsDictionary.Values) {
-                foreach (Group parent in groupsDictionary.Values) {
-                    if (r.ParentGUID == parent.GUID) {
-                        r.ParentGroup = parent;
-                        parent.ChildrenRecords.Add(r);
-                    }
-                }
-            }
-        } else {
-            Group root = new Group {
-                GUID = Guid.NewGuid().ToString(),
-                GroupName = "Root",
-            };
-            dbOps.InsertData(root);
-
-            groupsColl.Add(root);
         }
 
-
-        return new System.Collections.ObjectModel.ObservableCollection<Models.Group>();
+        return groupsColl;
     }
     #endregion Other Methods
 }

@@ -21,7 +21,7 @@ internal class VaultObjectBase {
 
     //might make all properties internal
     #region Properties
-    [Newtonsoft.Json.JsonProperty("ParentGroup")]
+    [Newtonsoft.Json.JsonIgnore]
     public Group? ParentGroup {
         get { return _parentGroup; }
         set { _parentGroup = value; }
