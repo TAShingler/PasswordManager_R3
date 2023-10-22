@@ -517,7 +517,9 @@ internal class Database_ViewModel : ViewModelBase {
 
         */
 
-        Groups = GroupsAsObsColl();
+        if (((MainWindow_ViewModel)ParentVM).GroupsFromDb.Values != null) {
+            Groups = GroupsAsObsColl();
+        }
 
         //Groups = new System.Collections.ObjectModel.ObservableCollection<Models.Group>(((MainWindow_ViewModel)ParentVM).GroupsFromDb.Values);
         //Records = new System.Collections.ObjectModel.ObservableCollection<Models.Record>(((MainWindow_ViewModel)ParentVM).RecordsFromDb.Values);

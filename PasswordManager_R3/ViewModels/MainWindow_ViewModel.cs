@@ -360,13 +360,6 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
         lockScreenVM.DatabaseUnlocked += () => {
             ((App)App.Current).DatabaseOps.CreateConnection();
-
-            //retrieve Groups and Records from DB
-            _groupsFromDb = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
-            _recordsFromDb = ((App)App.Current).DatabaseOps.RetrieveRecordsData();
-
-            if (_groupsFromDb != null) { TotalGroupsInDatabase = _groupsFromDb.Count; }
-            if (_recordsFromDb != null) { TotalRecordsInDatabase = _recordsFromDb.Count; }
             OnSetDatabaseView();
         };
         lockScreenVM.WindowClosed += OnWindowCloseCommand;
@@ -410,6 +403,14 @@ internal class MainWindow_ViewModel : ViewModelBase {
         databaseVM.CreateGroup += OnCreateGroup;
         databaseVM.UpdateGroup += OnUpdateGroup;
         databaseVM.DeleteGroup += (object s, EventArgs e) => { System.Diagnostics.Debug.WriteLine("MainWindow: databaseVM.DeleteGroup event elevated"); };
+
+        //retrieve Groups and Records from DB
+        _groupsFromDb = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
+        _recordsFromDb = ((App)App.Current).DatabaseOps.RetrieveRecordsData();
+
+        if (_groupsFromDb != null) { TotalGroupsInDatabase = _groupsFromDb.Count; }
+        if (_recordsFromDb != null) { TotalRecordsInDatabase = _recordsFromDb.Count; }
+
         SelectedViewModel = databaseVM;
 
         ButtonLockDatabaseIsEnabled = true;
