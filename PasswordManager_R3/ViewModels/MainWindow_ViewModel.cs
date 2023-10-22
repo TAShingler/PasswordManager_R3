@@ -397,6 +397,13 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
         OnPropertyChanged(nameof(QuickAccessIconSize)); //might move to separate method called when AppSettings OK button clicked; calls OnSetDatabaseView method after
 
+        //retrieve Groups and Records from DB
+        _groupsFromDb = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
+        _recordsFromDb = ((App)App.Current).DatabaseOps.RetrieveRecordsData();
+
+        if (_groupsFromDb != null) { TotalGroupsInDatabase = _groupsFromDb.Count; }
+        if (_recordsFromDb != null) { TotalRecordsInDatabase = _recordsFromDb.Count; }
+
         Database_ViewModel databaseVM = new Database_ViewModel(this);
         databaseVM.SelectedRecordChanged += OnSelectedRecordChanged;
         databaseVM.SelectedGroupChanged += OnSelectedGroupChanged;
@@ -405,11 +412,11 @@ internal class MainWindow_ViewModel : ViewModelBase {
         databaseVM.DeleteGroup += (object s, EventArgs e) => { System.Diagnostics.Debug.WriteLine("MainWindow: databaseVM.DeleteGroup event elevated"); };
 
         //retrieve Groups and Records from DB
-        _groupsFromDb = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
-        _recordsFromDb = ((App)App.Current).DatabaseOps.RetrieveRecordsData();
+        //_groupsFromDb = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
+        //_recordsFromDb = ((App)App.Current).DatabaseOps.RetrieveRecordsData();
 
-        if (_groupsFromDb != null) { TotalGroupsInDatabase = _groupsFromDb.Count; }
-        if (_recordsFromDb != null) { TotalRecordsInDatabase = _recordsFromDb.Count; }
+        //if (_groupsFromDb != null) { TotalGroupsInDatabase = _groupsFromDb.Count; }
+        //if (_recordsFromDb != null) { TotalRecordsInDatabase = _recordsFromDb.Count; }
 
         SelectedViewModel = databaseVM;
 

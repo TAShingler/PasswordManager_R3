@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,16 +60,22 @@ internal class DatabaseOperations {
     #region Other Methods
     /*  MIGHT CREATE EXECUTE NON QUERY AND EXECUTE SCALAR METHODS  */
     internal void CreateConnection() {
-        if (_dbConnection == null) {
+        System.Diagnostics.Debug.WriteLine("CreateConnection() before connecting, _dbConnection == " + (_dbConnection == null ? "null" : "not null"));
+        //if (_dbConnection == null) {
             _dbConnection = new System.Data.SQLite.SQLiteConnection($"Data Source={_dbFilePath};Version=3;");
             //throw new NotImplementedException("Not implemented yet...");
-        }
+        //}
+        System.Diagnostics.Debug.WriteLine("CreateConnection() after connecting, _dbConnection == " + (_dbConnection == null ? "null" : "not null"));
+        System.Diagnostics.Debug.WriteLine("CreateConnection() _dbConnection == " + _dbConnection?.ConnectionString);
         System.Diagnostics.Debug.WriteLine("DB connection established...");
     }
     internal void DisposeConnection() {
+        System.Diagnostics.Debug.WriteLine("DisposeConnection() before connecting, _dbConnection == " + (_dbConnection == null ? "null" : "not null"));
         if (_dbConnection != null) {
             _dbConnection.Dispose();
         }
+        System.Diagnostics.Debug.WriteLine("DisposeConnection() after connecting, _dbConnection == " + (_dbConnection == null ? "null" : "not null"));
+        System.Diagnostics.Debug.WriteLine("DisposeConnection() _dbConnection == " + _dbConnection?.ToString());
         System.Diagnostics.Debug.WriteLine("DB connection disposed...");
     }
     private void OpenConnection() {

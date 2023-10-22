@@ -10,7 +10,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
     private readonly bool FIRST_RUN;
     private readonly int MAX_ATTEMPTS;
     private string _outputMessage = string.Empty;
-    private int _attemptsRemaining;
+    private int _attemptsRemaining = 10;
     #endregion Fields
 
     #region Delegates and Events
@@ -81,7 +81,12 @@ internal class LockScreen_ViewModel : ViewModelBase {
         //Add check for specific criteria?
 
         if (FIRST_RUN == false) {
-            TryUnlockDatabase(objAsString);
+            try {
+                UnlockDatabase(objAsString);
+            } catch(Exception ex) {
+                //error message
+                return;
+            }
         } else {
             CreateMasterPassword(objAsString);
 
@@ -117,22 +122,25 @@ internal class LockScreen_ViewModel : ViewModelBase {
     #endregion Event Handlers
 
     #region OTHER METHODS
-    private void TryUnlockDatabase(string password) {
+    private void UnlockDatabase(string password) {
         string passwordFromFile = Utils.FileOperations.ReadFromFile(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat");
         string storedPasswordHash = Utils.EncryptionTools.DecryptBase64StringToObjectString(passwordFromFile); //ReadMasterPasswordFromFile();
 
         //compare password passed to method with stored hash of master password
         if (Utils.Hasher.Verify(password, storedPasswordHash) == false) {
+            System.Diagnostics.Debug.WriteLine("Utils.Hasher.Verify(password, storedPasswordHash) == " + Utils.Hasher.Verify(password, storedPasswordHash));
             if (_attemptsRemaining > 0) {
                 //decrement wrong attempts count and display error message to user
                 OutputMessage = $"Entered password is not correct.\n{--_attemptsRemaining} attempts remaining.";
-                return;
+                //return;
+                throw new Exception();
             } else {
                 //display error message and delete database
                 OutputMessage = $"Entered password is not correct.\nOut of attempts; deleteing database.";
                 //exit app or return to initial setup?
                 DeleteDatabase();   //might put in different class, app.cs maybe (?)
-                return;
+                //return;
+                throw new Exception();
             }
         }
 
@@ -142,6 +150,11 @@ internal class LockScreen_ViewModel : ViewModelBase {
         //set encryption key for Encryptor/Decryptor equal to hash of master password
         Utils.EncryptionTools.Key = Convert.FromHexString(hashedPasswordParts[0]);
 
+        System.Diagnostics.Debug.WriteLine("passwordFromFile == " + passwordFromFile);
+        System.Diagnostics.Debug.WriteLine("storedPasswordHash == " + storedPasswordHash);
+        for (int i=0;i<hashedPasswordParts.Length;i++) {
+            System.Diagnostics.Debug.WriteLine($"hashedPasswordParts[{i}] == " + hashedPasswordParts[i]);
+        }
         //reset wrong attempts count
         //_wrongAttemptsCount = MAX_ATTEMPTS;
 
