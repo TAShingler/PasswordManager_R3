@@ -6,6 +6,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:local="clr-namespace:PasswordManager_R3.Views"
              xmlns:converters="clr-namespace:PasswordManager_R3.Converters"
+             xmlns:valid="clr-namespace:PasswordManager_R3.Validators"
              mc:Ignorable="d" 
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -2673,9 +2674,15 @@
                                          Foreground="Gainsboro"
                                          CaretBrush="Gainsboro"
                                          VerticalContentAlignment="Center"
-                                         Text="{Binding SrTitle,
-                                                        Mode=TwoWay}"
-                                         Style="{StaticResource InputTextBoxStyle}"/>
+                                         Style="{StaticResource InputTextBoxStyle}">
+                                    <TextBox.Text>
+                                        <Binding Path="SrTitle" Mode="TwoWay">
+                                            <Binding.ValidationRules>
+                                                <valid:StringValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
                                 <!--//  Username  //-->
                                 <Label Grid.Column="1"
@@ -2697,9 +2704,15 @@
                                          Background="Transparent"
                                          Foreground="Gainsboro"
                                          CaretBrush="Gainsboro"
-                                         Text="{Binding SrUsername,
-                                                        Mode=TwoWay}"
-                                         Style="{StaticResource InputTextBoxStyle}"/>
+                                         Style="{StaticResource InputTextBoxStyle}">
+                                    <TextBox.Text>
+                                        <Binding Path="SrUsername" Mode="TwoWay">
+                                            <Binding.ValidationRules>
+                                                <valid:StringValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
                                 <!--//  Email  //-->
                                 <Label Grid.Column="1"
@@ -2721,9 +2734,15 @@
                                          Background="Transparent"
                                          Foreground="Gainsboro"
                                          CaretBrush="Gainsboro"
-                                         Text="{Binding SrEmail,
-                                                        Mode=TwoWay}"
-                                         Style="{StaticResource InputTextBoxStyle}" />
+                                         Style="{StaticResource InputTextBoxStyle}">
+                                    <TextBox.Text>
+                                        <Binding Path="SrEmail" Mode="TwoWay">
+                                            <Binding.ValidationRules>
+                                                <valid:StringValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
                                 <!--//  Password  //-->
                                 <Label Grid.Column="1"
@@ -2758,10 +2777,16 @@
                                                  Foreground="Gainsboro"
                                                  CaretBrush="Gainsboro"
                                                  Visibility="Collapsed"
-                                                 Text="{Binding SrPassword,
-                                                                Mode=TwoWay}"
                                                  Style="{StaticResource InputTextBoxStyle}"
-                                                 TextChanged="textBoxPassword_TextChanged"/>
+                                                 TextChanged="textBoxPassword_TextChanged">
+                                            <TextBox.Text>
+                                                <Binding Path="SrPassword" Mode="TwoWay">
+                                                    <Binding.ValidationRules>
+                                                        <valid:StringValidationRule/>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox.Text>
+                                        </TextBox>
                                         <PasswordBox x:Name="pWrdBox"
                                                      Grid.Column="0"
                                                      Grid.ColumnSpan="1"
@@ -2842,9 +2867,15 @@
                                          Background="Transparent"
                                          Foreground="Gainsboro"
                                          CaretBrush="Gainsboro"
-                                         Style="{StaticResource InputTextBoxStyle}"
-                                         Text="{Binding SrUrl,
-                                                        Mode=TwoWay}"/>
+                                         Style="{StaticResource InputTextBoxStyle}">
+                                    <TextBox.Text>
+                                        <Binding Path="SrUrl" Mode="TwoWay">
+                                            <Binding.ValidationRules>
+                                                <valid:StringValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
                                 <!--//  Tags  //-->
                                 <Label Grid.Column="1"
@@ -2866,9 +2897,15 @@
                                          Background="Transparent"
                                          Foreground="Gainsboro"
                                          CaretBrush="Gainsboro"
-                                         Style="{StaticResource InputTextBoxStyle}"
-                                         Text="{Binding SrTags,
-                                                        Mode=TwoWay}"/>
+                                         Style="{StaticResource InputTextBoxStyle}">
+                                    <TextBox.Text>
+                                        <Binding Path="SrTags" Mode="TwoWay">
+                                            <Binding.ValidationRules>
+                                                <valid:StringValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
                                 <!--//  Expiration Date  //-->
                                 <CheckBox x:Name="checkBoxExpirationDate"
@@ -2912,9 +2949,15 @@
                                                  BorderBrush="Transparent"
                                                  BorderThickness="0"
                                                  Background="Transparent"
-                                                 Style="{StaticResource ExpirationDateTextBoxStyle}"
-                                                 Text="{Binding SrExpirationDate,
-                                                                Mode=TwoWay}"/>
+                                                 Style="{StaticResource ExpirationDateTextBoxStyle}">
+                                            <TextBox.Text>
+                                                <Binding Path="SrExpirationDate" Mode="TwoWay">
+                                                    <Binding.ValidationRules>
+                                                        <valid:StringValidationRule/>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox.Text>
+                                        </TextBox>
                                         <ToggleButton x:Name="toggleButtonExpirationDate"
                                                       Grid.Column="1"
                                                       BorderBrush="#666"
@@ -2990,9 +3033,15 @@
                                          TextWrapping="Wrap"
                                          AcceptsReturn="True"
                                          Padding="0 3"
-                                         Style="{StaticResource NotesTextBoxStyle}"
-                                         Text="{Binding SrNotes,
-                                                        Mode=TwoWay}"/>
+                                         Style="{StaticResource NotesTextBoxStyle}">
+                                    <TextBox.Text>
+                                        <Binding Path="SrNotes" Mode="TwoWay">
+                                            <Binding.ValidationRules>
+                                                <valid:StringValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
                             </Grid>
                         </TabItem>
 
