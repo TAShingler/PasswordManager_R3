@@ -9,12 +9,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
     //Window Properites
     private WindowState _winState = WindowState.Normal;
     private ViewModels.ViewModelBase? _selectedViewModel;
-    private int _totalGroupsInDatabase = 5;
-    private int _totalRecordsInDatabase = 23;
+    private int _totalGroupsInDatabase = 0;
+    private int _totalRecordsInDatabase = 0;
     private Models.Group _selectedGroup;
     private Models.Record _selectedRecord;
-    private System.Collections.Generic.Dictionary<int, Models.Group> _groupsFromDb;
-    private System.Collections.Generic.Dictionary<int, Models.Record> _recordsFromDb;
+    //private System.Collections.Generic.Dictionary<int, Models.Group> _groupsFromDb;
+    //private System.Collections.Generic.Dictionary<int, Models.Record> _recordsFromDb;
 
     //Window UIElement properties
     private Visibility _windowStatusBarVisibility = Visibility.Visible;
@@ -90,12 +90,14 @@ internal class MainWindow_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(SelectedRecord));
         }
     }
-    internal System.Collections.Generic.Dictionary<int,Models.Group> GroupsFromDb {
-        get => _groupsFromDb;
-    }
-    internal System.Collections.Generic.Dictionary<int, Models.Record> RecordsFromDb {
-        get => _recordsFromDb;
-    }
+    //internal System.Collections.Generic.Dictionary<int,Models.Group> GroupsFromDb {
+    //    get => _groupsFromDb;
+    //    private set => _groupsFromDb = value;   //maybe just leave internal so that I can update from DatabaseView
+    //}
+    //internal System.Collections.Generic.Dictionary<int, Models.Record> RecordsFromDb {
+    //    get => _recordsFromDb;
+    //    private set => _recordsFromDb = value;
+    //}
 
     //Window UIElement properties
     public Visibility WindowStatusBarVisibility {
@@ -365,12 +367,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
         lockScreenVM.WindowClosed += OnWindowCloseCommand;
 
         ((App)App.Current).DatabaseOps.DisposeConnection();
-        System.Diagnostics.Debug.WriteLine("_groupsFromDb size: " + _groupsFromDb?.Count);
-        System.Diagnostics.Debug.WriteLine("_recordsFromDb size: " + _recordsFromDb?.Count);
-        _groupsFromDb?.Clear();
-        _recordsFromDb?.Clear();
-        System.Diagnostics.Debug.WriteLine("_groupsFromDb size: " + _groupsFromDb?.Count);
-        System.Diagnostics.Debug.WriteLine("_recordsFromDb size: " + _recordsFromDb?.Count);
+        //System.Diagnostics.Debug.WriteLine("_groupsFromDb size: " + _groupsFromDb?.Count);
+        //System.Diagnostics.Debug.WriteLine("_recordsFromDb size: " + _recordsFromDb?.Count);
+        //_groupsFromDb?.Clear();
+        //_recordsFromDb?.Clear();
+        //System.Diagnostics.Debug.WriteLine("_groupsFromDb size: " + _groupsFromDb?.Count);
+        //System.Diagnostics.Debug.WriteLine("_recordsFromDb size: " + _recordsFromDb?.Count);
 
         SelectedViewModel = lockScreenVM;
 
@@ -398,18 +400,18 @@ internal class MainWindow_ViewModel : ViewModelBase {
         OnPropertyChanged(nameof(QuickAccessIconSize)); //might move to separate method called when AppSettings OK button clicked; calls OnSetDatabaseView method after
 
         //retrieve Groups and Records from DB
-        _groupsFromDb = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
-        _recordsFromDb = ((App)App.Current).DatabaseOps.RetrieveRecordsData();
+        //_groupsFromDb = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
+        //_recordsFromDb = ((App)App.Current).DatabaseOps.RetrieveRecordsData();
 
-        if (_groupsFromDb != null) { TotalGroupsInDatabase = _groupsFromDb.Count; }
-        if (_recordsFromDb != null) { TotalRecordsInDatabase = _recordsFromDb.Count; }
+        //if (_groupsFromDb != null) { TotalGroupsInDatabase = _groupsFromDb.Count; }
+        //if (_recordsFromDb != null) { TotalRecordsInDatabase = _recordsFromDb.Count; }
 
         Database_ViewModel databaseVM = new Database_ViewModel(this);
-        databaseVM.SelectedRecordChanged += OnSelectedRecordChanged;
-        databaseVM.SelectedGroupChanged += OnSelectedGroupChanged;
+        databaseVM.SelectedRecordChanged += OnSelectedRecordChanged;    //Nov. 3, 2023 - might remove, not sure if necessary
+        databaseVM.SelectedGroupChanged += OnSelectedGroupChanged;      //Nov. 3, 2023 - might remove, not sure if necessary
         databaseVM.CreateGroup += OnCreateGroup;
         databaseVM.UpdateGroup += OnUpdateGroup;
-        databaseVM.DeleteGroup += (object s, EventArgs e) => { System.Diagnostics.Debug.WriteLine("MainWindow: databaseVM.DeleteGroup event elevated"); };
+        databaseVM.DeleteGroup += (Models.Group g, int i) => { System.Diagnostics.Debug.WriteLine("MainWindow: databaseVM.DeleteGroup event elevated"); };
 
         //retrieve Groups and Records from DB
         //_groupsFromDb = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
@@ -439,7 +441,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         System.Diagnostics.Debug.WriteLine("onAddRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel();
 
-        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this, ((ViewModels.Database_ViewModel)SelectedViewModel).SelectedGroup);
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this, new()); //((ViewModels.Database_ViewModel)SelectedViewModel).SelectedGroup);
         addEditRecordVM.CreateRecord += (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
         addEditRecordVM.CancelAddEditRecord += OnSetDatabaseView;
         SelectedViewModel = addEditRecordVM;
@@ -576,8 +578,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// Set CurrentView to AddeditGroup_View (to add Group to database).
     /// </summary>
     /// <param name="obj"></param>
-    private void OnCreateGroup(object parentGroup) {
-        AddEditGroup_ViewModel addEditGroupVM = new(this, ((Database_ViewModel)SelectedViewModel).SelectedGroup);
+    private void OnCreateGroup(Models.Group parentGroup) {
+        //AddEditGroup_ViewModel addEditGroupVM = new(this, ((Database_ViewModel)SelectedViewModel).SelectedGroup);
+        AddEditGroup_ViewModel addEditGroupVM = new(this, parentGroup);
         addEditGroupVM.CreateGroup += () => {   //maybe use a concrete method and not an anonymous method...
             /*do something*/
             OnSetDatabaseView();
@@ -590,9 +593,16 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// Event Handler for AddEditGroup_ViewModel.UpdateGroup event. Changes current view to AddEditGroup_View.
     /// </summary>
     /// <param name="obj"></param>
-    private void OnUpdateGroup(object obj) {
-        AddEditGroup_ViewModel addEditGroupVM = new(this, ((Database_ViewModel)SelectedViewModel).SelectedGroup, false);
-        addEditGroupVM.CreateGroup += () => { /*do something*/ };
+    private void OnUpdateGroup(Models.Group group, int groupRowId) {
+        AddEditGroup_ViewModel addEditGroupVM = new(this, group, false, groupRowId);
+        addEditGroupVM.CreateGroup += () => {
+            /*do something*/
+            OnSetDatabaseView();
+        };
+        addEditGroupVM.UpdateGroup += () => {
+            /* do something */
+            OnSetDatabaseView();
+        };
         addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
 
         SelectedViewModel = addEditGroupVM;
@@ -604,7 +614,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// Event Handler to delete record from DB
     /// </summary>
     /// <param name="obj"></param>
-    private void OnDeleteRecordCommand(object obj) {
+    private void OnDeleteRecordCommand(object obj) {    //might dispose of - seems unnecessary
         System.Diagnostics.Debug.WriteLine("onDeleteRecordCommand clicked, but it's not implemented yet...");
         //does not change views, but might need to add code to refresh DB -- will figure ot for sure later
     }
@@ -637,17 +647,13 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// </summary>
     /// <param name="obj"></param>
     private void OnSelectedGroupChanged(object obj) {
-        //do somehting
-        //SelectedGroup = (Models.Group)obj;
-
-        System.Diagnostics.Debug.WriteLine("OnSelectedGroupChanged obj: " + obj);
-
+        // Set Add/Edit/Delete Record buttons to enabled/disabled
         bool objAsBool = (bool)obj;
 
-        if (objAsBool == false) {    //ViewModels.Database_ViewModel.SelectedRecord is null
+        if (objAsBool == false) {
             ButtonAddRecordIsEnabled = true;
-        } else {    //ViewModels.Database_ViewModel.SelectedRecord is not null
-            ButtonEditRecordIsEnabled = false;
+        } else {
+            ButtonAddRecordIsEnabled = false;
         }
     }
     /// <summary>
@@ -664,21 +670,21 @@ internal class MainWindow_ViewModel : ViewModelBase {
         System.Diagnostics.Debug.WriteLine("OnSelectedRecordChanged obj: " + obj);
 
 
-        bool objAsBool = (bool)obj;
+        //bool objAsBool = (bool)obj;
 
-        if (objAsBool == false) {    //ViewModels.Database_ViewModel.SelectedRecord is null
-            ButtonEditRecordIsEnabled = true;
-            ButtonDeleteRecordIsEnabled = true;
-            ButtonUsernameToClipboardIsEnabled = true;
-            ButtonPasswordToClipboardIsEnabled = true;
-            ButtonUrlToClipboardIsEnabled = true;
-        } else {    //ViewModels.Database_ViewModel.SelectedRecord is not null
-            ButtonEditRecordIsEnabled = false;
-            ButtonDeleteRecordIsEnabled = false;
-            ButtonUsernameToClipboardIsEnabled = false;
-            ButtonPasswordToClipboardIsEnabled = false;
-            ButtonUrlToClipboardIsEnabled = false;
-        }
+        //if (objAsBool == false) {    //ViewModels.Database_ViewModel.SelectedRecord is null
+        //    ButtonEditRecordIsEnabled = true;
+        //    ButtonDeleteRecordIsEnabled = true;
+        //    ButtonUsernameToClipboardIsEnabled = true;
+        //    ButtonPasswordToClipboardIsEnabled = true;
+        //    ButtonUrlToClipboardIsEnabled = true;
+        //} else {    //ViewModels.Database_ViewModel.SelectedRecord is not null
+        //    ButtonEditRecordIsEnabled = false;
+        //    ButtonDeleteRecordIsEnabled = false;
+        //    ButtonUsernameToClipboardIsEnabled = false;
+        //    ButtonPasswordToClipboardIsEnabled = false;
+        //    ButtonUrlToClipboardIsEnabled = false;
+        //}
     }
 
     

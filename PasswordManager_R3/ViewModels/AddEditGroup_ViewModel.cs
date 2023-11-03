@@ -13,6 +13,7 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
     #region Fields
     private readonly bool _isNewGroup = true;
     private readonly Models.Group _parentGroup;
+    private readonly int _groupRowId;
 
     //group selected in DataGrid in Databse_View
     private readonly Models.Group? _selectedGroup = null;
@@ -103,37 +104,13 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
     #endregion Properties
 
     #region Constructors
-    public AddEditGroup_ViewModel(ViewModelBase parentVM, Models.Group? selectedGroup, bool isNewGroup = true) : base(parentVM) {
-        //StringBuilder sb = new();
-        //sb.Append(selectedGroup.Title);
-        //sb.Append(" \u2022 ");
-
-        //_isNewGroup = isNewGroup;
-
-        //if (isNewGroup == false) {
-        //    sb.Append();
-        //    _selectedGroup = selectedGroup;
-
-        //    SgName = selectedGroup.Title;
-        //    SgHasExpirationDate = selectedGroup.HasExpirationDate;
-        //    SgExpirationDate = selectedGroup.ExpirationDate != null ? selectedGroup.ExpirationDate.ToString() : string.Empty;
-        //    SgSearchOptions = string.Empty; //selectedGroup.SearchOptions;
-        //    SgHasNotes = selectedGroup.HasNotes;
-        //    SgNotes = selectedGroup.Notes;
-        //    _sgCreatedDate = selectedGroup.CreatedDate.ToString();
-        //    _sgUpdatedDate = selectedGroup.ModifiedDate.ToString();
-        //    _sgGuid = selectedGroup.GUID;
-        //}
-
-        ////DelegateCommands
-        //OkButtonCommand = new Utils.DelegateCommand(OnOkButtonCommand);
-        //CancelButtonCommand = new Utils.DelegateCommand(OnCancelButtonCommand);
-
+    public AddEditGroup_ViewModel(ViewModelBase parentVM, Models.Group selectedGroup, bool isNewGroup = true, int rowId = -1) : base(parentVM) {
         _isNewGroup = isNewGroup;
 
         if (isNewGroup == false) {
             _groupPath = selectedGroup.Title + " \u2022 Edit Group";
             _selectedGroup = selectedGroup;
+            _groupRowId = rowId;
 
             SgName = selectedGroup.Title;
             SgHasExpirationDate = selectedGroup.HasExpirationDate;
@@ -152,6 +129,9 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
         OkButtonCommand = new(OnOkButtonCommand);
         CancelButtonCommand = new(OnCancelButtonCommand);
     }
+    //public AddEditGroup_ViewModel(ViewModelBase parentVM, Models.Group selectedGroup, int rowId) {
+    //    //
+    //}
     #endregion Constructors
 
     #region Other Methods
@@ -175,17 +155,6 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
             userExpirationDate = null;
         }
 
-        System.Diagnostics.Debug.WriteLine(
-            $"\n\nSgTitle = {SgName}" +
-            $"\nSgHasExpirationDate = {SgHasExpirationDate}" +
-            $"\nSgExpriationDate = {SgExpirationDate}" +
-            $"\nSgSearchOptions = {SgSearchOptions}" +
-            $"\nSgHasNotes = {SgHasNotes}" +
-            $"\nSgNotes = {SgNotes}" +
-            $"\nSgCreatedDate = {SgCreatedDate}" +
-            $"\nSgModifiedDate = {SgUpdatedDate}" +
-            $"\nSgGuid = {SgGuid}\n\n");
-
         //check whether is new record
         if (_isNewGroup == true) { //true
             //create Models.Record obj and set values from corresponding UIElements for created obj
@@ -202,7 +171,6 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
 
             //add new group to _parentGroup's children?
             _parentGroup.ChildrenGroups.Add(newGroup);
-            System.Diagnostics.Debug.WriteLine("AddEditGroup_ViewModel _isNewGroup = true");
 
             //write obj to database
             ((App)App.Current).DatabaseOps?.InsertData(newGroup);
@@ -217,14 +185,9 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
             _selectedGroup.HasNotes = SgHasNotes;
             _selectedGroup.Notes = SgNotes;
             _selectedGroup.ModifiedDate = DateTime.Now;
-            System.Diagnostics.Debug.WriteLine("AddEditGroup_ViewModel _isNewRecord = false");
-
-            //get group row id
-            var rowId = ((MainWindow_ViewModel)ParentVM).GroupsFromDb.ElementAt(((MainWindow_ViewModel)ParentVM).GroupsFromDb.Values.ToList().IndexOf(_selectedGroup)).Key;
-            System.Diagnostics.Debug.WriteLine("_selectedGroup rowId = " + rowId);
 
             //write updated obj to database
-            ((App)App.Current).DatabaseOps?.UpdateData(rowId,_selectedGroup);
+            ((App)App.Current).DatabaseOps?.UpdateData(_groupRowId, _selectedGroup);
 
             //invoke UpdateRecord event to change view
             UpdateGroup?.Invoke();// this, EventArgs.Empty);

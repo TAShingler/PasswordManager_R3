@@ -10,6 +10,7 @@ internal class Group : Models.VaultObjectBase {
     #region Fields
     private protected System.Collections.ObjectModel.ObservableCollection<Group> _childrenGroups;
     private protected System.Collections.ObjectModel.ObservableCollection<Record> _childrenRecords;
+    private bool _isGroupExpanded = true;
     #endregion Fields
 
     #region Properties
@@ -23,12 +24,18 @@ internal class Group : Models.VaultObjectBase {
         get { return _childrenRecords; }
         set { _childrenRecords = value; }
     }
+    [Newtonsoft.Json.JsonIgnore]
+    public bool IsGroupExpanded {
+        get => _isGroupExpanded;
+        set => _isGroupExpanded = value;
+    }
     #endregion Properties
 
     #region Constructors
     public Group() : base() {
         _childrenGroups = new System.Collections.ObjectModel.ObservableCollection<Group>();
         _childrenRecords = new System.Collections.ObjectModel.ObservableCollection<Record>();
+        _isGroupExpanded = true;
     }
     #endregion Constructors
 

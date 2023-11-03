@@ -104,7 +104,7 @@ internal class DatabaseOperations {
         sqlCommand = DatabaseConnection.CreateCommand();
         
         //create table for Group objects
-        sqlCommand.CommandText = $"CREATE TABLE {GROUPS_TABLE_NAME} (RowID INTEGER UNIQUE, Data TEXT, PRIMARY KEY(RowID AUTOINCREMENT));";
+        sqlCommand.CommandText = $"CREATE TABLE {GROUPS_TABLE_NAME} (RowID INTEGER UNIQUE, Data TEXT, State INTEGER, PRIMARY KEY(RowID AUTOINCREMENT));";
         sqlCommand.ExecuteNonQuery();
 
         sqlCommand.Reset();
@@ -292,7 +292,7 @@ internal class DatabaseOperations {
         OpenConnection();
 
         sqlCommand = _dbConnection.CreateCommand();
-        sqlCommand.CommandText = $"UPDATE {GROUPS_TABLE_NAME} SET IsExpanded = '{expandedState}' WHERE RowID = {rowId};";
+        sqlCommand.CommandText = $"UPDATE {GROUPS_TABLE_NAME} SET State = '{expandedState}' WHERE RowID = {rowId};";
         sqlCommand.ExecuteScalar();
 
         sqlCommand.Dispose();
