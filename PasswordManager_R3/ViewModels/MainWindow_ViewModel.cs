@@ -13,6 +13,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private int _totalRecordsInDatabase = 0;
     private Models.Group _selectedGroup;
     private Models.Record _selectedRecord;
+    private int _sgRowId;
+    private int _srRowId;
     //private System.Collections.Generic.Dictionary<int, Models.Group> _groupsFromDb;
     //private System.Collections.Generic.Dictionary<int, Models.Record> _recordsFromDb;
 
@@ -80,6 +82,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         get { return _selectedGroup; }
         set {
             _selectedGroup = value;
+
             OnPropertyChanged(nameof(SelectedGroup));
         }
     }
@@ -87,8 +90,17 @@ internal class MainWindow_ViewModel : ViewModelBase {
         get { return _selectedRecord; }
         set {
             _selectedRecord = value;
+
             OnPropertyChanged(nameof(SelectedRecord));
         }
+    }
+    internal int SgRowId {
+        get => _sgRowId;
+        set => _sgRowId = value;
+    }
+    internal int SrRowId {
+        get => _srRowId;
+        set => _srRowId = value;
     }
     //internal System.Collections.Generic.Dictionary<int,Models.Group> GroupsFromDb {
     //    get => _groupsFromDb;
@@ -411,7 +423,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         databaseVM.SelectedGroupChanged += OnSelectedGroupChanged;      //Nov. 3, 2023 - might remove, not sure if necessary
         databaseVM.CreateGroup += OnCreateGroup;
         databaseVM.UpdateGroup += OnUpdateGroup;
-        databaseVM.DeleteGroup += (Models.Group g, int i) => { System.Diagnostics.Debug.WriteLine("MainWindow: databaseVM.DeleteGroup event elevated"); };
+        //databaseVM.DeleteGroup += (Models.Group g, int i) => { System.Diagnostics.Debug.WriteLine("MainWindow: databaseVM.DeleteGroup event elevated"); };
 
         //retrieve Groups and Records from DB
         //_groupsFromDb = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
@@ -438,10 +450,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// </summary>
     /// <param name="obj"></param>
     private void OnAddRecordCommand(object obj) {
-        System.Diagnostics.Debug.WriteLine("onAddRecordCommand clicked, but it's not implemented yet...");
+        //System.Diagnostics.Debug.WriteLine("onAddRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel();
 
-        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this, ((ViewModels.Database_ViewModel)SelectedViewModel).SelectedGroup, null);
+        //var rowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj).GUID).Select(pair => pair.Key).FirstOrDefault();
+
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this, ((ViewModels.Database_ViewModel)SelectedViewModel).SelectedGroup);
         addEditRecordVM.CreateRecord += OnSetDatabaseView;
         addEditRecordVM.CancelAddEditRecord += OnSetDatabaseView;
         SelectedViewModel = addEditRecordVM;
@@ -472,7 +486,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// </summary>
     /// <param name="obj"></param>
     private void OnEditRecordCommand(object obj) {
-        System.Diagnostics.Debug.WriteLine("onEditRecordCommand clicked, but it's not implemented yet...");
+        //System.Diagnostics.Debug.WriteLine("onEditRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel(); //will need to have 2 constructors -- one for add record, the other for edit record
         //AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this);// this);
         //SelectedViewModel = addEditRecordVM;
@@ -482,21 +496,21 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel = addEditGroupVM;
 
         /*  Edit Record View  */
-        AddEditRecord_ViewModel addEditRecordVM = new(this, ((ViewModels.Database_ViewModel)SelectedViewModel).SelectedGroup, new Models.Record() { //get selected record instead of new record...
-            Title = "Record passed to ViewModel Title",
-            Username = "Record passed to ViewModel Username",
-            Email = "Record passed to ViewModel Email",
-            Password = "Record passed to ViewModel Password",
-            URL = "Record passed to ViewModel Url",
-            Notes = "Record passed to ViewModel Notes",
-            CreatedDate = DateTime.Now,
-            ExpirationDate = DateTime.Now.AddMonths(6),
-            GUID = Guid.NewGuid().ToString(),
-            HasNotes = true,
-            HasExpirationDate = true,
-            ModifiedDate = DateTime.Now.AddDays(8),
-            Tags = "Record passed to ViewModel Tags"
-        });
+        AddEditRecord_ViewModel addEditRecordVM = new(this, ((ViewModels.Database_ViewModel)SelectedViewModel).SelectedGroup, ((ViewModels.Database_ViewModel)SelectedViewModel).SelectedRecord, SrRowId); //new Models.Record() { //get selected record instead of new record...
+        //    Title = "Record passed to ViewModel Title",
+        //    Username = "Record passed to ViewModel Username",
+        //    Email = "Record passed to ViewModel Email",
+        //    Password = "Record passed to ViewModel Password",
+        //    URL = "Record passed to ViewModel Url",
+        //    Notes = "Record passed to ViewModel Notes",
+        //    CreatedDate = DateTime.Now,
+        //    ExpirationDate = DateTime.Now.AddMonths(6),
+        //    GUID = Guid.NewGuid().ToString(),
+        //    HasNotes = true,
+        //    HasExpirationDate = true,
+        //    ModifiedDate = DateTime.Now.AddDays(8),
+        //    Tags = "Record passed to ViewModel Tags"
+        //});
         addEditRecordVM.UpdateRecord += OnSetDatabaseView;
         addEditRecordVM.CancelAddEditRecord += OnSetDatabaseView;
         SelectedViewModel = addEditRecordVM;
@@ -576,9 +590,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// Set CurrentView to AddeditGroup_View (to add Group to database).
     /// </summary>
     /// <param name="obj"></param>
-    private void OnCreateGroup(Models.Group parentGroup) {
+    private void OnCreateGroup() {
         //AddEditGroup_ViewModel addEditGroupVM = new(this, ((Database_ViewModel)SelectedViewModel).SelectedGroup);
-        AddEditGroup_ViewModel addEditGroupVM = new(this, parentGroup);
+        AddEditGroup_ViewModel addEditGroupVM = new(this, SelectedGroup);
         addEditGroupVM.CreateGroup += () => {   //maybe use a concrete method and not an anonymous method...
             /*do something*/
             OnSetDatabaseView();
@@ -591,8 +605,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// Event Handler for AddEditGroup_ViewModel.UpdateGroup event. Changes current view to AddEditGroup_View.
     /// </summary>
     /// <param name="obj"></param>
-    private void OnUpdateGroup(Models.Group group, int groupRowId) {
-        AddEditGroup_ViewModel addEditGroupVM = new(this, group, false, groupRowId);
+    private void OnUpdateGroup() {
+        AddEditGroup_ViewModel addEditGroupVM = new(this, SelectedGroup, false, SgRowId);
         addEditGroupVM.CreateGroup += () => {
             /*do something*/
             OnSetDatabaseView();
@@ -612,9 +626,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// Event Handler to delete record from DB
     /// </summary>
     /// <param name="obj"></param>
-    private void OnDeleteRecordCommand(object obj) {    //might dispose of - seems unnecessary
-        System.Diagnostics.Debug.WriteLine("onDeleteRecordCommand clicked, but it's not implemented yet...");
-        //does not change views, but might need to add code to refresh DB -- will figure ot for sure later
+    private void OnDeleteRecordCommand(object obj) {
+        //delete selected record
+        ((App)App.Current).DatabaseOps.DeleteRecordData(SrRowId);
+
+        //refresh DB
+        OnSetDatabaseView();    //change eventually...
     }
     /// <summary>
     /// Event Handler to copy username of selected record to the system clipboard
@@ -653,6 +670,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
         } else {
             ButtonAddRecordIsEnabled = false;
         }
+
+        System.Diagnostics.Debug.WriteLine($"SelectedGroup = {SelectedGroup.Title}");
+        System.Diagnostics.Debug.WriteLine($"SgRowId = {SgRowId}");
     }
     /// <summary>
     /// Event handler to handle RecordSelected event propogated in Database_ViewModel and bubbled to MainWindow_ViewModel
@@ -665,24 +685,26 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //} else {
         //    SelectedRecord = null;
         //}
-        System.Diagnostics.Debug.WriteLine("OnSelectedRecordChanged obj: " + obj);
+        //System.Diagnostics.Debug.WriteLine("OnSelectedRecordChanged obj: " + obj);
 
+        bool objAsBool = (bool)obj;
 
-        //bool objAsBool = (bool)obj;
+        if (objAsBool == false) {    //ViewModels.Database_ViewModel.SelectedRecord is null
+            ButtonEditRecordIsEnabled = true;
+            ButtonDeleteRecordIsEnabled = true;
+            ButtonUsernameToClipboardIsEnabled = true;
+            ButtonPasswordToClipboardIsEnabled = true;
+            ButtonUrlToClipboardIsEnabled = true;
+        } else {    //ViewModels.Database_ViewModel.SelectedRecord is not null
+            ButtonEditRecordIsEnabled = false;
+            ButtonDeleteRecordIsEnabled = false;
+            ButtonUsernameToClipboardIsEnabled = false;
+            ButtonPasswordToClipboardIsEnabled = false;
+            ButtonUrlToClipboardIsEnabled = false;
+        }
 
-        //if (objAsBool == false) {    //ViewModels.Database_ViewModel.SelectedRecord is null
-        //    ButtonEditRecordIsEnabled = true;
-        //    ButtonDeleteRecordIsEnabled = true;
-        //    ButtonUsernameToClipboardIsEnabled = true;
-        //    ButtonPasswordToClipboardIsEnabled = true;
-        //    ButtonUrlToClipboardIsEnabled = true;
-        //} else {    //ViewModels.Database_ViewModel.SelectedRecord is not null
-        //    ButtonEditRecordIsEnabled = false;
-        //    ButtonDeleteRecordIsEnabled = false;
-        //    ButtonUsernameToClipboardIsEnabled = false;
-        //    ButtonPasswordToClipboardIsEnabled = false;
-        //    ButtonUrlToClipboardIsEnabled = false;
-        //}
+        System.Diagnostics.Debug.WriteLine($"SelectedGroup = {SelectedRecord.Title}");
+        System.Diagnostics.Debug.WriteLine($"SgRowId = {SrRowId}");
     }
 
     

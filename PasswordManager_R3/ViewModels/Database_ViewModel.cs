@@ -13,9 +13,11 @@ internal class Database_ViewModel : ViewModelBase {
 
     //Models.Group-specific fields
     private Models.Group? _selectedGroup = null;
+    private int _sgRowId = -1;
 
     //Models.Record-specific fields for information pane
     private Models.Record? _selectedRecord = null;
+    private int _srRowId = -1;
     private bool _srUsernameMasked;
     private bool _srEmailMasked;
     private bool _srPasswordMasked;
@@ -45,9 +47,9 @@ internal class Database_ViewModel : ViewModelBase {
     //delegates
     internal delegate void SelectedGroupChangedEventHandler(object obj);
     internal delegate void SelectedRecordChangedEventHandler(object obj);
-    internal delegate void CreateGroupEventHandler(Models.Group g);// object sender, EventArgs e);
-    internal delegate void UpdateGroupEventHandler(Models.Group g, int rowId);
-    internal delegate void DeleteGroupEventHandler(Models.Group g, int rowId);
+    internal delegate void CreateGroupEventHandler();// Models.Group g);// object sender, EventArgs e);
+    internal delegate void UpdateGroupEventHandler();// Models.Group g, int rowId);
+    internal delegate void DeleteGroupEventHandler();// Models.Group g, int rowId);
     //events
     internal event SelectedGroupChangedEventHandler? SelectedGroupChanged;
     internal event SelectedRecordChangedEventHandler? SelectedRecordChanged;
@@ -64,6 +66,13 @@ internal class Database_ViewModel : ViewModelBase {
             ((ViewModels.MainWindow_ViewModel)ParentVM).SelectedGroup = value;
             OnPropertyChanged(nameof(SelectedGroup));
         }
+    }   //mybe make internal...
+    internal int SgRowId {
+        get => ((ViewModels.MainWindow_ViewModel)ParentVM).SgRowId;
+        set {
+            ((ViewModels.MainWindow_ViewModel)ParentVM).SgRowId = value;
+            OnPropertyChanged(nameof(SgRowId));
+        }
     }
 
     //Models.Record-specific properties for information pane
@@ -72,6 +81,13 @@ internal class Database_ViewModel : ViewModelBase {
         set {
             ((ViewModels.MainWindow_ViewModel)ParentVM).SelectedRecord = value;
             OnPropertyChanged(nameof(SelectedRecord));
+        }
+    }   //maybe make internal...
+    internal int SrRowId {
+        get => ((ViewModels.MainWindow_ViewModel)ParentVM).SrRowId;
+        set {
+            ((ViewModels.MainWindow_ViewModel)ParentVM).SrRowId = value;
+            OnPropertyChanged(nameof(SrRowId));
         }
     }
     //public Models.Record? SelectedRecord {
@@ -313,6 +329,9 @@ internal class Database_ViewModel : ViewModelBase {
 
         //System.Diagnostics.Debug.WriteLine($"Currently selected Group: {((Models.Group)obj).Title}");
 
+        if (obj == null) { return; }
+        
+        SgRowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj).GUID).Select(pair => pair.Key).FirstOrDefault(-1);
         SelectedGroup = obj as Models.Group;
         SelectedGroupChanged?.Invoke(obj == null ? true : false);
         //SelectedGroupChanged?.Invoke(obj);
@@ -333,8 +352,12 @@ internal class Database_ViewModel : ViewModelBase {
         //}
         //System.Diagnostics.Debug.WriteLine("SelectedRecord title: " + SelectedRecord.Title);
         //SelectedRecordChanged?.Invoke(obj);//obj == null ? true : false);
-        SelectedRecord = obj as Models.Record;
 
+        if (obj == null) { return; }
+
+        SrRowId = _recordsFromDb.Where(pair => pair.Value.GUID == ((Models.Record)obj).GUID).Select(pair => pair.Key).FirstOrDefault(-1);
+        SelectedRecord = obj as Models.Record;
+        SelectedRecordChanged?.Invoke(obj == null ? true : false);
         //System.Diagnostics.Debug.WriteLine("obj to string: " + obj.ToString());
     }
     private void CopyValueToClipboard(object obj) {
@@ -418,12 +441,12 @@ internal class Database_ViewModel : ViewModelBase {
         //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj GUID = {((Models.Group)obj).GUID}");
         //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj child groups count = {((Models.Group)obj).ChildrenGroups.Count}");
         //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj child records count = {((Models.Group)obj).ChildrenRecords.Count}");
-        CreateGroup?.Invoke((Models.Group)obj);//, EventArgs.Empty);
+        CreateGroup?.Invoke();// (Models.Group)obj);//, EventArgs.Empty);
     }
     private void OnUpdateGroup(object obj) {
-        var rowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj).GUID).Select(pair => pair.Key).FirstOrDefault();
+        //var rowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj).GUID).Select(pair => pair.Key).FirstOrDefault();
 
-        UpdateGroup?.Invoke((Models.Group)obj, rowId);
+        UpdateGroup?.Invoke();// (Models.Group)obj, rowId);
     }
     private void OnDeleteGroup(object obj) {
         var objAsGroup = (Models.Group)obj;

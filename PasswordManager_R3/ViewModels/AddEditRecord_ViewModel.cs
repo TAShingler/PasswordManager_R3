@@ -20,6 +20,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
 
     //record selected in DataGrid in Databse_View
     private readonly Models.Record? _selectedRecord = null;
+    private readonly int _recordRowId;
 
     //fields for Properties View binds to
     private string _srTitle = string.Empty;
@@ -263,7 +264,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
         _operationString = _isNewRecord == true ? "Group Name \u2022 Add Record" : "Group Name \u2022 Edit Record";
         SetDelegateCommands();
     }
-    public AddEditRecord_ViewModel(ViewModelBase parentVM, Models.Group parentGroup, Models.Record? selectedRecord = null) : base(parentVM) {
+    public AddEditRecord_ViewModel(ViewModelBase parentVM, Models.Group parentGroup, Models.Record? selectedRecord = null, int rowId = -1) : base(parentVM) {
         if (selectedRecord != null) {
             _isNewRecord = false;
             _selectedRecord = selectedRecord;
@@ -283,8 +284,9 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             _srGuid = selectedRecord.GUID;                              //may remove from View eventually...
         }
 
+        _recordRowId = rowId;
         _parentGroup = parentGroup;
-        _operationString = _isNewRecord == true ? (parentGroup.Title + " \u2022 Add Record") : (parentGroup.Title + " \u2022 Edit Record");
+        _operationString = _isNewRecord == true ? (parentGroup.Title + " \u2022 Add Record") : (_selectedRecord?.Title + " \u2022 Edit Record");
         SetDelegateCommands();
     }
     #endregion Constructors
@@ -341,6 +343,9 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
         //    $"\nSrModifiedDate = {SrModifiedDate}" +
         //    $"\nSrGuid = {SrGuid}\n\n");
 
+        System.Diagnostics.Debug.WriteLine("SrPassword = " + SrPassword);
+        System.Diagnostics.Debug.WriteLine("_srPassword = " + _srPassword);
+
         //check whether is new record
         if (_isNewRecord == true) { //true
             //create Models.Record obj and set values from corresponding UIElements for created obj
@@ -382,7 +387,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             //System.Diagnostics.Debug.WriteLine("AddEditRecord_ViewModel _isNewRecord = false");
 
             //write updated obj to database
-            //AppVariables.DatabaseConnection.InsertData(newRecord);
+            ((App)App.Current).DatabaseOps?.UpdateData(_recordRowId, _selectedRecord);
 
             //invoke UpdateRecord event to change view
             UpdateRecord?.Invoke();// this, EventArgs.Empty);
