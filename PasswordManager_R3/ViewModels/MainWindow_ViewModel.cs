@@ -441,8 +441,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         System.Diagnostics.Debug.WriteLine("onAddRecordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.AddEditRecord_ViewModel();
 
-        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this, new()); //((ViewModels.Database_ViewModel)SelectedViewModel).SelectedGroup);
-        addEditRecordVM.CreateRecord += (object obj, EventArgs e) => { System.Diagnostics.Debug.WriteLine("Test"); };
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this, ((ViewModels.Database_ViewModel)SelectedViewModel).SelectedGroup, null);
+        addEditRecordVM.CreateRecord += OnSetDatabaseView;
         addEditRecordVM.CancelAddEditRecord += OnSetDatabaseView;
         SelectedViewModel = addEditRecordVM;
 
@@ -482,7 +482,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel = addEditGroupVM;
 
         /*  Edit Record View  */
-        AddEditRecord_ViewModel addEditRecordVM = new(this, new Models.Record() {
+        AddEditRecord_ViewModel addEditRecordVM = new(this, ((ViewModels.Database_ViewModel)SelectedViewModel).SelectedGroup, new Models.Record() { //get selected record instead of new record...
             Title = "Record passed to ViewModel Title",
             Username = "Record passed to ViewModel Username",
             Email = "Record passed to ViewModel Email",
@@ -497,9 +497,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
             ModifiedDate = DateTime.Now.AddDays(8),
             Tags = "Record passed to ViewModel Tags"
         });
-        addEditRecordVM.CreateRecord += (object obj, EventArgs e) => {
-            System.Diagnostics.Debug.WriteLine("Edited object saved to database");
-        };
+        addEditRecordVM.UpdateRecord += OnSetDatabaseView;
         addEditRecordVM.CancelAddEditRecord += OnSetDatabaseView;
         SelectedViewModel = addEditRecordVM;
 

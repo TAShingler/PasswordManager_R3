@@ -78,7 +78,7 @@ internal class VaultObjectBase {
         _parentGroup = null;
         _parentGuid = null;
         _guid = string.Empty;
-        _title = "TestTitle";// string.Empty;
+        _title = string.Empty;
         _hasExpirationDate = false;
         _expirationDate = null;
         _createdDate = DateTime.Now;

@@ -45,11 +45,11 @@ internal class Record : Models.VaultObjectBase {
 
     #region Constructors
     public Record() : base() {
-        _username = "TestUsername";// string.Empty;
-        _email = "TestEmail";// string.Empty;
-        _password = "TestPassword";// string.Empty;
-        _url = "TestUrl";// string.Empty;
-        _tags = "TestTags";// string.Empty;
+        _username = string.Empty;
+        _email = string.Empty;
+        _password = string.Empty;
+        _url = string.Empty;
+        _tags = string.Empty;
     }
     #endregion Constructors
 

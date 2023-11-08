@@ -2522,7 +2522,7 @@
                     <TextBlock FontSize="12"
                                Padding="12"
                                Foreground="Gainsboro"
-                               Text="Root - New Record" />
+                               Text="{Binding OperationString}" />
                 </Border>
 
                 <!--//  BOTTOM PANEL  //-->

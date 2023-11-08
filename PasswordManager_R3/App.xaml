@@ -24,5 +24,16 @@
         <SolidColorBrush x:Key="solidColorBrush-theme-midground" Color="{StaticResource color-theme-midground}" />
         <SolidColorBrush x:Key="solidColorBrush-theme-foreground" Color="{StaticResource color-theme-foregound}" />
         <SolidColorBrush x:Key="solidColorBrush-theme-background" Color="{StaticResource color-theme-background}" />
+
+        <PathGeometry x:Key="expandAllGlyph" Figures="M4,2A2,2 0 0,0 2,4V14H4V4H14V2H4
+                                                      M8,6A2,2 0 0,0 6,8V18H8V8H18V6H8
+                                                      M20,12V20H12V12H20
+                                                      M20,10H12A2,2 0 0,0 10,12V20A2,2 0 0,0 12,22H20A2,2 0 0,0 22,20V12A2,2 0 0,0 20,10
+                                                      M19,17H17V19H15V17H13V15H15V13H17V15H19V17Z" />
+        <PathGeometry x:Key="collapseAllGlyph" Figures="M4,2A2,2 0 0,0 2,4V14H4V4H14V2H4
+                                                        M8,6A2,2 0 0,0 6,8V18H8V8H18V6H8
+                                                        M20,12V20H12V12H20
+                                                        M20,10H12A2,2 0 0,0 10,12V20A2,2 0 0,0 12,22H20A2,2 0 0,0 22,20V12A2,2 0 0,0 20,10
+                                                        M19,17H13V15H19V17Z" />
     </Application.Resources>
 </Application>

@@ -9,6 +9,7 @@ using System.Windows;
 namespace PasswordManager_R3.ViewModels;
 internal class AddEditRecord_ViewModel : ViewModelBase {
     #region Fields
+    private readonly string _operationString = string.Empty;
     private readonly bool _isNewRecord = true;
     private readonly Models.Group _parentGroup;
     private const int MAX_PASSWORD_LENGTH = 128;    //may move fields, properties, and methods related to password generator Popup to their own ViewModel for the Popup -- maybe...
@@ -47,6 +48,9 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
     #endregion Fields
 
     #region Properties
+    public string OperationString {
+        get => _operationString;
+    }
     //might make Properties not directly reference Record obj...
     public string SrTitle {
         get { return _srTitle; }
@@ -225,8 +229,8 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
     #endregion Properties
 
     //Delegates to bubble events to MainWindow_ViewModel
-    public delegate void CreateRecordEventHandler(object sender, EventArgs e);
-    public delegate void UpdateRecordEventHandler(object sender, EventArgs e);
+    public delegate void CreateRecordEventHandler();// object sender, EventArgs e); - might re-add sender and EventArgs...
+    public delegate void UpdateRecordEventHandler();// object sender, EventArgs e);
     public delegate void CancelAddEditRecordHandler();//(object sender, EventArgs e);
 
     //Events to bubble to MainWindow_ViewModel
@@ -234,8 +238,9 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
     public event UpdateRecordEventHandler? UpdateRecord;
     public event CancelAddEditRecordHandler? CancelAddEditRecord;
 
+    #region Constructors
     //pass selectedGroup as well? RoutedEventArgs for slectedGroup and Record objects?
-    public AddEditRecord_ViewModel(ViewModelBase parentVM, Models.Record? selectedRecord = null) : base(parentVM) {
+    public AddEditRecord_ViewModel(ViewModelBase parentVM, Models.Record? selectedRecord = null) : base(parentVM) { //eventually get rid of...
         if (selectedRecord != null) {
             _isNewRecord = false;
             _selectedRecord = selectedRecord;
@@ -255,6 +260,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             _srGuid = selectedRecord.GUID;
         }
 
+        _operationString = _isNewRecord == true ? "Group Name \u2022 Add Record" : "Group Name \u2022 Edit Record";
         SetDelegateCommands();
     }
     public AddEditRecord_ViewModel(ViewModelBase parentVM, Models.Group parentGroup, Models.Record? selectedRecord = null) : base(parentVM) {
@@ -272,14 +278,16 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             SrExpirationDate = selectedRecord != null ? selectedRecord.ExpirationDate.ToString() : string.Empty;
             SrHasNotes = selectedRecord.HasNotes;
             SrNotes = selectedRecord.Notes;
-            _srCreatedDate = selectedRecord.CreatedDate.ToString();
-            _srModifiedDate = selectedRecord.ModifiedDate.ToString();
-            _srGuid = selectedRecord.GUID;
+            _srCreatedDate = selectedRecord.CreatedDate.ToString();     //may remove from View eventually...
+            _srModifiedDate = selectedRecord.ModifiedDate.ToString();   //may remove from View eventually...
+            _srGuid = selectedRecord.GUID;                              //may remove from View eventually...
         }
 
         _parentGroup = parentGroup;
+        _operationString = _isNewRecord == true ? (parentGroup.Title + " \u2022 Add Record") : (parentGroup.Title + " \u2022 Edit Record");
         SetDelegateCommands();
     }
+    #endregion Constructors
 
     private void SetDelegateCommands() {
         OkButtonCommand = new Utils.DelegateCommand(OnOkButtonCommand);
@@ -354,10 +362,10 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             //System.Diagnostics.Debug.WriteLine("AddEditRecord_ViewModel _isNewRecord = true");
 
             //write obj to database
-            //AppVariables.DatabaseConnection.InsertData(newRecord);
+            ((App)App.Current).DatabaseOps?.InsertData(newRecord);
 
             //invoke CreateRecord event to change view
-            CreateRecord?.Invoke(this, EventArgs.Empty);
+            CreateRecord?.Invoke();// this, EventArgs.Empty);
         } else {    //false
             //set values from corresponding UIElements for _selectedRecord
             _selectedRecord.Title = SrTitle;
@@ -377,7 +385,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             //AppVariables.DatabaseConnection.InsertData(newRecord);
 
             //invoke UpdateRecord event to change view
-            UpdateRecord?.Invoke(this, EventArgs.Empty);
+            UpdateRecord?.Invoke();// this, EventArgs.Empty);
         }
     }
     private void OnCancelButtonCommand(object obj) {
