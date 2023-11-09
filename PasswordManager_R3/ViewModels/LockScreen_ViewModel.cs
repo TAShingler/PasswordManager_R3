@@ -129,7 +129,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
         //compare password passed to method with stored hash of master password
         if (Utils.Hasher.Verify(password, storedPasswordHash) == false) {
             System.Diagnostics.Debug.WriteLine("Utils.Hasher.Verify(password, storedPasswordHash) == " + Utils.Hasher.Verify(password, storedPasswordHash));
-            if (_attemptsRemaining > 0) {
+            if (_attemptsRemaining > 1) {
                 //decrement wrong attempts count and display error message to user
                 OutputMessage = $"Entered password is not correct.\n{--_attemptsRemaining} attempts remaining.";
                 //return;
@@ -164,6 +164,10 @@ internal class LockScreen_ViewModel : ViewModelBase {
         //return false;
     }
     private void DeleteDatabase() { //might move this method to app.cs and process there; possibly in MainWindow
+        System.Diagnostics.Debug.WriteLine("DeleteDatabase() called...");
+        System.Diagnostics.Debug.WriteLine("Utils.FileOperations.DoesDirectoryExist(((App)App.Current).DatabaseOps.DatabaseFolderPath) = " + Utils.FileOperations.DoesDirectoryExist(((App)App.Current).DatabaseOps.DatabaseFolderPath));
+        System.Diagnostics.Debug.WriteLine("Utils.FileOperations.DoesFileExist(((App)App.Current).DatabaseOps.DatabaseFilePath)        = " + Utils.FileOperations.DoesFileExist(((App)App.Current).DatabaseOps.DatabaseFilePath));
+        
         //check that DB file directory exists
         if (Utils.FileOperations.DoesDirectoryExist(((App)App.Current).DatabaseOps.DatabaseFolderPath) == false) {
             //error message?
@@ -171,13 +175,17 @@ internal class LockScreen_ViewModel : ViewModelBase {
         }
 
         //check that DB file exists
-        if (Utils.FileOperations.DoesFileExist(((App)App.Current).DatabaseOps.DatabaseFilePath + ".db")) {
+        if (Utils.FileOperations.DoesFileExist(((App)App.Current).DatabaseOps.DatabaseFilePath) == false) {
             //error message
             return;
         }
 
         //delete DB file
-        Utils.FileOperations.DeleteFile(((App)App.Current).DatabaseOps.DatabaseFilePath + ".db");
+        //((App)App.Current).DatabaseOps.DisposeConnection();
+        Utils.FileOperations.DeleteFile(((App)App.Current).DatabaseOps.DatabaseFilePath);
+        //recreate database file and tables
+        //((App)App.Current).DatabaseOps.CreateConnection();
+        //((App)App.Current).DatabaseOps.CreateTables();
     }
     private void CreateMasterPassword(string passwordToHash) {   //might move this app.cs
         string hashedPassword = Utils.Hasher.Hash(passwordToHash);

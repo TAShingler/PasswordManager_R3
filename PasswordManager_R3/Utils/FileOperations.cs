@@ -86,7 +86,11 @@ internal static class FileOperations {
     }
     internal static void DeleteFile(string path) {
         //will probably need to add try blocks
-        System.IO.File.Delete(path);
+        try {
+            System.IO.File.Delete(path);
+        } catch(Exception e) {
+            System.Diagnostics.Debug.WriteLine($"Failed to delete file at {path}. Exception: {e}");
+        }
     }
 
     //methods specific to PasswordManager_R3
