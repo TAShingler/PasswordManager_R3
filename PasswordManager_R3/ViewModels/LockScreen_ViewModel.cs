@@ -7,7 +7,8 @@ internal class LockScreen_ViewModel : ViewModelBase {
     #region Fields
     //private const string NULL_WHITESPACE_ERROR = "No password entered.\nPlease enter a valid password.";
     //private const string INCORRECT_PASSWORD_ERROR = $"Entered password is not correct.";
-    private readonly bool FIRST_RUN;
+    private readonly bool DOES_MP_EXIST = true;
+    private readonly bool DOES_DB_EXIST = false;
     private readonly int MAX_ATTEMPTS;
     private string _outputMessage = string.Empty;
     private int _attemptsRemaining = 10;
@@ -54,10 +55,19 @@ internal class LockScreen_ViewModel : ViewModelBase {
         System.Security.Principal.WindowsIdentity.GetCurrent().User.GetBinaryForm(sidBinaryForm, 0);
         Utils.EncryptionTools.Key = sidBinaryForm;
 
-        FIRST_RUN = !Utils.FileOperations.DoesMasterPasswordExist(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat");
+        DOES_MP_EXIST = Utils.FileOperations.DoesMasterPasswordExist(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat");
+        DOES_DB_EXIST = Utils.FileOperations.DoesFileExist(((App)App.Current).DatabaseOps.DatabaseFilePath);
 
-        if (FIRST_RUN == true) {
+        if (DOES_MP_EXIST == false) {
             OutputMessage = "Please enter a password to set the master password.";
+
+            if (DOES_DB_EXIST == true) {
+                OutputMessage = "The stored master password has been deleted.\nPlease enter a new master password.";
+                DeleteDatabase();
+            }
+        } else {
+            if (DOES_DB_EXIST == false)
+                OutputMessage = "Database was deleted last time application was run\ndue to too many unsuccessful login attempts.";
         }
     }
     #endregion Constructors
@@ -80,7 +90,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
 
         //Add check for specific criteria?
 
-        if (FIRST_RUN == false) {
+        if (DOES_MP_EXIST == true) {
             try {
                 UnlockDatabase(objAsString);
             } catch(Exception ex) {
@@ -149,6 +159,13 @@ internal class LockScreen_ViewModel : ViewModelBase {
 
         //set encryption key for Encryptor/Decryptor equal to hash of master password
         Utils.EncryptionTools.Key = Convert.FromHexString(hashedPasswordParts[0]);
+
+        //recreate DB if master pass exists and DB does not
+        if (DOES_DB_EXIST == false) {
+            ((App)App.Current).DatabaseOps.CreateConnection();
+            ((App)App.Current).DatabaseOps.CreateTables();
+            ((App)App.Current).DatabaseOps.CheckForTables();
+        }
 
         System.Diagnostics.Debug.WriteLine("passwordFromFile == " + passwordFromFile);
         System.Diagnostics.Debug.WriteLine("storedPasswordHash == " + storedPasswordHash);
