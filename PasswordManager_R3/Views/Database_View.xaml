@@ -12,13 +12,14 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              SnapsToDevicePixels="True">
-    
+
     <UserControl.Resources>
         <!--#region//  Converters  //-->
         <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter" />
         <c:MutliplyDoubleConverter x:Key="MultiplyDoubleConverter" />
         <c:ActualSizeToMaxSizeConverter x:Key="ActualSizeToMaxSizeConverter" />
         <c:CheckedToGeometryConverter x:Key="CheckedToGeometryConverter" />
+        <c:SelectedRecordPropertyMaskedConverter x:Key="SelectedRecordPropertyMaskedConverter" />
         <!--#endregion//  Converters  //-->
         
         <!--<PathGeometry x:Key="DownArrowGlyphGeometry" Figures="M 3,4 8,9 13,4 15,6 8,13 1,6 Z" />
@@ -232,6 +233,12 @@
                     Value="True" />
             <Setter Property="Foreground"
                     Value="{StaticResource solidColorBrush-theme-foreground}" />
+            <Setter Property="Width"
+                    Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},
+                                    Path=Width}" />
+            <Setter Property="Height"
+                    Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},
+                                    Path=Height}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -247,24 +254,26 @@
                                     BorderThickness="0"
                                     BorderBrush="Transparent"
                                     Background="Transparent">
-                                <Viewbox Width="{Binding ElementName=PART_Header,
+                                <!--<Viewbox Width="{Binding ElementName=PART_Header,
                                                          Path=ActualHeight}"
                                          Height="{Binding ElementName=PART_Header,
-                                                          Path=ActualHeight}">
-                                    <Canvas Width="24"
-                                            Height="24">
-                                        <Ellipse Canvas.Left="4"
-                                                 Canvas.Top="10"
+                                                          Path=ActualHeight}">-->
+                                <Viewbox Width="{TemplateBinding Width}"
+                                         Height="{TemplateBinding Height}" Stretch="UniformToFill">
+                                    <Canvas Width="16"
+                                            Height="16">
+                                        <Ellipse Canvas.Left="1"
+                                                 Canvas.Top="6"
                                                  Width="4"
                                                  Height="4"
                                                  Fill="{TemplateBinding Foreground}" />
-                                        <Ellipse Canvas.Left="10"
-                                                 Canvas.Top="10"
+                                        <Ellipse Canvas.Left="6"
+                                                 Canvas.Top="6"
                                                  Width="4"
                                                  Height="4"
                                                  Fill="{TemplateBinding Foreground}" />
-                                        <Ellipse Canvas.Left="16"
-                                                 Canvas.Top="10"
+                                        <Ellipse Canvas.Left="11"
+                                                 Canvas.Top="6"
                                                  Width="4"
                                                  Height="4"
                                                  Fill="{TemplateBinding Foreground}" />
@@ -594,7 +603,9 @@
             <Setter Property="Margin"
                     Value="0" />
             <Setter Property="IsExpanded"
-                    Value="{Binding IsGroupExpanded}" />
+                    Value="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Setter Property="IsSelected"
+                    Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TreeViewItem}">
@@ -2775,7 +2786,7 @@
                       BorderBrush="#464646"
                       BorderThickness="0"
                       IsEnabled="True"
-                      ItemsSource="{Binding Groups}">
+                      ItemsSource="{Binding Groups, UpdateSourceTrigger=PropertyChanged}">
                 <!--Background="#464646"
                         BorderBrush="#666"
                         BorderThickness="0"-->
@@ -2801,8 +2812,11 @@
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedItemChanged">
                         <i:InvokeCommandAction Command="{Binding GroupSelectedItemChangedCommand}"
-                                                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}},
-                                                                                Path=SelectedItem}" />
+                                               CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}},
+                                                                          Path=SelectedItem}" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction Command="{Binding TreeViewLoadedCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <!--<TreeViewItem Header="parent">
@@ -2918,7 +2932,7 @@
                             <DataGridTextColumn Header="Password"
                                                 MinWidth="112"
                                                 Width="Auto"
-                                                Binding="{Binding Password}" />
+                                                Binding="{Binding PasswordMasked}" />
                             <DataGridTextColumn Header="Url"
                                                 MinWidth="112"
                                                 Width="Auto"
@@ -2974,22 +2988,23 @@
                                      Margin="8">
                                 <!--<Image SnapsToDevicePixels="False"
                                        Source="{Binding SrIcon}" />-->
-                                <Canvas Width="24"
+                                <!--<Canvas Width="24"
                                         Height="24">
-                                    <!--<Path Fill="Gainsboro"
-                                          Data="M 10,4 L 12,6 H 20 C 20,6 22,6 22,8 V 18 C 22,18 22,20 20,20 H 4 C 4,20 2,20 2,18 V 6 C 2,6 2,4 4,4 Z"/>-->
+                                    --><!--<Path Fill="Gainsboro"
+                                          Data="M 10,4 L 12,6 H 20 C 20,6 22,6 22,8 V 18 C 22,18 22,20 20,20 H 4 C 4,20 2,20 2,18 V 6 C 2,6 2,4 4,4 Z"/>--><!--
                                     <Path Fill="Gainsboro"
                                           Data="M 10,4 L 12,6 V 7 L 3,9 L 2,8 V 6 C 2,6 2,4 4,4 Z" />
                                     <Path Fill="DarkGray"
                                           Data="M 20,6 C 20,6 22,6 22,8 V 18 C 22,18 22,20 20,20 H 4 C 4,20 2,20 2,18 V 8 C 2,8 2,6 4,6 Z" />
-                                </Canvas>
+                                </Canvas>-->
+                                <Image Source="{StaticResource ubuntu_logo_di}" />
                             </Viewbox>
                             <TextBlock Grid.Column="1"
                                        Grid.Row="0"
                                        Foreground="Gainsboro"
                                        FontSize="16"
                                        VerticalAlignment="Center"
-                                       Text="{Binding SrTitle}" /><!--
+                                       Text="{Binding SelectedRecord.Title}" /><!--
                             Text="{Binding ElementName=dataGridRecords,
                                                       Path=SelectedItem.Title}"/>-->
                             <!--Text="{Binding SrTitle}" />-->
@@ -3060,27 +3075,34 @@
                                                 Width="16"
                                                 Height="16"
                                                 Command="{Binding CopyToClipboardCommand}"
-                                                CommandParameter="{Binding ElementName=textBlockUsername,
-                                                                           Path=Text}"
+                                                CommandParameter="{Binding SelectedRecord.Username}"
                                                 Style="{StaticResource ButtonCopyContentStyle}"/>
-                                            <ToggleButton Grid.Column="1"
-                                                      Grid.Row="0"
-                                                      Width="16"
-                                                      Height="16"
-                                                      Command="{Binding ToggleUsernameMaskCommand}"
-                                                      CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                                 Path=IsChecked}"
-                                                      Style="{StaticResource ToggleButtonMaskContentStyle}"/>
+                                            <ToggleButton x:Name="toggleButtonMaskUsername"
+                                                          Grid.Column="1"
+                                                          Grid.Row="0"
+                                                          Width="16"
+                                                          Height="16"
+                                                          IsChecked="True"
+                                                          Command="{Binding ToggleUsernameMaskCommand}"
+                                                          CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
+                                                                                     Path=IsChecked}"
+                                                          Style="{StaticResource ToggleButtonMaskContentStyle}"/>
                                             <Label Grid.Column="2"
                                                Grid.Row="0"
                                                Foreground="Gainsboro"
                                                Content="Username:" />
                                             <TextBlock x:Name="textBlockUsername"
-                                                   Grid.Column="3"
-                                                   Grid.Row="0"
-                                                   Foreground="Gainsboro"
-                                                   Padding="5"
-                                                   Text="{Binding SrUsername}"/>
+                                                       Grid.Column="3"
+                                                       Grid.Row="0"
+                                                       Foreground="Gainsboro"
+                                                       Padding="5">
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
+                                                        <Binding Path="SelectedRecord.Username" />
+                                                        <Binding ElementName="toggleButtonMaskUsername" Path="IsChecked" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
 
                                             <!--//  Row 2  //-->
                                             <Button Grid.Column="0"
@@ -3088,27 +3110,34 @@
                                                 Width="16"
                                                 Height="16"
                                                 Command="{Binding CopyToClipboardCommand}"
-                                                CommandParameter="{Binding ElementName=textBlockEmail,
-                                                                           Path=Text}"
+                                                CommandParameter="{Binding SelectedRecord.Email}"
                                                 Style="{StaticResource ButtonCopyContentStyle}"/>
-                                            <ToggleButton Grid.Column="1"
-                                                      Grid.Row="1"
-                                                      Width="16"
-                                                      Height="16"
-                                                      Command="{Binding ToggleEmailMaskCommand}"
-                                                      CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                                 Path=IsChecked}"
-                                                      Style="{StaticResource ToggleButtonMaskContentStyle}"/>
+                                            <ToggleButton x:Name="toggleButtonMaskEmail"
+                                                          Grid.Column="1"
+                                                          Grid.Row="1"
+                                                          Width="16"
+                                                          Height="16"
+                                                          IsChecked="True"
+                                                          Command="{Binding ToggleEmailMaskCommand}"
+                                                          CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
+                                                                                     Path=IsChecked}"
+                                                          Style="{StaticResource ToggleButtonMaskContentStyle}"/>
                                             <Label Grid.Column="2"
-                                               Grid.Row="1"
-                                               Foreground="Gainsboro"
-                                               Content="Email:" />
-                                            <TextBlock x:Name="textBlockEmail"
-                                                   Grid.Column="3"
                                                    Grid.Row="1"
                                                    Foreground="Gainsboro"
-                                                   Padding="5"
-                                                   Text="{Binding SrEmail}"/>
+                                                   Content="Email:" />
+                                            <TextBlock x:Name="textBlockEmail"
+                                                       Grid.Column="3"
+                                                       Grid.Row="1"
+                                                       Foreground="Gainsboro"
+                                                       Padding="5">
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
+                                                        <Binding Path="SelectedRecord.Email" />
+                                                        <Binding ElementName="toggleButtonMaskEmail" Path="IsChecked" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
 
                                             <!--//  Row 3  //-->
                                             <Button Grid.Column="0"
@@ -3116,55 +3145,68 @@
                                                 Width="16"
                                                 Height="16"
                                                 Command="{Binding CopyToClipboardCommand}"
-                                                CommandParameter="{Binding ElementName=textBlockPassword,
-                                                                           Path=Text}"
+                                                CommandParameter="{Binding SelectedRecord.Password}"
                                                 Style="{StaticResource ButtonCopyContentStyle}"/>
-                                            <ToggleButton Grid.Column="1"
-                                                      Grid.Row="2"
-                                                      Width="16"
-                                                      Height="16"
-                                                      Command="{Binding TogglePasswordMaskCommand}"
-                                                      CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                                 Path=IsChecked}"
-                                                      Style="{StaticResource ToggleButtonMaskContentStyle}"/>
+                                            <ToggleButton x:Name="toggleButtonMaskPassword" Grid.Column="1"
+                                                          Grid.Row="2"
+                                                          Width="16"
+                                                          Height="16"
+                                                          IsChecked="True"
+                                                          Command="{Binding TogglePasswordMaskCommand}"
+                                                          CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
+                                                                                     Path=IsChecked}"
+                                                          Style="{StaticResource ToggleButtonMaskContentStyle}"/>
                                             <Label Grid.Column="2"
-                                               Grid.Row="2"
-                                               Foreground="Gainsboro"
-                                               Content="Password:" />
-                                            <TextBlock x:Name="textBlockPassword"
-                                                   Grid.Column="3"
                                                    Grid.Row="2"
                                                    Foreground="Gainsboro"
-                                                   Padding="5"
-                                                   Text="{Binding SrPassword}"/>
+                                                   Content="Password:" />
+                                            <TextBlock x:Name="textBlockPassword"
+                                                       Grid.Column="3"
+                                                       Grid.Row="2"
+                                                       Foreground="Gainsboro"
+                                                       Padding="5">
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
+                                                        <Binding Path="SelectedRecord.Password" />
+                                                        <Binding ElementName="toggleButtonMaskPassword" Path="IsChecked" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
 
                                             <!--//  Row 4  //-->
                                             <Button Grid.Column="0"
-                                                Grid.Row="3"
-                                                Width="16"
-                                                Height="16"
-                                                Command="{Binding CopyToClipboardCommand}"
-                                                CommandParameter="{Binding ElementName=textBlockUrl,
-                                                                           Path=Text}"
-                                                Style="{StaticResource ButtonCopyContentStyle}"/>
-                                            <ToggleButton Grid.Column="1"
-                                                      Grid.Row="3"
-                                                      Width="16"
-                                                      Height="16"
-                                                      Command="{Binding ToggleUrlMaskCommand}"
-                                                      CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                                 Path=IsChecked}"
-                                                      Style="{StaticResource ToggleButtonMaskContentStyle}"/>
+                                                    Grid.Row="3"
+                                                    Width="16"
+                                                    Height="16"
+                                                    Command="{Binding CopyToClipboardCommand}"
+                                                    CommandParameter="{Binding SelectedRecord.URL}"
+                                                    Style="{StaticResource ButtonCopyContentStyle}"/>
+                                            <ToggleButton x:Name="toggleButtonMaskUrl"
+                                                          Grid.Column="1"
+                                                          Grid.Row="3"
+                                                          Width="16"
+                                                          Height="16"
+                                                          IsChecked="True"
+                                                          Command="{Binding ToggleUrlMaskCommand}"
+                                                          CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
+                                                                                     Path=IsChecked}"
+                                                          Style="{StaticResource ToggleButtonMaskContentStyle}"/>
                                             <Label Grid.Column="2"
-                                               Grid.Row="3"
-                                               Foreground="Gainsboro"
-                                               Content="Url:" />
-                                            <TextBlock x:Name="textBlockUrl"
-                                                   Grid.Column="3"
                                                    Grid.Row="3"
                                                    Foreground="Gainsboro"
-                                                   Padding="5"
-                                                   Text="{Binding SrUrl}"/>
+                                                   Content="Url:" />
+                                            <TextBlock x:Name="textBlockUrl"
+                                                       Grid.Column="3"
+                                                       Grid.Row="3"
+                                                       Foreground="Gainsboro"
+                                                       Padding="5">
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
+                                                        <Binding Path="SelectedRecord.URL" />
+                                                        <Binding ElementName="toggleButtonMaskUrl" Path="IsChecked" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
                                         </Grid>
                                     </ScrollViewer>
                                 </TabItem>
@@ -3193,13 +3235,14 @@
                                                 Width="16"
                                                 Height="16"
                                                 Command="{Binding CopyToClipboardCommand}"
-                                                CommandParameter="{Binding ElementName=textBlockUsername,
-                                                                           Path=Text}"
+                                                CommandParameter="{Binding SelectedRecord.Notes}"
                                                 Style="{StaticResource ButtonCopyContentStyle}"/>
-                                        <ToggleButton Grid.Column="1"
+                                        <ToggleButton x:Name="toggleButtonMaskNotes"
+                                                      Grid.Column="1"
                                                       Grid.Row="0"
                                                       Width="16"
                                                       Height="16"
+                                                      IsChecked="True"
                                                       Command="{Binding ToggleNotesMaskCommand}"
                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
                                                                                  Path=IsChecked}"
@@ -3215,8 +3258,14 @@
                                             <TextBlock Foreground="Gainsboro"
                                                        Background="Transparent"
                                                        Padding="5"
-                                                       TextWrapping="Wrap"
-                                                       Text="{Binding SrNotes}"/>
+                                                       TextWrapping="Wrap">
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
+                                                        <Binding Path="SelectedRecord.Notes" />
+                                                        <Binding ElementName="toggleButtonMaskNotes" Path="IsChecked" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
                                         </ScrollViewer>
                                     </Grid>
                                 </TabItem>
@@ -3249,47 +3298,47 @@
 
                                             <!--//  Row 1  //-->
                                             <Label Grid.Column="2"
-                                               Grid.Row="0"
-                                               Foreground="Gainsboro"
-                                               Content="Expiration Date:" />
+                                                   Grid.Row="0"
+                                                   Foreground="Gainsboro"
+                                                   Content="Expiration Date:" />
                                             <TextBlock Grid.Column="3"
                                                    Grid.Row="0"
                                                    Foreground="Gainsboro"
                                                    Padding="5"
-                                                   Text="{Binding SrExpirationDate}"/>
+                                                   Text="{Binding SelectedRecord.ExpirationDate}"/>
 
                                             <!--//  Row 2  //-->
                                             <Label Grid.Column="2"
-                                               Grid.Row="1"
-                                               Foreground="Gainsboro"
-                                               Content="Created Date:" />
-                                            <TextBlock Grid.Column="3"
                                                    Grid.Row="1"
                                                    Foreground="Gainsboro"
-                                                   Padding="5"
-                                                   Text="{Binding SrCreatedDate}"/>
+                                                   Content="Created Date:" />
+                                            <TextBlock Grid.Column="3"
+                                                       Grid.Row="1"
+                                                       Foreground="Gainsboro"
+                                                       Padding="5"
+                                                       Text="{Binding SelectedRecord.CreatedDate}"/>
 
                                             <!--//  Row 3  //-->
                                             <Label Grid.Column="2"
-                                               Grid.Row="2"
-                                               Foreground="Gainsboro"
-                                               Content="Modified Date:" />
-                                            <TextBlock Grid.Column="3"
                                                    Grid.Row="2"
                                                    Foreground="Gainsboro"
-                                                   Padding="5"
-                                                   Text="{Binding SrModifiedDate}"/>
+                                                   Content="Modified Date:" />
+                                            <TextBlock Grid.Column="3"
+                                                       Grid.Row="2"
+                                                       Foreground="Gainsboro"
+                                                       Padding="5"
+                                                       Text="{Binding SelectedRecord.ModifiedDate}"/>
 
                                             <!--//  Row 4  //-->
                                             <Label Grid.Column="2"
-                                               Grid.Row="3"
-                                               Foreground="Gainsboro"
-                                               Content="GUID:" />
-                                            <TextBlock Grid.Column="3"
                                                    Grid.Row="3"
                                                    Foreground="Gainsboro"
-                                                   Padding="5"
-                                                   Text="{Binding SrGuid}"/>
+                                                   Content="GUID:" />
+                                            <TextBlock Grid.Column="3"
+                                                       Grid.Row="3"
+                                                       Foreground="Gainsboro"
+                                                       Padding="5"
+                                                       Text="{Binding SelectedRecord.GUID}"/>
                                         </Grid>
                                     </ScrollViewer>
                                 </TabItem>

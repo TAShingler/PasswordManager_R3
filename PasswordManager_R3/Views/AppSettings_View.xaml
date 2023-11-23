@@ -1218,7 +1218,7 @@
                             </Grid.ColumnDefinitions>
 
                             <!--#region  Allow Backups -->
-                            <CheckBox x:Name="checkBoxAllowAutoBackups"
+                            <!--<CheckBox x:Name="checkBoxAllowAutoBackups"
                                       Grid.Row="0"
                                       Grid.Column="0"
                                       Grid.ColumnSpan="3"
@@ -1226,7 +1226,7 @@
                                       IsChecked="{Binding AllowAutoBackups}"
                                       Foreground="Gainsboro"
                                       VerticalContentAlignment="Center"
-                                      Content="Allow automatic backups" />
+                                      Content="Allow automatic backups" />-->
                             <!--#endregion Allow Backups -->
 
                             <!--#region Backup Count -->
@@ -1491,13 +1491,13 @@
                                 </RepeatButton>
                             </Grid>
 
-                            <CheckBox Grid.Row="4"
+                            <!--<CheckBox Grid.Row="4"
                                       Grid.Column="0"
                                       Margin="0 4"
                                       IsChecked="{Binding LogDeletedItems}"
                                       Foreground="Gainsboro"
                                       VerticalContentAlignment="Center"
-                                      Content="Log deleted items" />
+                                      Content="Log deleted items" />-->
                             <!--#endregion Database Lockout -->
                         </Grid>
                     </StackPanel>
@@ -1540,7 +1540,7 @@
                             <!--<StackPanel Grid.Row="0"
                                             Grid.Column="0"
                                             Orientation="Horizontal">-->
-                            <Label Grid.Row="0"
+                            <!--<Label Grid.Row="0"
                                        Grid.Column="0"
                                        Padding="0"
                                        Margin="0 4"
@@ -1568,7 +1568,7 @@
                                                  VerticalContentAlignment="Center"
                                                  Command="{Binding DefaultTreeDisplayCommand}"
                                                  CommandParameter="{x:Static enum:TreeDisplayType.RememberLast}" />
-                            </StackPanel>
+                            </StackPanel>-->
                             <!--</StackPanel>-->
 
                             <Label Grid.Row="1"
@@ -1609,7 +1609,7 @@
                                            Margin="0 5"/>
 
                             <!--#region DataGrid Options -->
-                            <CheckBox Grid.Row="3"
+                            <!--<CheckBox Grid.Row="3"
                                       Grid.Column="0"
                                       Margin="0 4"
                                       IsChecked="{Binding DisplayTreeView}"
@@ -1622,13 +1622,13 @@
                                       IsChecked="{Binding DisplyInfoPane}"
                                       Foreground="Gainsboro"
                                       VerticalContentAlignment="Center"
-                                      Content="Display information pane?" />
+                                      Content="Display information pane?" />-->
                             <!--#endregion DataGrid Options -->
 
-                            <Separator Grid.Row="5"
+                            <!--<Separator Grid.Row="5"
                                        Grid.Column="0"
                                        Grid.ColumnSpan="3"
-                                       Margin="0 5" />
+                                       Margin="0 5" />-->
 
                             <!--#region Quick Access icon size options-->
                             <Label Grid.Row="6"

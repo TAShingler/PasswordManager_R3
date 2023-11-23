@@ -246,6 +246,8 @@ internal class Database_ViewModel : ViewModelBase {
     public Utils.DelegateCommand? UpdateGroupCommand { get; set; }
     public Utils.DelegateCommand? DeleteGroupCommand { get; set; }
 
+    public Utils.DelegateCommand? TreeViewLoadedCommand { get; set; }
+
     //ObservableCollection for Group objects
     public System.Collections.ObjectModel.ObservableCollection<Models.Group> Groups {
         get { return _groups; }
@@ -307,6 +309,11 @@ internal class Database_ViewModel : ViewModelBase {
         CreateGroupCommand = new Utils.DelegateCommand(OnCreateGroup);
         UpdateGroupCommand = new Utils.DelegateCommand(OnUpdateGroup);
         DeleteGroupCommand = new Utils.DelegateCommand(OnDeleteGroup);
+
+        TreeViewLoadedCommand = new(OnTreeViewLoadedCommand);
+
+        Groups.ElementAt(0).IsSelected = true;
+        //OnGroupSelectionChanged(Groups[0]);
     }
     #endregion Constructors
 
@@ -317,6 +324,8 @@ internal class Database_ViewModel : ViewModelBase {
 
     #region Other Methods
     private void OnGroupSelectionChanged(object obj) {
+        System.Diagnostics.Debug.WriteLine("Database_ViewModel.OnSeletedGroupChanged called...");
+        //System.Diagnostics.Debug.WriteLine("obj.GetType() = " + obj.GetType());
         //do something
         //SelectedGroup = null;
         //System.Diagnostics.Debug.WriteLine("OnGroupSelectionChanged obj type: " + obj.GetType());
@@ -329,9 +338,11 @@ internal class Database_ViewModel : ViewModelBase {
 
         //System.Diagnostics.Debug.WriteLine($"Currently selected Group: {((Models.Group)obj).Title}");
 
-        if (obj == null) { return; }
-        
-        SgRowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj).GUID).Select(pair => pair.Key).FirstOrDefault(-1);
+        //if (obj == null) { return; }
+
+        SgRowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj)?.GUID).Select(pair => pair.Key).FirstOrDefault(-1);
+        System.Diagnostics.Debug.WriteLine($"obj == null : {(obj == null ? true : false)}");
+        System.Diagnostics.Debug.WriteLine($"SelectedGroupChanged == null : {(SelectedGroupChanged == null ? true : false)}");
         SelectedGroup = obj as Models.Group;
         SelectedGroupChanged?.Invoke(obj == null ? true : false);
         //SelectedGroupChanged?.Invoke(obj);
@@ -353,9 +364,9 @@ internal class Database_ViewModel : ViewModelBase {
         //System.Diagnostics.Debug.WriteLine("SelectedRecord title: " + SelectedRecord.Title);
         //SelectedRecordChanged?.Invoke(obj);//obj == null ? true : false);
 
-        if (obj == null) { return; }
+        //if (obj == null) { return; }
 
-        SrRowId = _recordsFromDb.Where(pair => pair.Value.GUID == ((Models.Record)obj).GUID).Select(pair => pair.Key).FirstOrDefault(-1);
+        SrRowId = _recordsFromDb.Where(pair => pair.Value.GUID == ((Models.Record)obj)?.GUID).Select(pair => pair.Key).FirstOrDefault(-1);
         SelectedRecord = obj as Models.Record;
         SelectedRecordChanged?.Invoke(obj == null ? true : false);
         //System.Diagnostics.Debug.WriteLine("obj to string: " + obj.ToString());
@@ -472,6 +483,15 @@ internal class Database_ViewModel : ViewModelBase {
         }
 
         Groups = GroupsToObsColl();
+    }
+
+    private void OnTreeViewLoadedCommand(object obj) {
+        //System.Diagnostics.Debug.WriteLine("OnTreeViewLoadedCommand called...");
+        //System.Diagnostics.Debug.WriteLine("obj type = " + obj.GetType());
+        //var objAsTreeView = obj as System.Windows.Controls.TreeView;
+        //System.Diagnostics.Debug.WriteLine("objAsTreeView.Items.GetItemAt(0) = " + ((Models.Group)objAsTreeView.Items.GetItemAt(0)).IsSelected);
+        //Groups.ElementAt(0).IsSelected = true;
+        OnGroupSelectionChanged(Groups.ElementAt(0));
     }
 
     private System.Collections.ObjectModel.ObservableCollection<Models.Group> GroupsToObsColl() {

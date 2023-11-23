@@ -7,33 +7,133 @@
              Deactivated="Application_Deactivated"
              Startup="Application_Startup">-->
     <Application.Resources>
-        <!--//  App Static Colors  //-->
-        <Color x:Key="color-static-background" A="255" R="18" G="18" B="18" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary x:Name="RecordIcons"
+                                    Source="/PasswordManager_R3;component/ResourceDictionaries/RecordIcons.xaml" />
+                <!--<ResourceDictionary x:Name="LightTheme" Source="/ResourceDictionaries/DarkTheme.xaml" />-->
+            </ResourceDictionary.MergedDictionaries>
+            <!--//  App Static Colors  //-->
+            <Color x:Key="color-static-background"
+                   A="255"
+                   R="18"
+                   G="18"
+                   B="18" />
 
-        <SolidColorBrush x:Key="solidColorBrush-static-background" Color="{StaticResource color-static-background}" />
+            <SolidColorBrush x:Key="solidColorBrush-static-background"
+                             Color="{StaticResource color-static-background}" />
 
-        <!--//  App Theme Main Color Palette  //-->
-        <Color x:Key="color-theme-orange" A="255" R="255" G="99" B="71" />
-        <Color x:Key="color-theme-blue" A="255" R="0" G="191" B="255" />
-        <Color x:Key="color-theme-midground" A="255" R="51" G="51" B="51" />
-        <Color x:Key="color-theme-foregound" A="255" R="220" G="220" B="220" />
-        <Color x:Key="color-theme-background" A="255" R="30" G="30" B="30" />
+            <!--//  App Theme Main Color Palette  //-->
+            <Color x:Key="color-theme-orange"
+                   A="255"
+                   R="255"
+                   G="99"
+                   B="71" />
+            <Color x:Key="color-theme-blue"
+                   A="255"
+                   R="0"
+                   G="191"
+                   B="255" />
+            <Color x:Key="color-theme-midground"
+                   A="255"
+                   R="51"
+                   G="51"
+                   B="51" />
+            <Color x:Key="color-theme-foregound"
+                   A="255"
+                   R="220"
+                   G="220"
+                   B="220" />
+            <Color x:Key="color-theme-background"
+                   A="255"
+                   R="30"
+                   G="30"
+                   B="30" />
 
-        <SolidColorBrush x:Key="solidColorBrush-theme-orange" Color="{StaticResource color-theme-orange}" />
-        <SolidColorBrush x:Key="solidColorBrush-theme-blue" Color="{StaticResource color-theme-blue}" />
-        <SolidColorBrush x:Key="solidColorBrush-theme-midground" Color="{StaticResource color-theme-midground}" />
-        <SolidColorBrush x:Key="solidColorBrush-theme-foreground" Color="{StaticResource color-theme-foregound}" />
-        <SolidColorBrush x:Key="solidColorBrush-theme-background" Color="{StaticResource color-theme-background}" />
+            <SolidColorBrush x:Key="solidColorBrush-theme-orange"
+                             Color="{StaticResource color-theme-orange}" />
+            <SolidColorBrush x:Key="solidColorBrush-theme-blue"
+                             Color="{StaticResource color-theme-blue}" />
+            <SolidColorBrush x:Key="solidColorBrush-theme-midground"
+                             Color="{StaticResource color-theme-midground}" />
+            <SolidColorBrush x:Key="solidColorBrush-theme-foreground"
+                             Color="{StaticResource color-theme-foregound}" />
+            <SolidColorBrush x:Key="solidColorBrush-theme-background"
+                             Color="{StaticResource color-theme-background}" />
 
-        <PathGeometry x:Key="expandAllGlyph" Figures="M4,2A2,2 0 0,0 2,4V14H4V4H14V2H4
-                                                      M8,6A2,2 0 0,0 6,8V18H8V8H18V6H8
-                                                      M20,12V20H12V12H20
-                                                      M20,10H12A2,2 0 0,0 10,12V20A2,2 0 0,0 12,22H20A2,2 0 0,0 22,20V12A2,2 0 0,0 20,10
-                                                      M19,17H17V19H15V17H13V15H15V13H17V15H19V17Z" />
-        <PathGeometry x:Key="collapseAllGlyph" Figures="M4,2A2,2 0 0,0 2,4V14H4V4H14V2H4
-                                                        M8,6A2,2 0 0,0 6,8V18H8V8H18V6H8
-                                                        M20,12V20H12V12H20
-                                                        M20,10H12A2,2 0 0,0 10,12V20A2,2 0 0,0 12,22H20A2,2 0 0,0 22,20V12A2,2 0 0,0 20,10
-                                                        M19,17H13V15H19V17Z" />
+            <PathGeometry x:Key="expandAllGlyph" Figures="M4,2A2,2 0 0,0 2,4V14H4V4H14V2H4
+                                                          M8,6A2,2 0 0,0 6,8V18H8V8H18V6H8
+                                                          M20,12V20H12V12H20
+                                                          M20,10H12A2,2 0 0,0 10,12V20A2,2 0 0,0 12,22H20A2,2 0 0,0 22,20V12A2,2 0 0,0 20,10
+                                                          M19,17H17V19H15V17H13V15H15V13H17V15H19V17Z" />
+            <PathGeometry x:Key="collapseAllGlyph" Figures="M4,2A2,2 0 0,0 2,4V14H4V4H14V2H4
+                                                            M8,6A2,2 0 0,0 6,8V18H8V8H18V6H8
+                                                            M20,12V20H12V12H20
+                                                            M20,10H12A2,2 0 0,0 10,12V20A2,2 0 0,0 12,22H20A2,2 0 0,0 22,20V12A2,2 0 0,0 20,10
+                                                            M19,17H13V15H19V17Z" />
+
+            <!--#region // App Dark-to-Light Gradient //-->
+            <Color x:Key="color-dark-light-gradient-01"
+                   A="255"
+                   R="018"
+                   G="018"
+                   B="018" />
+            <Color x:Key="color-dark-light-gradient-02"
+                   A="255"
+                   R="036"
+                   G="036"
+                   B="036" />
+            <Color x:Key="color-dark-light-gradient-03"
+                   A="255"
+                   R="054"
+                   G="054"
+                   B="054" />
+            <Color x:Key="color-dark-light-gradient-04"
+                   A="255"
+                   R="071"
+                   G="071"
+                   B="071" />
+            <Color x:Key="color-dark-light-gradient-05"
+                   A="255"
+                   R="089"
+                   G="089"
+                   B="089" />
+            <Color x:Key="color-dark-light-gradient-06"
+                   A="255"
+                   R="107"
+                   G="107"
+                   B="107" />
+            <Color x:Key="color-dark-light-gradient-07"
+                   A="255"
+                   R="130"
+                   G="130"
+                   B="130" />
+            <Color x:Key="color-dark-light-gradient-08"
+                   A="255"
+                   R="148"
+                   G="148"
+                   B="148" />
+            <Color x:Key="color-dark-light-gradient-09"
+                   A="255"
+                   R="166"
+                   G="166"
+                   B="166" />
+            <Color x:Key="color-dark-light-gradient-10"
+                   A="255"
+                   R="184"
+                   G="184"
+                   B="184" />
+            <Color x:Key="color-dark-light-gradient-11"
+                   A="255"
+                   R="201"
+                   G="201"
+                   B="201" />
+            <Color x:Key="color-dark-light-gradient-12"
+                   A="255"
+                   R="220"
+                   G="220"
+                   B="220" />
+            <!--#endregion // App Dark-to-Light Gradient //-->
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -1342,7 +1342,7 @@
                                    Foreground="Gainsboro" />
                             <ComboBox Grid.Column="2"
                                       Grid.Row="2"
-                                      Margin="0 2 0 0"
+                                      Margin="0 2"
                                       Background="#333"
                                       Foreground="Gainsboro"
                                       BorderBrush="#666"

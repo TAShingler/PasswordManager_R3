@@ -11,7 +11,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
     private readonly bool DOES_DB_EXIST = false;
     private readonly int MAX_ATTEMPTS;
     private string _outputMessage = string.Empty;
-    private int _attemptsRemaining = 10;
+    private int _attemptsRemaining = ((App)App.Current).AppVariables.UnlockAttempts;
     #endregion Fields
 
     #region Delegates and Events

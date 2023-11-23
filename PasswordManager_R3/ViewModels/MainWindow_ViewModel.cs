@@ -28,6 +28,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private bool _buttonEditRecordIsEnabled = false;
     private bool _buttonDeleteRecordIsEnabled = false;
     private bool _buttonUsernameToClipboardIsEnabled = false;
+    private bool _buttonEmailToClipboardIsEnabled = false;
     private bool _buttonPasswordToClipboardIsEnabled = false;
     private bool _buttonUrlToClipboardIsEnabled = false;
     private bool _buttonPasswordGeneratorIsEnabled = false;
@@ -36,7 +37,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private Visibility _buttonAddRecordTextVisibility = Visibility.Collapsed;
     private Visibility _buttonEditRecordTextVisibility = Visibility.Collapsed;
     private Visibility _buttonDeleteRecordTextVisibility = Visibility.Collapsed;
-    private Visibility _buttonUsernameToclipboardTextVisibility = Visibility.Collapsed;
+    private Visibility _buttonUsernameToClipboardTextVisibility = Visibility.Collapsed;
+    private Visibility _buttonEmailToClipboardTextVisibility = Visibility.Collapsed;
     private Visibility _buttonPasswordToClipboardTextVisibility = Visibility.Collapsed;
     private Visibility _buttonUrlToClipboardTextVisibility = Visibility.Collapsed;
     private Visibility _buttonAppSettingsTextVisibility = Visibility.Collapsed;
@@ -163,6 +165,13 @@ internal class MainWindow_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(ButtonUsernameToClipboardIsEnabled));
         }
     }
+    public bool ButtonEmailToClipboardIsEnabled {
+        get => _buttonEmailToClipboardIsEnabled;
+        set {
+            _buttonEmailToClipboardIsEnabled = value;
+            OnPropertyChanged(nameof(ButtonEmailToClipboardIsEnabled));
+        }
+    }
     public bool ButtonPasswordToClipboardIsEnabled {
         get { return _buttonPasswordToClipboardIsEnabled; }
         set {
@@ -219,11 +228,18 @@ internal class MainWindow_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(ButtonDeleteRecordTextVisibility));
         }
     }
-    public Visibility ButtonUsernameToclipboardTextVisibility {
-        get { return _buttonUsernameToclipboardTextVisibility; }
+    public Visibility ButtonUsernameToClipboardTextVisibility {
+        get { return _buttonUsernameToClipboardTextVisibility; }
         set {
-            _buttonUsernameToclipboardTextVisibility = value;
-            OnPropertyChanged(nameof(ButtonUsernameToclipboardTextVisibility));
+            _buttonUsernameToClipboardTextVisibility = value;
+            OnPropertyChanged(nameof(ButtonUsernameToClipboardTextVisibility));
+        }
+    }
+    public Visibility ButtonEmailToClipboardTextVisibility {
+        get => _buttonEmailToClipboardTextVisibility;
+        set {
+            _buttonEmailToClipboardTextVisibility = value;
+            OnPropertyChanged(nameof(ButtonEmailToClipboardTextVisibility));
         }
     }
     public Visibility ButtonPasswordToClipboardTextVisibility {
@@ -278,6 +294,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
     public Utils.DelegateCommand? EditRecordCommand { get; set; }
     public Utils.DelegateCommand? DeleteRecordCommand { get; set; }
     public Utils.DelegateCommand? CopyUsernameToClipboardCommand { get; set; }
+    public Utils.DelegateCommand? CopyEmailToClipboardCommand { get; set; }
     public Utils.DelegateCommand? CopyPasswordToClipboardCommand { get; set; }
     public Utils.DelegateCommand? CopyUrlToClipboardCommand { get; set; }
     public Utils.DelegateCommand? GeneratePasswordCommand { get; set; }
@@ -640,6 +657,18 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private void OnCopyUsernameToClipboardCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onCopyUsernameToClipboardCommand clicked, but it's not implemented yet...");
         //does not change views; copies username of selected record to system clipboard
+        System.Windows.Clipboard.Clear();
+        System.Windows.Clipboard.SetText(SelectedRecord?.Username);
+    }
+    /// <summary>
+    /// Event Handler to copy email of selected record to the system clipboard
+    /// </summary>
+    /// <param name="obj"></param>
+    private void OnCopyEmailToClipboardCommand(object obj) {
+        System.Diagnostics.Debug.WriteLine("onCopyUsernameToClipboardCommand clicked, but it's not implemented yet...");
+        //does not change views; copies username of selected record to system clipboard
+        System.Windows.Clipboard.Clear();
+        System.Windows.Clipboard.SetText(SelectedRecord?.Email);
     }
     /// <summary>
     /// Event Handler to copy password of selected record to the system clipboard
@@ -648,6 +677,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private void OnCopyPasswordToClipboardCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onCopyPasswordToClipboardCommand clicked, but it's not implemented yet...");
         //does not change views; copies password of selected record to system clipboard
+        System.Windows.Clipboard.Clear();
+        System.Windows.Clipboard.SetText(SelectedRecord?.Password);
     }
     /// <summary>
     /// Event Handler to copy URL of selected record to the system clipboard
@@ -656,6 +687,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private void OnCopyUrlToClipboardCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onCopyUrlToClipboardCommand clicked, but it's not implemented yet...");
         //does not change views; copies url of selected record to system clipboard
+        System.Windows.Clipboard.Clear();
+        System.Windows.Clipboard.SetText(SelectedRecord?.URL);
     }
     /// <summary>
     /// Event handler to handle GroupSelected event propogated in Database_ViewModel and bubbled to MainWindow_ViewModel
@@ -663,6 +696,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// <param name="obj"></param>
     private void OnSelectedGroupChanged(object obj) {
         // Set Add/Edit/Delete Record buttons to enabled/disabled
+        System.Diagnostics.Debug.WriteLine("MainWindow_ViewModel.OnSeletedGroupChanged called...");
+        System.Diagnostics.Debug.WriteLine("obj.GetType() = " + obj.GetType());
         bool objAsBool = (bool)obj;
 
         if (objAsBool == false) {
@@ -671,7 +706,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
             ButtonAddRecordIsEnabled = false;
         }
 
-        System.Diagnostics.Debug.WriteLine($"SelectedGroup = {SelectedGroup.Title}");
+        //SelectedRecord = null;
+        //OnSelectedRecordChanged(true);
+
+        System.Diagnostics.Debug.WriteLine($"SelectedGroup = {SelectedGroup?.Title}");
         System.Diagnostics.Debug.WriteLine($"SgRowId = {SgRowId}");
     }
     /// <summary>
@@ -692,18 +730,23 @@ internal class MainWindow_ViewModel : ViewModelBase {
         if (objAsBool == false) {    //ViewModels.Database_ViewModel.SelectedRecord is null
             ButtonEditRecordIsEnabled = true;
             ButtonDeleteRecordIsEnabled = true;
-            ButtonUsernameToClipboardIsEnabled = true;
-            ButtonPasswordToClipboardIsEnabled = true;
-            ButtonUrlToClipboardIsEnabled = true;
+            //ButtonUsernameToClipboardIsEnabled = true;
+            //ButtonPasswordToClipboardIsEnabled = true;
+            //ButtonUrlToClipboardIsEnabled = true;
         } else {    //ViewModels.Database_ViewModel.SelectedRecord is not null
             ButtonEditRecordIsEnabled = false;
             ButtonDeleteRecordIsEnabled = false;
-            ButtonUsernameToClipboardIsEnabled = false;
-            ButtonPasswordToClipboardIsEnabled = false;
-            ButtonUrlToClipboardIsEnabled = false;
+            //ButtonUsernameToClipboardIsEnabled = false;
+            //ButtonPasswordToClipboardIsEnabled = false;
+            //ButtonUrlToClipboardIsEnabled = false;
         }
 
-        System.Diagnostics.Debug.WriteLine($"SelectedGroup = {SelectedRecord.Title}");
+        ButtonUsernameToClipboardIsEnabled = !string.IsNullOrWhiteSpace(SelectedRecord?.Username);
+        ButtonEmailToClipboardIsEnabled = !string.IsNullOrWhiteSpace(SelectedRecord?.Email);
+        ButtonPasswordToClipboardIsEnabled = !string.IsNullOrWhiteSpace(SelectedRecord?.Password);
+        ButtonUrlToClipboardIsEnabled = !string.IsNullOrWhiteSpace(SelectedRecord?.URL);
+
+        System.Diagnostics.Debug.WriteLine($"SelectedRecord = {SelectedRecord?.Title}");
         System.Diagnostics.Debug.WriteLine($"SgRowId = {SrRowId}");
     }
 
@@ -767,6 +810,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         EditRecordCommand = new Utils.DelegateCommand(OnEditRecordCommand);
         DeleteRecordCommand = new Utils.DelegateCommand(OnDeleteRecordCommand);
         CopyUsernameToClipboardCommand = new Utils.DelegateCommand(OnCopyUsernameToClipboardCommand);
+        CopyEmailToClipboardCommand = new Utils.DelegateCommand(OnCopyEmailToClipboardCommand);
         CopyPasswordToClipboardCommand = new Utils.DelegateCommand(OnCopyPasswordToClipboardCommand);
         CopyUrlToClipboardCommand = new Utils.DelegateCommand(OnCopyUrlToClipboardCommand);
         GeneratePasswordCommand = new Utils.DelegateCommand(OnGeneratePasswordCommand);

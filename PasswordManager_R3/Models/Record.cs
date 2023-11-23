@@ -11,6 +11,7 @@ internal class Record : Models.VaultObjectBase {
     private protected string _username;
     private protected string _email;
     private protected string _password;
+    private protected string _passwordMasked = "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022";
     private protected string _url;
     private protected string _tags;
     #endregion Fields
@@ -30,6 +31,10 @@ internal class Record : Models.VaultObjectBase {
     public string Password {  //will need to secure in future; might change back to internal
         get { return _password; }
         set { _password = value; }
+    }
+    [Newtonsoft.Json.JsonIgnore]
+    public string PasswordMasked {
+        get => _passwordMasked;
     }
     [Newtonsoft.Json.JsonProperty("Url")]
     public string URL {

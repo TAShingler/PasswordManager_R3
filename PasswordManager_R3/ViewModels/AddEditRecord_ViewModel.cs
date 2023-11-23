@@ -87,13 +87,14 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
     }
     public string SrUrl {
         get {
-            if (_selectedRecord != null)
-                return _selectedRecord.URL;
+            //if (_selectedRecord != null)
+            //    return _selectedRecord.URL;
 
-            return _srUrl; }
+            return _srUrl;
+        }
         set {
             _srUrl = value;
-
+            //System.Diagnostics.Debug.WriteLine($"SrUrl value: {SrUrl}");
             OnPropertyChanged(nameof(SrUrl));
         }
     }
@@ -288,6 +289,18 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
         _parentGroup = parentGroup;
         _operationString = _isNewRecord == true ? (parentGroup.Title + " \u2022 Add Record") : (_selectedRecord?.Title + " \u2022 Edit Record");
         SetDelegateCommands();
+
+        /* FOR TESTING */
+
+        ////get Icon resources from App.xaml
+        //var appResourceDictionaries = App.Current.Resources.MergedDictionaries;//.Where(rd => rd.Source.AbsoluteUri == "ms-resource:///Files/ResourceDictionaries/RecordIcons.xaml").FirstOrDefault(); //App.Current.Resources.MergedDictionaries.Cast<ResourceDictionary>().ToList();
+        ////System.Diagnostics.Debug.WriteLine($"appResourcesDictionary is null : {(appResourceDictionaries == null ? true : false)}");
+        //System.Diagnostics.Debug.WriteLine("appResourceDictionaries:");
+        //foreach (var resource in appResourceDictionaries) {
+        //    System.Diagnostics.Debug.WriteLine($"resource.Source.IsAbsoluteUri = {resource.Source.IsAbsoluteUri}");
+        //}
+
+        /* FOR TESTING */
     }
     #endregion Constructors
 
@@ -384,7 +397,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             _selectedRecord.HasNotes = SrHasNotes;
             _selectedRecord.Notes = SrNotes;
             _selectedRecord.ModifiedDate = DateTime.Now;
-            //System.Diagnostics.Debug.WriteLine("AddEditRecord_ViewModel _isNewRecord = false");
+            System.Diagnostics.Debug.WriteLine("AddEditRecord_ViewModel SrUrl = " + SrUrl);
 
             //write updated obj to database
             ((App)App.Current).DatabaseOps?.UpdateData(_recordRowId, _selectedRecord);
