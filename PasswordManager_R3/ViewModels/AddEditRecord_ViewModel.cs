@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PasswordManager_R3.ViewModels;
 internal class AddEditRecord_ViewModel : ViewModelBase {
@@ -33,6 +34,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
     private string _srExpirationDate = string.Empty;
     private bool _srHasNotes = false;
     private string _srNotes = string.Empty;
+    private int _srIconIndex = 0;
     private readonly string _srCreatedDate = string.Empty;
     private readonly string _srModifiedDate = string.Empty;
     private readonly string _srGuid = string.Empty;
@@ -137,6 +139,13 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(SrNotes));
         }
     }
+    public int SrIconIndex {
+        get => _srIconIndex;
+        set {
+            _srIconIndex = value;
+            OnPropertyChanged(nameof(SrIconIndex));
+        }
+    }
     public string SrCreatedDate {
         get { return _srCreatedDate; }
         //set {
@@ -228,6 +237,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
     public Utils.DelegateCommand DecrementPasswordLengthCommand { get; set; }
     public Utils.DelegateCommand CalendarDateSelectionChangedCommand { get; set; }
     public Utils.DelegateCommand ComboBoxExpirationDatePresetsSelectionChangedCommand { get; set; }
+    //public Utils.DelegateCommand IconSelectorSelectionChangedCommand { get; set; }
     #endregion Properties
 
     //Delegates to bubble events to MainWindow_ViewModel
@@ -280,6 +290,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             SrExpirationDate = selectedRecord != null ? selectedRecord.ExpirationDate.ToString() : string.Empty;
             SrHasNotes = selectedRecord.HasNotes;
             SrNotes = selectedRecord.Notes;
+            SrIconIndex = selectedRecord.Icon;
             _srCreatedDate = selectedRecord.CreatedDate.ToString();     //may remove from View eventually...
             _srModifiedDate = selectedRecord.ModifiedDate.ToString();   //may remove from View eventually...
             _srGuid = selectedRecord.GUID;                              //may remove from View eventually...
@@ -289,18 +300,6 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
         _parentGroup = parentGroup;
         _operationString = _isNewRecord == true ? (parentGroup.Title + " \u2022 Add Record") : (_selectedRecord?.Title + " \u2022 Edit Record");
         SetDelegateCommands();
-
-        /* FOR TESTING */
-
-        ////get Icon resources from App.xaml
-        //var appResourceDictionaries = App.Current.Resources.MergedDictionaries;//.Where(rd => rd.Source.AbsoluteUri == "ms-resource:///Files/ResourceDictionaries/RecordIcons.xaml").FirstOrDefault(); //App.Current.Resources.MergedDictionaries.Cast<ResourceDictionary>().ToList();
-        ////System.Diagnostics.Debug.WriteLine($"appResourcesDictionary is null : {(appResourceDictionaries == null ? true : false)}");
-        //System.Diagnostics.Debug.WriteLine("appResourceDictionaries:");
-        //foreach (var resource in appResourceDictionaries) {
-        //    System.Diagnostics.Debug.WriteLine($"resource.Source.IsAbsoluteUri = {resource.Source.IsAbsoluteUri}");
-        //}
-
-        /* FOR TESTING */
     }
     #endregion Constructors
 
@@ -316,6 +315,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
         CalendarDateSelectionChangedCommand = new(OnCalendarDateSelectionChangedCommand);
 
         ComboBoxExpirationDatePresetsSelectionChangedCommand = new(OnComboBoxExpirationDatePresetsSelectionChangedCommand);
+        //IconSelectorSelectionChangedCommand = new(OnIconSelectorSelectionChangedCommand);
     }
 
     //DelegateCommand event handlers
@@ -366,6 +366,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
                 ParentGUID = _parentGroup.GUID,
                 ParentGroup = _parentGroup,
                 GUID = Guid.NewGuid().ToString(),   //will need method to loop through all objects in database to avoid duplicate GUIDs
+                Icon = SrIconIndex,
                 Title = SrTitle,
                 Username = SrUsername,
                 Email = SrEmail,
@@ -386,6 +387,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             CreateRecord?.Invoke();// this, EventArgs.Empty);
         } else {    //false
             //set values from corresponding UIElements for _selectedRecord
+            _selectedRecord.Icon = SrIconIndex;
             _selectedRecord.Title = SrTitle;
             _selectedRecord.Username = SrUsername;
             _selectedRecord.Email = SrEmail;
@@ -523,4 +525,14 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
         SrHasExpirationDate = true;
         //SrExpirationDate = DateTime.Now.Add();
     }
+    //private void OnIconSelectorSelectionChangedCommand(object obj) {
+    //    //var iconRD = App.Current.Resources.MergedDictionaries.;
+
+    //    //foreach (var key in iconRD.Values) {
+    //    //    System.Diagnostics.Debug.WriteLine(key);
+    //    //}
+    //    //var exists = App.Current.Resources["RecordIconsArray"];
+    //    System.Windows.Media.DrawingImage[] exists = (System.Windows.Media.DrawingImage[])App.Current.Resources["RecordIconsArray"];
+    //    System.Diagnostics.Debug.WriteLine($"exists = {exists.ToString()}");
+    //}
 }

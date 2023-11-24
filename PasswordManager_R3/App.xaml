@@ -7,10 +7,14 @@
              Deactivated="Application_Deactivated"
              Startup="Application_Startup">-->
     <Application.Resources>
-        <ResourceDictionary>
+        <!--<ResourceDictionary x:Key="RecordIcons"
+                            x:Name="RecordIcons"
+                            Source="/PasswordManager_R3;component/ResourceDictionaries/RecordIcons.xaml" />-->
+        <ResourceDictionary x:Key="MainDictionary">
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary x:Name="RecordIcons"
-                                    Source="/PasswordManager_R3;component/ResourceDictionaries/RecordIcons.xaml" />
+                <ResourceDictionary x:Uid="RecordIconsDictionary"
+                                    x:Name="RecordIcons"
+                                    Source="/ResourceDictionaries/RecordIcons.xaml" />
                 <!--<ResourceDictionary x:Name="LightTheme" Source="/ResourceDictionaries/DarkTheme.xaml" />-->
             </ResourceDictionary.MergedDictionaries>
             <!--//  App Static Colors  //-->

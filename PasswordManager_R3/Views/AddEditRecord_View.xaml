@@ -3526,7 +3526,9 @@
                                      Background="#333"
                                      BorderBrush="#666"
                                      BorderThickness="0"
-                                     SelectedIndex="0"
+                                     SelectedIndex="{Binding SrIconIndex,
+                                                             Mode=TwoWay}"
+                                     ItemsSource="{StaticResource RecordIconsArray}"
                                      Style="{StaticResource ListBoxIconSelectorStyle}">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -3544,14 +3546,24 @@
                                                     HorizontalAlignment="Center">
                                             <!--<CheckBox x:Name="checkedListBoxItem" IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}},Path=IsSelected,Mode=TwoWay}" />-->
                                             <!--<Viewbox SnapsToDevicePixels="True">-->
-                                            <ContentPresenter SnapsToDevicePixels="True"
-                                                              Content="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Content}"
-                                                              VerticalAlignment="Center"
-                                                              HorizontalAlignment="Center" />
+                                                <!--<ContentPresenter SnapsToDevicePixels="True"
+                                                                  Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Content}"
+                                                                  VerticalAlignment="Center"
+                                                                  HorizontalAlignment="Center" />-->
+                                            <Image Source="{Binding}"
+                                                   Width="36"
+                                                   Height="36"
+                                                   Margin="10"/>
                                             <!--</Viewbox>-->
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding IconSelectorSelectionChangedCommand}"
+                                                       CommandParameter="{Binding SelectedIndex}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </ListBox>
                         </TabItem>
 
@@ -3567,6 +3579,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <!--<RowDefinition Height="Auto" />-->
                                     <RowDefinition Height="1*" />
                                 </Grid.RowDefinitions>
 
@@ -3636,6 +3649,8 @@
                                          Text="{Binding SrGuid,
                                                         Mode=OneTime}"
                                          Style="{StaticResource InputTextBoxStyle}"/>
+
+                                <!--<Image Grid.Row="3" Grid.Column ="1" Source="{Binding DImage}" />-->
                             </Grid>
                         </TabItem>
                     </TabControl>

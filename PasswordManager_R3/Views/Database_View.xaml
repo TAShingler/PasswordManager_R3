@@ -20,6 +20,7 @@
         <c:ActualSizeToMaxSizeConverter x:Key="ActualSizeToMaxSizeConverter" />
         <c:CheckedToGeometryConverter x:Key="CheckedToGeometryConverter" />
         <c:SelectedRecordPropertyMaskedConverter x:Key="SelectedRecordPropertyMaskedConverter" />
+        <c:IntToDrawingImageConverter x:Key="IntToDrawingImageConverter" />
         <!--#endregion//  Converters  //-->
         
         <!--<PathGeometry x:Key="DownArrowGlyphGeometry" Figures="M 3,4 8,9 13,4 15,6 8,13 1,6 Z" />
@@ -2914,9 +2915,18 @@
                         </i:Interaction.Triggers>
 
                         <DataGrid.Columns>
-                            <!--<DataGridTextColumn Header="Icon?"
-                                                MinWidth="24"
-                                                Binding="{Binding SrIcon}"/>-->
+                            <DataGridTemplateColumn CanUserResize="False"
+                                                    CanUserReorder="False"
+                                                    CanUserSort="False">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type m:Record}">
+                                        <Image Width="24"
+                                               Height="24" 
+                                               Source="{Binding Path=Icon,
+                                                                Converter={StaticResource IntToDrawingImageConverter}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                             <DataGridTextColumn Header="Title"
                                                 MinWidth="112"
                                                 Width="Auto"
@@ -2997,7 +3007,8 @@
                                     <Path Fill="DarkGray"
                                           Data="M 20,6 C 20,6 22,6 22,8 V 18 C 22,18 22,20 20,20 H 4 C 4,20 2,20 2,18 V 8 C 2,8 2,6 4,6 Z" />
                                 </Canvas>-->
-                                <Image Source="{StaticResource ubuntu_logo_di}" />
+                                <Image Source="{Binding SelectedRecord.Icon,
+                                                        Converter={StaticResource IntToDrawingImageConverter}}" />
                             </Viewbox>
                             <TextBlock Grid.Column="1"
                                        Grid.Row="0"

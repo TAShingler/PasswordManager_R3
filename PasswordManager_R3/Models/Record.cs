@@ -8,6 +8,7 @@ namespace PasswordManager_R3.Models;
 [Serializable]
 internal class Record : Models.VaultObjectBase {
     #region Fields
+    private protected int _icon;
     private protected string _username;
     private protected string _email;
     private protected string _password;
@@ -17,6 +18,11 @@ internal class Record : Models.VaultObjectBase {
     #endregion Fields
 
     #region Properties
+    [Newtonsoft.Json.JsonProperty("Icon")]
+    public int Icon {
+        get => _icon;
+        set => _icon = value;
+    }
     [Newtonsoft.Json.JsonProperty("Username")]
     public string Username {
         get { return _username; }
