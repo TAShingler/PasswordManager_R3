@@ -2766,12 +2766,16 @@
             BorderThickness="0">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="250" Width="0.01*" MaxWidth="{Binding ElementName=userControlBoundary,
-                                                                                  Path=ActualWidth,
-                                                                                  Converter={StaticResource ActualSizeToMaxSizeConverter},
-                                                                                  ConverterParameter='width'}" />
+                <ColumnDefinition MinWidth="250"
+                                  Width="0.01*"
+                                  
+                                  MaxWidth="{Binding ElementName=userControlBoundary,
+                                                     Path=ActualWidth,
+                                                     Converter={StaticResource ActualSizeToMaxSizeConverter},
+                                                     ConverterParameter='width'}" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition MinWidth="300" Width="1*" />
+                <ColumnDefinition MinWidth="300"
+                                  Width="1*" />
             </Grid.ColumnDefinitions>
 
             <Border x:Name="treeViewOpacityMask"
@@ -2787,7 +2791,9 @@
                       BorderBrush="#464646"
                       BorderThickness="0"
                       IsEnabled="True"
-                      ItemsSource="{Binding Groups, UpdateSourceTrigger=PropertyChanged}">
+                      ItemsSource="{Binding Groups,
+                                            UpdateSourceTrigger=PropertyChanged}"
+                      MouseRightButtonUp="TreeViewItem_MouseRightButtonUp">
                 <!--Background="#464646"
                         BorderBrush="#666"
                         BorderThickness="0"-->
@@ -2845,6 +2851,7 @@
                           Background="Transparent"
                           VerticalAlignment="Stretch"
                           HorizontalAlignment="Stretch" />
+            <!--#region //  Right Pane  //-->
             <Border Grid.Column="2"
                     SnapsToDevicePixels="True">
                 <Grid>
@@ -3388,6 +3395,7 @@
                     <!--</Border>-->
                 </Grid>
             </Border>
+            <!--#endregion //  Right Pane  //-->
         </Grid>
     </Border>
 </UserControl>

@@ -94,6 +94,7 @@ public partial class Database_View : UserControl {
         }
     }
     private void TreeViewItem_MouseRightButtonUp(object sender, MouseButtonEventArgs e) {
+        /* OLD
         System.Diagnostics.Debug.WriteLine("TreeViewItem_MouseRightButtonUp event handler:");
         System.Diagnostics.Debug.WriteLine("    - sender type: " + sender.GetType());
         System.Diagnostics.Debug.WriteLine("    - source: " + e.Source);
@@ -119,6 +120,9 @@ public partial class Database_View : UserControl {
         }
 
         e.Handled = true;
+        */
+
+        //right click event for expand/collapse actions?
     }
 
     //private void TreeViewItem_MouseDoubleClick(object sender, MouseEventArgs e) {

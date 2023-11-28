@@ -56,6 +56,7 @@ internal class Record : Models.VaultObjectBase {
 
     #region Constructors
     public Record() : base() {
+        _icon = 29;
         _username = string.Empty;
         _email = string.Empty;
         _password = string.Empty;

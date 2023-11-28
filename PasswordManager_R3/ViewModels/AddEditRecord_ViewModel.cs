@@ -34,7 +34,7 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
     private string _srExpirationDate = string.Empty;
     private bool _srHasNotes = false;
     private string _srNotes = string.Empty;
-    private int _srIconIndex = 0;
+    private int _srIconIndex = 29;
     private readonly string _srCreatedDate = string.Empty;
     private readonly string _srModifiedDate = string.Empty;
     private readonly string _srGuid = string.Empty;

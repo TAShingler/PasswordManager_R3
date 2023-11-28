@@ -1778,6 +1778,198 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="QuickAccessButtonExpandAllStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="OverridesDefaultStyle"
+                    Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Padding="4">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Viewbox Grid.Row="0"
+                                         Height="{Binding QuickAccessIconSize,
+                                                          Converter={StaticResource QuickAccessIconSizeToDoubleConverter}}"
+                                         Width="{Binding RelativeSource={RelativeSource Self},
+                                                         Path=Height}">
+                                    <Canvas Width="24"
+                                            Height="24">
+                                        <!--<Path x:Name="ExpandAllGlyph"
+                                              Width="24"
+                                              Height="24"
+                                              Data="M4,2A2,2 0 0,0 2,4V14H4V4H14V2H4
+                                                    M8,6A2,2 0 0,0 6,8V18H8V8H18V6H8
+                                                    M20,12V20H12V12H20
+                                                    M20,10H12A2,2 0 0,0 10,12V20A2,2 0 0,0 12,22H20A2,2 0 0,0 22,20V12A2,2 0 0,0 20,10
+                                                    M19,17H17V19H15V17H13V15H15V13H17V15H19V17Z"/>-->
+                                        <Path x:Name="ExpandAllGlyph"
+                                              Width="24"
+                                              Height="24"
+                                              Data="M 4 2 C 2.9006497 2 2 2.9006497 2 4 L 2 11 C 2 11.735528 2.4039008 12.381109 3 12.728516 L 3 11 L 3 9.5 L 3 4 C 3 3.4373519 3.4373519 3 4 3 L 10 3 L 11 3 L 12.728516 3 C 12.381109 2.4039008 11.735528 2 11 2 L 4 2 z M 7 5 C 5.9006497 5 5 5.9006497 5 7 L 5 14 C 5 14.735528 5.4039008 15.381109 6 15.728516 L 6 14 L 6 12.5 L 6 7 C 6 6.4373519 6.4373519 6 7 6 L 12 6 L 14 6 L 15.728516 6 C 15.381109 5.4039008 14.735528 5 14 5 L 7 5 z M 10 8 C 8.9006497 8 8 8.9006497 8 10 L 8 17 C 8 17.735528 8.4039008 18.381109 9 18.728516 L 9 17 L 9 15.5 L 9 10 C 9 9.4373519 9.4373519 9 10 9 L 15 9 L 17 9 L 18.728516 9 C 18.381109 8.4039008 17.735528 8 17 8 L 10 8 z M 13 11 C 11.90065 11 11 11.90065 11 13 L 11 20 C 11 21.09935 11.90065 22 13 22 L 20 22 C 21.09935 22 22 21.09935 22 20 L 22 13 C 22 11.90065 21.09935 11 20 11 L 13 11 z M 13 12 L 20 12 C 20.562648 12 21 12.437352 21 13 L 21 20 C 21 20.562648 20.562648 21 20 21 L 13 21 C 12.437352 21 12 20.562648 12 20 L 12 13 C 12 12.437352 12.437352 12 13 12 z M 16 14 L 16 16 L 14 16 L 14 17 L 16 17 L 16 19 L 17 19 L 17 17 L 19 17 L 19 16 L 17 16 L 17 14 L 16 14 z "/>
+                                    </Canvas>
+                                </Viewbox>
+
+                                <Label x:Name="contentLabel"
+                                       Grid.Row="1"
+                                       Margin="0"
+                                       Padding="0"
+                                       VerticalContentAlignment="Center"
+                                       HorizontalContentAlignment="Center"
+                                       Content="Expand All"
+                                       Visibility="{Binding ButtonUrlToClipboardTextVisibility}"/>
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled"
+                                     Value="True">
+                                <Setter TargetName="ExpandAllGlyph"
+                                        Property="Fill"
+                                        Value="{DynamicResource ThemeHighEmphasisTextBrush}" />
+                                <Setter TargetName="contentLabel"
+                                        Property="Foreground"
+                                        Value="{DynamicResource ThemeHighEmphasisTextBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="ExpandAllGlyph"
+                                        Property="Fill"
+                                        Value="{DynamicResource MouseOverGlyphBrush}" />
+                                <Setter TargetName="contentLabel"
+                                        Property="Foreground"
+                                        Value="{DynamicResource MouseOverGlyphBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+                                <Setter TargetName="ExpandAllGlyph"
+                                        Property="Fill"
+                                        Value="{DynamicResource ThemeDisabledTextBrush}" />
+                                <Setter TargetName="contentLabel"
+                                        Property="Foreground"
+                                        Value="{DynamicResource ThemeDisabledTextBrush}" />
+                            </Trigger>
+                            <Trigger Property="Button.IsPressed"
+                                     Value="True">
+                                <Setter TargetName="ExpandAllGlyph"
+                                        Property="Fill"
+                                        Value="{DynamicResource PressedGlyphBrush}" />
+                                <Setter TargetName="contentLabel"
+                                        Property="Foreground"
+                                        Value="{DynamicResource PressedGlyphBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="QuickAccessButtonCollapseAllStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="OverridesDefaultStyle"
+                    Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Padding="4">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Viewbox Grid.Row="0"
+                                         Height="{Binding QuickAccessIconSize,
+                                                          Converter={StaticResource QuickAccessIconSizeToDoubleConverter}}"
+                                         Width="{Binding RelativeSource={RelativeSource Self},
+                                                         Path=Height}">
+                                    <Canvas Width="24"
+                                            Height="24">
+                                        <!--<Path x:Name="CollapseAllGlyph"
+                                              Width="24"
+                                              Height="24"
+                                              Data="M 4,2 C 2.8954305,2 2,2.8954305 2,4 V 14 H 4 V 4 H 14 V 2 H 4
+                                                    M 8,6 C 6.8954305,6 6,6.8954305 6,8 V 18 H 8 V 8 H 18 V 6 H 8
+                                                    m 12,6 v 8 h -8 v -8 h 8
+                                                    m 0,-2 h -8 c -1.104569,0 -2,0.895431 -2,2 v 8 c 0,1.104569 0.895431,2 2,2 h 8 c 1.104569,0 2,-0.895431 2,-2 v -8 c 0,-1.104569 -0.895431,-2 -2,-2
+                                                    m -1,7 h -6 v -2 h 6 z"/>-->
+                                        <Path x:Name="CollapseAllGlyph"
+                                              Width="24"
+                                              Height="24"
+                                              Data="M4,2A2,2 0 0,0 2,4V14H4V4H14V2H4
+                                                    M8,6A2,2 0 0,0 6,8V18H8V8H18V6H8
+                                                    M20,12V20H12V12H20
+                                                    M20,10H12A2,2 0 0,0 10,12V20A2,2 0 0,0 12,22H20A2,2 0 0,0 22,20V12A2,2 0 0,0 20,10
+                                                    M19,17H17V19H15V17H13V15H15V13H17V15H19V17Z"/>
+                                    </Canvas>
+                                </Viewbox>
+
+                                <Label x:Name="contentLabel"
+                                       Grid.Row="1"
+                                       Margin="0"
+                                       Padding="0"
+                                       VerticalContentAlignment="Center"
+                                       HorizontalContentAlignment="Center"
+                                       Content="Copy URL"
+                                       Visibility="{Binding ButtonUrlToClipboardTextVisibility}"/>
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <!--<Trigger Property="IsEnabled"
+                                     Value="True">
+                                <Setter TargetName="AppSettingsGlyph"
+                                        Property="Fill"
+                                        Value="{DynamicResource ThemeHighEmphasisTextBrush}" />
+                                <Setter TargetName="contentLabel"
+                                        Property="Foreground"
+                                        Value="{DynamicResource ThemeHighEmphasisTextBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="AppSettingsGlyph"
+                                        Property="Fill"
+                                        Value="{DynamicResource MouseOverGlyphBrush}" />
+                                <Setter TargetName="contentLabel"
+                                        Property="Foreground"
+                                        Value="{DynamicResource MouseOverGlyphBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+                                <Setter TargetName="AppSettingsGlyph"
+                                        Property="Fill"
+                                        Value="{DynamicResource ThemeDisabledTextBrush}" />
+                                <Setter TargetName="contentLabel"
+                                        Property="Foreground"
+                                        Value="{DynamicResource ThemeDisabledTextBrush}" />
+                            </Trigger>
+                            <Trigger Property="Button.IsPressed"
+                                     Value="True">
+                                <Setter TargetName="AppSettingsGlyph"
+                                        Property="Fill"
+                                        Value="{DynamicResource PressedGlyphBrush}" />
+                                <Setter TargetName="contentLabel"
+                                        Property="Foreground"
+                                        Value="{DynamicResource PressedGlyphBrush}" />
+                            </Trigger>-->
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <!--#endregion //  QUICK ACCESS BAR BUTTON STYLES  //-->
     </Window.Resources>
 
@@ -2044,6 +2236,14 @@
                                 IsEnabled="{Binding ButtonLockDatabaseIsEnabled}"
                                 Style="{StaticResource QuickAccessButtonLockDatabaseStyle}"
                                 Command="{Binding LockDatabaseCommand}"/>
+                        <Separator Grid.Row="0"
+                                   Grid.Column="1"
+                                   Width="1"
+                                   Background="#777"
+                                   Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"
+                                   Margin="4,3"/>
+                        <Button Style="{StaticResource QuickAccessButtonExpandAllStyle}"/>
+                        <Button Style="{StaticResource QuickAccessButtonCollapseAllStyle}" />
                         <Separator Grid.Row="0"
                                    Grid.Column="1"
                                    Width="1"
