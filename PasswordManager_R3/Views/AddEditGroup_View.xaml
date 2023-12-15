@@ -3,13 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PasswordManager_R3.Views"
+             xmlns:local="clr-namespace:PasswordManager_R3.Views" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450"
              d:DesignWidth="800">
 
     <UserControl.Resources>
-        <!--//  Button Styles  //-->
+        <!--#region //  Button Styles  // -->
         <Style x:Key="ButtonOkCancelStyle"
                TargetType="{x:Type Button}">
             <!--<Setter Property="SnapsToDevicePixels"
@@ -83,7 +83,7 @@
                                     <VisualState x:Name="InvalidUnfocused" />
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            
+
                             <ContentPresenter x:Name="cPresenter"
                                               TextBlock.Foreground="Gainsboro"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -94,8 +94,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        <!--//  TextBox Styles  //-->
+        <!--#endregion //  Button Styles  // -->
+
+        <!--#region //  TextBox Styles  // -->
         <Style x:Key="InputTextBoxStyle"
                TargetType="{x:Type TextBox}">
             <Setter Property="SnapsToDevicePixels"
@@ -196,8 +197,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        <!--//  ListViewItem Styles  //-->
+        <!--#endregion //  TextBox Styles  // -->
+
+        <!--#region //  ListViewItem Styles  // -->
         <Style x:Key="EntryInfoListViewItem"
                TargetType="{x:Type ListViewItem}">
             <Setter Property="SnapsToDevicePixels"
@@ -361,8 +363,163 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        <!--//  CheckBox Styles  //-->
+        <Style x:Key="ListViewUpButtonStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bounds"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2 2 0 0">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                              Storyboard.TargetProperty="BorderThickness">
+                                                <EasingThicknessKeyFrame KeyTime="0"
+                                                                         Value="1" />
+                                            </ThicknessAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="arrowGlyph"
+                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                              Storyboard.TargetProperty="BorderThickness">
+                                                <EasingThicknessKeyFrame KeyTime="0"
+                                                                         Value="1" />
+                                            </ThicknessAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="arrowGlyph"
+                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused" />
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Valid" />
+                                    <VisualState x:Name="InvalidFocused" />
+                                    <VisualState x:Name="InvalidUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Canvas Height="12"
+                                    Width="12">
+                                <Path x:Name="arrowGlyph"
+                                      Fill="{TemplateBinding Foreground}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Data="M 0 9 L 12 9 L 6 3 Z" />
+                            </Canvas>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ListViewDownButtonStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bounds"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="0 0 2 2">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                              Storyboard.TargetProperty="BorderThickness">
+                                                <EasingThicknessKeyFrame KeyTime="0"
+                                                                         Value="1" />
+                                            </ThicknessAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="arrowGlyph"
+                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                          Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="bounds"
+                                                                              Storyboard.TargetProperty="BorderThickness">
+                                                <EasingThicknessKeyFrame KeyTime="0"
+                                                                         Value="1" />
+                                            </ThicknessAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="arrowGlyph"
+                                                                          Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="DodgerBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused" />
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualState x:Name="Valid" />
+                                    <VisualState x:Name="InvalidFocused" />
+                                    <VisualState x:Name="InvalidUnfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Canvas Height="12"
+                                    Width="12">
+                                <Path x:Name="arrowGlyph"
+                                      Fill="{TemplateBinding Foreground}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Data="M 0 3 L 12 3 L 6 9 Z" />
+                            </Canvas>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--#endregion //  ListViewItem Styles  // -->
+
+        <!--#region //  CheckBox Styles  // -->
         <!--<Style x:Key="{x:Type CheckBox}"
                TargetType="{x:Type CheckBox}">
             <Setter Property="Width" Value="Auto" />
@@ -411,6 +568,8 @@
                             </Grid.ColumnDefinitions>
                             <Border x:Name="bounds"
                                     Grid.Column="0"
+                                    Height="{TemplateBinding Height}"
+                                    Width="{TemplateBinding Width}"
                                     Background="#333"
                                     BorderBrush="Gainsboro"
                                     BorderThickness="0"
@@ -454,6 +613,9 @@
                                 <Setter TargetName="bounds"
                                         Property="BorderBrush"
                                         Value="deepskyblue" />
+                                <Setter TargetName="bounds"
+                                        Property="BorderThickness"
+                                        Value="1" />
                                 <Setter TargetName="checkGlyph"
                                         Property="Fill"
                                         Value="deepskyblue" />
@@ -472,8 +634,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--#endregion //  CheckBox Styles  // -->
 
-        <!--//  ComboBox Styles  //-->
+        <!--#region //  ComboBox Styles  // -->
         <ControlTemplate x:Key="ComboBoxToggleButton"
                          TargetType="{x:Type ToggleButton}">
             <Grid>
@@ -1121,11 +1284,89 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--#endregion //  ComboBox Styles  // -->
+
+        <!--#region //  Expiration Date Styles  // -->
+        <Style x:Key="ToggleButtonExpirationDateStyle"
+               TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="bounds"
+                                Height="{TemplateBinding Height}"
+                                Width="{TemplateBinding Width}"
+                                Background="#333"
+                                BorderBrush="#333"
+                                BorderThickness="0"
+                                CornerRadius="0 2 2 0">
+                            <Canvas Height="8"
+                                    Width="8">
+                                <Path x:Name="arrowGlyph"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Data="M 0 2 L 4 6 L 8 2 Z"
+                                      Fill="{StaticResource solidColorBrush-theme-foreground}" />
+                            </Canvas>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <!--<Trigger Property="IsReadOnly"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="Background"
+                                        Value="#222" />
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="#555" />
+                            </Trigger>-->
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+                                <Setter TargetName="bounds"
+                                        Property="Background"
+                                        Value="#262626" />
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="#363636" />
+                                <Setter TargetName="arrowGlyph"
+                                        Property="Fill"
+                                        Value="#555" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="BorderThickness"
+                                        Value="1" />
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="DeepSkyBlue" />
+                                <Setter TargetName="arrowGlyph"
+                                        Property="Fill"
+                                        Value="DeepSkyBlue" />
+                            </Trigger>
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+                                <Setter TargetName="bounds"
+                                        Property="BorderThickness"
+                                        Value="1" />
+                                <Setter TargetName="bounds"
+                                        Property="BorderBrush"
+                                        Value="DodgerBlue" />
+                                <Setter TargetName="arrowGlyph"
+                                        Property="Fill"
+                                        Value="DodgerBlue" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--#endregion //  Expiration Date Styles  // -->
     </UserControl.Resources>
 
-    <Border Background="Transparent"
-            BorderBrush="#444"
-            BorderThickness="0">
+    <Grid>
+        <Border Background="Transparent"
+                BorderBrush="#444"
+                BorderThickness="0">
         <DockPanel LastChildFill="True">
             <!--//  TOP PANEL  //-->
             <Border DockPanel.Dock="Top"
@@ -1184,16 +1425,14 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <Button Grid.Row="0"
+                        <Button Grid.Row="0"
                             Height="16"
                             Foreground="Gainsboro"
                             Background="#333"
                             BorderBrush="#666"
-                            BorderThickness="0">
-                        <Path Fill="Gainsboro"
-                              Data="M 0 7 L 10 7 L 5 0 Z" />
-                    </Button>
-                    <!--//  Eventually need to make ListView width Auto and scale with ListViewItem contents  //-->
+                            BorderThickness="0"
+                            Style="{StaticResource ListViewUpButtonStyle}" />
+                        <!--//  Eventually need to make ListView width Auto and scale with ListViewItem contents  //-->
                     <ListView x:Name="listViewTabSelector"
                               Grid.Row="1"
                               Width="100"
@@ -1209,16 +1448,14 @@
                         <ListViewItem Content="Properties"
                                       Style="{StaticResource EntryPropertiesListViewItem}"/>
                     </ListView>
-                    <Button Grid.Row="2"
-                            Height="16"
-                            Foreground="Gainsboro"
-                            Background="#333"
-                            BorderBrush="#666"
-                            BorderThickness="0">
-                        <Path Fill="Gainsboro"
-                              Data="M 0 0 L 10 0 L 5 7 Z"/>
-                    </Button>
-                </Grid>
+                        <Button Grid.Row="2"
+                                Height="16"
+                                Foreground="Gainsboro"
+                                Background="#333"
+                                BorderBrush="#666"
+                                BorderThickness="0"
+                                Style="{StaticResource ListViewDownButtonStyle}"/>
+                    </Grid>
             </Border>
 
             <!--//  MIDDLE PANEL  //-->
@@ -1229,14 +1466,15 @@
                 <TabControl Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="0"
-                            SelectedIndex="{Binding ElementName=listViewTabSelector,Path=SelectedIndex}">
+                            SelectedIndex="{Binding ElementName=listViewTabSelector,
+                                                    Path=SelectedIndex}">
 
                     <!--//  "Entry" Form  //-->
                     <TabItem Visibility="Collapsed">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="120" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -1302,24 +1540,26 @@
                                         <ColumnDefinition Width="1*" />
                                         <ColumnDefinition Width="24" />
                                     </Grid.ColumnDefinitions>
-                                    
-                                    <TextBox Grid.Column="0"
-                                         IsEnabled="{Binding ElementName=checkBoxExpirationDate,Path=IsChecked}"
-                                         VerticalContentAlignment="Center"
-                                         BorderBrush="Transparent"
-                                         BorderThickness="0"
-                                         Background="Transparent"
-                                         Foreground="Gainsboro"
-                                         CaretBrush="Gainsboro"
-                                         Text="{Binding SgExpirationDate,
-                                                        Mode=TwoWay}"
-                                         Style="{StaticResource ExpirationDateTextBoxStyle}" />
-                                    <ToggleButton Grid.Column="2"
+
+                                    <TextBox x:Name="textBoxExpirationDate"
+                                             Grid.Column="0"
+                                             IsEnabled="{Binding ElementName=checkBoxExpirationDate,Path=IsChecked}"
+                                             VerticalContentAlignment="Center"
+                                             BorderBrush="Transparent"
+                                             BorderThickness="0"
+                                             Background="Transparent"
+                                             Foreground="Gainsboro"
+                                             CaretBrush="Gainsboro"
+                                             Text="{Binding SgExpirationDate,
+                                                            Mode=TwoWay}"
+                                             Style="{StaticResource ExpirationDateTextBoxStyle}" />
+                                    <ToggleButton x:Name="toggleButtonExpirationDate"
+                                                  Grid.Column="2"
                                                   IsEnabled="{Binding ElementName=checkBoxExpirationDate,
                                                                       Path=IsChecked}"
                                                   Background="#333"
                                                   BorderBrush="#666"
-                                                  BorderThickness="1"/>
+                                                  Style="{StaticResource ToggleButtonExpirationDateStyle}"/>
                                 </Grid>
 
                                 <ComboBox Grid.Column="2"
@@ -1331,7 +1571,7 @@
                             </Grid>
 
                             <!--//  Serach Options  //-->
-                            <Label Grid.Column="1"
+                            <!--<Label Grid.Column="1"
                                    Grid.Row="2"
                                    Height="24"
                                    Padding="4 0 0 0"
@@ -1353,7 +1593,7 @@
                                 <ComboBoxItem Content="Item 3" />
                                 <ComboBoxItem Content="Item 4" />
                                 <ComboBoxItem Content="Item 5" />
-                            </ComboBox>
+                            </ComboBox>-->
 
                             <!--//  Notes  //-->
                             <CheckBox x:Name="checkBoxNotes"
@@ -1409,7 +1649,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
-                            
+
                             <!--//  Created Date  //-->
                             <Label Grid.Column="1"
                                    Grid.Row="0"
@@ -1454,7 +1694,8 @@
                                      Foreground="Gainsboro"
                                      Style="{StaticResource InputTextBoxStyle}"/>
 
-                            <!--//  GUID  //--><!--//  **MIGHT REMOVE**  //-->
+                            <!--//  GUID  //-->
+                            <!--//  **MIGHT REMOVE**  //-->
                             <Label Grid.Column="1"
                                    Grid.Row="2"
                                    Height="24"
@@ -1481,4 +1722,31 @@
             </Border>
         </DockPanel>
     </Border>
+    
+    <Popup x:Name="popupExpirationDateCalendar"
+           PlacementTarget="{Binding ElementName=textBoxExpirationDate}"
+           Placement="Bottom"
+           IsOpen="{Binding ElementName=toggleButtonExpirationDate,
+                            Path=IsChecked}"
+           Height="Auto"
+           Width="Auto"
+           StaysOpen="True">
+        <Calendar x:Name="expirationDateCalendar">
+            <!--SelectionModeChanged="expirationDateCalendar_SelectionModeChanged"
+                          SelectedDatesChanged="expirationDateCalendar_SelectedDatesChanged"
+                          DisplayDateChanged="expirationDateCalendar_DisplayDateChanged"
+                          SourceUpdated="expirationDateCalendar_SourceUpdated"
+                          TargetUpdated="expirationDateCalendar_TargetUpdated"
+                          TextInput="expirationDateCalendar_TextInput">-->
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectedDatesChanged">
+                    <i:InvokeCommandAction Command="{Binding CalendarDateSelectionChangedCommand}"
+                                           CommandParameter="{Binding ElementName=expirationDateCalendar,
+                                                                      Path=SelectedDates}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Calendar>
+        <!-- need to add method to get selected date to textbox and close popup -->
+    </Popup>
+    </Grid>
 </UserControl>

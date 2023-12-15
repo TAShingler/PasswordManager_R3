@@ -13,8 +13,9 @@
              Loaded="UserControl_Loaded">
 
     <UserControl.Resources>
-        <!--//  Converters  //-->
+        <!--#region //  Converters  // -->
         <converters:CheckedToVisibilityConverter x:Key="CheckedToVisibilityConverter" />
+        <!--#endregion //  Converters  // -->
 
         <!--#region //  ScrollBar Styles  //-->
         <Style x:Key="ScrollBarLineButton"
@@ -744,7 +745,7 @@
         </Style>
         <!--#endregion //  TextBoxBase Styles  //-->
 
-        <!--//  ListView Styles  //-->
+        <!--#region //  ListView Styles  // -->
         <!--<Style x:Key="ListViewItemStyle"
                TargetType="{x:Type ListViewItem}">
             <Setter Property="Template">
@@ -1291,8 +1292,9 @@
                 </Setter.Value>
             </Setter>
         </Style>-->
+        <!--#endregion //  ListView Styles  // -->
 
-        <!--//  Confirm/Cancel Button Styles  //-->
+        <!--#region //  Confirm/Cancel Button Styles  // -->
         <Style x:Key="SaveRecordButtonStyle"
                TargetType="{x:Type Button}">
             <Setter Property="Background"
@@ -1487,8 +1489,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--#endregion //  Confirm/Cancel Button Styles  // -->
 
-        <!--//  Password Button Styles  //-->
+        <!--#region //  Password Button Styles  // -->
         <Style x:Key="ToggleButtonGeneratePasswordStyle"
                TargetType="{x:Type ToggleButton}">
             <Setter Property="Foreground"
@@ -1573,7 +1576,7 @@
                                                 M 5.8652344 7.2792969 L 8.1953125 9.609375 C 7.7574926 10.303176 7.5 11.121575 7.5 12 C 7.5 14.479357 9.5206434 16.5 12 16.5 C 12.878425 16.5 13.696824 16.242506 14.390625 15.804688 L 16.291016 17.705078 C 15.096819 18.189126 13.679012 18.5 12 18.5 C 4.6028124 18.5 2.2334132 12.495727 2.0488281 12 C 2.1673888 11.68159 3.1905732 9.0921279 5.8652344 7.2792969 z
                                                 M 12 7.5 C 11.121575 7.5 10.303155 7.7574717 9.609375 8.1953125 L 10.333984 8.9199219 C 10.828929 8.6522714 11.395653 8.5 12 8.5 C 13.938917 8.5 15.5 10.061083 15.5 12 C 15.5 12.604347 15.347729 13.171071 15.080078 13.666016 L 15.804688 14.390625 C 16.242528 13.696845 16.5 12.878425 16.5 12 C 16.5 9.5206434 14.479357 7.5 12 7.5 z
                                                 M 8.9199219 10.333984 L 13.666016 15.080078 C 13.17127 15.347067 12.603733 15.5 12 15.5 C 10.061083 15.5 8.5 13.938917 8.5 12 C 8.5 11.396267 8.6529333 10.82873 8.9199219 10.333984 z "
-                                          Visibility="Visible" />
+                                          Visibility="Collapsed"/>
                                     <!--<Path x:Name="unmaskedGlyph"
                                           Fill="{TemplateBinding Foreground}"
                                           Data="M11.83,9L15,12.16C15,12.11 15,12.05 15,12A3,3 0 0,0 12,9C11.94,9 11.89,9 11.83,9
@@ -1587,7 +1590,7 @@
                                                 M 12 5.5 C 19.397188 5.5 21.766587 11.504273 21.951172 12 C 21.766587 12.495727 19.397188 18.5 12 18.5 C 4.6028124 18.5 2.2334132 12.495727 2.0488281 12 C 2.2334132 11.504273 4.6028124 5.5 12 5.5 z
                                                 M 12 7.5 C 9.5206434 7.5 7.5 9.5206434 7.5 12 C 7.5 14.479357 9.5206434 16.5 12 16.5 C 14.479357 16.5 16.5 14.479357 16.5 12 C 16.5 9.5206434 14.479357 7.5 12 7.5 z
                                                 M 12 8.5 C 13.938917 8.5 15.5 10.061083 15.5 12 C 15.5 13.938917 13.938917 15.5 12 15.5 C 10.061083 15.5 8.5 13.938917 8.5 12 C 8.5 10.061083 10.061083 8.5 12 8.5 z "
-                                          Visibility="Collapsed" />
+                                          Visibility="Visible"/>
                                 </Canvas>
                             </Viewbox>
                         </Border>
@@ -1603,10 +1606,10 @@
                                         Value="DodgerBlue" />-->
                                 <Setter TargetName="unmaskedGlyph"
                                         Property="Visibility"
-                                        Value="Visible" />
+                                        Value="Collapsed" />
                                 <Setter TargetName="maskedGlyph"
                                         Property="Visibility"
-                                        Value="Collapsed" />
+                                        Value="Visible" />
                             </Trigger>
                             <Trigger Property="IsMouseOver"
                                      Value="True">
@@ -1631,8 +1634,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--#endregion //  Password Button Styles  // -->
 
-        <!--//  CheckBox Styles  //-->
+        <!--#region //  CheckBox Styles  // -->
         <!--<Style x:Key="{x:Type CheckBox}"
                TargetType="{x:Type CheckBox}">
             <Setter Property="Width" Value="Auto" />
@@ -1832,8 +1836,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--#endregion //  CheckBox Styles  // -->
 
-        <!--//  ComboBox Styles  //-->
+        <!--#region //  ComboBox Styles  // -->
         <ControlTemplate x:Key="ComboBoxToggleButton"
                          TargetType="{x:Type ToggleButton}">
             <Grid>
@@ -2018,7 +2023,7 @@
                                               TextBlock.Foreground="Gainsboro"
                                               ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                               ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                              Margin="4,4,23,4"
+                                              Margin="4 0 23 0"
                                               VerticalAlignment="Center"
                                               HorizontalAlignment="Left">
                             </ContentPresenter>
@@ -2325,8 +2330,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--#endregion //  ComboBox Styles  // -->
 
-        <!--//  ListBox Styles  //-->
+        <!--#region //  ListBox Styles  // -->
         <Style x:Key="ListBoxItemIconSelectorStyle"
                TargetType="{x:Type ListBoxItem}">
             <Setter Property="Template">
@@ -2357,8 +2363,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--#endregion //  ListBox Styles  // -->
 
-        <!--//  PasswordGenerator Popup Styles  //-->
+        <!--#region //  PasswordGenerator Popup Styles  // -->
         <!--<Style x:Key="SliderPasswordGeneratorStyle"
                TargetType="{x:Type Slider}">
 
@@ -2371,9 +2378,9 @@
                TargetType="{x:Type RepeatButton}">
 
         </Style>-->
+        <!--#endregion //  PasswordGenerator Popup Styles  // -->
         
-
-        <!--//  Expiration Date Styles  //-->
+        <!--#region //  Expiration Date Styles  // -->
         <Style x:Key="ToggleButtonExpirationDateStyle"
                TargetType="{x:Type ToggleButton}">
             <Setter Property="Template">
@@ -2447,6 +2454,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--#endregion //  Expiration Date Styles  // -->
         
         <!--#region // Password Generator Styles //-->
         <!--#region // Slider //-->

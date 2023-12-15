@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PasswordManager_R3.Models;
-internal class VaultObjectBase {
+internal class VaultObjectBase : System.ComponentModel.INotifyPropertyChanged {
     #region Fields
     private protected Group? _parentGroup;
     private protected string? _parentGuid;
@@ -71,22 +72,34 @@ internal class VaultObjectBase {
         get { return _notes; }
         set { _notes = value; }
     }
-    #endregion Properties
+#endregion Properties
+
+    #region Events
+    public event PropertyChangedEventHandler? PropertyChanged;
+    #endregion Events
 
     #region Constructors
     public VaultObjectBase() {
-        _parentGroup = null;
-        _parentGuid = null;
-        _guid = string.Empty;
-        _title = string.Empty;
-        _hasExpirationDate = false;
-        _expirationDate = null;
-        _createdDate = DateTime.Now;
-        _modifiedDate = DateTime.Now;
-        _hasNotes = false;
-        _notes = string.Empty;
-    }
+            _parentGroup = null;
+            _parentGuid = null;
+            _guid = string.Empty;
+            _title = string.Empty;
+            _hasExpirationDate = false;
+            _expirationDate = null;
+            _createdDate = DateTime.Now;
+            _modifiedDate = DateTime.Now;
+            _hasNotes = false;
+            _notes = string.Empty;
+        }
     #endregion Constructors
+
+    #region Event Handlers
+    protected void OnPropertyChanged(string propertyName) {
+        if (PropertyChanged != null) {
+            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+    #endregion Event Handlers
 
     #region Other Methods
 

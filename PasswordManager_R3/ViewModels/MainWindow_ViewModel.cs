@@ -24,6 +24,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
     //Quick Access Bar Button Visibility fields
     private bool _buttonLockDatabaseIsEnabled = false;
+    private bool _buttonExpandAllIsEnabled = false;
+    private bool _buttonCollapseAllIsEnabled = false;
     private bool _buttonAddRecordIsEnabled = false;
     private bool _buttonEditRecordIsEnabled = false;
     private bool _buttonDeleteRecordIsEnabled = false;
@@ -135,6 +137,20 @@ internal class MainWindow_ViewModel : ViewModelBase {
         set {
             _buttonLockDatabaseIsEnabled = value;
             OnPropertyChanged(nameof(ButtonLockDatabaseIsEnabled));
+        }
+    }
+    public bool ButtonExpandAllIsEnabled {
+        get => _buttonExpandAllIsEnabled;
+        set {
+            _buttonExpandAllIsEnabled = value;
+            OnPropertyChanged(nameof(ButtonExpandAllIsEnabled));
+        }
+    }
+    public bool ButtonCollapseAllIsEnabled {
+        get => _buttonCollapseAllIsEnabled;
+        set {
+            _buttonCollapseAllIsEnabled = value;
+            OnPropertyChanged(nameof(ButtonCollapseAllIsEnabled));
         }
     }
     public bool ButtonAddRecordIsEnabled {
@@ -290,6 +306,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
     public Utils.DelegateCommand? MaximizeRestoreWindowCommand { get; set; }
     public Utils.DelegateCommand? CloseWindowCommand { get; set; }
     public Utils.DelegateCommand? LockDatabaseCommand { get; set; }
+    public Utils.DelegateCommand? ExpandAllGroupsCommand { get; set; }
+    public Utils.DelegateCommand? CollapseAllGroupsCommand { get; set; }
     public Utils.DelegateCommand? AddRecordCommand { get; set; }
     public Utils.DelegateCommand? EditRecordCommand { get; set; }
     public Utils.DelegateCommand? DeleteRecordCommand { get; set; }
@@ -406,6 +424,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         SelectedViewModel = lockScreenVM;
 
         ButtonLockDatabaseIsEnabled = false;
+        ButtonExpandAllIsEnabled = false;
+        ButtonCollapseAllIsEnabled = false;
         ButtonAddRecordIsEnabled = false;
         ButtonEditRecordIsEnabled = false;
         ButtonDeleteRecordIsEnabled = false;
@@ -452,6 +472,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         SelectedViewModel = databaseVM;
 
         ButtonLockDatabaseIsEnabled = true;
+        ButtonExpandAllIsEnabled = true;
+        ButtonCollapseAllIsEnabled = true;
         ButtonAddRecordIsEnabled = false;
         ButtonEditRecordIsEnabled = false;
         ButtonDeleteRecordIsEnabled = false;
@@ -488,6 +510,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel = addEditGroupVM;
 
         ButtonLockDatabaseIsEnabled = false;
+        ButtonExpandAllIsEnabled = false;
+        ButtonCollapseAllIsEnabled = false;
         ButtonAddRecordIsEnabled = false;
         ButtonEditRecordIsEnabled = false;
         ButtonDeleteRecordIsEnabled = false;
@@ -552,6 +576,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel = addEditGroupVM;
 
         ButtonLockDatabaseIsEnabled = false;
+        ButtonExpandAllIsEnabled = false;
+        ButtonCollapseAllIsEnabled = false;
         ButtonAddRecordIsEnabled = false;
         ButtonEditRecordIsEnabled = false;
         ButtonDeleteRecordIsEnabled = false;
@@ -593,6 +619,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         SelectedViewModel = appSettingsVM;
 
         ButtonLockDatabaseIsEnabled = true;
+        ButtonExpandAllIsEnabled = false;
+        ButtonCollapseAllIsEnabled = false;
         ButtonAddRecordIsEnabled = false;
         ButtonEditRecordIsEnabled = false;
         ButtonDeleteRecordIsEnabled = false;
@@ -617,6 +645,20 @@ internal class MainWindow_ViewModel : ViewModelBase {
         addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
 
         SelectedViewModel = addEditGroupVM;
+
+        ButtonLockDatabaseIsEnabled = false;
+        ButtonExpandAllIsEnabled = false;
+        ButtonCollapseAllIsEnabled = false;
+        ButtonAddRecordIsEnabled = false;
+        ButtonEditRecordIsEnabled = false;
+        ButtonDeleteRecordIsEnabled = false;
+        ButtonUsernameToClipboardIsEnabled = false;
+        ButtonPasswordToClipboardIsEnabled = false;
+        ButtonUrlToClipboardIsEnabled = false;
+        ButtonPasswordGeneratorIsEnabled = false;
+        ButtonAppSettingsIsEnabled = false;
+        WindowStatusBarContentGridVisibility = Visibility.Hidden;
+
     }
     /// <summary>
     /// Event Handler for AddEditGroup_ViewModel.UpdateGroup event. Changes current view to AddEditGroup_View.
@@ -635,6 +677,20 @@ internal class MainWindow_ViewModel : ViewModelBase {
         addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
 
         SelectedViewModel = addEditGroupVM;
+
+
+        ButtonLockDatabaseIsEnabled = false;
+        ButtonExpandAllIsEnabled = false;
+        ButtonCollapseAllIsEnabled = false;
+        ButtonAddRecordIsEnabled = false;
+        ButtonEditRecordIsEnabled = false;
+        ButtonDeleteRecordIsEnabled = false;
+        ButtonUsernameToClipboardIsEnabled = false;
+        ButtonPasswordToClipboardIsEnabled = false;
+        ButtonUrlToClipboardIsEnabled = false;
+        ButtonPasswordGeneratorIsEnabled = false;
+        ButtonAppSettingsIsEnabled = false;
+        WindowStatusBarContentGridVisibility = Visibility.Hidden;
     }
     #endregion Change CurrentView Event Handlers
 
@@ -749,8 +805,47 @@ internal class MainWindow_ViewModel : ViewModelBase {
         System.Diagnostics.Debug.WriteLine($"SelectedRecord = {SelectedRecord?.Title}");
         System.Diagnostics.Debug.WriteLine($"SgRowId = {SrRowId}");
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void OnExpandAllGroupsCommand(object obj) {
+        if (SelectedViewModel is not Database_ViewModel) {
+            return;
+        }
 
-    
+        //((ViewModels.Database_ViewModel)SelectedViewModel).Groups =
+        ExpandCollapseAllGroups(((ViewModels.Database_ViewModel)SelectedViewModel).Groups[0], ((ViewModels.Database_ViewModel)SelectedViewModel).Groups, true);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void OnCollapseAllGroupsCommand(object obj) {
+        if (SelectedViewModel is not Database_ViewModel) {
+            return;
+        }
+
+        ExpandCollapseAllGroups(((ViewModels.Database_ViewModel)SelectedViewModel).Groups[0], ((ViewModels.Database_ViewModel)SelectedViewModel).Groups, false);
+    }
+    private System.Collections.ObjectModel.ObservableCollection<Models.Group> ExpandCollapseAllGroups(Models.Group grp, System.Collections.ObjectModel.ObservableCollection<Models.Group> groupsToExpandCollapse, bool determination) {
+        if (grp != null) {
+            if (grp.ChildrenGroups.Count > 0) {
+                foreach (Group child in grp.ChildrenGroups) {
+                    //groupsToExpandCollapse = ExpandCollapseAllGroups(child, groupsToExpandCollapse, determination);
+                    ExpandCollapseAllGroups(child, groupsToExpandCollapse, determination);
+                }
+            }
+
+            grp.IsExpanded = determination;
+            System.Diagnostics.Debug.WriteLine($"Expand/Collapse = {determination}; {grp.Title}.IsExpanded = {grp.IsExpanded}");
+            //groupsToExpandCollapse.Add(grp);
+        }
+
+        return groupsToExpandCollapse;
+    }
 
     //DispatcherTimer Tick event handler
     private void dispatcherTimer_Tick(object sender, EventArgs e) {
@@ -806,6 +901,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         CloseWindowCommand = new Utils.DelegateCommand(OnWindowCloseCommand);
 
         LockDatabaseCommand = new Utils.DelegateCommand(OnLockDatabaseCommand);
+        ExpandAllGroupsCommand = new(OnExpandAllGroupsCommand);
+        CollapseAllGroupsCommand = new(OnCollapseAllGroupsCommand);
         AddRecordCommand = new Utils.DelegateCommand(OnAddRecordCommand);
         EditRecordCommand = new Utils.DelegateCommand(OnEditRecordCommand);
         DeleteRecordCommand = new Utils.DelegateCommand(OnDeleteRecordCommand);

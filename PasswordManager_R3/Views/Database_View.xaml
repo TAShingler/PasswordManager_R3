@@ -21,6 +21,7 @@
         <c:CheckedToGeometryConverter x:Key="CheckedToGeometryConverter" />
         <c:SelectedRecordPropertyMaskedConverter x:Key="SelectedRecordPropertyMaskedConverter" />
         <c:IntToDrawingImageConverter x:Key="IntToDrawingImageConverter" />
+        <c:SelectedIndexToGridLengthConverter x:Key="SelectedIndexToGridLengthConverter" />
         <!--#endregion//  Converters  //-->
         
         <!--<PathGeometry x:Key="DownArrowGlyphGeometry" Figures="M 3,4 8,9 13,4 15,6 8,13 1,6 Z" />
@@ -139,7 +140,9 @@
                                 <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
                             </Border.BorderBrush>
                             <!--<Border.Background>
-                                <SolidColorBrush Color="Transparent" />--><!-- Color="{DynamicResource ControlLightColor}" />--><!--
+                                <SolidColorBrush Color="Transparent" />-->
+                            <!-- Color="{DynamicResource ControlLightColor}" />-->
+                            <!--
                             </Border.Background>-->
                             <ScrollViewer Focusable="False"
                                           CanContentScroll="False"
@@ -604,7 +607,9 @@
             <Setter Property="Margin"
                     Value="0" />
             <Setter Property="IsExpanded"
-                    Value="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Value="{Binding IsExpanded,
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged}" />
             <Setter Property="IsSelected"
                     Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <Setter Property="Template">
@@ -700,6 +705,12 @@
                                         Property="TextBlock.FontWeight"
                                         Value="Bold" />
                             </Trigger>
+                            <!--<Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="PART_Header"
+                                        Property="TextBlock.Foreground"
+                                        Value="DeepSkyBlue"/>
+                            </Trigger>-->
                             <Trigger SourceName="expander"
                                      Property="IsChecked"
                                      Value="True">
@@ -1085,6 +1096,7 @@
                         <Border x:Name="DGR_Border"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
+                                TextBlock.Foreground="{TemplateBinding Foreground}"
                                 SnapsToDevicePixels="True">
                             <Border.Background>
                                 <!--<LinearGradientBrush EndPoint="0.5,1"
@@ -1207,8 +1219,8 @@
                                         </Storyboard>-->
                                     </VisualState>
                                     <VisualState x:Name="MouseOver">
-                                        <!--<Storyboard>
-                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
+                                        <Storyboard>
+                                            <!--<ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
                                                                           Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
                                                                      Value="{StaticResource ControlMediumColor}" />
@@ -1217,8 +1229,68 @@
                                                                           Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
                                                 <EasingColorKeyFrame KeyTime="0"
                                                                      Value="{StaticResource ControlMouseOverColor}" />
+                                            </ColorAnimationUsingKeyFrames>-->
+                                            
+                                            <!-- DeepSkyBlue on DeepSkyBlue -->
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
+                                                                          Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#2600bfff" />
                                             </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>-->
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>
+
+                                            <!-- DeepSkyBlue on LightBlue -->
+                                            <!--<ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
+                                                                          Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#33add8e6" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>-->
+
+                                            <!-- DeepSkyBlue on DodgerBlue -->
+                                            <!--<ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
+                                                                          Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#331e90ff" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>-->
+                                            
+                                            <!-- DeepSkyBlue on Orange - Probably not... -->
+                                            <!--<ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
+                                                                          Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#33634733" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>-->
+
+                                            <!-- DeepSkyBlue on Gainsboro -->
+                                            <!--<ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
+                                                                          Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="#33dcdcdc" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border"
+                                                                          Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0"
+                                                                     Value="{StaticResource color-theme-blue}" />
+                                            </ColorAnimationUsingKeyFrames>-->
+                                        </Storyboard>
                                     </VisualState>
                                     
                                     <!--In this example, the appearance of a selected row 
@@ -1265,8 +1337,11 @@
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="Auto" />
                                 </SelectiveScrollingGrid.RowDefinitions>
-                                <DataGridCellsPresenter Grid.Column="1"
+                                <DataGridCellsPresenter x:Name="dgRowCellsPresenter"
+                                                        Grid.Column="1"
                                                         ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                        TextBlock.Foreground="{Binding ElementName=DGR_Border,
+                                                                                       Path=(TextBlock.Foreground)}"
                                                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 <DataGridDetailsPresenter Grid.Column="1"
                                                           Grid.Row="1"
@@ -2778,6 +2853,7 @@
                                   Width="1*" />
             </Grid.ColumnDefinitions>
 
+            <!--#region TreeView Pane-->
             <Border x:Name="treeViewOpacityMask"
                     Grid.Column="0"
                     Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
@@ -2845,6 +2921,7 @@
                            HorizontalContentAlignment="Center"
                            VerticalContentAlignment="Center"
                            Content="Total Vaults: 000" />-->
+            <!--#endregion TreeView Pane-->
 
             <GridSplitter Grid.Column="1"
                           Width="5"
@@ -2902,6 +2979,7 @@
                               CanUserReorderColumns="True"
                               CanUserResizeColumns="True"
                               CanUserSortColumns="False"
+                              IsReadOnly="True"
                               RowHeight="{Binding RelativeSource={RelativeSource Self},
                                                   Path=FontSize,
                                                   Converter={StaticResource MultiplyDoubleConverter},
@@ -2935,23 +3013,23 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Header="Title"
-                                                MinWidth="112"
+                                                MinWidth="115"
                                                 Width="Auto"
                                                 Binding="{Binding Title}" />
                             <DataGridTextColumn Header="Username"
-                                                MinWidth="112"
+                                                MinWidth="115"
                                                 Width="Auto"
                                                 Binding="{Binding Username}" />
                             <DataGridTextColumn Header="Email"
-                                                MinWidth="112"
+                                                MinWidth="115"
                                                 Width="Auto"
                                                 Binding="{Binding Email}" />
                             <DataGridTextColumn Header="Password"
-                                                MinWidth="112"
+                                                MinWidth="115"
                                                 Width="Auto"
                                                 Binding="{Binding PasswordMasked}" />
                             <DataGridTextColumn Header="Url"
-                                                MinWidth="112"
+                                                MinWidth="115"
                                                 Width="Auto"
                                                 Binding="{Binding URL}" />
                             <!--<DataGridTextColumn Header="Notes"

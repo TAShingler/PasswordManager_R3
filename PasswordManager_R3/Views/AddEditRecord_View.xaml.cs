@@ -24,17 +24,13 @@ public partial class AddEditRecord_View : UserControl {
 
     #region Event Handlers
     private void textBoxPassword_TextChanged(object sender, TextChangedEventArgs e) {
-        //if (textBoxPassword.Visibility == Visibility.Visible &&
-        //    pWrdBox.Visibility == Visibility.Collapsed) {
+        System.Diagnostics.Debug.WriteLine("textBoxPassword_TextChanged executed...");
+        if (textBoxPassword.Visibility == Visibility.Visible &&
+            pWrdBox.Visibility == Visibility.Collapsed) {
 
-            //System.Diagnostics.Debug.WriteLine("textBoxPassword_TextChanged executed...");
-            
-            //System.Diagnostics.Debug.WriteLine($"textBoxPassword_TextChanged e.Handled before setting pWrdBox.Password = {e.Handled}");
-            //if (pWrdBox.Password.Equals(textBoxPassword.Text) == false)
-        pWrdBox.Password = textBoxPassword.Text;
-        e.Handled = true;
-            //System.Diagnostics.Debug.WriteLine($"textBoxPassword_TextChanged e.Handled after setting pWrdBox.Password = {e.Handled}");
-        //}
+            pWrdBox.Password = textBoxPassword.Text;
+            //e.Handled = true;
+        }
     }
     private void pWrdBox_PasswordChanged(object sender, RoutedEventArgs e) {
         System.Diagnostics.Debug.WriteLine("pWrdBoxPassword_TextChanged executed...");
@@ -42,27 +38,16 @@ public partial class AddEditRecord_View : UserControl {
         if (pWrdBox.Visibility == Visibility.Visible &&
             textBoxPassword.Visibility == Visibility.Collapsed) {
 
-            //System.Diagnostics.Debug.WriteLine($"textBoxPassword_TextChanged e.Handled before setting pWrdBox.Password = {e.Handled}");
             //textBoxPassword.Text = pWrdBox.Password;
-            //((AddEditRecordthis.DataContext);
             UpdatePassword(pWrdBox.Password as string);
-            e.Handled = true;
-            //System.Diagnostics.Debug.WriteLine($"textBoxPassword_TextChanged e.Handled after setting pWrdBox.Password = {e.Handled}");
+            //e.Handled = true;
         }
 
-        pWrdBox.Focus();
-        pWrdBox.GetType().GetMethod("Select", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).Invoke(pWrdBox, new object[] { pWrdBox.Password.Length, 0 });
-        e.Handled = true;
+        //pWrdBox.Focus();
+        //pWrdBox.GetType().GetMethod("Select", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).Invoke(pWrdBox, new object[] { pWrdBox.Password.Length, 0 });
+        //e.Handled = true;
     }
     private void toggleButtonMaskPassword_Click(object sender, RoutedEventArgs e) {
-        //if (pWrdBox.Visibility == Visibility.Visible) {
-        //    pWrdBox.Visibility = Visibility.Collapsed;
-        //    textBoxPassword.Visibility = Visibility.Visible;
-        //} else if (pWrdBox.Visibility == Visibility.Collapsed) {
-        //    pWrdBox.Visibility = Visibility.Visible;
-        //    textBoxPassword.Visibility = Visibility.Collapsed;
-        //}
-
         if (toggleButtonMaskPassword.IsChecked == true) {
             textBoxPassword.Visibility = Visibility.Collapsed;
             pWrdBox.Visibility = Visibility.Visible;

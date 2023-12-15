@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,10 @@ internal class Group : Models.VaultObjectBase {
     [Newtonsoft.Json.JsonProperty("IsExpanded")]
     public bool IsExpanded {
         get => _isExpanded;
-        set => _isExpanded = value;
+        set {
+            _isExpanded = value;
+            OnPropertyChanged(nameof(IsExpanded));
+        }
     }
     [Newtonsoft.Json.JsonProperty("IsSelected")]
     public bool IsSelected {

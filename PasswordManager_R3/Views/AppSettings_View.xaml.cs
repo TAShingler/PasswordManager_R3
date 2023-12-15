@@ -33,7 +33,7 @@ public partial class AppSettings_View : UserControl {
     }
 
     private void NumericUpDownTextBox_PreviewKeyDown(object sender, KeyEventArgs e) {
-        if (e.Key == Key.Tab || e.Key == Key.Left || e.Key == Key.Right) {
+        if (e.Key == Key.Tab || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Back) {
             e.Handled = false;
             return;
         }

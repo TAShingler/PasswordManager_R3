@@ -40,6 +40,7 @@ public partial class LockScreen_View : UserControl {
     }
 
     private void tBox_TextChanged(object sender, TextChangedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("tBox_TextChanged executed...");
         if (tBox.Visibility == Visibility.Visible &&
             pBox.Visibility == Visibility.Collapsed) {
 
@@ -48,6 +49,7 @@ public partial class LockScreen_View : UserControl {
     }
 
     private void pBox_PasswordChanged(object sender, RoutedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("pBox_PasswordChanged executed...");
         if (pBox.Visibility == Visibility.Visible &&
             tBox.Visibility == Visibility.Collapsed) {
 

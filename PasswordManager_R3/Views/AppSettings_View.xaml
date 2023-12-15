@@ -1273,6 +1273,8 @@
                     Value="Hidden" />
             <Setter Property="Foreground"
                     Value="Gainsboro" />
+            <Setter Property="CaretBrush"
+                    Value="{StaticResource solidColorBrush-theme-foreground}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBoxBase}">

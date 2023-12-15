@@ -300,8 +300,9 @@
                              TextChanged="tBox_TextChanged">
                         <TextBox.InputBindings>
                             <KeyBinding Key="Return"
-                                        Command="{Binding CloseWindowCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                                        Command="{Binding UnlockDatabaseCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}},
+                                                                   Path=Text}"/>
                         </TextBox.InputBindings>
                     </TextBox>
                     <PasswordBox x:Name="pBox"
@@ -317,8 +318,9 @@
                                  PasswordChanged="pBox_PasswordChanged">
                         <PasswordBox.InputBindings>
                             <KeyBinding Key="Return"
-                                        Command="{Binding CloseWindowCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                                        Command="{Binding UnlockDatabaseCommand}"
+                                        CommandParameter="{Binding ElementName=tBox,
+                                                                   Path=Text}"/>
                         </PasswordBox.InputBindings>
                     </PasswordBox>
                     <ToggleButton x:Name="tBtnPasswordVisibility"

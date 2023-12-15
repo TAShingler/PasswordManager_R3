@@ -28,7 +28,7 @@ public partial class Database_View : UserControl {
             buttonSelectedRecordInfoPaneExpander.Visibility = Visibility.Collapsed;
 
             rowRightColBottomRow.MinHeight = selectedRecordInfoPane.MinHeight;
-            rowRightColBottomRow.Height = new GridLength(1, GridUnitType.Star);
+            rowRightColBottomRow.Height = new GridLength(0.01, GridUnitType.Star);
             //selectedRecordInfoPaneGridRow.MinHeight = 220;
             //selectedRecordInfoPaneGridRow.Height = new GridLength(0.75, GridUnitType.Star);
         } else {
