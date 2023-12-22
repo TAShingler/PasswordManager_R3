@@ -21,6 +21,17 @@ internal class MainWindow_ViewModel : ViewModelBase {
     //Window UIElement properties
     private Visibility _windowStatusBarVisibility = Visibility.Visible;
     private Visibility _windowStatusBarContentGridVisibility = Visibility.Hidden;
+    private bool _canCreateNewGroup = false;        //maybe rename to be specific to the ContextMenu MenuItem that it is bound to?...
+    private bool _canEditSelectedGroup = false;     //maybe rename to be specific to the ContextMenu MenuItem that it is bound to?...
+    private bool _canDeleteSelectedGroup = false;   //maybe rename to be specific to the ContextMenu MenuItem that it is bound to?...
+
+    //Title bar Menus IsEnabled
+    private bool _menuItemSetPasswordIsEnabled = false;
+    private bool _menuItemDatabaseIsEnabled = false;
+    private bool _menuItemGroupsIsEnabled = false;
+    private bool _menuItemEntriesIsEnabled = false;
+    private bool _menuItemToolsIsEnabled = false;
+    private bool _menuItemViewIsEnabled = false;
 
     //Quick Access Bar Button Visibility fields
     private bool _buttonLockDatabaseIsEnabled = false;
@@ -128,6 +139,71 @@ internal class MainWindow_ViewModel : ViewModelBase {
         set {
             _windowStatusBarContentGridVisibility = value;
             OnPropertyChanged(nameof(WindowStatusBarContentGridVisibility));
+        }
+    }
+    public bool CanCreateNewGroup {
+        get => _canCreateNewGroup;
+        set {
+            _canCreateNewGroup = value;
+            OnPropertyChanged(nameof(CanCreateNewGroup));
+        }
+    }
+    public bool CanEditSelectedGroup {
+        get => _canEditSelectedGroup;
+        set {
+            _canEditSelectedGroup = value;
+            OnPropertyChanged(nameof(CanEditSelectedGroup));
+        }
+    }
+    public bool CanDeleteSelectedGroup {
+        get => _canDeleteSelectedGroup;
+        set {
+            _canDeleteSelectedGroup = value;
+            OnPropertyChanged(nameof(CanDeleteSelectedGroup));
+        }
+    }
+
+    //Title bar Menus IsEnabled
+    public bool MenuItemSetPasswordIsEnabled {
+        get => _menuItemSetPasswordIsEnabled;
+        set {
+            _menuItemSetPasswordIsEnabled = value;
+            OnPropertyChanged(nameof(MenuItemSetPasswordIsEnabled));
+        }
+    }
+    public bool MenuItemDatabaseIsEnabled {
+        get => _menuItemDatabaseIsEnabled;
+        set {
+            _menuItemDatabaseIsEnabled = value;
+            OnPropertyChanged(nameof(MenuItemDatabaseIsEnabled));
+        }
+    }
+    public bool MenuItemGroupsIsEnabled {
+        get => _menuItemGroupsIsEnabled;
+        set {
+            _menuItemGroupsIsEnabled = value;
+            OnPropertyChanged(nameof(MenuItemGroupsIsEnabled));
+        }
+    }
+    public bool MenuItemEntriesIsEnabled {
+        get => _menuItemEntriesIsEnabled;
+        set {
+            _menuItemEntriesIsEnabled = value;
+            OnPropertyChanged(nameof(MenuItemEntriesIsEnabled));
+        }
+    }
+    public bool MenuItemToolsIsEnabled {
+        get => _menuItemToolsIsEnabled;
+        set {
+            _menuItemToolsIsEnabled = value;
+            OnPropertyChanged(nameof(MenuItemToolsIsEnabled));
+        }
+    }
+    public bool MenuItemViewIsEnabled {
+        get => _menuItemViewIsEnabled;
+        set {
+            _menuItemViewIsEnabled = value;
+            OnPropertyChanged(nameof(MenuItemViewIsEnabled));
         }
     }
 
@@ -308,6 +384,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
     public Utils.DelegateCommand? LockDatabaseCommand { get; set; }
     public Utils.DelegateCommand? ExpandAllGroupsCommand { get; set; }
     public Utils.DelegateCommand? CollapseAllGroupsCommand { get; set; }
+    public Utils.DelegateCommand? CreateNewGroupCommand { get; set; }
+    public Utils.DelegateCommand? EditSelectedGroupCommand { get; set; }
+    public Utils.DelegateCommand? DeleteSelectedGroupCommand { get; set; }
     public Utils.DelegateCommand? AddRecordCommand { get; set; }
     public Utils.DelegateCommand? EditRecordCommand { get; set; }
     public Utils.DelegateCommand? DeleteRecordCommand { get; set; }
@@ -423,6 +502,13 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
         SelectedViewModel = lockScreenVM;
 
+        MenuItemSetPasswordIsEnabled = true;    //might make LockScreenView allow for changing password, which this would need to be conditional...
+        MenuItemDatabaseIsEnabled = true;
+        MenuItemGroupsIsEnabled = false;
+        MenuItemEntriesIsEnabled = false;
+        MenuItemToolsIsEnabled = false;
+        MenuItemViewIsEnabled = false;
+
         ButtonLockDatabaseIsEnabled = false;
         ButtonExpandAllIsEnabled = false;
         ButtonCollapseAllIsEnabled = false;
@@ -440,10 +526,11 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// Set CurrentView to Database_View event handler
     /// </summary>
     private void OnSetDatabaseView() {
+        System.Diagnostics.Debug.WriteLine($"MainWindow_ViewModel.OnSetDatabaseView() called...\nMainWindow_ViewModel.SelectedGroup = {SelectedGroup}\nMainWindow_ViewModel.SelectedRecord = {SelectedRecord}");
         //Database_ViewModel databaseVM = new Database_ViewModel(this);
         ////add event handlers
         //SelectedViewModel = databaseVM;
-        //System.Diagnostics.Debug.WriteLine("OnSetDatabaseView() not implemented...");
+        //System.Diagnostics.Debug.WriteLine("OnSetDatabaseView() called...");
         //System.Diagnostics.Debug.WriteLine("OnSetDatabaseView() obj to string: " + obj.ToString());
 
         OnPropertyChanged(nameof(QuickAccessIconSize)); //might move to separate method called when AppSettings OK button clicked; calls OnSetDatabaseView method after
@@ -458,8 +545,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
         Database_ViewModel databaseVM = new Database_ViewModel(this);
         databaseVM.SelectedRecordChanged += OnSelectedRecordChanged;    //Nov. 3, 2023 - might remove, not sure if necessary
         databaseVM.SelectedGroupChanged += OnSelectedGroupChanged;      //Nov. 3, 2023 - might remove, not sure if necessary
-        databaseVM.CreateGroup += OnCreateGroup;
-        databaseVM.UpdateGroup += OnUpdateGroup;
+        databaseVM.CreateGroup += OnCreateSelectedGroup;
+        databaseVM.UpdateGroup += OnUpdateSelectedGroup;
+        databaseVM.DeleteGroup += OnDeleteSelectedGroup;
         //databaseVM.DeleteGroup += (Models.Group g, int i) => { System.Diagnostics.Debug.WriteLine("MainWindow: databaseVM.DeleteGroup event elevated"); };
 
         //retrieve Groups and Records from DB
@@ -470,6 +558,13 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //if (_recordsFromDb != null) { TotalRecordsInDatabase = _recordsFromDb.Count; }
 
         SelectedViewModel = databaseVM;
+
+        MenuItemSetPasswordIsEnabled = true;
+        MenuItemDatabaseIsEnabled = true;
+        MenuItemGroupsIsEnabled = true;
+        MenuItemEntriesIsEnabled = true;
+        MenuItemToolsIsEnabled = true;
+        MenuItemViewIsEnabled = true;
 
         ButtonLockDatabaseIsEnabled = true;
         ButtonExpandAllIsEnabled = true;
@@ -483,7 +578,11 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonPasswordGeneratorIsEnabled = false;
         ButtonAppSettingsIsEnabled = true;
         WindowStatusBarContentGridVisibility = Visibility.Visible;
+        System.Diagnostics.Debug.WriteLine($"MainWindow_ViewModel.OnSetDatabaseView() terminating...\nMainWindow_ViewModel.SelectedGroup = {SelectedGroup}\nMainWindow_ViewModel.SelectedRecord = {SelectedRecord}");
     }
+    private void OnCreateNewGroupCommand(object obj) => OnCreateSelectedGroup();
+    private void OnEditSelectedGroupCommand(object obj) => OnUpdateSelectedGroup();
+    private void OnDeleteSelectedGroupCommand(object obj) => OnDeleteSelectedGroup();
     /// <summary>
     /// Set CurrentView to AddEditRecord_View (to add record to database) event handler
     /// </summary>
@@ -494,7 +593,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
         //var rowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj).GUID).Select(pair => pair.Key).FirstOrDefault();
 
-        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this, ((ViewModels.Database_ViewModel)SelectedViewModel).SelectedGroup);
+        AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this, SelectedGroup);
         addEditRecordVM.CreateRecord += OnSetDatabaseView;
         addEditRecordVM.CancelAddEditRecord += OnSetDatabaseView;
         SelectedViewModel = addEditRecordVM;
@@ -508,6 +607,13 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //};
         //addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
         //SelectedViewModel = addEditGroupVM;
+
+        MenuItemSetPasswordIsEnabled = false;
+        MenuItemDatabaseIsEnabled = false;
+        MenuItemGroupsIsEnabled = false;
+        MenuItemEntriesIsEnabled = false;
+        MenuItemToolsIsEnabled = false;
+        MenuItemViewIsEnabled = false;
 
         ButtonLockDatabaseIsEnabled = false;
         ButtonExpandAllIsEnabled = false;
@@ -537,7 +643,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel = addEditGroupVM;
 
         /*  Edit Record View  */
-        AddEditRecord_ViewModel addEditRecordVM = new(this, ((ViewModels.Database_ViewModel)SelectedViewModel).SelectedGroup, ((ViewModels.Database_ViewModel)SelectedViewModel).SelectedRecord, SrRowId); //new Models.Record() { //get selected record instead of new record...
+        AddEditRecord_ViewModel addEditRecordVM = new(this,
+                                                      SelectedGroup,
+                                                      SelectedRecord,
+                                                      SrRowId); //new Models.Record() { //get selected record instead of new record...
         //    Title = "Record passed to ViewModel Title",
         //    Username = "Record passed to ViewModel Username",
         //    Email = "Record passed to ViewModel Email",
@@ -575,6 +684,13 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
         //SelectedViewModel = addEditGroupVM;
 
+        MenuItemSetPasswordIsEnabled = false;
+        MenuItemDatabaseIsEnabled = false;
+        MenuItemGroupsIsEnabled = false;
+        MenuItemEntriesIsEnabled = false;
+        MenuItemToolsIsEnabled = false;
+        MenuItemViewIsEnabled = false;
+
         ButtonLockDatabaseIsEnabled = false;
         ButtonExpandAllIsEnabled = false;
         ButtonCollapseAllIsEnabled = false;
@@ -595,6 +711,13 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private void OnGeneratePasswordCommand(object obj) {
         System.Diagnostics.Debug.WriteLine("onGeneratePasswordCommand clicked, but it's not implemented yet...");
         //CurrentView = new ViewModels.PasswordGenerator_ViewModel();
+
+        MenuItemSetPasswordIsEnabled = false;
+        MenuItemDatabaseIsEnabled = false;
+        MenuItemGroupsIsEnabled = false;
+        MenuItemEntriesIsEnabled = false;
+        MenuItemToolsIsEnabled = false;
+        MenuItemViewIsEnabled = false;
 
         ButtonLockDatabaseIsEnabled = false;
         ButtonAddRecordIsEnabled = false;
@@ -618,6 +741,13 @@ internal class MainWindow_ViewModel : ViewModelBase {
         appSettingsVM.CancelSettings += OnSetDatabaseView;
         SelectedViewModel = appSettingsVM;
 
+        MenuItemSetPasswordIsEnabled = false;
+        MenuItemDatabaseIsEnabled = false;
+        MenuItemGroupsIsEnabled = false;
+        MenuItemEntriesIsEnabled = false;
+        MenuItemToolsIsEnabled = false;
+        MenuItemViewIsEnabled = false;
+
         ButtonLockDatabaseIsEnabled = true;
         ButtonExpandAllIsEnabled = false;
         ButtonCollapseAllIsEnabled = false;
@@ -635,7 +765,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// Set CurrentView to AddeditGroup_View (to add Group to database).
     /// </summary>
     /// <param name="obj"></param>
-    private void OnCreateGroup() {
+    private void OnCreateSelectedGroup() {
+        System.Diagnostics.Debug.WriteLine("MainWindow_VieWModel.OnSelectedGroup() called...");
         //AddEditGroup_ViewModel addEditGroupVM = new(this, ((Database_ViewModel)SelectedViewModel).SelectedGroup);
         AddEditGroup_ViewModel addEditGroupVM = new(this, SelectedGroup);
         addEditGroupVM.CreateGroup += () => {   //maybe use a concrete method and not an anonymous method...
@@ -645,6 +776,13 @@ internal class MainWindow_ViewModel : ViewModelBase {
         addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
 
         SelectedViewModel = addEditGroupVM;
+
+        MenuItemSetPasswordIsEnabled = false;
+        MenuItemDatabaseIsEnabled = true;
+        MenuItemGroupsIsEnabled = false;
+        MenuItemEntriesIsEnabled = false;
+        MenuItemToolsIsEnabled = false;
+        MenuItemViewIsEnabled = false;
 
         ButtonLockDatabaseIsEnabled = false;
         ButtonExpandAllIsEnabled = false;
@@ -664,7 +802,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// Event Handler for AddEditGroup_ViewModel.UpdateGroup event. Changes current view to AddEditGroup_View.
     /// </summary>
     /// <param name="obj"></param>
-    private void OnUpdateGroup() {
+    private void OnUpdateSelectedGroup() {
         AddEditGroup_ViewModel addEditGroupVM = new(this, SelectedGroup, false, SgRowId);
         addEditGroupVM.CreateGroup += () => {
             /*do something*/
@@ -678,6 +816,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
         SelectedViewModel = addEditGroupVM;
 
+        MenuItemSetPasswordIsEnabled = false;
+        MenuItemDatabaseIsEnabled = true;
+        MenuItemGroupsIsEnabled = false;
+        MenuItemEntriesIsEnabled = false;
+        MenuItemToolsIsEnabled = false;
+        MenuItemViewIsEnabled = false;
 
         ButtonLockDatabaseIsEnabled = false;
         ButtonExpandAllIsEnabled = false;
@@ -691,6 +835,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonPasswordGeneratorIsEnabled = false;
         ButtonAppSettingsIsEnabled = false;
         WindowStatusBarContentGridVisibility = Visibility.Hidden;
+    }
+    private void OnDeleteSelectedGroup() {
+        if (SelectedViewModel is not ViewModels.Database_ViewModel)
+            return;
+
+        ((ViewModels.Database_ViewModel)SelectedViewModel).OnDeleteGroup(SelectedGroup);//new());
     }
     #endregion Change CurrentView Event Handlers
 
@@ -903,6 +1053,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
         LockDatabaseCommand = new Utils.DelegateCommand(OnLockDatabaseCommand);
         ExpandAllGroupsCommand = new(OnExpandAllGroupsCommand);
         CollapseAllGroupsCommand = new(OnCollapseAllGroupsCommand);
+        CreateNewGroupCommand = new(OnCreateNewGroupCommand);
+        EditSelectedGroupCommand = new(OnEditSelectedGroupCommand);
+        DeleteSelectedGroupCommand = new(OnDeleteSelectedGroupCommand);
         AddRecordCommand = new Utils.DelegateCommand(OnAddRecordCommand);
         EditRecordCommand = new Utils.DelegateCommand(OnEditRecordCommand);
         DeleteRecordCommand = new Utils.DelegateCommand(OnDeleteRecordCommand);

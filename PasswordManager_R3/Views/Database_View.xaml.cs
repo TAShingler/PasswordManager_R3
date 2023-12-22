@@ -55,43 +55,53 @@ public partial class Database_View : UserControl {
     }
 
     private void buttonTreeViewDisplayContextMenu_Click(object sender, RoutedEventArgs e) {
+        /*
         System.Diagnostics.Debug.WriteLine("sender type: " + sender.GetType());
         System.Diagnostics.Debug.WriteLine("sender parent: " + ((Button)sender).Parent);
         System.Diagnostics.Debug.WriteLine("sender templated parent: " + ((Button)sender).TemplatedParent);
 
         if (sender == null) { System.Diagnostics.Debug.WriteLine("parameter \'object\' is null"); return; }
 
-        if (sender.GetType() == typeof(Button)) {
-            Button btnSender = (Button)sender;
+        if (sender is not Button)
+            return;
 
-            if (btnSender.TemplatedParent is TreeViewItem) {
-                TreeViewItem tempParent = (TreeViewItem)btnSender.TemplatedParent;
+        //if (sender.GetType() == typeof(Button)) {
+        Button btnSender = (Button)sender;
 
-                if (tempParent.IsSelected == false) {
-                    tempParent.IsSelected = true;
-                }
+        if (btnSender.TemplatedParent is not TreeViewItem)
+            return;
 
-                System.Diagnostics.Debug.WriteLine("tempParent header group name: " + ((Models.Group)tempParent.Header).Title);
+        //if (btnSender.TemplatedParent is TreeViewItem) {
+        TreeViewItem tempParent = (TreeViewItem)btnSender.TemplatedParent;
 
-                var cm = this.FindResource("TreeViewItemContextMenu");
+        //if (tempParent.IsSelected == false) {
+        //tempParent.IsSelected = true;
+        //}
 
-                if (cm != null) {
-                    ((ContextMenu)cm).PlacementTarget = btnSender;
-                    ((ContextMenu)cm).Placement = System.Windows.Controls.Primitives.PlacementMode.Right;
-                    ((ContextMenu)cm).HorizontalOffset = 8;
+        System.Diagnostics.Debug.WriteLine("tempParent header group name: " + ((Models.Group)tempParent.Header).Title);
 
-                    if (((Models.Group)tempParent.Header).ParentGroup == null) {
-                        ((MenuItem)((ContextMenu)cm).Items[2]).IsEnabled = false;
-                    } else {
-                        ((MenuItem)((ContextMenu)cm).Items[2]).IsEnabled = true;
-                    }
+        var cm = this.FindResource("TreeViewItemContextMenu");
 
-                    ((ContextMenu)cm).IsOpen = true;
-                }
+        if (cm is null)
+            return;
+        //if (cm != null) {
+        ((ContextMenu)cm).PlacementTarget = btnSender;
+        ((ContextMenu)cm).Placement = System.Windows.Controls.Primitives.PlacementMode.Right;
+        ((ContextMenu)cm).HorizontalOffset = 8;
 
-                e.Handled = true;
-            }
-        }
+        //if (((Models.Group)tempParent.Header).ParentGroup == null) {
+        //    ((MenuItem)((ContextMenu)cm).Items[2]).IsEnabled = false;
+        //} else {
+        //    ((MenuItem)((ContextMenu)cm).Items[2]).IsEnabled = true;
+        //}
+
+        ((ContextMenu)cm).IsOpen = true;
+        //}
+
+        e.Handled = true;
+        //}
+        //}
+        */
     }
     private void TreeViewItem_MouseRightButtonUp(object sender, MouseButtonEventArgs e) {
         /* OLD
@@ -125,6 +135,27 @@ public partial class Database_View : UserControl {
         //right click event for expand/collapse actions?
     }
 
+    private void UserControl_ContextMenuClosing(object sender, ContextMenuEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("UserControl_ContextMenuClosing() called...");
+    }
+
+    private void UserControl_ContextMenuOpening(object sender, ContextMenuEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("UserControl_ContextMenuOpening() called...");
+    }
+
+    private void UserControl_Unloaded(object sender, RoutedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("UserControl_Unloaded() called...");
+
+        var cm = this.FindResource("TreeViewItemContextMenu");
+        ((ContextMenu)cm).IsOpen = false;
+
+        e.Handled = true;
+    }
+
+    private void UserControl_Loaded(object sender, RoutedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("UserControl_Loaded() called...");
+    }
+
     //private void TreeViewItem_MouseDoubleClick(object sender, MouseEventArgs e) {
     //    if (sender is TreeViewItem) {
     //        ((TreeViewItem)sender).IsExpanded = !((TreeViewItem)sender).IsExpanded;
@@ -141,4 +172,40 @@ public partial class Database_View : UserControl {
     //private void TreeView_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e) {
     //    System.Diagnostics.Debug.WriteLine($"TreeView_PreviewMouseDoubleClick sender: {sender.GetType()}");
     //}
+
+    private void TreeViewItemContextMenuItem_Click(object sender, RoutedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("TreeViewItemContextMenuItem_Click() called...");
+        var cm = this.FindResource("TreeViewItemContextMenu");
+
+        ((ContextMenu)cm).IsOpen = false;
+        e.Handled = true;
+    }
+
+    private void ContextMenu_Unloaded(object sender, RoutedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("ContextMenu_Unloaded() called...");
+    }
+
+    private void MenuItem_Click(object sender, RoutedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("MenuItem_Click() called...");
+        System.Diagnostics.Debug.WriteLine("sender type: " + sender.GetType());
+        var cm = this.FindResource("TreeViewItemContextMenu");
+        ((ContextMenu)cm).Height = 0.0;
+        ((ContextMenu)cm).Width = 0.0;
+    }
+
+    private void TreeViewItemContextMenu_Loaded(object sender, RoutedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("TreeViewItemContextMenu_Loaded() called...");
+        System.Diagnostics.Debug.WriteLine("sender = " + sender);
+        ContextMenu cm = (ContextMenu)sender;
+
+        cm.DataContext = this.DataContext;
+    }
+
+    private void treeViewGroups_ContextMenuClosing(object sender, ContextMenuEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("treeViewGroups_ContextMenuClosing() called...");
+    }
+
+    private void treeViewGroups_ContextMenuOpening(object sender, ContextMenuEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("treeViewGroups_ContextMenuOpening() called...");
+    }
 }

@@ -2204,9 +2204,10 @@
                           Background="Transparent"
                           Foreground="{StaticResource ThemeTextBrush}"
                           VerticalAlignment="Center">
-                        <MenuItem Header="Database">
+                        <MenuItem Header="Database"
+                                  IsEnabled="{Binding MenuItemDatabaseIsEnabled}">
                             <MenuItem Header="Set Password..."
-                                      IsEnabled="False" />
+                                      IsEnabled="{Binding MenuItemSetPasswordIsEnabled}" />
                             <Separator />
                             <MenuItem Header="Backup..."
                                       IsEnabled="False" />
@@ -2222,16 +2223,21 @@
                                       Command="{Binding CloseWindowCommand}"
                                       CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
                         </MenuItem>
-                        <MenuItem Header="Groups">
+                        <MenuItem Header="Groups"
+                                  IsEnabled="{Binding MenuItemGroupsIsEnabled}">
                             <MenuItem Header="Add Group"
-                                      IsEnabled="False" />
+                                      IsEnabled="{Binding CanCreateNewGroup}"
+                                      Command="{Binding CreateNewGroupCommand}"/>
                             <MenuItem Header="Edit Group"
-                                      IsEnabled="False" />
+                                      IsEnabled="{Binding CanEditSelectedGroup}"
+                                      Command="{Binding EditSelectedGroupCommand}"/>
                             <MenuItem Header="Delete Group"
-                                      IsEnabled="False" />
+                                      IsEnabled="{Binding CanDeleteSelectedGroup}"
+                                      Command="{Binding DeleteSelectedGroupCommand}"/>
                             <!--<MenuItem Header="Duplicate/Clone Group" />-->
                         </MenuItem>
-                        <MenuItem Header="Entries">
+                        <MenuItem Header="Entries"
+                                  IsEnabled="{Binding MenuItemEntriesIsEnabled}">
                             <MenuItem Header="Add Entry"
                                       IsEnabled="{Binding ButtonAddRecordIsEnabled}"
                                       Command="{Binding AddRecordCommand}"/>
@@ -2256,12 +2262,15 @@
                                       IsEnabled="{Binding ButtonUrlToClipboardIsEnabled}"
                                       Command="{Binding CopyUrlToClipboardCommand}"/>
                         </MenuItem>
-                        <MenuItem Header="Tools">
+                        <MenuItem Header="Tools"
+                                  IsEnabled="{Binding MenuItemToolsIsEnabled}">
                             <MenuItem Header="Settings"
                                       IsEnabled="{Binding ButtonAppSettingsIsEnabled}"
                                       Command="{Binding AppSettingsCommand}"/>
                         </MenuItem>
-                        <MenuItem Header="View">
+                        <MenuItem Header="View"
+                                  IsEnabled="{Binding MenuItemViewIsEnabled}"
+                                  Visibility="Collapsed">
                             <MenuItem Header="Theme"
                                       IsEnabled="False" />
                             <Separator />

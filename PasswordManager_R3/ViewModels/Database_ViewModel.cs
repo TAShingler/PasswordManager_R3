@@ -74,6 +74,27 @@ internal class Database_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(SgRowId));
         }
     }
+    public bool CanCreateNewGroup {
+        get => ((MainWindow_ViewModel)ParentVM).CanCreateNewGroup;
+        set {
+            ((MainWindow_ViewModel)ParentVM).CanCreateNewGroup = value;
+            OnPropertyChanged(nameof(CanCreateNewGroup));
+        }
+    }
+    public bool CanEditSelectedGroup {
+        get => ((MainWindow_ViewModel)ParentVM).CanEditSelectedGroup;
+        set {
+            ((MainWindow_ViewModel)ParentVM).CanEditSelectedGroup = value;
+            OnPropertyChanged(nameof(CanEditSelectedGroup));
+        }
+    }
+    public bool CanDeleteSelectedGroup {
+        get => ((MainWindow_ViewModel)ParentVM).CanDeleteSelectedGroup;
+        set {
+            ((MainWindow_ViewModel)ParentVM).CanDeleteSelectedGroup = value;
+            OnPropertyChanged(nameof(CanDeleteSelectedGroup));
+        }
+    }
 
     //Models.Record-specific properties for information pane
     public Models.Record? SelectedRecord {
@@ -281,6 +302,21 @@ internal class Database_ViewModel : ViewModelBase {
 
     #region Constructors
     public Database_ViewModel(ViewModelBase parentVM) : base(parentVM) {
+        _groupsFromDb = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
+        _recordsFromDb = ((App)App.Current).DatabaseOps.RetrieveRecordsData();
+
+        foreach (var kvp in _groupsFromDb) {
+            kvp.Value.IsSelected = false;
+        }
+
+        if (((MainWindow_ViewModel)ParentVM).SelectedGroup != null) {
+            var selGrp = _groupsFromDb.Where(pair => pair.Value.GUID == ((MainWindow_ViewModel)ParentVM).SelectedGroup.GUID).Select(pair => pair.Value).FirstOrDefault();
+            selGrp.IsSelected = true;
+            System.Diagnostics.Debug.WriteLine($"selGrp = {selGrp.Title}");
+        } else {
+            System.Diagnostics.Debug.WriteLine("SelectedGroup is null; _groupsFromDb.ElementAt(0).Value.IsSelected set to true");
+            _groupsFromDb.ElementAt(0).Value.IsSelected = true;
+        }
         ////read Group objects from database
         //_groupsFromDb = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
 
@@ -292,8 +328,8 @@ internal class Database_ViewModel : ViewModelBase {
         Groups = GroupsToObsColl();
         //}
 
-        ((MainWindow_ViewModel)ParentVM).TotalGroupsInDatabase = _groupsFromDb.Count;
-        ((MainWindow_ViewModel)ParentVM).TotalRecordsInDatabase = _recordsFromDb.Count;
+        //((MainWindow_ViewModel)ParentVM).TotalGroupsInDatabase = _groupsFromDb.Count;
+        //((MainWindow_ViewModel)ParentVM).TotalRecordsInDatabase = _recordsFromDb.Count;
 
         GroupSelectedItemChangedCommand = new Utils.DelegateCommand(OnGroupSelectionChanged);
         OnRecordSelectionChangedCommand = new Utils.DelegateCommand(OnRecordSelectionChanged);
@@ -312,7 +348,7 @@ internal class Database_ViewModel : ViewModelBase {
 
         TreeViewLoadedCommand = new(OnTreeViewLoadedCommand);
 
-        Groups.ElementAt(0).IsSelected = true;
+        //Groups.ElementAt(0).IsSelected = true;
         //OnGroupSelectionChanged(Groups[0]);
     }
     #endregion Constructors
@@ -324,7 +360,7 @@ internal class Database_ViewModel : ViewModelBase {
 
     #region Other Methods
     private void OnGroupSelectionChanged(object obj) {
-        System.Diagnostics.Debug.WriteLine("Database_ViewModel.OnSeletedGroupChanged called...");
+        System.Diagnostics.Debug.WriteLine("Database_ViewModel.OnSelectedGroupChanged called...");
         //System.Diagnostics.Debug.WriteLine("obj.GetType() = " + obj.GetType());
         //do something
         //SelectedGroup = null;
@@ -338,12 +374,28 @@ internal class Database_ViewModel : ViewModelBase {
 
         //System.Diagnostics.Debug.WriteLine($"Currently selected Group: {((Models.Group)obj).Title}");
 
-        //if (obj == null) { return; }
+        if (obj == null) {
+            return;
+        }
 
         SgRowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj)?.GUID).Select(pair => pair.Key).FirstOrDefault(-1);
         System.Diagnostics.Debug.WriteLine($"obj == null : {(obj == null ? true : false)}");
+        System.Diagnostics.Debug.WriteLine($"obj is Group: {obj is Group}");
         System.Diagnostics.Debug.WriteLine($"SelectedGroupChanged == null : {(SelectedGroupChanged == null ? true : false)}");
+
         SelectedGroup = obj as Models.Group;
+
+        //if (SelectedGroup.ParentGroup is null) {
+        //    //System.Diagnostics.Debug.WriteLine("SelectedGroup.ParentGroup == null");
+        //    CanDeleteSelectedGroup = false;
+        //} else {
+        //    CanDeleteSelectedGroup = true;
+        //}
+        //if (SelectedGroup != null) {
+            CanCreateNewGroup = true;
+            CanEditSelectedGroup = true;
+            CanDeleteSelectedGroup = !(SelectedGroup?.ParentGroup == null);
+        //}
         SelectedGroupChanged?.Invoke(obj == null ? true : false);
         //SelectedGroupChanged?.Invoke(obj);
     }
@@ -444,22 +496,22 @@ internal class Database_ViewModel : ViewModelBase {
         }
     }
 
-    private void OnCreateGroup(object obj) {
-        //if (obj == null) { System.Diagnostics.Debug.WriteLine("OnCreateGroup obj is null"); return; }
+    //private void OnCreateGroup(object obj) {
+    //    //if (obj == null) { System.Diagnostics.Debug.WriteLine("OnCreateGroup obj is null"); return; }
 
-        //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj to string = {obj.ToString()}");
-        //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj type = {obj.GetType()}");
-        //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj GUID = {((Models.Group)obj).GUID}");
-        //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj child groups count = {((Models.Group)obj).ChildrenGroups.Count}");
-        //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj child records count = {((Models.Group)obj).ChildrenRecords.Count}");
-        CreateGroup?.Invoke();// (Models.Group)obj);//, EventArgs.Empty);
-    }
-    private void OnUpdateGroup(object obj) {
-        //var rowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj).GUID).Select(pair => pair.Key).FirstOrDefault();
+    //    //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj to string = {obj.ToString()}");
+    //    //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj type = {obj.GetType()}");
+    //    //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj GUID = {((Models.Group)obj).GUID}");
+    //    //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj child groups count = {((Models.Group)obj).ChildrenGroups.Count}");
+    //    //System.Diagnostics.Debug.WriteLine($"OnCreateGroup obj child records count = {((Models.Group)obj).ChildrenRecords.Count}");
+    //    CreateGroup?.Invoke();// (Models.Group)obj);//, EventArgs.Empty);
+    //}
+    //private void OnUpdateGroup(object obj) {
+    //    //var rowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj).GUID).Select(pair => pair.Key).FirstOrDefault();
 
-        UpdateGroup?.Invoke();// (Models.Group)obj, rowId);
-    }
-    private void OnDeleteGroup(object obj) {
+    //    UpdateGroup?.Invoke();// (Models.Group)obj, rowId);
+    //}
+    internal void OnDeleteGroup(object obj) {   //need to adjust to not have a Group object passed to this method, since the selected Group and Record objects are being set with Property binding in the View
         var objAsGroup = (Models.Group)obj;
         var rowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj).GUID).Select(pair => pair.Key).ToList();
         List<Models.Group> groupsToDelete = new();
@@ -483,7 +535,10 @@ internal class Database_ViewModel : ViewModelBase {
         }
 
         Groups = GroupsToObsColl();
-    }
+    }   //should probably handle elsewhere... maybe...
+    private void OnCreateGroup(object obj) => CreateGroup?.Invoke();
+    private void OnUpdateGroup(object obj) => UpdateGroup?.Invoke();
+    //private void OnDeleteGroup(object obj) => DeleteGroup?.Invoke();
 
     private void OnTreeViewLoadedCommand(object obj) {
         //System.Diagnostics.Debug.WriteLine("OnTreeViewLoadedCommand called...");
@@ -496,8 +551,6 @@ internal class Database_ViewModel : ViewModelBase {
 
     private System.Collections.ObjectModel.ObservableCollection<Models.Group> GroupsToObsColl() {
         System.Collections.ObjectModel.ObservableCollection<Models.Group> groupsColl = new();
-        _groupsFromDb = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
-        _recordsFromDb = ((App)App.Current).DatabaseOps.RetrieveRecordsData();
 
         ((MainWindow_ViewModel)ParentVM).TotalGroupsInDatabase = _groupsFromDb.Count;
         ((MainWindow_ViewModel)ParentVM).TotalRecordsInDatabase = _recordsFromDb.Count;
