@@ -381,9 +381,12 @@ internal class Database_ViewModel : ViewModelBase {
         SgRowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj)?.GUID).Select(pair => pair.Key).FirstOrDefault(-1);
         System.Diagnostics.Debug.WriteLine($"obj == null : {(obj == null ? true : false)}");
         System.Diagnostics.Debug.WriteLine($"obj is Group: {obj is Group}");
-        System.Diagnostics.Debug.WriteLine($"SelectedGroupChanged == null : {(SelectedGroupChanged == null ? true : false)}");
+        //System.Diagnostics.Debug.WriteLine($"SelectedGroupChanged == null : {(SelectedGroupChanged == null ? true : false)}");
+        System.Diagnostics.Debug.WriteLine($"obj as Group .Title = {((Models.Group)obj).Title}");
 
+        System.Diagnostics.Debug.WriteLine($"SelectedGroup not yet set. SelectedGroup = {SelectedGroup?.Title}");
         SelectedGroup = obj as Models.Group;
+        System.Diagnostics.Debug.WriteLine($"SelectedGroup set. SelectedGroup = {SelectedGroup?.Title}");
 
         //if (SelectedGroup.ParentGroup is null) {
         //    //System.Diagnostics.Debug.WriteLine("SelectedGroup.ParentGroup == null");
@@ -392,7 +395,7 @@ internal class Database_ViewModel : ViewModelBase {
         //    CanDeleteSelectedGroup = true;
         //}
         //if (SelectedGroup != null) {
-            CanCreateNewGroup = true;
+        CanCreateNewGroup = true;
             CanEditSelectedGroup = true;
             CanDeleteSelectedGroup = !(SelectedGroup?.ParentGroup == null);
         //}
@@ -546,7 +549,10 @@ internal class Database_ViewModel : ViewModelBase {
         //var objAsTreeView = obj as System.Windows.Controls.TreeView;
         //System.Diagnostics.Debug.WriteLine("objAsTreeView.Items.GetItemAt(0) = " + ((Models.Group)objAsTreeView.Items.GetItemAt(0)).IsSelected);
         //Groups.ElementAt(0).IsSelected = true;
-        OnGroupSelectionChanged(Groups.ElementAt(0));
+        if (SelectedGroup == null)
+            OnGroupSelectionChanged(Groups.ElementAt(0));
+        else
+            SelectedGroupChanged?.Invoke(false);
     }
 
     private System.Collections.ObjectModel.ObservableCollection<Models.Group> GroupsToObsColl() {

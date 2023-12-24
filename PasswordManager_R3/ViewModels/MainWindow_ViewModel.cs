@@ -11,10 +11,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private ViewModels.ViewModelBase? _selectedViewModel;
     private int _totalGroupsInDatabase = 0;
     private int _totalRecordsInDatabase = 0;
-    private Models.Group _selectedGroup;
-    private Models.Record _selectedRecord;
-    private int _sgRowId;
-    private int _srRowId;
+    private Models.Group? _selectedGroup = null;
+    private Models.Record? _selectedRecord = null;
+    private int _sgRowId = -1;
+    private int _srRowId = -1;
     //private System.Collections.Generic.Dictionary<int, Models.Group> _groupsFromDb;
     //private System.Collections.Generic.Dictionary<int, Models.Record> _recordsFromDb;
 
@@ -93,7 +93,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(TotalRecordsInDatabase));
         }
     }
-    public Models.Group SelectedGroup {
+    public Models.Group? SelectedGroup {
         get { return _selectedGroup; }
         set {
             _selectedGroup = value;
@@ -101,7 +101,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(SelectedGroup));
         }
     }
-    public Models.Record SelectedRecord {
+    public Models.Record? SelectedRecord {
         get { return _selectedRecord; }
         set {
             _selectedRecord = value;
@@ -501,6 +501,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //System.Diagnostics.Debug.WriteLine("_recordsFromDb size: " + _recordsFromDb?.Count);
 
         SelectedViewModel = lockScreenVM;
+        TotalGroupsInDatabase = 0;
+        TotalRecordsInDatabase = 0;
+        SelectedGroup = null;
+        SelectedRecord = null;
+        SgRowId = -1;
+        SrRowId = -1;
 
         MenuItemSetPasswordIsEnabled = true;    //might make LockScreenView allow for changing password, which this would need to be conditional...
         MenuItemDatabaseIsEnabled = true;
