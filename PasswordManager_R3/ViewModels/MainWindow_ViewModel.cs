@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using PasswordManager_R3.Models;
 using System;
+using System.Linq;
 using System.Windows;
 
 namespace PasswordManager_R3.ViewModels;
@@ -27,6 +28,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
     //Title bar Menus IsEnabled
     private bool _menuItemSetPasswordIsEnabled = false;
+    private bool _menuItemManualDatabaseBackupIsEnabled = false;
+    private bool _menuItemRestoreDatabaseIsEnabled = false;
     private bool _menuItemDatabaseIsEnabled = false;
     private bool _menuItemGroupsIsEnabled = false;
     private bool _menuItemEntriesIsEnabled = false;
@@ -169,6 +172,20 @@ internal class MainWindow_ViewModel : ViewModelBase {
         set {
             _menuItemSetPasswordIsEnabled = value;
             OnPropertyChanged(nameof(MenuItemSetPasswordIsEnabled));
+        }
+    }
+    public bool MenuItemManualDatabaseBackupIsEnabled {
+        get => _menuItemManualDatabaseBackupIsEnabled;
+        set {
+            _menuItemManualDatabaseBackupIsEnabled = value;
+            OnPropertyChanged(nameof(MenuItemManualDatabaseBackupIsEnabled));
+        }
+    }
+    public bool MenuItemRestoreDatabaseIsEnabled {
+        get => _menuItemRestoreDatabaseIsEnabled;
+        set {
+            _menuItemRestoreDatabaseIsEnabled = value;
+            OnPropertyChanged(nameof(MenuItemRestoreDatabaseIsEnabled));
         }
     }
     public bool MenuItemDatabaseIsEnabled {
@@ -396,6 +413,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
     public Utils.DelegateCommand? CopyUrlToClipboardCommand { get; set; }
     public Utils.DelegateCommand? GeneratePasswordCommand { get; set; }
     public Utils.DelegateCommand? AppSettingsCommand { get; set; }
+    public Utils.DelegateCommand? ManualDatabaseBackupCommand { get; set; }
+    public Utils.DelegateCommand? RestoreDatabaseCommand { get; set; }
 
     public Utils.DelegateCommand? WindowActivatedCommand { get; set; }
     public Utils.DelegateCommand? WindowDeactivatedCommand { get; set; }
@@ -509,6 +528,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         SrRowId = -1;
 
         MenuItemSetPasswordIsEnabled = true;    //might make LockScreenView allow for changing password, which this would need to be conditional...
+        MenuItemManualDatabaseBackupIsEnabled = false;
+        MenuItemRestoreDatabaseIsEnabled = true;
         MenuItemDatabaseIsEnabled = true;
         MenuItemGroupsIsEnabled = false;
         MenuItemEntriesIsEnabled = false;
@@ -566,6 +587,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         SelectedViewModel = databaseVM;
 
         MenuItemSetPasswordIsEnabled = true;
+        MenuItemManualDatabaseBackupIsEnabled = true;
+        MenuItemRestoreDatabaseIsEnabled = true;
         MenuItemDatabaseIsEnabled = true;
         MenuItemGroupsIsEnabled = true;
         MenuItemEntriesIsEnabled = true;
@@ -588,7 +611,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
     }
     private void OnCreateNewGroupCommand(object obj) => OnCreateSelectedGroup();
     private void OnEditSelectedGroupCommand(object obj) => OnUpdateSelectedGroup();
-    private void OnDeleteSelectedGroupCommand(object obj) => OnDeleteSelectedGroup();
+    private void OnDeleteSelectedGroupCommand(object obj) => OnDeleteSelectedGroup(obj);
     /// <summary>
     /// Set CurrentView to AddEditRecord_View (to add record to database) event handler
     /// </summary>
@@ -600,7 +623,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //var rowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj).GUID).Select(pair => pair.Key).FirstOrDefault();
 
         AddEditRecord_ViewModel addEditRecordVM = new AddEditRecord_ViewModel(this, SelectedGroup);
-        addEditRecordVM.CreateRecord += OnSetDatabaseView;
+        addEditRecordVM.CreateRecord +=  OnSetDatabaseView;
         addEditRecordVM.CancelAddEditRecord += OnSetDatabaseView;
         SelectedViewModel = addEditRecordVM;
 
@@ -615,7 +638,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel = addEditGroupVM;
 
         MenuItemSetPasswordIsEnabled = false;
-        MenuItemDatabaseIsEnabled = false;
+        MenuItemManualDatabaseBackupIsEnabled = false;
+        MenuItemRestoreDatabaseIsEnabled = false;
+        MenuItemDatabaseIsEnabled = true;
         MenuItemGroupsIsEnabled = false;
         MenuItemEntriesIsEnabled = false;
         MenuItemToolsIsEnabled = false;
@@ -691,7 +716,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //SelectedViewModel = addEditGroupVM;
 
         MenuItemSetPasswordIsEnabled = false;
-        MenuItemDatabaseIsEnabled = false;
+        MenuItemManualDatabaseBackupIsEnabled = false;
+        MenuItemRestoreDatabaseIsEnabled = false;
+        MenuItemDatabaseIsEnabled = true;
         MenuItemGroupsIsEnabled = false;
         MenuItemEntriesIsEnabled = false;
         MenuItemToolsIsEnabled = false;
@@ -719,7 +746,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //CurrentView = new ViewModels.PasswordGenerator_ViewModel();
 
         MenuItemSetPasswordIsEnabled = false;
-        MenuItemDatabaseIsEnabled = false;
+        MenuItemManualDatabaseBackupIsEnabled = false;
+        MenuItemRestoreDatabaseIsEnabled = false;
+        MenuItemDatabaseIsEnabled = true;
         MenuItemGroupsIsEnabled = false;
         MenuItemEntriesIsEnabled = false;
         MenuItemToolsIsEnabled = false;
@@ -748,7 +777,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
         SelectedViewModel = appSettingsVM;
 
         MenuItemSetPasswordIsEnabled = false;
-        MenuItemDatabaseIsEnabled = false;
+        MenuItemManualDatabaseBackupIsEnabled = false;
+        MenuItemRestoreDatabaseIsEnabled = false;
+        MenuItemDatabaseIsEnabled = true;
         MenuItemGroupsIsEnabled = false;
         MenuItemEntriesIsEnabled = false;
         MenuItemToolsIsEnabled = false;
@@ -776,7 +807,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //AddEditGroup_ViewModel addEditGroupVM = new(this, ((Database_ViewModel)SelectedViewModel).SelectedGroup);
         AddEditGroup_ViewModel addEditGroupVM = new(this, SelectedGroup);
         addEditGroupVM.CreateGroup += () => {   //maybe use a concrete method and not an anonymous method...
-            /*do something*/
+            //set Database_View
             OnSetDatabaseView();
         };
         addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
@@ -784,6 +815,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         SelectedViewModel = addEditGroupVM;
 
         MenuItemSetPasswordIsEnabled = false;
+        MenuItemManualDatabaseBackupIsEnabled = false;
+        MenuItemRestoreDatabaseIsEnabled = false;
         MenuItemDatabaseIsEnabled = true;
         MenuItemGroupsIsEnabled = false;
         MenuItemEntriesIsEnabled = false;
@@ -810,19 +843,15 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// <param name="obj"></param>
     private void OnUpdateSelectedGroup() {
         AddEditGroup_ViewModel addEditGroupVM = new(this, SelectedGroup, false, SgRowId);
-        addEditGroupVM.CreateGroup += () => {
-            /*do something*/
-            OnSetDatabaseView();
-        };
-        addEditGroupVM.UpdateGroup += () => {
-            /* do something */
-            OnSetDatabaseView();
-        };
+        addEditGroupVM.CreateGroup += OnSetDatabaseView;
+        addEditGroupVM.UpdateGroup += OnSetDatabaseView;
         addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
 
         SelectedViewModel = addEditGroupVM;
 
         MenuItemSetPasswordIsEnabled = false;
+        MenuItemManualDatabaseBackupIsEnabled = false;
+        MenuItemRestoreDatabaseIsEnabled = false;
         MenuItemDatabaseIsEnabled = true;
         MenuItemGroupsIsEnabled = false;
         MenuItemEntriesIsEnabled = false;
@@ -842,11 +871,18 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonAppSettingsIsEnabled = false;
         WindowStatusBarContentGridVisibility = Visibility.Hidden;
     }
-    private void OnDeleteSelectedGroup() {
+    private void OnDeleteSelectedGroup(object obj) {
         if (SelectedViewModel is not ViewModels.Database_ViewModel)
             return;
 
-        ((ViewModels.Database_ViewModel)SelectedViewModel).OnDeleteGroup(SelectedGroup);//new());
+        if (SelectedGroup == null)
+            return;
+
+        //Database backup -- unnecessary; being called in Database_ViewModel.OnDeleteGroup();
+        //Utils.FileOperations.DatabaseBackup();
+
+        //Call Database_ViewModel.OnDeleteGroup() method, passing the SelectedGroup
+        ((ViewModels.Database_ViewModel)SelectedViewModel).OnDeleteGroup(SelectedGroup);
     }
     #endregion Change CurrentView Event Handlers
 
@@ -856,6 +892,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// </summary>
     /// <param name="obj"></param>
     private void OnDeleteRecordCommand(object obj) {
+        //backup database
+        Utils.FileOperations.DatabaseBackup();
+
         //delete selected record
         ((App)App.Current).DatabaseOps.DeleteRecordData(SrRowId);
 
@@ -1002,6 +1041,35 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
         return groupsToExpandCollapse;
     }
+    private void OnManualDatabaseBackupCommand(object obj) {
+        //launch save as dialog
+            //if OK, continue; cancel, exit method
+        System.Windows.Forms.SaveFileDialog sfd = new();
+        sfd.DefaultExt = "database backup | .bak";
+        var result = sfd.ShowDialog();
+
+        if (result == System.Windows.Forms.DialogResult.Cancel)
+            return;
+
+        //get save location string
+        var saveLocation = sfd.FileName;
+
+        //DatabaseBackup(string)
+        Utils.FileOperations.DatabaseBackup(saveLocation);
+    }
+    private void OnRestoreDatabaseCommand(object obj) {
+        //do something
+        throw new NotImplementedException("OnRestoreDatabaseCommand() not yet implemented...");
+
+        //OpenFileDialog
+        System.Windows.Forms.OpenFileDialog ofd = new();
+        var result = ofd.ShowDialog();
+
+        if (result == System.Windows.Forms.DialogResult.Cancel)
+            return;
+
+        Utils.FileOperations.RestoreDatabase(ofd.FileName);
+    }
 
     //DispatcherTimer Tick event handler
     private void dispatcherTimer_Tick(object sender, EventArgs e) {
@@ -1071,6 +1139,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         CopyUrlToClipboardCommand = new Utils.DelegateCommand(OnCopyUrlToClipboardCommand);
         GeneratePasswordCommand = new Utils.DelegateCommand(OnGeneratePasswordCommand);
         AppSettingsCommand = new Utils.DelegateCommand(OnAppSettingsCommand);
+        ManualDatabaseBackupCommand = new(OnManualDatabaseBackupCommand);
+        RestoreDatabaseCommand = new(OnRestoreDatabaseCommand);
 
         WindowActivatedCommand = new(OnWindowActivatedCommand);
         WindowDeactivatedCommand = new(OnWindowDeactivatedCommand);

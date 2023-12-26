@@ -135,11 +135,11 @@ internal static class FileOperations {
         DeleteFile(filePath);
     }
 
-    //Database backup method
-    internal static void DatabaseBackup() {
+    //Database backup methods
+    internal static void DatabaseBackup() {//async Task<bool> DatabaseBackup() {
         if (DoesDirectoryExist(((App)App.Current).AppVariables.BackupLocation) == false) {
             //throw excception -- try to provide user usefule information
-            return;
+            return;// false;
         }
 
         //get DB backup files from backup files directory
@@ -154,7 +154,40 @@ internal static class FileOperations {
             RenameDatabaseBackup(backupFiles[1..]);
         }
 
-        CreateDatabaseBackup(backupFiles.Length);
+        if (((App)App.Current).DatabaseOps.DatabaseConnection != null) {
+            ((App)App.Current).DatabaseOps.DisposeConnection();
+
+            CreateDatabaseBackup(backupFiles.Length);
+
+            ((App)App.Current).DatabaseOps.CreateConnection();
+        } else {
+            CreateDatabaseBackup(backupFiles.Length);
+        }
+
+        return;// true;
+    }
+    internal static void DatabaseBackup(string saveLocation) {
+        //read bytes from Database file
+        var dbBytes = System.IO.File.ReadAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath);
+
+        //write bytes to backup file
+        System.IO.File.WriteAllBytes(saveLocation, dbBytes);
+
+        return;
+    }
+
+    //Database restore method
+    internal static void RestoreDatabase(string restoreLocation) {
+        //do something
+        throw new NotImplementedException("RestoreDatabase() not yet implemented...");
+
+        //read bytes from database file
+        var dbBytes = System.IO.File.ReadAllBytes(restoreLocation);
+
+        //write bytes to destination
+        System.IO.File.WriteAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath, dbBytes);
+
+        return;
     }
 
     //method to write AppVariables values to file
