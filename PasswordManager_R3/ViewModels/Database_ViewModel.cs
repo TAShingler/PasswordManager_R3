@@ -516,7 +516,8 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
         //Groups.ElementAt(0).IsSelected = true;
         if (SelectedGroup == null) {
             System.Diagnostics.Debug.WriteLine($"Groups.ElementAt(0) = {Groups.ElementAt(0).Title}");
-            //OnGroupSelectionChanged(Groups.ElementAt(0));
+            OnGroupSelectionChanged(Groups.ElementAt(0));
+            //SelectedGroupChanged?.Invoke(true);
         } else {
             SelectedGroupChanged?.Invoke(false);
         }

@@ -107,14 +107,60 @@ internal static class FileOperations {
         //    return;
         //}
 
-        //read bytes from Database file
-        var dbBytes = System.IO.File.ReadAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath);
+        //read master pass from file
+        var masterPassFromFile = FileOperations.ReadFromFile(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat");
+        //decrypt master pass hash
+        //var masterPassFromFileDecrypted = EncryptionTools.DecryptBase64StringToObjectString(masterPassFromFile);
+        //convert to byte array
+        //var masterPassFromFileDecryptedAsByteArray = Convert.FromBase64String(masterPassFromFileDecrypted);
+
+        //read database bytes from file
+        var databaseBytesFromFile = System.IO.File.ReadAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath);
+        //convert to base64
+        var databaseBytesFromFileAsBase64String = Convert.ToBase64String(databaseBytesFromFile);
+
+        //combine byte arrays
+        var backupBytes = masterPassFromFile + '\t' + databaseBytesFromFileAsBase64String;
+        //convert to base64 string
+        //var backupBytesAsBase64String = Convert.ToBase64String(backupBytes);
+
+        //encrypt backup byte array
+        var backupBytesEncrypted = EncryptionTools.EncryptObjectStringToBase64String(backupBytes);  //going to need encryption solution that utilizes SID or some other value for key; will need for decryption as well
 
         //create file path to save the the database backup to
         string backupFilePath = ((App)App.Current).AppVariables.BackupLocation + @"\" + _backupFileName + $"_{(backupFilesLength + 1):000}.bak";
 
         //write bytes to backup file
-        System.IO.File.WriteAllBytes(backupFilePath, dbBytes);
+        FileOperations.WriteToFile(backupFilePath, backupBytesEncrypted, System.IO.FileMode.OpenOrCreate);
+
+
+        /*
+        //read bytes from Database file
+        var dbBytesAsByteArray = System.IO.File.ReadAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath);
+        var dbBytesAsBase64String = Convert.ToBase64String(dbBytesAsByteArray);
+        System.Diagnostics.Debug.WriteLine($"dbBytes.Length = {dbBytesAsByteArray.Length}");
+        System.Diagnostics.Debug.WriteLine($"dbBytesAsBase64String.Length = {dbBytesAsBase64String.Length} bytes : as string = {dbBytesAsBase64String}");
+
+        //read bytes from master password file
+        var mpBytesAsByteArray = System.IO.File.ReadAllBytes(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat");
+        var mpBytesAsBase64String = Convert.ToBase64String(mpBytesAsByteArray);
+        System.Diagnostics.Debug.WriteLine($"mpBytes.Length = {mpBytesAsByteArray.Length}");
+        System.Diagnostics.Debug.WriteLine($"mpBytesAsBase64String.Length = {mpBytesAsBase64String.Length} bytes : as string = {mpBytesAsBase64String}");
+
+        //combine byte arrays?
+        var bakBytes = new byte[dbBytesAsByteArray.Length + mpBytesAsByteArray.Length];
+        Array.Copy(mpBytesAsByteArray, bakBytes, mpBytesAsByteArray.Length);
+        Array.Copy(dbBytesAsByteArray, 0, bakBytes, mpBytesAsByteArray.Length, dbBytesAsByteArray.Length);
+        var bakBytesEncrypted = Convert.ToBase64String(bakBytes);
+        System.Diagnostics.Debug.WriteLine($"bakBytes.Length = {bakBytes.Length}");
+        System.Diagnostics.Debug.WriteLine($"bakBytesUnencrypted.Length = {bakBytesEncrypted.Length} bytes : as string = {bakBytesEncrypted}");
+
+        //create file path to save the the database backup to
+        string backupFilePath = ((App)App.Current).AppVariables.BackupLocation + @"\" + _backupFileName + $"_{(backupFilesLength + 1):000}.bak";
+
+        //write bytes to backup file
+        System.IO.File.WriteAllBytes(backupFilePath, bakBytes);
+        */
     }
     internal static void RenameDatabaseBackup(string[] filePaths) {
         //rename files in DB backups directory using the System.IO.File.Move() method
@@ -154,15 +200,15 @@ internal static class FileOperations {
             RenameDatabaseBackup(backupFiles[1..]);
         }
 
-        if (((App)App.Current).DatabaseOps.DatabaseConnection != null) {
-            ((App)App.Current).DatabaseOps.DisposeConnection();
+        //if (((App)App.Current).DatabaseOps.DatabaseConnection != null) {
+        //    ((App)App.Current).DatabaseOps.DisposeConnection();
 
             CreateDatabaseBackup(backupFiles.Length);
 
-            ((App)App.Current).DatabaseOps.CreateConnection();
-        } else {
-            CreateDatabaseBackup(backupFiles.Length);
-        }
+        //    ((App)App.Current).DatabaseOps.CreateConnection();
+        //} else {
+        //    CreateDatabaseBackup(backupFiles.Length);
+        //}
 
         return;// true;
     }
@@ -179,13 +225,31 @@ internal static class FileOperations {
     //Database restore method
     internal static void RestoreDatabase(string restoreLocation) {
         //do something
-        throw new NotImplementedException("RestoreDatabase() not yet implemented...");
+        //throw new NotImplementedException("RestoreDatabase() not yet implemented...");
 
         //read bytes from database file
-        var dbBytes = System.IO.File.ReadAllBytes(restoreLocation);
+        var backupBytesEncrypted = ReadFromFile(restoreLocation);
+        System.Diagnostics.Debug.WriteLine($"backupBytesEncrypted = {backupBytesEncrypted}");
+
+        var backupBytesDecrypted = EncryptionTools.DecryptBase64StringToObjectString(backupBytesEncrypted);
+        System.Diagnostics.Debug.WriteLine($"backupBytesDecrypted = {backupBytesDecrypted}");
+
+        //split strings
+        var backupBytesDecryptedStrings = backupBytesDecrypted.Split('\t'); //  \u002c
+        System.Diagnostics.Debug.WriteLine($"strings in backupBytesDecryptedStrings:");
+        foreach (string s in backupBytesDecryptedStrings) {
+            System.Diagnostics.Debug.WriteLine($"\ts = {s}");
+            System.Diagnostics.Debug.WriteLine($"\t\tlength = {s.Length}");
+        }
+
+        //write master pass to file
+        WriteToFile(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat", backupBytesDecryptedStrings[0], System.IO.FileMode.Create);
+
+        //write database to file
+        System.IO.File.WriteAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath, Convert.FromBase64String(backupBytesDecrypted));
 
         //write bytes to destination
-        System.IO.File.WriteAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath, dbBytes);
+        //System.IO.File.WriteAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath, dbBytes);
 
         return;
     }

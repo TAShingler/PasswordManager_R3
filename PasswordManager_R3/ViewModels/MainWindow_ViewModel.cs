@@ -1059,7 +1059,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
     }
     private void OnRestoreDatabaseCommand(object obj) {
         //do something
-        throw new NotImplementedException("OnRestoreDatabaseCommand() not yet implemented...");
+        //throw new NotImplementedException("OnRestoreDatabaseCommand() not yet implemented...");
 
         //OpenFileDialog
         System.Windows.Forms.OpenFileDialog ofd = new();
