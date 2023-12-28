@@ -14,7 +14,7 @@ internal static class EncryptionTools {
 
     #region Properties
     internal static byte[]? Key {
-        //get { return _key; } -- might use in future
+        //get { return _key; } //-- might use in future
         set { _key = value; }//if (_key != null) { System.Diagnostics.Debug.WriteLine("Key = " + Convert.ToHexString(_key)); } else { System.Diagnostics.Debug.WriteLine("Key is null "); } }
     }
     #endregion Proeprties

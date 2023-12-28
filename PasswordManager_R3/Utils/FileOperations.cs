@@ -100,41 +100,65 @@ internal static class FileOperations {
         return result;
     }
     //methods for database backup on CRUD ops... - will probably move to FileOperations class
-    internal static void CreateDatabaseBackup(int backupFilesLength) {
+    internal static void CreateDatabaseBackup(string backupFilePath) { //int backupFilesLength) {
         //exit method if Database connection is null -- probably should check sooner; might be able to remove
         //if (AppVariables.DatabaseConnection == null) {
         //    //throw exception
         //    return;
         //}
 
-        //read master pass from file
+
+
+
+
+        //read master pass from file - already encrypted
         var masterPassFromFile = FileOperations.ReadFromFile(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat");
-        //decrypt master pass hash
-        //var masterPassFromFileDecrypted = EncryptionTools.DecryptBase64StringToObjectString(masterPassFromFile);
-        //convert to byte array
-        //var masterPassFromFileDecryptedAsByteArray = Convert.FromBase64String(masterPassFromFileDecrypted);
+
+        //set encryption/decryption key equal to hash of current user SID
+        byte[] sidBinaryForm = new byte[256 / 8];
+        System.Security.Principal.WindowsIdentity.GetCurrent().User.GetBinaryForm(sidBinaryForm, 0);
+        Utils.EncryptionTools.Key = sidBinaryForm;
+
+        //decrypt master pass hash - to reset EncryptionTool.Key after backup encryption
+        var masterPassFromFileDecrypted = EncryptionTools.DecryptBase64StringToObjectString(masterPassFromFile);
 
         //read database bytes from file
         var databaseBytesFromFile = System.IO.File.ReadAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath);
         //convert to base64
-        var databaseBytesFromFileAsBase64String = Convert.ToBase64String(databaseBytesFromFile);
+        var databaseBytesFromFileAsBase64String = Convert.ToHexString(databaseBytesFromFile);
+
+        //encrypt database string
+        var databaseBytesFromFileEncrypted = EncryptionTools.EncryptObjectStringToBase64String(databaseBytesFromFileAsBase64String);
 
         //combine byte arrays
-        var backupBytes = masterPassFromFile + '\t' + databaseBytesFromFileAsBase64String;
+        var backupBytes = masterPassFromFile + ':' + databaseBytesFromFileEncrypted;
+        System.Diagnostics.Debug.WriteLine($"backupBytes: {backupBytes}");
         //convert to base64 string
         //var backupBytesAsBase64String = Convert.ToBase64String(backupBytes);
 
         //encrypt backup byte array
-        var backupBytesEncrypted = EncryptionTools.EncryptObjectStringToBase64String(backupBytes);  //going to need encryption solution that utilizes SID or some other value for key; will need for decryption as well
+        //var backupBytesEncrypted = EncryptionTools.EncryptObjectStringToBase64String(backupBytes);  //going to need encryption solution that utilizes SID or some other value for key; will need for decryption as well
 
         //create file path to save the the database backup to
-        string backupFilePath = ((App)App.Current).AppVariables.BackupLocation + @"\" + _backupFileName + $"_{(backupFilesLength + 1):000}.bak";
+        //string backupFilePath = ((App)App.Current).AppVariables.BackupLocation + @"\" + _backupFileName + $"_{(backupFilesLength + 1):000}.bak";
 
         //write bytes to backup file
-        FileOperations.WriteToFile(backupFilePath, backupBytesEncrypted, System.IO.FileMode.OpenOrCreate);
+        FileOperations.WriteToFile(backupFilePath, backupBytes, System.IO.FileMode.Create);
 
 
-        /*
+        //set key to master password for encryption/decryption
+        //split stored hash into parts
+        string[] hashedPasswordParts = masterPassFromFileDecrypted.Split(':');
+
+        //set encryption key for Encryptor/Decryptor equal to hash of master password
+        Utils.EncryptionTools.Key = Convert.FromHexString(hashedPasswordParts[0]);
+
+
+
+
+
+
+        /* OLD
         //read bytes from Database file
         var dbBytesAsByteArray = System.IO.File.ReadAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath);
         var dbBytesAsBase64String = Convert.ToBase64String(dbBytesAsByteArray);
@@ -203,7 +227,8 @@ internal static class FileOperations {
         //if (((App)App.Current).DatabaseOps.DatabaseConnection != null) {
         //    ((App)App.Current).DatabaseOps.DisposeConnection();
 
-            CreateDatabaseBackup(backupFiles.Length);
+        //CreateDatabaseBackup(backupFiles.Length);
+        CreateDatabaseBackup(((App)App.Current).AppVariables.BackupLocation + @"\" + _backupFileName + $"_{(backupFiles.Length + 1):000}.bak");
 
         //    ((App)App.Current).DatabaseOps.CreateConnection();
         //} else {
@@ -213,13 +238,7 @@ internal static class FileOperations {
         return;// true;
     }
     internal static void DatabaseBackup(string saveLocation) {
-        //read bytes from Database file
-        var dbBytes = System.IO.File.ReadAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath);
-
-        //write bytes to backup file
-        System.IO.File.WriteAllBytes(saveLocation, dbBytes);
-
-        return;
+        CreateDatabaseBackup(saveLocation);
     }
 
     //Database restore method
@@ -227,6 +246,53 @@ internal static class FileOperations {
         //do something
         //throw new NotImplementedException("RestoreDatabase() not yet implemented...");
 
+        //FOR TESTING PURPOSES
+        //var currentEncryptKey = EncryptionTools.Key;
+
+
+        //read data from backup file
+        var dataFromBackupFile = ReadFromFile(restoreLocation);
+
+        //split data into encrypted master pass string and encrypted database string -- ':' is separator
+        var dataFromBackupFileStrings = dataFromBackupFile.Split(':');
+        System.Diagnostics.Debug.WriteLine($"dataFromBackupFileStrings.Length = {dataFromBackupFileStrings.Length}");
+
+        //set EncryptionTools.Key to current user SID
+        byte[] sidBinaryForm = new byte[256 / 8];
+        System.Security.Principal.WindowsIdentity.GetCurrent().User.GetBinaryForm(sidBinaryForm, 0);
+        Utils.EncryptionTools.Key = sidBinaryForm;
+
+        //decrypt database string
+        var databaseStringDecrypted = EncryptionTools.DecryptBase64StringToObjectString(dataFromBackupFileStrings[1]);
+        System.Diagnostics.Debug.WriteLine($"master pass string from backup file: {dataFromBackupFileStrings[0]}\n\tas Hex string: {Convert.ToHexString(Convert.FromBase64String(dataFromBackupFileStrings[0]))}");
+        System.Diagnostics.Debug.WriteLine($"databaseStringDecrypted = {databaseStringDecrypted}");
+
+        //convert database to byte array from hex string
+        var databaseStringAsByteArray = Convert.FromHexString(databaseStringDecrypted);
+
+        //try overwriting current master password if file exists, or create new master password with retrieved string -- might need to delete existing file
+        try {
+            WriteToFile(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat", dataFromBackupFileStrings[0], System.IO.FileMode.Create);
+        } catch(Exception ex) {
+            System.Diagnostics.Debug.WriteLine($"Exception caught while trying to save retrieved master password\n\tex.ToString = {ex.ToString}");
+        }
+
+        //try overwriting current database if file exists, or create new with retrieved string -- might need to delete existing file
+        try {
+            System.IO.File.WriteAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath, databaseStringAsByteArray);
+        } catch (Exception ex) {
+            System.Diagnostics.Debug.WriteLine($"Exception caught while trying to save retrieved database string\n\tex.ToString = {ex.ToString}");
+        }
+
+        //set EncryptionTools.Key to retrieved master password
+        var masterPassFromFileDecrypted = EncryptionTools.DecryptBase64StringToObjectString(dataFromBackupFileStrings[0]);
+        var masterPassFromFileDecryptedStrings = masterPassFromFileDecrypted.Split(':');
+        Utils.EncryptionTools.Key = Convert.FromHexString(masterPassFromFileDecryptedStrings[0]);
+        //Utils.EncryptionTools.Key = currentEncryptKey;
+
+
+
+        /* OLD
         //read bytes from database file
         var backupBytesEncrypted = ReadFromFile(restoreLocation);
         System.Diagnostics.Debug.WriteLine($"backupBytesEncrypted = {backupBytesEncrypted}");
@@ -252,6 +318,7 @@ internal static class FileOperations {
         //System.IO.File.WriteAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath, dbBytes);
 
         return;
+        */
     }
 
     //method to write AppVariables values to file

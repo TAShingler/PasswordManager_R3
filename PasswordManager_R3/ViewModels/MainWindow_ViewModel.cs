@@ -588,7 +588,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
         MenuItemSetPasswordIsEnabled = true;
         MenuItemManualDatabaseBackupIsEnabled = true;
-        MenuItemRestoreDatabaseIsEnabled = true;
+        MenuItemRestoreDatabaseIsEnabled = false;
         MenuItemDatabaseIsEnabled = true;
         MenuItemGroupsIsEnabled = true;
         MenuItemEntriesIsEnabled = true;
@@ -1045,7 +1045,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //launch save as dialog
             //if OK, continue; cancel, exit method
         System.Windows.Forms.SaveFileDialog sfd = new();
-        sfd.DefaultExt = "database backup | .bak";
+        sfd.DefaultExt = ".bak";
+        sfd.Filter = "Backup files (.bak)|*.bak";
         var result = sfd.ShowDialog();
 
         if (result == System.Windows.Forms.DialogResult.Cancel)
@@ -1063,12 +1064,15 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
         //OpenFileDialog
         System.Windows.Forms.OpenFileDialog ofd = new();
+        ofd.Filter = "Backup files (.bak)|*.bak";
         var result = ofd.ShowDialog();
 
         if (result == System.Windows.Forms.DialogResult.Cancel)
             return;
 
         Utils.FileOperations.RestoreDatabase(ofd.FileName);
+
+        OnSetDatabaseView();
     }
 
     //DispatcherTimer Tick event handler
