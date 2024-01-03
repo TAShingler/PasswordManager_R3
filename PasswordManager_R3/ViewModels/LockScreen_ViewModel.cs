@@ -12,6 +12,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
     private readonly int MAX_ATTEMPTS;
     private string _outputMessage = string.Empty;
     private int _attemptsRemaining = ((App)App.Current).AppVariables.UnlockAttempts;
+    private readonly object _viewState;
     #endregion Fields
 
     #region Delegates and Events
@@ -24,6 +25,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
     #endregion Delegates and Events
 
     #region Properties
+    public Enums.LockScreenState ViewState { get; }
     public Utils.DelegateCommand UnlockDatabaseCommand { get; set; }
     public Utils.DelegateCommand CloseWindowCommand { get; set; }
 
@@ -46,7 +48,8 @@ internal class LockScreen_ViewModel : ViewModelBase {
     //    System.Security.Principal.WindowsIdentity.GetCurrent().User.GetBinaryForm(sidBinaryForm, 0);
     //    Utils.EncryptionTools.Key = sidBinaryForm;
     //}
-    internal LockScreen_ViewModel(ViewModelBase parentVM) : base(parentVM) {
+    internal LockScreen_ViewModel(ViewModelBase parentVM, object viewState) : base(parentVM) {
+        _viewState = viewState;
         UnlockDatabaseCommand = new Utils.DelegateCommand(OnUnlockDatabaseCommand);
         CloseWindowCommand = new Utils.DelegateCommand(OnCloseWindowCommand);
 
@@ -58,6 +61,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
         DOES_MP_EXIST = Utils.FileOperations.DoesMasterPasswordExist(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat");
         DOES_DB_EXIST = Utils.FileOperations.DoesFileExist(((App)App.Current).DatabaseOps.DatabaseFilePath);
 
+        //might need to change to conform with ViewState value
         if (DOES_MP_EXIST == false) {
             OutputMessage = "Please enter a password to set the master password.";
 

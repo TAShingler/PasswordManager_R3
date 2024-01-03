@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
+using PasswordManager_R3.Enums;
 using PasswordManager_R3.Models;
 using System;
+using System.Linq;
 using System.Windows;
 
 namespace PasswordManager_R3.ViewModels;
@@ -478,8 +480,19 @@ internal class MainWindow_ViewModel : ViewModelBase {
     /// </summary>
     /// <param name="obj"></param>
     public void OnLockDatabaseCommand(object obj) {
+        System.Diagnostics.Debug.WriteLine($"OnLockDatabaseCommand().obj is null: {obj == null}\nobj value = {obj.ToString()}");
         Utils.EncryptionTools.Key = null;
-        LockScreen_ViewModel lockScreenVM = new(this);
+        object lScreenState;
+        if (obj is Enums.LockScreenState) {
+            System.Diagnostics.Debug.WriteLine($"obj is Enums.LockScreenState");
+           lScreenState = obj; //Enum.Parse(typeof(Enums.LockScreenState), obj.ToString());// (Enums.LockScreenState)obj;
+        } else {
+            System.Diagnostics.Debug.WriteLine($"obj is not Enums.LockScreenState");
+            lScreenState = Enums.LockScreenState.LockDatabase;
+        }
+
+        //System.Diagnostics.Debug.WriteLine($"lScreenState = {lScreenState}");
+        LockScreen_ViewModel lockScreenVM = new(this, lScreenState);
 
         //check that master pass file exists and has a size greater than 0 bytes before setting 
         //if (Utils.FileOperations.DoesMasterPasswordExist(string.Empty) == false) {
@@ -777,6 +790,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
         AddEditGroup_ViewModel addEditGroupVM = new(this, SelectedGroup);
         addEditGroupVM.CreateGroup += () => {   //maybe use a concrete method and not an anonymous method...
             /*do something*/
+
+            //backup DB
+            Utils.FileOperations.DatabaseBackup();
+
             OnSetDatabaseView();
         };
         addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
@@ -784,7 +801,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         SelectedViewModel = addEditGroupVM;
 
         MenuItemSetPasswordIsEnabled = false;
-        MenuItemDatabaseIsEnabled = true;
+        MenuItemDatabaseIsEnabled = false;
         MenuItemGroupsIsEnabled = false;
         MenuItemEntriesIsEnabled = false;
         MenuItemToolsIsEnabled = false;
@@ -812,10 +829,18 @@ internal class MainWindow_ViewModel : ViewModelBase {
         AddEditGroup_ViewModel addEditGroupVM = new(this, SelectedGroup, false, SgRowId);
         addEditGroupVM.CreateGroup += () => {
             /*do something*/
+
+            //backup DB
+            Utils.FileOperations.DatabaseBackup();
+
             OnSetDatabaseView();
         };
         addEditGroupVM.UpdateGroup += () => {
             /* do something */
+
+            //backup DB
+            Utils.FileOperations.DatabaseBackup();
+
             OnSetDatabaseView();
         };
         addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
@@ -823,7 +848,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         SelectedViewModel = addEditGroupVM;
 
         MenuItemSetPasswordIsEnabled = false;
-        MenuItemDatabaseIsEnabled = true;
+        MenuItemDatabaseIsEnabled = false;
         MenuItemGroupsIsEnabled = false;
         MenuItemEntriesIsEnabled = false;
         MenuItemToolsIsEnabled = false;
@@ -847,6 +872,9 @@ internal class MainWindow_ViewModel : ViewModelBase {
             return;
 
         ((ViewModels.Database_ViewModel)SelectedViewModel).OnDeleteGroup(SelectedGroup);//new());
+        //((ViewModels.Database_ViewModel)SelectedViewModel).Groups.ElementAt(0).IsSelected = true;
+        //SelectedGroup = ((ViewModels.Database_ViewModel)SelectedViewModel).Groups.ElementAt(0);
+        SelectedViewModel = new Database_ViewModel(this);
     }
     #endregion Change CurrentView Event Handlers
 

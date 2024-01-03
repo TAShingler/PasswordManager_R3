@@ -396,8 +396,8 @@ internal class Database_ViewModel : ViewModelBase {
         //}
         //if (SelectedGroup != null) {
         CanCreateNewGroup = true;
-            CanEditSelectedGroup = true;
-            CanDeleteSelectedGroup = !(SelectedGroup?.ParentGroup == null);
+        CanEditSelectedGroup = true;
+        CanDeleteSelectedGroup = !(SelectedGroup?.ParentGroup == null);
         //}
         SelectedGroupChanged?.Invoke(obj == null ? true : false);
         //SelectedGroupChanged?.Invoke(obj);
@@ -515,14 +515,17 @@ internal class Database_ViewModel : ViewModelBase {
     //    UpdateGroup?.Invoke();// (Models.Group)obj, rowId);
     //}
     internal void OnDeleteGroup(object obj) {   //need to adjust to not have a Group object passed to this method, since the selected Group and Record objects are being set with Property binding in the View
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.OnDeleteGroup() called...");
         var objAsGroup = (Models.Group)obj;
         var rowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj).GUID).Select(pair => pair.Key).ToList();
         List<Models.Group> groupsToDelete = new();
         List<Models.Record> recordsToDelete = new();
 
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.GetGroupsToDelete() called...");
         GetGroupsToDelete(objAsGroup, groupsToDelete);
 
         foreach (Models.Group grp in groupsToDelete) {
+            System.Diagnostics.Debug.WriteLine($"Database_ViewModel.GetRecordsToDelete() called...");
             GetRecordsToDelete(objAsGroup, recordsToDelete);
         }
 
@@ -530,14 +533,33 @@ internal class Database_ViewModel : ViewModelBase {
         var recordsToDeleteRowIDs = _recordsFromDb.Where(pair => recordsToDelete.Contains(pair.Value)).Select(pair => pair.Key).ToList().ToArray();
 
         foreach (int i in groupsToDeleteRowIDs) {
+            System.Diagnostics.Debug.WriteLine($"App.DatabaseOps.DeleteGroupData() called...");
             ((App)App.Current).DatabaseOps.DeleteGroupData(i);
         }
 
         foreach (int i in recordsToDeleteRowIDs) {
+            System.Diagnostics.Debug.WriteLine($"App.DatabaseOps.DeleteRecordData() called...");
             ((App)App.Current).DatabaseOps.DeleteRecordData(i);
         }
 
+        _groupsFromDb.Clear();
+        _recordsFromDb.Clear();
+
+        _groupsFromDb = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
+        _recordsFromDb = ((App)App.Current).DatabaseOps.RetrieveRecordsData();
+
+        //System.Diagnostics.Debug.WriteLine($"Database_ViewModel.Groups.Clear() called...");
+        //Groups.Clear();
+
+        //Groups = new();
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.GroupsToObsColl() called...");
         Groups = GroupsToObsColl();
+        /*OnGroupSelectionChanged(*/
+        //Groups.ElementAt(0);//);
+
+        //backup DB
+        Utils.FileOperations.DatabaseBackup();
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.OnDeleteGroup() terminating...");
     }   //should probably handle elsewhere... maybe...
     private void OnCreateGroup(object obj) => CreateGroup?.Invoke();
     private void OnUpdateGroup(object obj) => UpdateGroup?.Invoke();

@@ -135,12 +135,15 @@
                                                  Path=PlacementTarget.TemplatedParent.Header}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                        <!--<i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
                                                 PropertyName="Height"
                                                 Value="0" />
                         <i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
                                                 PropertyName="Width"
-                                                Value="0" />
+                                                Value="0" />-->
+                        <i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                PropertyName="Visibility"
+                                                Value="Hidden" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </MenuItem>
@@ -152,12 +155,15 @@
                                                  Path=PlacementTarget.TemplatedParent.Header}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                        <!--<i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
                                                 PropertyName="Height"
                                                 Value="0" />
                         <i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
                                                 PropertyName="Width"
-                                                Value="0" />
+                                                Value="0" />-->
+                        <i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                PropertyName="Visibility"
+                                                Value="Hidden" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </MenuItem>
@@ -169,12 +175,15 @@
                                                  Path=PlacementTarget.TemplatedParent.Header}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                        <!--<i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
                                                 PropertyName="Height"
                                                 Value="0" />
                         <i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
                                                 PropertyName="Width"
-                                                Value="0" />
+                                                Value="0" />-->
+                        <i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                PropertyName="Visibility"
+                                                Value="Hidden" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </MenuItem>
@@ -1008,6 +1017,9 @@
                                                 <i:ChangePropertyAction TargetObject="{StaticResource TreeViewItemContextMenu}"
                                                                         PropertyName="FontWeight"
                                                                         Value="Normal" />
+                                                <i:ChangePropertyAction TargetObject="{StaticResource TreeViewItemContextMenu}"
+                                                                        PropertyName="Visibility"
+                                                                        Value="Visible" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </ContentPresenter>

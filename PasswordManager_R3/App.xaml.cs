@@ -79,6 +79,11 @@ public partial class App : Application, System.ComponentModel.INotifyPropertyCha
             Utils.FileOperations.WriteAppVariablesToFile();
         }
 
+        //check for backup database
+        if (Utils.FileOperations.DoesDirectoryExist(AppVariables.BackupLocation) == false) {
+            Utils.FileOperations.CreateDirectory(AppVariables.BackupLocation);
+        }
+
         //enter app
         base.OnStartup(e);
     }

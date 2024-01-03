@@ -107,8 +107,14 @@ internal static class FileOperations {
         //    return;
         //}
 
+        //close DB
+        //((App)App.Current).DatabaseOps.DisposeConnection();
+
         //read bytes from Database file
         var dbBytes = System.IO.File.ReadAllBytes(((App)App.Current).DatabaseOps.DatabaseFilePath);
+
+        //open DB
+        //((App)App.Current).DatabaseOps.CreateConnection();
 
         //create file path to save the the database backup to
         string backupFilePath = ((App)App.Current).AppVariables.BackupLocation + @"\" + _backupFileName + $"_{(backupFilesLength + 1):000}.bak";
@@ -138,7 +144,8 @@ internal static class FileOperations {
     //Database backup method
     internal static void DatabaseBackup() {
         if (DoesDirectoryExist(((App)App.Current).AppVariables.BackupLocation) == false) {
-            //throw excception -- try to provide user usefule information
+            //throw excception -- try to provide user usefule information\
+            System.Diagnostics.Debug.WriteLine("DoesDirectoryExist(((App)App.Current).AppVariables.BackupLocation) == false");
             return;
         }
 
@@ -147,6 +154,7 @@ internal static class FileOperations {
 
         //if backup files count is greater than the value for the amount of backup files to retain, delete first file in array; subsequent files in array will be decremented by 1 (e.g., BackupFile002 -> BackupFile001)
         if (backupFiles.Count() >= ((App)App.Current).AppVariables.AutoBackupCount) {
+            System.Diagnostics.Debug.WriteLine("backupFiles.Count() >= ((App)App.Current).AppVariables.AutoBackupCount");
             //delete first DB backup file
             DeleteDatabaseBackup(backupFiles[0]);
 
