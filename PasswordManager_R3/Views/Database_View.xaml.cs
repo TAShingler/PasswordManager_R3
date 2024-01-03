@@ -42,7 +42,7 @@ public partial class Database_View : UserControl {
     }
 
     private void TreeViewItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e) {
-        e.Handled = true;
+        //e.Handled = true;
         //var item = (TreeViewItem)sender;
         //if (item != null) {
         //    // move horizontal scrollbar only when event reached last parent item
@@ -146,10 +146,10 @@ public partial class Database_View : UserControl {
     private void UserControl_Unloaded(object sender, RoutedEventArgs e) {
         System.Diagnostics.Debug.WriteLine("UserControl_Unloaded() called...");
 
-        var cm = this.FindResource("TreeViewItemContextMenu");
-        ((ContextMenu)cm).IsOpen = false;
+        //var cm = this.FindResource("TreeViewItemContextMenu");
+        //((ContextMenu)cm).IsOpen = false;
 
-        e.Handled = true;
+        //e.Handled = true;
     }
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e) {
@@ -175,10 +175,10 @@ public partial class Database_View : UserControl {
 
     private void TreeViewItemContextMenuItem_Click(object sender, RoutedEventArgs e) {
         System.Diagnostics.Debug.WriteLine("TreeViewItemContextMenuItem_Click() called...");
-        var cm = this.FindResource("TreeViewItemContextMenu");
+        //var cm = this.FindResource("TreeViewItemContextMenu");
 
-        ((ContextMenu)cm).IsOpen = false;
-        e.Handled = true;
+        //((ContextMenu)cm).IsOpen = false;
+        //e.Handled = true;
     }
 
     private void ContextMenu_Unloaded(object sender, RoutedEventArgs e) {
@@ -188,9 +188,9 @@ public partial class Database_View : UserControl {
     private void MenuItem_Click(object sender, RoutedEventArgs e) {
         System.Diagnostics.Debug.WriteLine("MenuItem_Click() called...");
         System.Diagnostics.Debug.WriteLine("sender type: " + sender.GetType());
-        var cm = this.FindResource("TreeViewItemContextMenu");
-        ((ContextMenu)cm).Height = 0.0;
-        ((ContextMenu)cm).Width = 0.0;
+        //var cm = this.FindResource("TreeViewItemContextMenu");
+        //((ContextMenu)cm).Height = 0.0;
+        //((ContextMenu)cm).Width = 0.0;
     }
 
     private void TreeViewItemContextMenu_Loaded(object sender, RoutedEventArgs e) {
@@ -198,7 +198,10 @@ public partial class Database_View : UserControl {
         System.Diagnostics.Debug.WriteLine("sender = " + sender);
         ContextMenu cm = (ContextMenu)sender;
 
-        cm.DataContext = this.DataContext;
+        //cm.DataContext = this.DataContext;
+        ((MenuItem)cm.Items[0]).IsEnabled = ((ViewModels.Database_ViewModel)this.DataContext).CanCreateNewGroup;
+        ((MenuItem)cm.Items[1]).IsEnabled = ((ViewModels.Database_ViewModel)this.DataContext).CanEditSelectedGroup;
+        ((MenuItem)cm.Items[2]).IsEnabled = ((ViewModels.Database_ViewModel)this.DataContext).CanDeleteSelectedGroup;
     }
 
     private void treeViewGroups_ContextMenuClosing(object sender, ContextMenuEventArgs e) {
@@ -207,5 +210,43 @@ public partial class Database_View : UserControl {
 
     private void treeViewGroups_ContextMenuOpening(object sender, ContextMenuEventArgs e) {
         System.Diagnostics.Debug.WriteLine("treeViewGroups_ContextMenuOpening() called...");
+    }
+
+    private void CtMenuItemDeleteGroup_Click(object sender, RoutedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine("CtMenuDeleteSelectedGroup_Click() called...");
+        TreeView? tView = FindName("treeViewGroups") as TreeView;
+
+        System.Diagnostics.Debug.WriteLine($"tView.GetType() = {tView.GetType()}");
+
+        System.Diagnostics.Debug.WriteLine("\n\nItems in tView.Items");
+        foreach (var item in tView.Items) {
+            System.Diagnostics.Debug.WriteLine($"item: {((Models.Group)item).Title}");
+            foreach (var child in ((Models.Group)item).ChildrenGroups) {
+                System.Diagnostics.Debug.WriteLine($"\tchild: {child.Title}");
+            }
+        }
+        System.Diagnostics.Debug.WriteLine("\n\n");
+
+        //tView.ItemsSource = null;
+
+        //tView?.InvalidateArrange();
+        //tView?.InvalidateMeasure();
+        //tView?.InvalidateVisual();
+        //tView?.InvalidateProperty(TreeView.ItemsSourceProperty);
+        //tView.UpdateLayout();
+
+        ((ViewModels.Database_ViewModel)DataContext).OnDeleteGroup(tView.SelectedItem);
+    }
+
+    private void CtMenuItemAddGroup_Click(object sender, RoutedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine($"CtMenuItemCreateNewGroup_Click() called...\n\tsender.GetType() = {sender.GetType()}");
+        TreeView? tView = FindName("treeViewGroups") as TreeView;
+        ((ViewModels.Database_ViewModel)DataContext).OnCreateGroup(tView.SelectedItem);
+    }
+
+    private void CtMenuItemEditGroup_Click(object sender, RoutedEventArgs e) {
+        System.Diagnostics.Debug.WriteLine($"CtMenuItemEditGroup_Click() called...\n\tsender.GetType() = {sender.GetType()}");
+        TreeView? tView = FindName("treeViewGroups") as TreeView;
+        ((ViewModels.Database_ViewModel)DataContext).OnUpdateGroup(tView.SelectedItem);
     }
 }

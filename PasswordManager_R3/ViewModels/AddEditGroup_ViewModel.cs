@@ -172,6 +172,9 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
             //add new group to _parentGroup's children?
             _parentGroup.ChildrenGroups.Add(newGroup);
 
+            //backup database
+            Utils.FileOperations.DatabaseBackup();
+
             //write obj to database
             ((App)App.Current).DatabaseOps?.InsertData(newGroup);
 
@@ -185,6 +188,9 @@ internal class AddEditGroup_ViewModel : ViewModelBase {
             _selectedGroup.HasNotes = SgHasNotes;
             _selectedGroup.Notes = SgNotes;
             _selectedGroup.ModifiedDate = DateTime.Now;
+
+            //backup database
+            Utils.FileOperations.DatabaseBackup();
 
             //write updated obj to database
             ((App)App.Current).DatabaseOps?.UpdateData(_groupRowId, _selectedGroup);

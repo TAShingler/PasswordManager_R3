@@ -164,7 +164,7 @@ internal class DatabaseOperations {
     }
 
     //Create operations -- maybe split into two separate methods?
-    internal void InsertData(object obj) {
+    internal async void InsertData(object obj) {
         System.Data.SQLite.SQLiteCommand sqlCommand;
 
         //serialize object passed to method to JSON string

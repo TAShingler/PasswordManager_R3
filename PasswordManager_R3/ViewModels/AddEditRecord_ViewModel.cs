@@ -380,6 +380,9 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             };
             //System.Diagnostics.Debug.WriteLine("AddEditRecord_ViewModel _isNewRecord = true");
 
+            //backup database
+            Utils.FileOperations.DatabaseBackup();
+
             //write obj to database
             ((App)App.Current).DatabaseOps?.InsertData(newRecord);
 
@@ -400,6 +403,9 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             _selectedRecord.Notes = SrNotes;
             _selectedRecord.ModifiedDate = DateTime.Now;
             System.Diagnostics.Debug.WriteLine("AddEditRecord_ViewModel SrUrl = " + SrUrl);
+
+            //backup database
+            Utils.FileOperations.DatabaseBackup();
 
             //write updated obj to database
             ((App)App.Current).DatabaseOps?.UpdateData(_recordRowId, _selectedRecord);

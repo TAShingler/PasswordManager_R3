@@ -2165,7 +2165,8 @@
                     Background="#333"
                     BorderBrush="#666"
                     BorderThickness="0 0 0 0"
-                    TextBlock.FontSize="12" Grid.ColumnSpan="2">
+                    TextBlock.FontSize="12"
+                    Grid.ColumnSpan="2">
                 <Grid Height="32">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="32" />
@@ -2213,9 +2214,11 @@
                                       CommandParameter="{x:Static enums:LockScreenState.SetNewPassword}"/>
                             <Separator />
                             <MenuItem Header="Backup..."
-                                      IsEnabled="False" />
+                                      IsEnabled="{Binding MenuItemManualDatabaseBackupIsEnabled}"
+                                      Command="{Binding ManualDatabaseBackupCommand}"/>
                             <MenuItem Header="Restore..."
-                                      IsEnabled="False" />
+                                      IsEnabled="{Binding MenuItemRestoreDatabaseIsEnabled}"
+                                      Command="{Binding RestoreDatabaseCommand}"/>
                             <Separator />
                             <MenuItem Header="Lock Database"
                                       IsEnabled="{Binding ButtonLockDatabaseIsEnabled}"
