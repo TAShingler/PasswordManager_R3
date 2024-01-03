@@ -165,20 +165,6 @@ internal static class FileOperations {
         System.Diagnostics.Debug.WriteLine($"dbBytes.Length = {dbBytesAsByteArray.Length}");
         System.Diagnostics.Debug.WriteLine($"dbBytesAsBase64String.Length = {dbBytesAsBase64String.Length} bytes : as string = {dbBytesAsBase64String}");
 
-        //read bytes from master password file
-        var mpBytesAsByteArray = System.IO.File.ReadAllBytes(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat");
-        var mpBytesAsBase64String = Convert.ToBase64String(mpBytesAsByteArray);
-        System.Diagnostics.Debug.WriteLine($"mpBytes.Length = {mpBytesAsByteArray.Length}");
-        System.Diagnostics.Debug.WriteLine($"mpBytesAsBase64String.Length = {mpBytesAsBase64String.Length} bytes : as string = {mpBytesAsBase64String}");
-
-        //combine byte arrays?
-        var bakBytes = new byte[dbBytesAsByteArray.Length + mpBytesAsByteArray.Length];
-        Array.Copy(mpBytesAsByteArray, bakBytes, mpBytesAsByteArray.Length);
-        Array.Copy(dbBytesAsByteArray, 0, bakBytes, mpBytesAsByteArray.Length, dbBytesAsByteArray.Length);
-        var bakBytesEncrypted = Convert.ToBase64String(bakBytes);
-        System.Diagnostics.Debug.WriteLine($"bakBytes.Length = {bakBytes.Length}");
-        System.Diagnostics.Debug.WriteLine($"bakBytesUnencrypted.Length = {bakBytesEncrypted.Length} bytes : as string = {bakBytesEncrypted}");
-
         //create file path to save the the database backup to
         string backupFilePath = ((App)App.Current).AppVariables.BackupLocation + @"\" + _backupFileName + $"_{(backupFilesLength + 1):000}.bak";
 
@@ -209,7 +195,7 @@ internal static class FileOperations {
     internal static void DatabaseBackup() {//async Task<bool> DatabaseBackup() {
         if (DoesDirectoryExist(((App)App.Current).AppVariables.BackupLocation) == false) {
             //throw excception -- try to provide user usefule information
-            return;// false;
+            return;
         }
 
         //get DB backup files from backup files directory
@@ -217,6 +203,7 @@ internal static class FileOperations {
 
         //if backup files count is greater than the value for the amount of backup files to retain, delete first file in array; subsequent files in array will be decremented by 1 (e.g., BackupFile002 -> BackupFile001)
         if (backupFiles.Count() >= ((App)App.Current).AppVariables.AutoBackupCount) {
+            System.Diagnostics.Debug.WriteLine("backupFiles.Count() >= ((App)App.Current).AppVariables.AutoBackupCount");
             //delete first DB backup file
             DeleteDatabaseBackup(backupFiles[0]);
 

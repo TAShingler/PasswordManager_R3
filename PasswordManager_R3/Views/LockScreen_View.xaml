@@ -9,8 +9,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="180"
              d:DesignWidth="400"
-             Width="400"
-             Height="180"
              SnapsToDevicePixels="True"
              Unloaded="UserControl_Unloaded">
 
@@ -21,7 +19,8 @@
     <UserControl.Resources>
         <!--//  CONVERTERS  //-->
         <converters:CheckedToVisibilityConverter x:Key="CheckedToVisibilityConverter" />
-        
+        <converters:ViewStateToVisibilityConverter x:Key="ViewStateToVisibilityConverter" />
+
         <!--//  TOGGLE BUTTON STYLES  //-->
         <Style x:Key="ToggleButtonMaskPasswordStyle" TargetType="{x:Type ToggleButton}">
             <Setter Property="Foreground" Value="Gainsboro" />
@@ -258,55 +257,154 @@
         </Style>
     </UserControl.Resources>
 
-    <Border Background="#333"
+    <Border x:Name="borderUnlockDatabase"
+            MinWidth="400"
+            MinHeight="180"
+            Background="#333"
             BorderBrush="#666"
             BorderThickness="0"
             CornerRadius="4"
-            Padding="10">
+            Padding="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+            <Grid x:Name="gridUnlockDatabase"
+                  Visibility="{Binding ViewState,
+                                       Converter={StaticResource ViewStateToVisibilityConverter},
+                                       ConverterParameter=LCKSCRN_UNLOCK}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition MinHeight="75" Height="1*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Content="Enter Password:"
-                   Padding="0 5 5 5"
-                   Margin="0"
-                   Foreground="Gainsboro" />
-            <Border Grid.Row="1"
-                    Background="#444"
-                    BorderBrush="#777"
-                    BorderThickness="0"
-                    CornerRadius="2">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <Label Grid.Row="0"
+                        Content="Enter Password:"
+                        Padding="0 0 0 5"
+                        Margin="0"
+                        Foreground="Gainsboro" />
+                <Border Grid.Row="1"
+                        Background="#444"
+                        BorderBrush="#777"
+                        BorderThickness="0"
+                        CornerRadius="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBox x:Name="tBox"
-                             Grid.Column="0"
-                             Height="24"
-                             Margin="2 0 0 0"
-                             CaretBrush="Gainsboro"
-                             Foreground="Gainsboro"
-                             Background="Transparent"
-                             BorderBrush="Transparent"
-                             BorderThickness="0"
-                             VerticalContentAlignment="Center"
-                             Visibility="Collapsed"
-                             TextChanged="tBox_TextChanged">
-                        <TextBox.InputBindings>
-                            <KeyBinding Key="Return"
-                                        Command="{Binding UnlockDatabaseCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}},
-                                                                   Path=Text}"/>
-                        </TextBox.InputBindings>
-                    </TextBox>
-                    <PasswordBox x:Name="pBox"
-                                 Grid.Column="0"
+                        <TextBox x:Name="tBox"
+                                    Grid.Column="0"
+                                    Height="24"
+                                    Margin="2 0 0 0"
+                                    CaretBrush="Gainsboro"
+                                    Foreground="Gainsboro"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    VerticalContentAlignment="Center"
+                                    Visibility="Collapsed"
+                                    TextChanged="tBox_TextChanged">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Return"
+                                            Command="{Binding UnlockDatabaseCommand}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}},
+                                                                        Path=Text}"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <PasswordBox x:Name="pBox"
+                                        Grid.Column="0"
+                                        Margin="2 0 0 0"
+                                        CaretBrush="Gainsboro"
+                                        Foreground="Gainsboro"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        BorderThickness="0"
+                                        VerticalContentAlignment="Center"
+                                        Visibility="Visible"
+                                        PasswordChanged="pBox_PasswordChanged">
+                            <PasswordBox.InputBindings>
+                                <KeyBinding Key="Return"
+                                            Command="{Binding UnlockDatabaseCommand}"
+                                            CommandParameter="{Binding ElementName=tBox,
+                                                                        Path=Text}"/>
+                            </PasswordBox.InputBindings>
+                        </PasswordBox>
+                        <ToggleButton x:Name="tBtnPasswordVisibility"
+                                        Grid.Column="1"
+                                        Width="24"
+                                        Height="24"
+                                        BorderBrush="Transparent"
+                                        BorderThickness="0"
+                                        IsChecked="True"
+                                        Style="{StaticResource ToggleButtonMaskPasswordStyle}"
+                                        Click="tBtnPasswordVisibility_Click"/>
+                    </Grid>
+                </Border>
+                <TextBlock x:Name="msgBlock"
+                            Grid.Row="2"
+                            Foreground="Gainsboro"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            TextAlignment="Center"
+                            Text="{Binding OutputMessage}" />
+                <StackPanel Grid.Row="3"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <Button Content="Unlock"
+                            Width="100"
+                            Height="30"
+                            Margin="0 0 6 0"
+                            Style="{StaticResource ButtonUnlockDatabaseStyle}"
+                            Command="{Binding UnlockDatabaseCommand}"
+                            CommandParameter="{Binding ElementName=tBox,Path=Text}"/>
+                    <Button Content="Close"
+                            Width="100"
+                            Height="30"
+                            Margin="6 0 0 0"
+                            Style="{StaticResource ButtonCloseApplicationStyle}"
+                            Command="{Binding CloseWindowCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                    <!--Command="{Binding DataContext.CloseWindowCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>-->
+                    <!--CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>-->
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="gridUpdateMasterPassword"
+                  Visibility="{Binding ViewState,
+                                       Converter={StaticResource ViewStateToVisibilityConverter},
+                                       ConverterParameter=LCKSCRN_SET_NEW}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition MinHeight="75" Height="1*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0"
+                        Content="Old Password:"
+                        Padding="0 0 0 5"
+                        Margin="0"
+                        Foreground="Gainsboro" />
+                <Border Grid.Row="1"
+                        Background="#444"
+                        BorderBrush="#777"
+                        BorderThickness="0"
+                        CornerRadius="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Grid.Column="0"
+                                 Height="24"
                                  Margin="2 0 0 0"
                                  CaretBrush="Gainsboro"
                                  Foreground="Gainsboro"
@@ -314,55 +412,132 @@
                                  BorderBrush="Transparent"
                                  BorderThickness="0"
                                  VerticalContentAlignment="Center"
-                                 Visibility="Visible"
-                                 PasswordChanged="pBox_PasswordChanged">
-                        <PasswordBox.InputBindings>
-                            <KeyBinding Key="Return"
-                                        Command="{Binding UnlockDatabaseCommand}"
-                                        CommandParameter="{Binding ElementName=tBox,
-                                                                   Path=Text}"/>
-                        </PasswordBox.InputBindings>
-                    </PasswordBox>
-                    <ToggleButton x:Name="tBtnPasswordVisibility"
-                                  Grid.Column="1"
-                                  Width="24"
-                                  Height="24"
-                                  BorderBrush="Transparent"
-                                  BorderThickness="0"
-                                  IsChecked="True"
-                                  Style="{StaticResource ToggleButtonMaskPasswordStyle}"
-                                  Click="tBtnPasswordVisibility_Click"/>
-                </Grid>
-            </Border>
-            <TextBlock x:Name="msgBlock"
-                       Grid.Row="2"
-                       Foreground="Gainsboro"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       TextAlignment="Center"
-                       Text="{Binding OutputMessage}" />
-            <StackPanel Grid.Row="3"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                <Button Content="Unlock"
-                        Width="100"
-                        Height="30"
-                        Margin="0 0 6 0"
-                        Style="{StaticResource ButtonUnlockDatabaseStyle}"
-                        Command="{Binding UnlockDatabaseCommand}"
-                        CommandParameter="{Binding ElementName=tBox,Path=Text}"/>
-                <Button Content="Close"
-                        Width="100"
-                        Height="30"
-                        Margin="6 0 0 0"
-                        Style="{StaticResource ButtonCloseApplicationStyle}"
-                        Command="{Binding CloseWindowCommand}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
-                <!--Command="{Binding DataContext.CloseWindowCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>-->
-                <!--CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>-->
-            </StackPanel>
+                                 Visibility="Collapsed"
+                                 TextChanged="tBox_TextChanged">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Return"
+                                            Command="{Binding UnlockDatabaseCommand}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}},
+                                                                        Path=Text}"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <PasswordBox Grid.Column="0"
+                                     Margin="2 0 0 0"
+                                     CaretBrush="Gainsboro"
+                                     Foreground="Gainsboro"
+                                     Background="Transparent"
+                                     BorderBrush="Transparent"
+                                     BorderThickness="0"
+                                     VerticalContentAlignment="Center"
+                                     Visibility="Visible"
+                                     PasswordChanged="pBox_PasswordChanged">
+                            <PasswordBox.InputBindings>
+                                <KeyBinding Key="Return"
+                                            Command="{Binding UnlockDatabaseCommand}"
+                                            CommandParameter="{Binding ElementName=tBox,
+                                                                        Path=Text}"/>
+                            </PasswordBox.InputBindings>
+                        </PasswordBox>
+                        <ToggleButton Grid.Column="1"
+                                      Width="24"
+                                      Height="24"
+                                      BorderBrush="Transparent"
+                                      BorderThickness="0"
+                                      IsChecked="True"
+                                      Style="{StaticResource ToggleButtonMaskPasswordStyle}"
+                                      Click="tBtnPasswordVisibility_Click"/>
+                    </Grid>
+                </Border>
+                <Label Grid.Row="3"
+                        Content="New Password:"
+                        Padding="0 10 0 5"
+                        Margin="0"
+                        Foreground="Gainsboro" />
+                <Border Grid.Row="4"
+                        Background="#444"
+                        BorderBrush="#777"
+                        BorderThickness="0"
+                        CornerRadius="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Grid.Column="0"
+                                 Height="24"
+                                 Margin="2 0 0 0"
+                                 CaretBrush="Gainsboro"
+                                 Foreground="Gainsboro"
+                                 Background="Transparent"
+                                 BorderBrush="Transparent"
+                                 BorderThickness="0"
+                                 VerticalContentAlignment="Center"
+                                 Visibility="Collapsed"
+                                 TextChanged="tBox_TextChanged">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Return"
+                                            Command="{Binding UnlockDatabaseCommand}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}},
+                                                                        Path=Text}"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <PasswordBox Grid.Column="0"
+                                     Margin="2 0 0 0"
+                                     CaretBrush="Gainsboro"
+                                     Foreground="Gainsboro"
+                                     Background="Transparent"
+                                     BorderBrush="Transparent"
+                                     BorderThickness="0"
+                                     VerticalContentAlignment="Center"
+                                     Visibility="Visible"
+                                     PasswordChanged="pBox_PasswordChanged">
+                            <PasswordBox.InputBindings>
+                                <KeyBinding Key="Return"
+                                            Command="{Binding UnlockDatabaseCommand}"
+                                            CommandParameter="{Binding ElementName=tBox,
+                                                                        Path=Text}"/>
+                            </PasswordBox.InputBindings>
+                        </PasswordBox>
+                        <ToggleButton Grid.Column="1"
+                                      Width="24"
+                                      Height="24"
+                                      BorderBrush="Transparent"
+                                      BorderThickness="0"
+                                      IsChecked="True"
+                                      Style="{StaticResource ToggleButtonMaskPasswordStyle}"
+                                      Click="tBtnPasswordVisibility_Click"/>
+                    </Grid>
+                </Border>
+                <TextBlock Grid.Row="5"
+                           Foreground="Gainsboro"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           TextAlignment="Center"
+                           Text="{Binding OutputMessage}" />
+                <StackPanel Grid.Row="6"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <Button Content="Unlock"
+                            Width="100"
+                            Height="30"
+                            Margin="0 0 6 0"
+                            Style="{StaticResource ButtonUnlockDatabaseStyle}"
+                            Command="{Binding UnlockDatabaseCommand}"
+                            CommandParameter="{Binding ElementName=tBox,Path=Text}"/>
+                    <Button Content="Close"
+                            Width="100"
+                            Height="30"
+                            Margin="6 0 0 0"
+                            Style="{StaticResource ButtonCloseApplicationStyle}"
+                            Command="{Binding CloseWindowCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                    <!--Command="{Binding DataContext.CloseWindowCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>-->
+                    <!--CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>-->
+                </StackPanel>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

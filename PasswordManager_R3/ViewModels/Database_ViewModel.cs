@@ -452,14 +452,17 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
         }
     }
     internal void OnDeleteGroup(object obj) {   //need to adjust to not have a Group object passed to this method, since the selected Group and Record objects are being set with Property binding in the View
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.OnDeleteGroup() called...");
         var objAsGroup = (Models.Group)obj;
         //var rowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj).GUID).Select(pair => pair.Key).ToList();
         List<Models.Group> groupsToDelete = new();
         List<Models.Record> recordsToDelete = new();
 
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.GetGroupsToDelete() called...");
         GetGroupsToDelete(objAsGroup, groupsToDelete);
 
         foreach (Models.Group grp in groupsToDelete) {
+            System.Diagnostics.Debug.WriteLine($"Database_ViewModel.GetRecordsToDelete() called...");
             GetRecordsToDelete(objAsGroup, recordsToDelete);
         }
 

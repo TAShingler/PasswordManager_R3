@@ -8,6 +8,7 @@
         xmlns:converters="clr-namespace:PasswordManager_R3.Converters"
         xmlns:vm="clr-namespace:PasswordManager_R3.ViewModels"
         xmlns:views="clr-namespace:PasswordManager_R3.Views"
+        xmlns:enums="clr-namespace:PasswordManager_R3.Enums"
         mc:Ignorable="d"
         Title="Password LockBox"
         MinHeight="600"
@@ -2208,7 +2209,9 @@
                         <MenuItem Header="Database"
                                   IsEnabled="{Binding MenuItemDatabaseIsEnabled}">
                             <MenuItem Header="Set Password..."
-                                      IsEnabled="{Binding MenuItemSetPasswordIsEnabled}" />
+                                      IsEnabled="{Binding MenuItemSetPasswordIsEnabled}"
+                                      Command="{Binding LockDatabaseCommand}"
+                                      CommandParameter="{x:Static enums:LockScreenState.SetNewPassword}"/>
                             <Separator />
                             <MenuItem Header="Backup..."
                                       IsEnabled="{Binding MenuItemManualDatabaseBackupIsEnabled}"
@@ -2219,7 +2222,8 @@
                             <Separator />
                             <MenuItem Header="Lock Database"
                                       IsEnabled="{Binding ButtonLockDatabaseIsEnabled}"
-                                      Command="{Binding LockDatabaseCommand}" />
+                                      Command="{Binding LockDatabaseCommand}"
+                                      CommandParameter="{x:Static enums:LockScreenState.LockDatabase}" />
                             <Separator />
                             <MenuItem Header="Exit"
                                       IsEnabled="True"
@@ -2470,7 +2474,8 @@
                                 Grid.Column="0"
                                 IsEnabled="{Binding ButtonLockDatabaseIsEnabled}"
                                 Style="{StaticResource QuickAccessButtonLockDatabaseStyle}"
-                                Command="{Binding LockDatabaseCommand}"/>
+                                Command="{Binding LockDatabaseCommand}"
+                                CommandParameter="{x:Static enums:LockScreenState.LockDatabase}"/>
                         <Separator Grid.Row="0"
                                    Grid.Column="1"
                                    Width="1"
