@@ -1,5 +1,6 @@
 ﻿using PasswordManager_R3.Models;
 using System;
+using System.Linq.Expressions;
 using System.Windows;
 
 namespace PasswordManager_R3.ViewModels;
@@ -25,9 +26,13 @@ internal class LockScreen_ViewModel : ViewModelBase {
     #endregion Delegates and Events
 
     #region Properties
-    public Enums.LockScreenState ViewState { get; }
-    public Utils.DelegateCommand UnlockDatabaseCommand { get; set; }
-    public Utils.DelegateCommand CloseWindowCommand { get; set; }
+    public Enums.LockScreenState ViewState {
+        get => (Enums.LockScreenState)_viewState;
+    }
+    public Utils.DelegateCommand? UnlockDatabaseCommand { get; set; }
+    public Utils.DelegateCommand? CloseWindowCommand { get; set; }
+    public Utils.DelegateCommand? ConfirmSetNewPasswordCommand { get; set; }
+    public Utils.DelegateCommand? CancelSetNewPasswordCommand { get; set; }
 
     public string OutputMessage {
         get { return _outputMessage; }
@@ -53,6 +58,8 @@ internal class LockScreen_ViewModel : ViewModelBase {
         _viewState = viewState;
         UnlockDatabaseCommand = new Utils.DelegateCommand(OnUnlockDatabaseCommand);
         CloseWindowCommand = new Utils.DelegateCommand(OnCloseWindowCommand);
+        ConfirmSetNewPasswordCommand = new(OnConfirmSetNewPasswordCommand);
+        CancelSetNewPasswordCommand = new(OnCancelSetNewPasswordCommand);
 
         //get current user SID for decryption key
         byte[] sidBinaryForm = new byte[256 / 8];
@@ -134,6 +141,22 @@ internal class LockScreen_ViewModel : ViewModelBase {
         //if (DatabaseUnlocked != null) {
         //    DatabaseUnlocked.Invoke(obj);
         //}
+    }
+    private void OnConfirmSetNewPasswordCommand(object obj) {
+        //do something
+        try {
+            throw new NotImplementedException("OnConfirmSetNewPasswordCommand() not implemented yet...");
+        } catch (Exception ex) {
+            MessageBox.Show(ex.Message);
+        }
+    }
+    private void OnCancelSetNewPasswordCommand(object obj) {
+        //do something
+        try {
+            throw new NotImplementedException("OnCancelSetNewPasswordCommand() not implemented yet...");
+        } catch(Exception ex) {
+            MessageBox.Show(ex.Message);
+        }
     }
     #endregion Event Handlers
 
