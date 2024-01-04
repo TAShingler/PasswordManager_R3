@@ -344,12 +344,13 @@
                     </Grid>
                 </Border>
                 <TextBlock x:Name="msgBlock"
-                            Grid.Row="2"
-                            Foreground="Gainsboro"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            TextAlignment="Center"
-                            Text="{Binding OutputMessage}" />
+                           Grid.Row="2"
+                           Margin="0 10"
+                           Foreground="Gainsboro"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           TextAlignment="Center"
+                           Text="{Binding OutputMessage}" />
                 <StackPanel Grid.Row="3"
                             Orientation="Horizontal"
                             HorizontalAlignment="Center"
@@ -388,10 +389,10 @@
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0"
-                        Content="Old Password:"
-                        Padding="0 0 0 5"
-                        Margin="0"
-                        Foreground="Gainsboro" />
+                       Content="Old Password:"
+                       Padding="0 0 0 5"
+                       Margin="0"
+                       Foreground="Gainsboro" />
                 <Border Grid.Row="1"
                         Background="#444"
                         BorderBrush="#777"
@@ -403,7 +404,8 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBox Grid.Column="0"
+                        <TextBox x:Name="tBoxOldPassword"
+                                 Grid.Column="0"
                                  Height="24"
                                  Margin="2 0 0 0"
                                  CaretBrush="Gainsboro"
@@ -421,7 +423,8 @@
                                                                         Path=Text}"/>
                             </TextBox.InputBindings>
                         </TextBox>
-                        <PasswordBox Grid.Column="0"
+                        <PasswordBox x:Name="pBoxOldPassword"
+                                     Grid.Column="0"
                                      Margin="2 0 0 0"
                                      CaretBrush="Gainsboro"
                                      Foreground="Gainsboro"
@@ -449,10 +452,10 @@
                     </Grid>
                 </Border>
                 <Label Grid.Row="3"
-                        Content="New Password:"
-                        Padding="0 10 0 5"
-                        Margin="0"
-                        Foreground="Gainsboro" />
+                       Content="New Password:"
+                       Padding="0 10 0 5"
+                       Margin="0"
+                       Foreground="Gainsboro" />
                 <Border Grid.Row="4"
                         Background="#444"
                         BorderBrush="#777"
@@ -464,7 +467,8 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBox Grid.Column="0"
+                        <TextBox x:Name="tBoxNewPassword"
+                                 Grid.Column="0"
                                  Height="24"
                                  Margin="2 0 0 0"
                                  CaretBrush="Gainsboro"
@@ -482,7 +486,8 @@
                                                                         Path=Text}"/>
                             </TextBox.InputBindings>
                         </TextBox>
-                        <PasswordBox Grid.Column="0"
+                        <PasswordBox x:Name="pBoxNewPassword"
+                                     Grid.Column="0"
                                      Margin="2 0 0 0"
                                      CaretBrush="Gainsboro"
                                      Foreground="Gainsboro"
@@ -510,6 +515,7 @@
                     </Grid>
                 </Border>
                 <TextBlock Grid.Row="5"
+                           Margin="0 10"
                            Foreground="Gainsboro"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
@@ -519,19 +525,20 @@
                             Orientation="Horizontal"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                    <Button Content="Unlock"
+                    <Button Content="OK"
                             Width="100"
                             Height="30"
                             Margin="0 0 6 0"
                             Style="{StaticResource ButtonUnlockDatabaseStyle}"
-                            Command="{Binding UnlockDatabaseCommand}"
-                            CommandParameter="{Binding ElementName=tBox,Path=Text}"/>
-                    <Button Content="Close"
+                            Command="{Binding ConfirmSetNewPasswordCommand}"
+                            CommandParameter="{Binding ElementName=tBox,
+                                                       Path=Text}"/>
+                    <Button Content="Cancel"
                             Width="100"
                             Height="30"
                             Margin="6 0 0 0"
                             Style="{StaticResource ButtonCloseApplicationStyle}"
-                            Command="{Binding CloseWindowCommand}"
+                            Command="{Binding CancelSetNewPasswordCommand}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
                     <!--Command="{Binding DataContext.CloseWindowCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWay}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>-->
