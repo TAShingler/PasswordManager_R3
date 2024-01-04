@@ -49,6 +49,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
     //    Utils.EncryptionTools.Key = sidBinaryForm;
     //}
     internal LockScreen_ViewModel(ViewModelBase parentVM, object viewState) : base(parentVM) {
+        System.Diagnostics.Debug.WriteLine($"viewState == {viewState}");
         _viewState = viewState;
         UnlockDatabaseCommand = new Utils.DelegateCommand(OnUnlockDatabaseCommand);
         CloseWindowCommand = new Utils.DelegateCommand(OnCloseWindowCommand);
