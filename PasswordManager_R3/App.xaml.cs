@@ -17,7 +17,7 @@ public partial class App : Application, System.ComponentModel.INotifyPropertyCha
     //public System.Timers.Timer timer { get; set; } = new System.Timers.Timer(100);
     private static System.Threading.Mutex _mutex = null;
 
-    private System.Threading.Thread FileIOThread = new(new System.Threading.ThreadStart(void () => { }));
+    //private System.Threading.Thread FileIOThread = new(new System.Threading.ThreadStart(void () => { }));
 
     private Models.AppVariables _appVariables;
     private readonly Utils.DatabaseOperations? _databaseOps = new();

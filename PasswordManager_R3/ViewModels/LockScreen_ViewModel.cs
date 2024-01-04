@@ -71,9 +71,10 @@ internal class LockScreen_ViewModel : ViewModelBase {
             }
         } else {
             if (DOES_DB_EXIST == false)
-                OutputMessage = "Database was deleted last time application was run\ndue to too many unsuccessful login attempts.";
+                OutputMessage = "Database does not exist.\nA new database has been created.";
         }
     }
+    //internal LockScreen_ViewModel(ViewModelBase parentVM,)
     #endregion Constructors
 
     #region Event Handlers
