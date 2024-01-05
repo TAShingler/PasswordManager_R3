@@ -522,6 +522,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
             OnSetDatabaseView();
         };
         lockScreenVM.WindowClosed += OnWindowCloseCommand;
+        lockScreenVM.ConfirmSetMasterPassword += () => { OnLockDatabaseCommand(Enums.LockScreenState.LockDatabase); };
+        lockScreenVM.CancelSetMasterPassword += () => { OnLockDatabaseCommand(Enums.LockScreenState.LockDatabase); };
 
         ((App)App.Current).DatabaseOps.DisposeConnection();
         //System.Diagnostics.Debug.WriteLine("_groupsFromDb size: " + _groupsFromDb?.Count);

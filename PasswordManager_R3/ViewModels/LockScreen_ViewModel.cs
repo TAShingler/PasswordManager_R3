@@ -20,9 +20,13 @@ internal class LockScreen_ViewModel : ViewModelBase {
     //Delegates
     public delegate void UnlockDatabaseHandler();    //might add event args later...
     public delegate void CloseWindowHandler(object obj);
+    internal delegate void ConfirmSetMasterPasswordHandler();
+    internal delegate void CancelSetMasterPasswordHandler();
     //Events
     public event UnlockDatabaseHandler? DatabaseUnlocked;
     public event CloseWindowHandler? WindowClosed;
+    internal event ConfirmSetMasterPasswordHandler ConfirmSetMasterPassword;
+    internal event CancelSetMasterPasswordHandler? CancelSetMasterPassword;
     #endregion Delegates and Events
 
     #region Properties
@@ -144,19 +148,40 @@ internal class LockScreen_ViewModel : ViewModelBase {
     }
     private void OnConfirmSetNewPasswordCommand(object obj) {
         //do something
-        try {
-            throw new NotImplementedException("OnConfirmSetNewPasswordCommand() not implemented yet...");
-        } catch (Exception ex) {
-            MessageBox.Show(ex.Message);
-        }
+        //check that old and new password match
+        
+        //check old password matches stored password
+
+        //set decrypt key equal to stored hash
+
+        //decrypt database objects - store in Collection
+
+        //hash new password
+
+        //set encrypt key
+
+        //encrypt database objects and write to database, overwriting exisiting data -- maybe just backup and delete old database, then create new database with new encryption
+
+        //store hash of new password
+
+        //unlock DB
+
+        //bubble to MainWindow_ViewModel
+        ConfirmSetMasterPassword?.Invoke();
+        //try {
+        //    throw new NotImplementedException("OnConfirmSetNewPasswordCommand() not implemented yet...");
+        //} catch (Exception ex) {
+        //    MessageBox.Show(ex.Message);
+        //}
     }
     private void OnCancelSetNewPasswordCommand(object obj) {
         //do something
-        try {
-            throw new NotImplementedException("OnCancelSetNewPasswordCommand() not implemented yet...");
-        } catch(Exception ex) {
-            MessageBox.Show(ex.Message);
-        }
+        CancelSetMasterPassword?.Invoke();
+        //try {
+        //    throw new NotImplementedException("OnCancelSetNewPasswordCommand() not implemented yet...");
+        //} catch(Exception ex) {
+        //    MessageBox.Show(ex.Message);
+        //}
     }
     #endregion Event Handlers
 
