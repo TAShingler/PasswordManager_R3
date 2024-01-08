@@ -1,5 +1,7 @@
-﻿using PasswordManager_R3.Models;
+﻿using ABI.System.Collections.Generic;
+using PasswordManager_R3.Models;
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Windows;
 
@@ -14,6 +16,8 @@ internal class LockScreen_ViewModel : ViewModelBase {
     private string _outputMessage = string.Empty;
     private int _attemptsRemaining = ((App)App.Current).AppVariables.UnlockAttempts;
     private readonly object _viewState;
+    private string _newMP;
+    private string _oldMP;
     #endregion Fields
 
     #region Delegates and Events
@@ -35,7 +39,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
     }
     public Utils.DelegateCommand? UnlockDatabaseCommand { get; set; }
     public Utils.DelegateCommand? CloseWindowCommand { get; set; }
-    public Utils.DelegateCommand? ConfirmSetNewPasswordCommand { get; set; }
+    //public Utils.DelegateCommand? ConfirmSetNewPasswordCommand { get; set; }
     public Utils.DelegateCommand? CancelSetNewPasswordCommand { get; set; }
 
     public string OutputMessage {
@@ -43,6 +47,20 @@ internal class LockScreen_ViewModel : ViewModelBase {
         set {
             _outputMessage = value;
             OnPropertyChanged(nameof(OutputMessage));
+        }
+    }
+    public string NewMP {
+        get => _newMP;
+        set {
+            _newMP = value;
+            OnPropertyChanged(nameof(NewMP));
+        }
+    }
+    public string OldMP {
+        get => _oldMP;
+        set {
+            _oldMP = value;
+            OnPropertyChanged(nameof(OldMP));
         }
     }
     #endregion Properties
@@ -62,7 +80,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
         _viewState = viewState;
         UnlockDatabaseCommand = new Utils.DelegateCommand(OnUnlockDatabaseCommand);
         CloseWindowCommand = new Utils.DelegateCommand(OnCloseWindowCommand);
-        ConfirmSetNewPasswordCommand = new(OnConfirmSetNewPasswordCommand);
+        //ConfirmSetNewPasswordCommand = new(OnConfirmSetNewPasswordCommand);
         CancelSetNewPasswordCommand = new(OnCancelSetNewPasswordCommand);
 
         //get current user SID for decryption key
@@ -112,6 +130,8 @@ internal class LockScreen_ViewModel : ViewModelBase {
                 UnlockDatabase(objAsString);
             } catch(Exception ex) {
                 //error message
+                MessageBox.Show(ex.Message);
+                System.Diagnostics.Debug.WriteLine($"objAsString = {objAsString}");
                 return;
             }
         } else {
@@ -146,25 +166,75 @@ internal class LockScreen_ViewModel : ViewModelBase {
         //    DatabaseUnlocked.Invoke(obj);
         //}
     }
-    private void OnConfirmSetNewPasswordCommand(object obj) {
-        //do something
-        //check that old and new password match
-        
-        //check old password matches stored password
+    //private void OnConfirmSetNewPasswordCommand(object obj) {
+    internal void ConfirmSetNewPassword(string oldMP, string newMP) {
+        //System.Diagnostics.Debug.WriteLine($"OnConfirmSetNewPasswordCommand().obj == {obj}");
 
-        //set decrypt key equal to stored hash
+        //hash old & new passwords
+        var oldMpHash = Utils.Hasher.Hash(oldMP);
+        var newMpHash = Utils.Hasher.Hash(newMP);
+
+        //verify that old + new password are the same -- hash first?
+        //if (Utils.Hasher.Verify(oldMpHash, newMpHash) == false) {
+        //    //display error message
+        //    OutputMessage = "The entered passwords do not match.";
+        //    return;
+        //}
+
+        //retrieve stored password hash
+        string pwFromFile = Utils.FileOperations.ReadFromFile(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat");
+        string storedPwHash = Utils.EncryptionTools.DecryptBase64StringToObjectString(pwFromFile);
+        System.Diagnostics.Debug.WriteLine($"oldMpHash = {oldMpHash}\nstoredPwHash = {storedPwHash}");
+        //check old password matches stored password
+        if (Utils.Hasher.Verify(oldMP, storedPwHash) == false) {
+            //display error message
+            OutputMessage = "Old password entered does not match current master password.";
+            return;
+        }
+
+        //create DB backup -- sets encrypt/decrypt key to the current master pass
+        Utils.FileOperations.DatabaseBackup();
+
+        /*
+        //split stored hash into parts
+        string[] hashedPwParts = storedPwHash.Split(':');
+
+        //set encryption key for Encryptor/Decryptor equal to hash of stored password
+        Utils.EncryptionTools.Key = Convert.FromHexString(hashedPwParts[0]);
+        */
 
         //decrypt database objects - store in Collection
+        ((App)App.Current).DatabaseOps.CreateConnection();
+        var GroupsFromDB = ((App)App.Current).DatabaseOps.RetrieveGroupsData();
+        var RecordsFromDB = ((App)App.Current).DatabaseOps.RetrieveRecordsData();
 
-        //hash new password
-
-        //set encrypt key
+        //set encrypt key to new password
+        Utils.EncryptionTools.Key = Convert.FromHexString(newMpHash.Split(':').ElementAt(0));
 
         //encrypt database objects and write to database, overwriting exisiting data -- maybe just backup and delete old database, then create new database with new encryption
+        //Groups
+        foreach (var kvp in GroupsFromDB) {
+            ((App)App.Current).DatabaseOps.UpdateData(kvp.Key, kvp.Value);
+        }
+
+        //Records
+        foreach (var kvp in RecordsFromDB) {
+            ((App)App.Current).DatabaseOps.UpdateData(kvp.Key, kvp.Value);
+        }
+
+        //dispose DB connection
+        //((App)App.Current).DatabaseOps.DisposeConnection();
+
+        //get current user SID for decryption key
+        byte[] sidBinaryForm = new byte[256 / 8];
+        System.Security.Principal.WindowsIdentity.GetCurrent().User.GetBinaryForm(sidBinaryForm, 0);
+        Utils.EncryptionTools.Key = sidBinaryForm;
+
+        //encrypt new password hash
+        var newMpHashEncrypted = Utils.EncryptionTools.EncryptObjectStringToBase64String(newMpHash);
 
         //store hash of new password
-
-        //unlock DB
+        Utils.FileOperations.WriteToFile(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat", newMpHashEncrypted, System.IO.FileMode.Create);
 
         //bubble to MainWindow_ViewModel
         ConfirmSetMasterPassword?.Invoke();
@@ -189,7 +259,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
     private void UnlockDatabase(string password) {
         string passwordFromFile = Utils.FileOperations.ReadFromFile(Utils.FileOperations.AppSettingsDirectory + @"\mp.dat");
         string storedPasswordHash = Utils.EncryptionTools.DecryptBase64StringToObjectString(passwordFromFile); //ReadMasterPasswordFromFile();
-
+        System.Diagnostics.Debug.WriteLine("Utils.Hasher.Verify(password, storedPasswordHash) == " + Utils.Hasher.Verify(password, storedPasswordHash));
         //compare password passed to method with stored hash of master password
         if (Utils.Hasher.Verify(password, storedPasswordHash) == false) {
             System.Diagnostics.Debug.WriteLine("Utils.Hasher.Verify(password, storedPasswordHash) == " + Utils.Hasher.Verify(password, storedPasswordHash));
@@ -221,6 +291,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
             ((App)App.Current).DatabaseOps.CheckForTables();
         }
 
+        System.Diagnostics.Debug.WriteLine("password == " + password);
         System.Diagnostics.Debug.WriteLine("passwordFromFile == " + passwordFromFile);
         System.Diagnostics.Debug.WriteLine("storedPasswordHash == " + storedPasswordHash);
         for (int i=0;i<hashedPasswordParts.Length;i++) {

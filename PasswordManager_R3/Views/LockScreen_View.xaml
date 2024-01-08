@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:PasswordManager_R3.Views"
              xmlns:converters="clr-namespace:PasswordManager_R3.Converters"
              xmlns:vm="clr-namespace:PasswordManager_R3.ViewModels"
+             xmlns:validate="clr-namespace:PasswordManager_R3.Validators"
              mc:Ignorable="d" 
              d:DesignHeight="180"
              d:DesignWidth="400"
@@ -415,12 +416,12 @@
                                  BorderThickness="0"
                                  VerticalContentAlignment="Center"
                                  Visibility="Collapsed"
-                                 TextChanged="tBox_TextChanged">
+                                 TextChanged="tBoxOldPassword_TextChanged">
                             <TextBox.InputBindings>
                                 <KeyBinding Key="Return"
-                                            Command="{Binding UnlockDatabaseCommand}"
+                                            Command="{Binding ConfirmSetNewPasswordCommand}"
                                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}},
-                                                                        Path=Text}"/>
+                                                                       Path=Text}"/>
                             </TextBox.InputBindings>
                         </TextBox>
                         <PasswordBox x:Name="pBoxOldPassword"
@@ -433,22 +434,23 @@
                                      BorderThickness="0"
                                      VerticalContentAlignment="Center"
                                      Visibility="Visible"
-                                     PasswordChanged="pBox_PasswordChanged">
+                                     PasswordChanged="pBoxOldPassword_PasswordChanged">
                             <PasswordBox.InputBindings>
                                 <KeyBinding Key="Return"
-                                            Command="{Binding UnlockDatabaseCommand}"
-                                            CommandParameter="{Binding ElementName=tBox,
-                                                                        Path=Text}"/>
+                                            Command="{Binding ConfirmSetNewPasswordCommand}"
+                                            CommandParameter="{Binding ElementName=tBoxOldPassword,
+                                                                       Path=Text}"/>
                             </PasswordBox.InputBindings>
                         </PasswordBox>
-                        <ToggleButton Grid.Column="1"
+                        <ToggleButton x:Name="tBtnOldPasswordVisibility"
+                                      Grid.Column="1"
                                       Width="24"
                                       Height="24"
                                       BorderBrush="Transparent"
                                       BorderThickness="0"
                                       IsChecked="True"
                                       Style="{StaticResource ToggleButtonMaskPasswordStyle}"
-                                      Click="tBtnPasswordVisibility_Click"/>
+                                      Click="tBtnOldPasswordVisibility_Click"/>
                     </Grid>
                 </Border>
                 <Label Grid.Row="3"
@@ -478,10 +480,10 @@
                                  BorderThickness="0"
                                  VerticalContentAlignment="Center"
                                  Visibility="Collapsed"
-                                 TextChanged="tBox_TextChanged">
+                                 TextChanged="tBoxNewPassword_TextChanged">
                             <TextBox.InputBindings>
                                 <KeyBinding Key="Return"
-                                            Command="{Binding UnlockDatabaseCommand}"
+                                            Command="{Binding ConfirmSetNewPasswordCommand}"
                                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}},
                                                                         Path=Text}"/>
                             </TextBox.InputBindings>
@@ -496,22 +498,23 @@
                                      BorderThickness="0"
                                      VerticalContentAlignment="Center"
                                      Visibility="Visible"
-                                     PasswordChanged="pBox_PasswordChanged">
+                                     PasswordChanged="pBoxNewPassword_PasswordChanged">
                             <PasswordBox.InputBindings>
                                 <KeyBinding Key="Return"
-                                            Command="{Binding UnlockDatabaseCommand}"
-                                            CommandParameter="{Binding ElementName=tBox,
+                                            Command="{Binding ConfirmSetNewPasswordCommand}"
+                                            CommandParameter="{Binding ElementName=tBoxNewPassword,
                                                                         Path=Text}"/>
                             </PasswordBox.InputBindings>
                         </PasswordBox>
-                        <ToggleButton Grid.Column="1"
+                        <ToggleButton x:Name="tBtnNewPasswordVisibility"
+                                      Grid.Column="1"
                                       Width="24"
                                       Height="24"
                                       BorderBrush="Transparent"
                                       BorderThickness="0"
                                       IsChecked="True"
                                       Style="{StaticResource ToggleButtonMaskPasswordStyle}"
-                                      Click="tBtnPasswordVisibility_Click"/>
+                                      Click="tBtnNewPasswordVisibility_Click"/>
                     </Grid>
                 </Border>
                 <TextBlock Grid.Row="5"
@@ -525,14 +528,16 @@
                             Orientation="Horizontal"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                    <Button Content="OK"
+                    <Button x:Name="btnConfirmSetNewPassword"
+                            Content="OK"
                             Width="100"
                             Height="30"
                             Margin="0 0 6 0"
                             Style="{StaticResource ButtonUnlockDatabaseStyle}"
-                            Command="{Binding ConfirmSetNewPasswordCommand}"
+                            Click="btnConfirmSetNewPassword_Click"/>
+                    <!--Command="{Binding ConfirmSetNewPasswordCommand}"
                             CommandParameter="{Binding ElementName=tBox,
-                                                       Path=Text}"/>
+                                                       Path=Text}"/>-->
                     <Button Content="Cancel"
                             Width="100"
                             Height="30"
