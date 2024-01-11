@@ -3273,6 +3273,7 @@
                         <!--<RowDefinition Height="0.001*" />-->
                     </Grid.RowDefinitions>
 
+                    <!--#region DataGrid-->
                     <!--<Border x:Name="dataGridBorder"
                             Grid.Row="0"
                             Background="#464646"
@@ -3362,6 +3363,8 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <!--</Border>-->
+                    <!--#endregion DataGrid-->
+                    <!--#region RightPane Splitter-->
                     <Rectangle Grid.Row="1"
                                Height="5"
                                Fill="Transparent"
@@ -3378,6 +3381,8 @@
                                                        Path=Visibility}"
                                   SnapsToDevicePixels="True"/>
                     <!--"{Binding ElementName=selectedRecordInfoPane,Path=Visibility}" />-->
+                    <!--#endregion RightPane Splitter-->
+                    <!--#region InfoPane and Expander Button-->
                     <Border x:Name="selectedRecordInfoPane"
                             Grid.Row="2"
                             MinHeight="220"
@@ -3795,6 +3800,7 @@
                     </Button>
                     <!--</Border>-->
                     <!--</Border>-->
+                    <!--#endregion InfoPane and Expander Button-->
                 </Grid>
             </Border>
             <!--#endregion //  Right Pane  //-->
