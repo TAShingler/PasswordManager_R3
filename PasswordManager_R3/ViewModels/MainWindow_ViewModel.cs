@@ -889,6 +889,8 @@ internal class MainWindow_ViewModel : ViewModelBase {
         if (SelectedViewModel is not ViewModels.Database_ViewModel)
             return;
 
+        System.Diagnostics.Debug.WriteLine($"MainWindow_ViewModel.OnDeleteSelectedGroup() SelectedGroup == null: {SelectedGroup == null}");
+        System.Diagnostics.Debug.WriteLine($"MainWindow_ViewModel.SelectedGroup == {SelectedGroup.Title}");
         if (SelectedGroup == null)
             return;
 

@@ -10,7 +10,7 @@
         <!--<ResourceDictionary x:Key="RecordIcons"
                             x:Name="RecordIcons"
                             Source="/PasswordManager_R3;component/ResourceDictionaries/RecordIcons.xaml" />-->
-        <ResourceDictionary x:Key="MainDictionary">
+        <ResourceDictionary><!-- x:Key="MainDictionary">-->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary x:Uid="RecordIconsDictionary"
                                     x:Name="RecordIcons"

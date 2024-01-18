@@ -454,20 +454,34 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
     internal void OnDeleteGroup(object obj) {   //need to adjust to not have a Group object passed to this method, since the selected Group and Record objects are being set with Property binding in the View
         System.Diagnostics.Debug.WriteLine($"Database_ViewModel.OnDeleteGroup() called...");
         var objAsGroup = (Models.Group)obj;
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.OnDeleteGroup().objAsGroup == {objAsGroup.Title}");
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.OnDeleteGroup().objAsGroup.ChildrenGroups.Count == {objAsGroup.ChildrenGroups.Count}");
         //var rowId = _groupsFromDb.Where(pair => pair.Value.GUID == ((Models.Group)obj).GUID).Select(pair => pair.Key).ToList();
         List<Models.Group> groupsToDelete = new();
         List<Models.Record> recordsToDelete = new();
 
         System.Diagnostics.Debug.WriteLine($"Database_ViewModel.GetGroupsToDelete() called...");
         GetGroupsToDelete(objAsGroup, groupsToDelete);
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.groupsToDelete.Count = {groupsToDelete.Count}");
+        foreach (var g in groupsToDelete) {
+            System.Diagnostics.Debug.WriteLine($"g = {g.Title}\tg.GetHashCode() = {g.GetHashCode()}");
+        }
+        foreach (KeyValuePair<int, Models.Group> kvp in _groupsFromDb) {
+            System.Diagnostics.Debug.WriteLine($"kvp.Value.Title = {kvp.Value.Title}\tkvp.Value.GetHashCode() = {kvp.Value.GetHashCode()}");
+            System.Diagnostics.Debug.WriteLine($"groupsToDelete.Contains(kvp.Value) = {groupsToDelete.Contains(kvp.Value)}");
+        }
+        //}
 
         foreach (Models.Group grp in groupsToDelete) {
             System.Diagnostics.Debug.WriteLine($"Database_ViewModel.GetRecordsToDelete() called...");
             GetRecordsToDelete(objAsGroup, recordsToDelete);
         }
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.recordsToDelete.Count = {recordsToDelete.Count}");
 
-        var groupsToDeleteRowIDs = _groupsFromDb.Where(pair => groupsToDelete.Contains(pair.Value)).Select(pair => pair.Key).ToList().ToArray();
-        var recordsToDeleteRowIDs = _recordsFromDb.Where(pair => recordsToDelete.Contains(pair.Value)).Select(pair => pair.Key).ToList().ToArray();
+        var groupsToDeleteRowIDs = _groupsFromDb.Where(pair => groupsToDelete.Contains(pair.Value)).Select(pair => pair.Key).ToList();//.ToArray();
+        var recordsToDeleteRowIDs = _recordsFromDb.Where(pair => recordsToDelete.Contains(pair.Value)).Select(pair => pair.Key).ToList();//.ToArray();
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.OnDeleteGroup().groupsToDeleteRowIDs.Length == {groupsToDeleteRowIDs.Count}");
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.OnDeleteGroup().recordsToDeleteRowIDs.Length == {recordsToDeleteRowIDs.Count}");
 
         System.Diagnostics.Debug.WriteLine("\nList of indexes for Groups to delete...");
         foreach (var g in groupsToDeleteRowIDs) {
