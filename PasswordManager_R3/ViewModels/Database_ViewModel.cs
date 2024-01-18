@@ -321,6 +321,9 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
         if (SelectedGroup != null) {
             System.Diagnostics.Debug.WriteLine($"Database_ViewModel constructor: SelectedGroup = {SelectedGroup.Title}");
             //Groups.Where(g => g.GUID == SelectedGroup.GUID).Select(g => g).FirstOrDefault().IsSelected = true;
+            SelectedGroup = _groupsFromDb.Where(pair => pair.Key == ((MainWindow_ViewModel)ParentVM).SgRowId).Select(pair => pair.Value).FirstOrDefault();
+            //var sGroup = _groupsFromDb.Where(pair => pair.Key == ((MainWindow_ViewModel)ParentVM).SgRowId).Select(pair => pair.Value).FirstOrDefault();
+            //System.Diagnostics.Debug.WriteLine($"Database_ViewModel.sGroup hash == {sGroup.GetHashCode()}\n\tsGroup hash == ParentVM.SelectedGroup hash {sGroup.GetHashCode() == ((MainWindow_ViewModel)ParentVM).SelectedGroup.GetHashCode()}");
         } else {
             Groups.ElementAt(0).IsSelected = true;
         }

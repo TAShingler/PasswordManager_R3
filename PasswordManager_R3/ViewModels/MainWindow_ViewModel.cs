@@ -824,7 +824,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
             //set Database_View
             OnSetDatabaseView();
         };
-        addEditGroupVM.CancelAddEditGroup += OnSetDatabaseView;
+        addEditGroupVM.CancelAddEditGroup += () => {
+            //set SelectedGroup and Record
+            OnSetDatabaseView();
+            var selectedGroup = ((ViewModels.Database_ViewModel)SelectedViewModel).GroupsFromDb.Where(pair => pair.Key == SgRowId).Select(pair => pair.Value).FirstOrDefault();
+            System.Diagnostics.Debug.WriteLine($"MainWindow_ViewModel.SelectedGroup == {SelectedGroup.GetHashCode()}\nMainWindow_ViewModel.OnCreateSelectedGroup().selectedGroup == {selectedGroup.GetHashCode()}");
+        };
 
         SelectedViewModel = addEditGroupVM;
 
