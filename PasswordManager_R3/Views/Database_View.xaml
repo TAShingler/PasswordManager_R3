@@ -9,6 +9,7 @@
              xmlns:proj="clr-namespace:PasswordManager_R3"
              xmlns:m="clr-namespace:PasswordManager_R3.Models"
              xmlns:c="clr-namespace:PasswordManager_R3.Converters"
+             xmlns:a="clr-namespace:PasswordManager_R3"
              mc:Ignorable="d" 
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -23,6 +24,7 @@
         <c:SelectedRecordPropertyMaskedConverter x:Key="SelectedRecordPropertyMaskedConverter" />
         <c:IntToDrawingImageConverter x:Key="IntToDrawingImageConverter" />
         <c:SelectedIndexToGridLengthConverter x:Key="SelectedIndexToGridLengthConverter" />
+        <c:BooleanToMaskedStringConverter x:Key="BooleanToMaskedStringConverter" />
         <!--#endregion//  Converters  //-->
         
         <!--<PathGeometry x:Key="DownArrowGlyphGeometry" Figures="M 3,4 8,9 13,4 15,6 8,13 1,6 Z" />
@@ -172,7 +174,7 @@
         <ContextMenu x:Key="TreeViewItemContextMenu"
                      HorizontalOffset="4"
                      Loaded="TreeViewItemContextMenu_Loaded">
-            <MenuItem Header="CtMenuItemAddGroup"
+            <MenuItem Header="Add Group"
                       Click="CtMenuItemAddGroup_Click">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
@@ -190,7 +192,7 @@
                 </i:Interaction.Triggers>
             </MenuItem>
             <!-- CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />-->
-            <MenuItem Header="CtMenuItemEditGroup"
+            <MenuItem Header="Edit Group"
                       Click="CtMenuItemEditGroup_Click">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
@@ -207,7 +209,7 @@
                 </i:Interaction.Triggers>
             </MenuItem>
             <!-- CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />-->
-            <MenuItem Header="CtMenuItemDeleteGroup"
+            <MenuItem Header="Delete Group"
                       Click="CtMenuItemDeleteGroup_Click">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
@@ -3343,20 +3345,44 @@
                                                 Binding="{Binding Title}" />
                             <DataGridTextColumn Header="Username"
                                                 MinWidth="115"
-                                                Width="Auto"
-                                                Binding="{Binding Username}" />
+                                                Width="Auto">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
+                                        <Binding Path="Username" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.AreDatabaseUrlsMasked" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
                             <DataGridTextColumn Header="Email"
                                                 MinWidth="115"
-                                                Width="Auto"
-                                                Binding="{Binding Email}" />
+                                                Width="Auto">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
+                                        <Binding Path="Email" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.AreDatabaseUrlsMasked" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
                             <DataGridTextColumn Header="Password"
                                                 MinWidth="115"
-                                                Width="Auto"
-                                                Binding="{Binding PasswordMasked}" />
+                                                Width="Auto">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
+                                        <Binding Path="Password" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.AreDatabasePasswordsMasked" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
                             <DataGridTextColumn Header="Url"
                                                 MinWidth="115"
-                                                Width="Auto"
-                                                Binding="{Binding URL}" />
+                                                Width="Auto">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
+                                        <Binding Path="URL" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.AreDatabaseUrlsMasked" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
                             <!--<DataGridTextColumn Header="Notes"
                                                 MinWidth="100"
                                                 Binding="{Binding Notes}" />-->

@@ -60,6 +60,20 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
     #endregion Delegates and Events
 
     #region Properties
+    //Database content values masking
+    public bool AreDatabaseUsernamesMasked {
+        get => ((App)App.Current).AppVariables.AreDatabaseUsernamesMasked;
+    }
+    public bool AreDatabaseEmailsMasked {
+        get => ((App)App.Current).AppVariables.AreDatabaseEmailsMasked;
+    }
+    public bool AreDatabasePasswordsMasked {
+        get => ((App)App.Current).AppVariables.AreDatabasePasswordsMasked;
+    }
+    public bool AreDatabaseUrlsMasked {
+        get => ((App)App.Current).AppVariables.AreDatabaseUrlsMasked;
+    }
+
     //Models.Group-specific properties
     public Models.Group? SelectedGroup {
         get { return ((ViewModels.MainWindow_ViewModel)ParentVM).SelectedGroup; }

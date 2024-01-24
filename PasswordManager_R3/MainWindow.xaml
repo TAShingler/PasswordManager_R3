@@ -2276,19 +2276,35 @@
                                       Command="{Binding AppSettingsCommand}"/>
                         </MenuItem>
                         <MenuItem Header="View"
-                                  IsEnabled="{Binding MenuItemViewIsEnabled}"
-                                  Visibility="Collapsed">
+                                  IsEnabled="{Binding MenuItemViewIsEnabled}">
                             <MenuItem Header="Theme"
                                       IsEnabled="False" />
                             <Separator />
+                            <MenuItem Header="Show Groups Tree"
+                                      IsEnabled="{Binding CanToggleTreeViewVisibility}"
+                                      Command="{Binding ToggleTreeViewVisibilityCommand}"/>
                             <MenuItem Header="Show Details Panel"
-                                      IsEnabled="False" />
-                            <MenuItem Header="Show Quick Access Tolbar"
-                                      IsEnabled="False" />
-                            <MenuItem Header="Hide Usernames"
-                                      IsEnabled="False" />
-                            <MenuItem Header="Hide Passwords"
-                                      IsEnabled="False" />
+                                      IsEnabled="{Binding CanToggleRecordDetailsPanelVisibility}"
+                                      Command="{Binding ToggleRecordDetailsPanelVisibilityCommand}"/>
+                            <!--<MenuItem Header="Show Quick Access Tolbar"
+                                      IsEnabled="False" />-->
+                            <Separator Visibility="Collapsed" />
+                            <MenuItem Header="Hide Email"
+                                      IsEnabled="True"
+                                      Visibility="Collapsed"
+                                      Command="{Binding HideDataGridEmailCommand}" />
+                            <MenuItem Header="Hide Username"
+                                      IsEnabled="True"
+                                      Visibility="Collapsed"
+                                      Command="{Binding HideDataGridUsernameCommand}" />
+                            <MenuItem Header="Hide Password"
+                                      IsEnabled="True"
+                                      Visibility="Collapsed"
+                                      Command="{Binding HideDataGridPasswordCommand}" />
+                            <MenuItem Header="Hide Url"
+                                      IsEnabled="True"
+                                      Visibility="Collapsed"
+                                      Command="{Binding HideDataGridUrlCommand}" />
                         </MenuItem>
                         <MenuItem Header="Help">
                             <MenuItem Header="About"

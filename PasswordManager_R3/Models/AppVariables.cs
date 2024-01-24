@@ -26,6 +26,10 @@ internal class AppVariables {    //might change from static and instantiate in A
     private int _unlockAttempts = 10;
     private int _timeoutMinutes = 1;
     private bool _logDeletedItems = true;
+    private bool _AreDatabaseUsernamesMasked = true;
+    private bool _AreDatabaseEmailsMasked = true;
+    private bool _areDatabasePasswordsMasked = true;
+    private bool _AreDatabaseUrlsMasked = true;
 
     //tabitem 3
     private bool _displyInfoPane = true;
@@ -94,6 +98,26 @@ internal class AppVariables {    //might change from static and instantiate in A
     internal bool LogDeletedItems {
         get { return _logDeletedItems; }
         set { _logDeletedItems = value; }
+    }
+    [Newtonsoft.Json.JsonProperty("IsUsernameMasked")]
+    internal bool AreDatabaseUsernamesMasked {
+        get { return _AreDatabaseUsernamesMasked; }
+        set { _AreDatabaseUsernamesMasked = value; }
+    }
+    [Newtonsoft.Json.JsonProperty("IsEmailMasked")]
+    internal bool AreDatabaseEmailsMasked {
+        get { return _AreDatabaseEmailsMasked; }
+        set { _AreDatabaseEmailsMasked = value; }
+    }
+    [Newtonsoft.Json.JsonProperty("IsPasswordMasked")]
+    internal bool AreDatabasePasswordsMasked {
+        get { return _areDatabasePasswordsMasked; }
+        set { _areDatabasePasswordsMasked = value; }
+    }
+    [Newtonsoft.Json.JsonProperty("IsUrlMasked")]
+    internal bool AreDatabaseUrlsMasked {
+        get { return _AreDatabaseUrlsMasked; }
+        set { _AreDatabaseUrlsMasked = value; }
     }
 
     //tabitem 3

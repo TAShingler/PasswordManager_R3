@@ -26,6 +26,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private bool _canCreateNewGroup = false;        //maybe rename to be specific to the ContextMenu MenuItem that it is bound to?...
     private bool _canEditSelectedGroup = false;     //maybe rename to be specific to the ContextMenu MenuItem that it is bound to?...
     private bool _canDeleteSelectedGroup = false;   //maybe rename to be specific to the ContextMenu MenuItem that it is bound to?...
+    private bool _canToggleTreeViewVisibility = true;
+    private bool _canToggleRecordDetailsPanelVisibility = true;
+    private Visibility _groupsTreeViewVisibility = Visibility.Visible;      //may remove
+    private Visibility _recordDetailsPanelVisibility = Visibility.Visible;   //may remove
 
     //Title bar Menus IsEnabled
     private bool _menuItemSetPasswordIsEnabled = false;
@@ -166,6 +170,34 @@ internal class MainWindow_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(CanDeleteSelectedGroup));
         }
     }
+    public bool CanToggleTreeViewVisibility {
+        get => _canToggleTreeViewVisibility;
+        set {
+            _canToggleTreeViewVisibility = value;
+            OnPropertyChanged(nameof(CanToggleTreeViewVisibility));
+        }
+    }
+    public bool CanToggleRecordDetailsPanelVisibility {
+        get => _canToggleRecordDetailsPanelVisibility;
+        set {
+            _canToggleRecordDetailsPanelVisibility = value;
+            OnPropertyChanged(nameof(CanToggleRecordDetailsPanelVisibility));
+        }
+    }
+    public System.Windows.Visibility GroupsTreeViewVisibility {
+        get => _groupsTreeViewVisibility;
+        set {
+            _groupsTreeViewVisibility = value;
+            OnPropertyChanged(nameof(GroupsTreeViewVisibility));
+        }
+    }   //may remove
+    public System.Windows.Visibility RecordDetailsPanelVisibility {
+        get => _recordDetailsPanelVisibility;
+        set {
+            _recordDetailsPanelVisibility = value;
+            OnPropertyChanged(nameof(RecordDetailsPanelVisibility));
+        }
+    }   //may remove
 
     //Title bar Menus IsEnabled
     public bool MenuItemSetPasswordIsEnabled {
@@ -416,6 +448,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
     public Utils.DelegateCommand? AppSettingsCommand { get; set; }
     public Utils.DelegateCommand? ManualDatabaseBackupCommand { get; set; }
     public Utils.DelegateCommand? RestoreDatabaseCommand { get; set; }
+    public Utils.DelegateCommand? HideDataGridEmailCommand { get; set; }
+    public Utils.DelegateCommand? HideDataGridUsernameCommand { get; set; }
+    public Utils.DelegateCommand? HideDataGridPasswordCommand { get; set; }
+    public Utils.DelegateCommand? HideDataGridUrlCommand { get; set; }
+    public Utils.DelegateCommand? ToggleTreeViewVisibilityCommand { get; set; }
+    public Utils.DelegateCommand? ToggleRecordDetailsPanelVisibilityCommand { get; set; }
 
     public Utils.DelegateCommand? WindowActivatedCommand { get; set; }
     public Utils.DelegateCommand? WindowDeactivatedCommand { get; set; }
@@ -1095,6 +1133,54 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
         OnSetDatabaseView();
     }
+    private void OnHideDataGridEmailCommand(object obj) {
+        //do something
+        System.Diagnostics.Debug.WriteLine($"MainWindow_ViewModel.OnHideDataGridEmailCommand() called...");
+        if (SelectedViewModel is not ViewModels.Database_ViewModel)
+            return;
+
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.SrEmailMasked = {((ViewModels.Database_ViewModel)SelectedViewModel).SrEmailMasked}");
+        ((ViewModels.Database_ViewModel)SelectedViewModel).SrEmailMasked = !((ViewModels.Database_ViewModel)SelectedViewModel).SrEmailMasked;
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.SrEmailMasked = {((ViewModels.Database_ViewModel)SelectedViewModel).SrEmailMasked}");
+    }       //might not use
+    private void OnHideDataGridUsernameCommand(object obj) {
+        //do something
+        System.Diagnostics.Debug.WriteLine($"MainWindow_ViewModel.OnHideDataGridUsernameCommand() called...");
+        if (SelectedViewModel is not ViewModels.Database_ViewModel)
+            return;
+
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.SrUsernameMasked = {((ViewModels.Database_ViewModel)SelectedViewModel).SrUsernameMasked}");
+        ((ViewModels.Database_ViewModel)SelectedViewModel).SrUsernameMasked = !((ViewModels.Database_ViewModel)SelectedViewModel).SrUsernameMasked;
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.SrUsernameMasked = {((ViewModels.Database_ViewModel)SelectedViewModel).SrUsernameMasked}");
+    }   //might not use
+    private void OnHideDataGridPasswordCommand(object obj) {
+        //do something
+        System.Diagnostics.Debug.WriteLine($"MainWindow_ViewModel.OnHideDataGridPasswordCommand() called...");
+        if (SelectedViewModel is not ViewModels.Database_ViewModel)
+            return;
+
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.SrPasswordMasked = {((ViewModels.Database_ViewModel)SelectedViewModel).SrPasswordMasked}");
+        ((ViewModels.Database_ViewModel)SelectedViewModel).SrPasswordMasked = !((ViewModels.Database_ViewModel)SelectedViewModel).SrPasswordMasked;
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.SrPasswordMasked = {((ViewModels.Database_ViewModel)SelectedViewModel).SrPasswordMasked}");
+    }   //might not use
+    private void OnHideDataGridUrlCommand(object obj) {
+        //do something
+        System.Diagnostics.Debug.WriteLine($"MainWindow_ViewModel.OnHideDataGridUrlCommand() called...");
+        if (SelectedViewModel is not ViewModels.Database_ViewModel)
+            return;
+
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.SrUrlMasked = {((ViewModels.Database_ViewModel)SelectedViewModel).SrUrlMasked}");
+        ((ViewModels.Database_ViewModel)SelectedViewModel).SrUrlMasked = !((ViewModels.Database_ViewModel)SelectedViewModel).SrUrlMasked;
+        System.Diagnostics.Debug.WriteLine($"Database_ViewModel.SrUrlMasked = {((ViewModels.Database_ViewModel)SelectedViewModel).SrUrlMasked}");
+    }       //might not use
+    private void OnToggleTreeViewVisibilityCommand(object obj) {
+        //do something
+        CanToggleTreeViewVisibility = !CanToggleTreeViewVisibility;
+    }
+    private void OnToggleRecordDetailsPanelVisibilityCommand(object obj) {
+        //do something
+        CanToggleRecordDetailsPanelVisibility = !CanToggleRecordDetailsPanelVisibility;
+    }
 
     //DispatcherTimer Tick event handler
     private void dispatcherTimer_Tick(object sender, EventArgs e) {
@@ -1166,6 +1252,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
         AppSettingsCommand = new Utils.DelegateCommand(OnAppSettingsCommand);
         ManualDatabaseBackupCommand = new(OnManualDatabaseBackupCommand);
         RestoreDatabaseCommand = new(OnRestoreDatabaseCommand);
+        HideDataGridEmailCommand = new(OnHideDataGridEmailCommand);
+        HideDataGridUsernameCommand = new(OnHideDataGridUsernameCommand);
+        HideDataGridPasswordCommand = new(OnHideDataGridPasswordCommand);
+        HideDataGridUrlCommand = new(OnHideDataGridUrlCommand);
+        ToggleTreeViewVisibilityCommand = new(OnToggleTreeViewVisibilityCommand);
+        ToggleRecordDetailsPanelVisibilityCommand = new(OnToggleRecordDetailsPanelVisibilityCommand);
 
         WindowActivatedCommand = new(OnWindowActivatedCommand);
         WindowDeactivatedCommand = new(OnWindowDeactivatedCommand);

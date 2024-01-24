@@ -1653,7 +1653,6 @@
             </Grid>
         </Border>
         <!--#endregion //  Left Panel  //-->
-
         <!--#region //  Right Panel  //-->
         <TabControl Background="Transparent"
                     BorderBrush="Transparent"
@@ -1687,7 +1686,7 @@
                                                   Width="Auto" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
-
+                            
                             <!--#region  Allow Backups -->
                             <!--<CheckBox x:Name="checkBoxAllowAutoBackups"
                                       Grid.Row="0"
@@ -1699,7 +1698,6 @@
                                       VerticalContentAlignment="Center"
                                       Content="Allow automatic backups" />-->
                             <!--#endregion Allow Backups -->
-
                             <!--#region Backup Count -->
                             <Label Grid.Row="1"
                                    Grid.Column="0"
@@ -1750,7 +1748,6 @@
                                               Style="{StaticResource NumericUpDownDecrementButtonStyle}" />
                             </Grid>
                             <!--#endregion Backup Count -->
-
                             <!--#region Backup Location -->
                             <Label Grid.Row="2"
                                    Grid.Column="0"
@@ -1780,7 +1777,6 @@
                             </Grid>
                             <!-- might need to add button to select path -->
                             <!--#endregion Backup Location -->
-
                             <!--#region Backup Frequency -->
                             <!--<Label Grid.Row="3"
                                        Grid.Column="0"
@@ -1804,7 +1800,6 @@
                 </Border>
             </TabItem>
             <!--#endregion Backup Options-->
-
             <!--#region Database Options-->
             <TabItem Visibility="Collapsed">
                 <Border Margin="0 5"
@@ -1902,12 +1897,10 @@
                                 </RepeatButton>
                             </Grid>
                             <!--#endregion -->
-                            
                             <Separator Grid.Row="2"
                                        Grid.Column="0"
                                        Grid.ColumnSpan="2"
                                        Margin="0 5"/>
-                            
                             <!--#region Database Lockout-->
                             <Label Grid.Row="3"
                                    Grid.Column="0"
@@ -1974,7 +1967,6 @@
                 </Border>
             </TabItem>
             <!--#endregion Database Options-->
-
             <!--#region Display Options-->
             <TabItem Visibility="Collapsed">
                 <Border Margin="0 5"
@@ -1989,12 +1981,15 @@
                                        Background="#777" />
                         <Grid Margin="12 0 0 0">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="0" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="0" />
+                                <RowDefinition Height="0" />
+                                <RowDefinition Height="0" />
+                                <RowDefinition Height="0" />
+                                <RowDefinition Height="0" />
+                                <RowDefinition Height="0" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
@@ -2007,77 +2002,96 @@
                             </Grid.ColumnDefinitions>
 
                             <!--#region TreeView Options -->
-                            <!--<StackPanel Grid.Row="0"
-                                            Grid.Column="0"
-                                            Orientation="Horizontal">-->
                             <!--<Label Grid.Row="0"
-                                       Grid.Column="0"
-                                       Padding="0"
-                                       Margin="0 4"
-                                       VerticalContentAlignment="Top"
-                                       Foreground="Gainsboro"
-                                       Content="Default tree display:" />
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="Gainsboro"
+                                   Content="Default tree display:" />
                             <StackPanel Grid.Row="0"
-                                            Grid.Column="1"
-                                            Orientation="Vertical"
-                                            Margin="0 5">
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
                                 <RadioButton IsChecked="{Binding ExpandAllRadioButtonIsChecked}"
-                                                 Foreground="Gainsboro"
-                                                 Content="Expand all"
-                                                 VerticalContentAlignment="Center"
-                                                 Command="{Binding DefaultTreeDisplayCommand}"
-                                                 CommandParameter="{x:Static enum:TreeDisplayType.ExpandAll}" />
+                                             Foreground="Gainsboro"
+                                             Content="Expand all"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding DefaultTreeDisplayCommand}"
+                                             CommandParameter="{x:Static enum:TreeDisplayType.ExpandAll}" />
                                 <RadioButton IsChecked="{Binding CollapseAllRadioButtonIsChecked}"
-                                                 Foreground="Gainsboro"
-                                                 Content="Collapse all"
-                                                 VerticalContentAlignment="Center"
-                                                 Command="{Binding DefaultTreeDisplayCommand}"
-                                                 CommandParameter="{x:Static enum:TreeDisplayType.CollapseAll}" />
+                                             Foreground="Gainsboro"
+                                             Content="Collapse all"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding DefaultTreeDisplayCommand}"
+                                             CommandParameter="{x:Static enum:TreeDisplayType.CollapseAll}" />
                                 <RadioButton IsChecked="{Binding RememberLastRadioButtonIsChecked}" Foreground="Gainsboro"
-                                                 Content="Remember last"
-                                                 VerticalContentAlignment="Center"
-                                                 Command="{Binding DefaultTreeDisplayCommand}"
-                                                 CommandParameter="{x:Static enum:TreeDisplayType.RememberLast}" />
+                                             Content="Remember last"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding DefaultTreeDisplayCommand}"
+                                             CommandParameter="{x:Static enum:TreeDisplayType.RememberLast}" />
                             </StackPanel>-->
-                            <!--</StackPanel>-->
-
-                            <Label Grid.Row="1"
-                                       Grid.Column="0"
-                                       Padding="0"
-                                       Margin="0 4"
-                                       VerticalContentAlignment="Top"
-                                       Foreground="Gainsboro"
-                                       Content="Expand/Collapse buttons:"/>
-                            <StackPanel Grid.Row="1"
-                                            Grid.Column="1"
-                                            Orientation="Vertical"
-                                            Margin="0 5">
-                                <RadioButton IsChecked="{Binding PlusMinusSignsRadioButtonIsChecked}"
-                                                 Foreground="Gainsboro"
-                                                 Content="Plus/Minus signs"
-                                                 VerticalContentAlignment="Center"
-                                                 Command="{Binding ExpandCollapseButtonsCommand}"
-                                                 CommandParameter="{x:Static enum:TreeExpandCollapseButtonStyle.PlusMinusSigns}" />
-                                <RadioButton IsChecked="{Binding ArrowsRadioButtonIsChecked}"
-                                                 Foreground="Gainsboro"
-                                                 Content="Arrows"
-                                                 VerticalContentAlignment="Center"
-                                                 Command="{Binding ExpandCollapseButtonsCommand}"
-                                                 CommandParameter="{x:Static enum:TreeExpandCollapseButtonStyle.Arrows}" />
-                                <RadioButton IsChecked="{Binding FoldersRadioButtonIsChecked}"
-                                                 Foreground="Gainsboro"
-                                                 Content="Folders"
-                                                 VerticalContentAlignment="Center"
-                                                 Command="{Binding ExpandCollapseButtonsCommand}"
-                                                 CommandParameter="{x:Static enum:TreeExpandCollapseButtonStyle.Folders}" />
+                            <!--#region TreeView Visibility -->
+                            <Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="Gainsboro"
+                                   Content="Show Groups?"/>
+                            <StackPanel Grid.Row="0"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="Yes"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="No"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
                             </StackPanel>
+                            <!--#endregion TreeView Visibility -->
+                            <!--#region Expand/Collapse Button Types-->
+                            <Label Grid.Row="1"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="Gainsboro"
+                                   Content="Expand/Collapse buttons:"/>
+                            <StackPanel Grid.Row="1"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
+                                <RadioButton IsChecked="{Binding PlusMinusSignsRadioButtonIsChecked}"
+                                             Foreground="Gainsboro"
+                                             Content="Plus/Minus signs"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding ExpandCollapseButtonsCommand}"
+                                             CommandParameter="{x:Static enum:TreeExpandCollapseButtonStyle.PlusMinusSigns}" />
+                                <RadioButton IsChecked="{Binding ArrowsRadioButtonIsChecked}"
+                                             Foreground="Gainsboro"
+                                             Content="Arrows"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding ExpandCollapseButtonsCommand}"
+                                             CommandParameter="{x:Static enum:TreeExpandCollapseButtonStyle.Arrows}" />
+                                <RadioButton IsChecked="{Binding FoldersRadioButtonIsChecked}"
+                                             Foreground="Gainsboro"
+                                             Content="Folders"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding ExpandCollapseButtonsCommand}"
+                                             CommandParameter="{x:Static enum:TreeExpandCollapseButtonStyle.Folders}" />
+                            </StackPanel>
+                            <!--#endregion Expand/Collapse Button Types-->
                             <!--#endregion TreeView Options -->
-
                             <Separator Grid.Row="2"
-                                           Grid.Column="0"
-                                           Grid.ColumnSpan="3"
-                                           Margin="0 5"/>
-
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="3"
+                                       Margin="0 5"/>
                             <!--#region DataGrid Options -->
                             <!--<CheckBox Grid.Row="3"
                                       Grid.Column="0"
@@ -2093,43 +2107,163 @@
                                       Foreground="Gainsboro"
                                       VerticalContentAlignment="Center"
                                       Content="Display information pane?" />-->
+                            <!--#region Record Details Panel Visibility -->
+                            <Label Grid.Row="3"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="Gainsboro"
+                                   Content="Show Record data?"/>
+                            <StackPanel Grid.Row="3"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="Yes"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="No"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                            </StackPanel>
+                            <!--#endregion Record Details Panel Visibility -->
+                            <!--#region DataGrid Item Masking -->
+                            <!--#region Usernames -->
+                            <Label Grid.Row="4"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="{DynamicResource solidColorBrush-theme-foreground}"
+                                   Content="Mask usernames?" />
+                            <StackPanel Grid.Row="4"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="Yes"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="No"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                            </StackPanel>
+                            <!--#endregion Usernames -->
+                            <!--#region Emails -->
+                            <Label Grid.Row="5"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="{DynamicResource solidColorBrush-theme-foreground}"
+                                   Content="Mask email addresses?" />
+                            <StackPanel Grid.Row="5"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="Yes"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="No"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                            </StackPanel>
+                            <!--#endregion Emails -->
+                            <!--#region Passwords -->
+                            <Label Grid.Row="6"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="{DynamicResource solidColorBrush-theme-foreground}"
+                                   Content="Mask passwords?" />
+                            <StackPanel Grid.Row="6"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="Yes"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="No"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                            </StackPanel>
+                            <!--#endregion Passwords -->
+                            <!--#region URLs -->
+                            <Label Grid.Row="7"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="{DynamicResource solidColorBrush-theme-foreground}"
+                                   Content="Mask website URLs?" />
+                            <StackPanel Grid.Row="7"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="Yes"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="No"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                            </StackPanel>
+                            <!--#endregion URLs -->
+                            <!--#endregion DataGrid Item Masking -->
                             <!--#endregion DataGrid Options -->
-
-                            <!--<Separator Grid.Row="5"
+                            <Separator Grid.Row="8"
                                        Grid.Column="0"
                                        Grid.ColumnSpan="3"
-                                       Margin="0 5" />-->
-
+                                       Margin="0 5" />
                             <!--#region Quick Access icon size options-->
-                            <Label Grid.Row="6"
-                                       Grid.Column="0"
-                                       Padding="0"
-                                       Margin="0 4"
-                                       VerticalContentAlignment="Top"
-                                       Foreground="Gainsboro"
-                                       Content="Quick access icon size:" />
-                            <StackPanel Grid.Row="6"
-                                            Grid.Column="1"
-                                            Orientation="Vertical"
-                                            Margin="0 5">
+                            <Label Grid.Row="9"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="Gainsboro"
+                                   Content="Quick access icon size:" />
+                            <StackPanel Grid.Row="9"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
                                 <RadioButton IsChecked="{Binding QuickAccessSmallRadioButtonIsChecked}"
-                                                 Foreground="Gainsboro"
-                                                 Content="Small"
-                                                 VerticalContentAlignment="Center"
-                                                 Command="{Binding QuickAccessIconSizeCommand}"
-                                                 CommandParameter="{x:Static enum:QuickAccessIconSize.Small}" />
+                                             Foreground="Gainsboro"
+                                             Content="Small"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding QuickAccessIconSizeCommand}"
+                                             CommandParameter="{x:Static enum:QuickAccessIconSize.Small}" />
                                 <RadioButton IsChecked="{Binding QuickAccessMediumRadioButtonIsChecked}"
-                                                 Foreground="Gainsboro"
-                                                 Content="Medium"
-                                                 VerticalContentAlignment="Center"
-                                                 Command="{Binding QuickAccessIconSizeCommand}"
-                                                 CommandParameter="{x:Static enum:QuickAccessIconSize.Medium}" />
+                                             Foreground="Gainsboro"
+                                             Content="Medium"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding QuickAccessIconSizeCommand}"
+                                             CommandParameter="{x:Static enum:QuickAccessIconSize.Medium}" />
                                 <RadioButton IsChecked="{Binding QuickAccessLargeRadioButtonIsChecked}"
-                                                 Foreground="Gainsboro"
-                                                 Content="Large"
-                                                 VerticalContentAlignment="Center"
-                                                 Command="{Binding QuickAccessIconSizeCommand}"
-                                                 CommandParameter="{x:Static enum:QuickAccessIconSize.Large}" />
+                                             Foreground="Gainsboro"
+                                             Content="Large"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding QuickAccessIconSizeCommand}"
+                                             CommandParameter="{x:Static enum:QuickAccessIconSize.Large}" />
                             </StackPanel>
                             <!--#endregion Quick Access icon size options-->
                         </Grid>
