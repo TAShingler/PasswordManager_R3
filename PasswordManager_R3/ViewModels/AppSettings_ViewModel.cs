@@ -32,10 +32,15 @@ internal class AppSettings_ViewModel : ViewModelBase {
     private bool _quickAccessSmallRadioButtonIsChecked = ((App)App.Current).AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Small);
     private bool _quickAccessMediumRadioButtonIsChecked = ((App)App.Current).AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Medium);
     private bool _quickAccessLargeRadioButtonIsChecked = ((App)App.Current).AppVariables.QuickAccessIconSize.Equals(Enums.QuickAccessIconSize.Large);
-    private bool _displayInfoPane = ((App)App.Current).AppVariables.DisplayInfoPane;
     private bool _eraseDatabaseAfterSetAmountAttempts = ((App)App.Current).AppVariables.EraseDatabaseAfterSetAmountAttempts;
     private bool _logDeletedItems = ((App)App.Current).AppVariables.LogDeletedItems;
     private string _backupLocation = ((App)App.Current).AppVariables.BackupLocation;
+    private bool _displayInfoPane = ((App)App.Current).AppVariables.DisplayInfoPane;
+    private bool _displayGroupsTree = ((App)App.Current).AppVariables.DisplayGroupsTree;
+    private bool _areDatabaseUsernamesMasked = ((App)App.Current).AppVariables.AreDatabaseUsernamesMasked;
+    private bool _areDatabaseEmailsMasked = ((App)App.Current).AppVariables.AreDatabaseEmailsMasked;
+    private bool _areDatabasePasswordsMasked = ((App)App.Current).AppVariables.AreDatabasePasswordsMasked;
+    private bool _areDatabaseUrlsMasked = ((App)App.Current).AppVariables.AreDatabaseUrlsMasked;
     #endregion Fields
 
     #region Delegates and Events
@@ -190,13 +195,6 @@ internal class AppSettings_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(QuickAccessLargeRadioButtonIsChecked));
         }
     }
-    public bool DisplyInfoPane {
-        get { return _displayInfoPane; }
-        set {
-            _displayInfoPane = value;
-            OnPropertyChanged(nameof(DisplyInfoPane));
-        }
-    }
     public bool EraseDatabaseAfterSetAmountAttempts {
         get { return _eraseDatabaseAfterSetAmountAttempts; }
         set {
@@ -216,6 +214,48 @@ internal class AppSettings_ViewModel : ViewModelBase {
         set {
             _backupLocation = value;
             OnPropertyChanged(nameof(BackupLocation));
+        }
+    }
+    public bool DisplayInfoPane {
+        get { return _displayInfoPane; }
+        set {
+            _displayInfoPane = value;
+            OnPropertyChanged(nameof(DisplayInfoPane));
+        }
+    }
+    public bool DisplayGroupsTree {
+        get => _displayGroupsTree;
+        set {
+            _displayGroupsTree = value;
+            OnPropertyChanged(nameof(DisplayGroupsTree));
+        }
+    }
+    public bool AreDatabaseUsernamesMasked {
+        get => _areDatabaseUsernamesMasked;
+        set {
+            _areDatabaseUsernamesMasked = value;
+            OnPropertyChanged(nameof(AreDatabaseUsernamesMasked));
+        }
+    }
+    public bool AreDatabaseEmailsMasked {
+        get => _areDatabaseEmailsMasked;
+        set {
+            _areDatabaseEmailsMasked = value;
+            OnPropertyChanged(nameof(AreDatabaseEmailsMasked));
+        }
+    }
+    public bool AreDatabasePasswordsMasked {
+        get => _areDatabasePasswordsMasked;
+        set {
+            _areDatabasePasswordsMasked = value;
+            OnPropertyChanged(nameof(AreDatabasePasswordsMasked));
+        }
+    }
+    public bool AreDatabaseUrlsMasked {
+        get => _areDatabaseUrlsMasked;
+        set {
+            _areDatabaseUrlsMasked = value;
+            OnPropertyChanged(nameof(AreDatabaseUrlsMasked));
         }
     }
 
@@ -310,8 +350,13 @@ internal class AppSettings_ViewModel : ViewModelBase {
         //tabitem 3
         ((App)App.Current).AppVariables.TreeDisplayType = _treeDisplayType;
         ((App)App.Current).AppVariables.TreeExpandCollapseButtonStyle = _treeExpandCollapseButtonStyle;
-        ((App)App.Current).AppVariables.DisplayInfoPane = _displayInfoPane;
         ((App)App.Current).AppVariables.QuickAccessIconSize = _quickAccessIconSize;
+        ((App)App.Current).AppVariables.DisplayGroupsTree = _displayGroupsTree;
+        ((App)App.Current).AppVariables.DisplayInfoPane = _displayInfoPane;
+        ((App)App.Current).AppVariables.AreDatabaseUsernamesMasked = _areDatabaseUsernamesMasked;
+        ((App)App.Current).AppVariables.AreDatabaseEmailsMasked = AreDatabaseEmailsMasked;
+        ((App)App.Current).AppVariables.AreDatabasePasswordsMasked = AreDatabasePasswordsMasked;
+        ((App)App.Current).AppVariables.AreDatabaseUrlsMasked = AreDatabaseUrlsMasked;
 
         //System.Diagnostics.Debug.WriteLine(
         //    "\n_allowAutoBackups = " + _allowAutoBackups +

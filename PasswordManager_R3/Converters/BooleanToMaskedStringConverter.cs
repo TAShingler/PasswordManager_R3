@@ -29,7 +29,10 @@ internal class BooleanToMaskedStringConverter : System.Windows.Data.IMultiValueC
         System.Diagnostics.Debug.WriteLine($"BooleanToMaskedStringConverter.Convert().values[1].GetType() = {values[1] is Models.AppVariables}");
         //if (values[1].GetType() != bool)
         //    return string.Empty;
-
+        if (values[1] is not bool) {
+            System.Diagnostics.Debug.WriteLine($"BooleanToMaskedStringConverter.values[1] is not bool = {values[1] is not bool}");
+            return null;
+        }
         if ((bool)values[1] == true) {
             return PASS_MASK;
         } else {

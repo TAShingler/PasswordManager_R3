@@ -30,6 +30,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private bool _canToggleRecordDetailsPanelVisibility = true;
     private Visibility _groupsTreeViewVisibility = Visibility.Visible;      //may remove
     private Visibility _recordDetailsPanelVisibility = Visibility.Visible;   //may remove
+    private bool _canToggleDataGridUsernameMasking = false;
+    private bool _canToggleDataGridEmailMasking = false;
+    private bool _canToggleDataGridPasswordMasking = false;
+    private bool _canToggleDataGridUrlMasking = false;
 
     //Title bar Menus IsEnabled
     private bool _menuItemSetPasswordIsEnabled = false;
@@ -198,6 +202,34 @@ internal class MainWindow_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(RecordDetailsPanelVisibility));
         }
     }   //may remove
+    public bool CanToggleDataGridUsernameMasking {
+        get => _canToggleDataGridUsernameMasking;
+        set {
+            _canToggleDataGridUsernameMasking = value;
+            OnPropertyChanged(nameof(CanToggleDataGridUsernameMasking));
+        }
+    }
+    public bool CanToggleDataGridEmailMasking {
+        get => _canToggleDataGridEmailMasking;
+        set {
+            _canToggleDataGridEmailMasking = value;
+            OnPropertyChanged(nameof(CanToggleDataGridEmailMasking));
+        }
+    }
+    public bool CanToggleDataGridPasswordMasking {
+        get => _canToggleDataGridPasswordMasking;
+        set {
+            _canToggleDataGridPasswordMasking = value;
+            OnPropertyChanged(nameof(CanToggleDataGridPasswordMasking));
+        }
+    }
+    public bool CanToggleDataGridUrlMasking {
+        get => _canToggleDataGridUrlMasking;
+        set {
+            _canToggleDataGridUrlMasking = value;
+            OnPropertyChanged(nameof(CanToggleDataGridUrlMasking));
+        }
+    }
 
     //Title bar Menus IsEnabled
     public bool MenuItemSetPasswordIsEnabled {
@@ -1055,6 +1087,11 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonEmailToClipboardIsEnabled = !string.IsNullOrWhiteSpace(SelectedRecord?.Email);
         ButtonPasswordToClipboardIsEnabled = !string.IsNullOrWhiteSpace(SelectedRecord?.Password);
         ButtonUrlToClipboardIsEnabled = !string.IsNullOrWhiteSpace(SelectedRecord?.URL);
+
+        CanToggleDataGridUsernameMasking = SelectedRecord is not null;
+        CanToggleDataGridEmailMasking = SelectedRecord is not null;
+        CanToggleDataGridPasswordMasking = SelectedRecord is not null;
+        CanToggleDataGridUrlMasking = SelectedRecord is not null;
 
         System.Diagnostics.Debug.WriteLine($"SelectedRecord = {SelectedRecord?.Title}");
         System.Diagnostics.Debug.WriteLine($"SgRowId = {SrRowId}");

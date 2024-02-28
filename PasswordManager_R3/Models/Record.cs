@@ -15,7 +15,10 @@ internal class Record : Models.VaultObjectBase {
     private protected string _passwordMasked = "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022";
     private protected string _url;
     private protected string _tags;
-    //private protected bool _isPasswordMasked;
+    private protected bool _isUsernameMasked;
+    private protected bool _isEmailMasked;
+    private protected bool _isPasswordMasked;
+    private protected bool _isUrlMasked;
     #endregion Fields
 
     #region Properties
@@ -53,14 +56,38 @@ internal class Record : Models.VaultObjectBase {
         get { return _tags; }
         set { _tags = value; }
     }   //will probably remove... does not seem necessary...
-    //[Newtonsoft.Json.JsonIgnore]
-    //public bool IsPasswordMasked {
-    //    get => _isPasswordMasked;
-    //    set {
-    //        _isPasswordMasked = value;
-    //        OnPropertyChanged(nameof(IsPasswordMasked));
-    //    }
-    //}
+    [Newtonsoft.Json.JsonProperty("IsUsernameMasked")]
+    public bool IsUsernameMasked {
+        get => _isUsernameMasked;
+        set {
+            _isUsernameMasked = value;
+            OnPropertyChanged(nameof(IsUsernameMasked));
+        }
+    }
+    [Newtonsoft.Json.JsonProperty("IsEmailMasked")]
+    public bool IsEmailMasked {
+        get => _isEmailMasked;
+        set {
+            _isEmailMasked = value;
+            OnPropertyChanged(nameof(IsEmailMasked));
+        }
+    }
+    [Newtonsoft.Json.JsonProperty("IsPasswordMasked")]
+    public bool IsPasswordMasked {
+        get => _isPasswordMasked;
+        set {
+            _isPasswordMasked = value;
+            OnPropertyChanged(nameof(IsPasswordMasked));
+        }
+    }
+    [Newtonsoft.Json.JsonProperty("IsUrlMasked")]
+    public bool IsUrlMasked {
+        get => _isUrlMasked;
+        set {
+            _isUrlMasked = value;
+            OnPropertyChanged(nameof(IsUrlMasked));
+        }
+    }
     #endregion Properties
 
     #region Constructors
@@ -71,7 +98,10 @@ internal class Record : Models.VaultObjectBase {
         _password = string.Empty;
         _url = string.Empty;
         _tags = string.Empty;
-        //_isPasswordMasked = ((App)App.Current).AppVariables.IsPasswordMasked;
+        _isUsernameMasked = true;
+        _isEmailMasked = true;
+        _isPasswordMasked = true;
+        _isUrlMasked = true;
     }
     #endregion Constructors
 

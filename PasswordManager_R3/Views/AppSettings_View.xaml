@@ -1984,12 +1984,14 @@
                                 <RowDefinition Height="0" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="0" />
-                                <RowDefinition Height="0" />
-                                <RowDefinition Height="0" />
-                                <RowDefinition Height="0" />
-                                <RowDefinition Height="0" />
-                                <RowDefinition Height="0" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
@@ -2002,6 +2004,7 @@
                             </Grid.ColumnDefinitions>
 
                             <!--#region TreeView Options -->
+                            <!--#region Expand/Collapse Groups Behavior -->
                             <!--<Label Grid.Row="0"
                                    Grid.Column="0"
                                    Padding="0"
@@ -2031,30 +2034,7 @@
                                              Command="{Binding DefaultTreeDisplayCommand}"
                                              CommandParameter="{x:Static enum:TreeDisplayType.RememberLast}" />
                             </StackPanel>-->
-                            <!--#region TreeView Visibility -->
-                            <Label Grid.Row="0"
-                                   Grid.Column="0"
-                                   Padding="0"
-                                   Margin="0 4"
-                                   VerticalContentAlignment="Top"
-                                   Foreground="Gainsboro"
-                                   Content="Show Groups?"/>
-                            <StackPanel Grid.Row="0"
-                                        Grid.Column="1"
-                                        Orientation="Vertical"
-                                        Margin="0 5">
-                                <RadioButton IsChecked="False"
-                                             Foreground="Gainsboro"
-                                             Content="Yes"
-                                             VerticalContentAlignment="Center"
-                                             Command="{x:Null}"/>
-                                <RadioButton IsChecked="False"
-                                             Foreground="Gainsboro"
-                                             Content="No"
-                                             VerticalContentAlignment="Center"
-                                             Command="{x:Null}"/>
-                            </StackPanel>
-                            <!--#endregion TreeView Visibility -->
+                            <!--#endregion Expand/Collapse Groups Behavior -->
                             <!--#region Expand/Collapse Button Types-->
                             <Label Grid.Row="1"
                                    Grid.Column="0"
@@ -2093,54 +2073,20 @@
                                        Grid.ColumnSpan="3"
                                        Margin="0 5"/>
                             <!--#region DataGrid Options -->
-                            <!--<CheckBox Grid.Row="3"
-                                      Grid.Column="0"
-                                      Margin="0 4"
-                                      IsChecked="{Binding DisplayTreeView}"
-                                      Foreground="Gainsboro"
-                                      VerticalContentAlignment="Center"
-                                      Content="Display Groups Tree?" />
-                            <CheckBox Grid.Row="4"
-                                      Grid.Column="0"
-                                      Margin="0 4"
-                                      IsChecked="{Binding DisplyInfoPane}"
-                                      Foreground="Gainsboro"
-                                      VerticalContentAlignment="Center"
-                                      Content="Display information pane?" />-->
-                            <!--#region Record Details Panel Visibility -->
-                            <Label Grid.Row="3"
-                                   Grid.Column="0"
-                                   Padding="0"
-                                   Margin="0 4"
-                                   VerticalContentAlignment="Top"
-                                   Foreground="Gainsboro"
-                                   Content="Show Record data?"/>
-                            <StackPanel Grid.Row="3"
-                                        Grid.Column="1"
-                                        Orientation="Vertical"
-                                        Margin="0 5">
-                                <RadioButton IsChecked="False"
-                                             Foreground="Gainsboro"
-                                             Content="Yes"
-                                             VerticalContentAlignment="Center"
-                                             Command="{x:Null}"/>
-                                <RadioButton IsChecked="False"
-                                             Foreground="Gainsboro"
-                                             Content="No"
-                                             VerticalContentAlignment="Center"
-                                             Command="{x:Null}"/>
-                            </StackPanel>
-                            <!--#endregion Record Details Panel Visibility -->
                             <!--#region DataGrid Item Masking -->
                             <!--#region Usernames -->
-                            <Label Grid.Row="4"
+                            <Label Grid.Row="3"
                                    Grid.Column="0"
                                    Padding="0"
                                    Margin="0 4"
                                    VerticalContentAlignment="Top"
                                    Foreground="{DynamicResource solidColorBrush-theme-foreground}"
                                    Content="Mask usernames?" />
-                            <StackPanel Grid.Row="4"
+                            <CheckBox Grid.Row="3"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding AreDatabaseUsernamesMasked}"
+                                      Margin="0 5" />
+                            <!--<StackPanel Grid.Row="3"
                                         Grid.Column="1"
                                         Orientation="Vertical"
                                         Margin="0 5">
@@ -2154,17 +2100,21 @@
                                              Content="No"
                                              VerticalContentAlignment="Center"
                                              Command="{x:Null}"/>
-                            </StackPanel>
+                            </StackPanel>-->
                             <!--#endregion Usernames -->
                             <!--#region Emails -->
-                            <Label Grid.Row="5"
+                            <Label Grid.Row="4"
                                    Grid.Column="0"
                                    Padding="0"
                                    Margin="0 4"
                                    VerticalContentAlignment="Top"
                                    Foreground="{DynamicResource solidColorBrush-theme-foreground}"
                                    Content="Mask email addresses?" />
-                            <StackPanel Grid.Row="5"
+                            <CheckBox Grid.Row="4"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding AreDatabaseEmailsMasked}"
+                                      Margin="0 5" />
+                            <!--<StackPanel Grid.Row="4"
                                         Grid.Column="1"
                                         Orientation="Vertical"
                                         Margin="0 5">
@@ -2178,17 +2128,21 @@
                                              Content="No"
                                              VerticalContentAlignment="Center"
                                              Command="{x:Null}"/>
-                            </StackPanel>
+                            </StackPanel>-->
                             <!--#endregion Emails -->
                             <!--#region Passwords -->
-                            <Label Grid.Row="6"
+                            <Label Grid.Row="5"
                                    Grid.Column="0"
                                    Padding="0"
                                    Margin="0 4"
                                    VerticalContentAlignment="Top"
                                    Foreground="{DynamicResource solidColorBrush-theme-foreground}"
                                    Content="Mask passwords?" />
-                            <StackPanel Grid.Row="6"
+                            <CheckBox Grid.Row="5"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding AreDatabasePasswordsMasked}"
+                                      Margin="0 5" />
+                            <!--<StackPanel Grid.Row="5"
                                         Grid.Column="1"
                                         Orientation="Vertical"
                                         Margin="0 5">
@@ -2202,17 +2156,21 @@
                                              Content="No"
                                              VerticalContentAlignment="Center"
                                              Command="{x:Null}"/>
-                            </StackPanel>
+                            </StackPanel>-->
                             <!--#endregion Passwords -->
                             <!--#region URLs -->
-                            <Label Grid.Row="7"
+                            <Label Grid.Row="6"
                                    Grid.Column="0"
                                    Padding="0"
                                    Margin="0 4"
                                    VerticalContentAlignment="Top"
                                    Foreground="{DynamicResource solidColorBrush-theme-foreground}"
                                    Content="Mask website URLs?" />
-                            <StackPanel Grid.Row="7"
+                            <CheckBox Grid.Row="6"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding AreDatabaseUrlsMasked}"
+                                      Margin="0 5" />
+                            <!--<StackPanel Grid.Row="6"
                                         Grid.Column="1"
                                         Orientation="Vertical"
                                         Margin="0 5">
@@ -2226,23 +2184,23 @@
                                              Content="No"
                                              VerticalContentAlignment="Center"
                                              Command="{x:Null}"/>
-                            </StackPanel>
+                            </StackPanel>-->
                             <!--#endregion URLs -->
                             <!--#endregion DataGrid Item Masking -->
                             <!--#endregion DataGrid Options -->
-                            <Separator Grid.Row="8"
+                            <Separator Grid.Row="7"
                                        Grid.Column="0"
                                        Grid.ColumnSpan="3"
                                        Margin="0 5" />
                             <!--#region Quick Access icon size options-->
-                            <Label Grid.Row="9"
+                            <Label Grid.Row="8"
                                    Grid.Column="0"
                                    Padding="0"
                                    Margin="0 4"
                                    VerticalContentAlignment="Top"
                                    Foreground="Gainsboro"
                                    Content="Quick access icon size:" />
-                            <StackPanel Grid.Row="9"
+                            <StackPanel Grid.Row="8"
                                         Grid.Column="1"
                                         Orientation="Vertical"
                                         Margin="0 5">
@@ -2266,6 +2224,36 @@
                                              CommandParameter="{x:Static enum:QuickAccessIconSize.Large}" />
                             </StackPanel>
                             <!--#endregion Quick Access icon size options-->
+                            <Separator Grid.Row="9"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="3"
+                                       Margin="0 5" />
+                            <!--#region Panes Visibility -->
+                            <!--#region Groups Panel -->
+                            <Label Grid.Row="10"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="Gainsboro"
+                                   Content="Display Groups Panel:"/>
+                            <CheckBox Grid.Row="10"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding DisplayGroupsTree}"/>
+                            <!--#endregion Groups Panel -->
+                            <!--#region Info Pane -->
+                            <Label Grid.Row="11"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="Gainsboro"
+                                   Content="Display Item Details Panel:"/>
+                            <CheckBox Grid.Row="11"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding DisplayInfoPane}"/>
+                            <!--#endregion Info Pane -->
+                            <!--#endregion Panes Visibility -->
                         </Grid>
                     </StackPanel>
                 </Border>

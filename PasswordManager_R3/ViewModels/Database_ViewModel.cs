@@ -73,6 +73,9 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
     public bool AreDatabaseUrlsMasked {
         get => ((App)App.Current).AppVariables.AreDatabaseUrlsMasked;
     }
+    public bool IsGroupsTreePaneEnabled {
+        get => false;
+    }
 
     //Models.Group-specific properties
     public Models.Group? SelectedGroup {

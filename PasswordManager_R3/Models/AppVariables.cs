@@ -32,7 +32,8 @@ internal class AppVariables {    //might change from static and instantiate in A
     private bool _AreDatabaseUrlsMasked = true;
 
     //tabitem 3
-    private bool _displyInfoPane = true;
+    private bool _displayGroupsTree = true;
+    private bool _displayInfoPane = true;
     #endregion Fields
 
     #region Properties
@@ -121,10 +122,15 @@ internal class AppVariables {    //might change from static and instantiate in A
     }
 
     //tabitem 3
+    [Newtonsoft.Json.JsonProperty("DisplayGroupsTree")]
+    internal bool DisplayGroupsTree {
+        get => _displayGroupsTree;
+        set => _displayGroupsTree = value;
+    }
     [Newtonsoft.Json.JsonProperty("DisplayInfoPane")]
     internal bool DisplayInfoPane {
-        get { return _displyInfoPane; }
-        set { _displyInfoPane = value; }
+        get { return _displayInfoPane; }
+        set { _displayInfoPane = value; }
     }
     #endregion Properties
 

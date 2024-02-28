@@ -3164,12 +3164,12 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MinWidth="250"
-                                  Width="0.01*"
-                                  
+                                  Width="1*"
                                   MaxWidth="{Binding ElementName=userControlBoundary,
                                                      Path=ActualWidth,
                                                      Converter={StaticResource ActualSizeToMaxSizeConverter},
                                                      ConverterParameter='width'}" />
+                <!--Width="{Binding IsGroupsTreePaneEnabled, Converter={StaticResource BooleanToSizeConverter}}"-->
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition MinWidth="300"
                                   Width="1*" />
@@ -3349,7 +3349,7 @@
                                 <DataGridTextColumn.Binding>
                                     <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
                                         <Binding Path="Username" />
-                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.AreDatabaseUrlsMasked" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.AreDatabaseUsernamesMasked" />
                                     </MultiBinding>
                                 </DataGridTextColumn.Binding>
                             </DataGridTextColumn>
@@ -3359,7 +3359,7 @@
                                 <DataGridTextColumn.Binding>
                                     <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
                                         <Binding Path="Email" />
-                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.AreDatabaseUrlsMasked" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.AreDatabaseEmailsMasked" />
                                     </MultiBinding>
                                 </DataGridTextColumn.Binding>
                             </DataGridTextColumn>

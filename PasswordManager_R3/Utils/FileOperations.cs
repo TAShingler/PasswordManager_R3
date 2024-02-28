@@ -192,7 +192,7 @@ internal static class FileOperations {
     }
 
     //Database backup methods
-    internal static void DatabaseBackup() {//async Task<bool> DatabaseBackup() {
+    internal static async void DatabaseBackup() {//async Task<bool> DatabaseBackup() {
         if (DoesDirectoryExist(((App)App.Current).AppVariables.BackupLocation) == false) {
             //throw excception -- try to provide user usefule information
             return;
@@ -224,7 +224,7 @@ internal static class FileOperations {
 
         return;// true;
     }
-    internal static void DatabaseBackup(string saveLocation) {
+    internal static async void DatabaseBackup(string saveLocation) {
         CreateDatabaseBackup(saveLocation);
     }
 
