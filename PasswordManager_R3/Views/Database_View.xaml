@@ -3349,7 +3349,9 @@
                                 <DataGridTextColumn.Binding>
                                     <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
                                         <Binding Path="Username" />
-                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.AreDatabaseUsernamesMasked" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+                                                                                 AncestorType={x:Type UserControl}}"
+                                                 Path="DataContext.ParentVM.AreDatabaseUsernamesMasked" />
                                     </MultiBinding>
                                 </DataGridTextColumn.Binding>
                             </DataGridTextColumn>
@@ -3359,7 +3361,9 @@
                                 <DataGridTextColumn.Binding>
                                     <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
                                         <Binding Path="Email" />
-                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.AreDatabaseEmailsMasked" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+                                                                                 AncestorType={x:Type UserControl}}"
+                                                 Path="DataContext.ParentVM.AreDatabaseEmailsMasked" />
                                     </MultiBinding>
                                 </DataGridTextColumn.Binding>
                             </DataGridTextColumn>
@@ -3369,7 +3373,9 @@
                                 <DataGridTextColumn.Binding>
                                     <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
                                         <Binding Path="Password" />
-                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.AreDatabasePasswordsMasked" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+                                                                                 AncestorType={x:Type UserControl}}"
+                                                 Path="DataContext.ParentVM.AreDatabasePasswordsMasked" />
                                     </MultiBinding>
                                 </DataGridTextColumn.Binding>
                             </DataGridTextColumn>
@@ -3379,7 +3385,9 @@
                                 <DataGridTextColumn.Binding>
                                     <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
                                         <Binding Path="URL" />
-                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.AreDatabaseUrlsMasked" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+                                                                                 AncestorType={x:Type UserControl}}"
+                                                 Path="DataContext.ParentVM.AreDatabaseUrlsMasked" />
                                     </MultiBinding>
                                 </DataGridTextColumn.Binding>
                             </DataGridTextColumn>

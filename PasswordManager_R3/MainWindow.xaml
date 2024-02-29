@@ -2281,25 +2281,29 @@
                                       IsEnabled="False" />
                             <Separator />
                             <MenuItem Header="Mask Usernames"
-                                      IsEnabled="{Binding CanToggleDataGridUsernameMasking}"
+                                      IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type MenuItem}},
+                                                          Path=IsEnabled}"
                                       IsCheckable="True"
-                                      IsChecked="False"
-                                      Command="" />
+                                      IsChecked="{Binding AreDatabaseUsernamesMasked,
+                                                          Mode=TwoWay}" />
                             <MenuItem Header="Mask Emails"
-                                      IsEnabled="{Binding CanToggleDataGridEmailMasking}"
+                                      IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type MenuItem}},
+                                                          Path=IsEnabled}"
                                       IsCheckable="True"
-                                      IsChecked="False"
-                                      Command="" />
+                                      IsChecked="{Binding AreDatabaseEmailsMasked,
+                                                          Mode=TwoWay}" />
                             <MenuItem Header="Mask Passwords"
-                                      IsEnabled="{Binding CanToggleDataGridPasswordMasking}"
+                                      IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type MenuItem}},
+                                                          Path=IsEnabled}"
                                       IsCheckable="True"
-                                      IsChecked="False"
-                                      Command="" />
+                                      IsChecked="{Binding AreDatabasePasswordsMasked,
+                                                          Mode=TwoWay}" />
                             <MenuItem Header="Mask Urls"
-                                      IsEnabled="{Binding CanToggleDataGridUrlMasking}"
+                                      IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type MenuItem}},
+                                                          Path=IsEnabled}"
                                       IsCheckable="True"
-                                      IsChecked="False"
-                                      Command="" />
+                                      IsChecked="{Binding AreDatabaseUrlsMasked,
+                                                          Mode=TwoWay}" />
                             <Separator />
                             <MenuItem Header="Show Groups Tree"
                                       IsEnabled="{Binding CanToggleTreeViewVisibility}"

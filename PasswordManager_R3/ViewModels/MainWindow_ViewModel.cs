@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using PasswordManager_R3.Enums;
 using PasswordManager_R3.Models;
+using PasswordManager_R3.Utils;
 using System;
 using System.Linq;
 using System.Windows;
@@ -30,10 +31,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
     private bool _canToggleRecordDetailsPanelVisibility = true;
     private Visibility _groupsTreeViewVisibility = Visibility.Visible;      //may remove
     private Visibility _recordDetailsPanelVisibility = Visibility.Visible;   //may remove
-    private bool _canToggleDataGridUsernameMasking = false;
-    private bool _canToggleDataGridEmailMasking = false;
-    private bool _canToggleDataGridPasswordMasking = false;
-    private bool _canToggleDataGridUrlMasking = false;
+    //private bool _canToggleDataGridUsernameMasking = false;
+    //private bool _canToggleDataGridEmailMasking = false;
+    //private bool _canToggleDataGridPasswordMasking = false;
+    //private bool _canToggleDataGridUrlMasking = false;
 
     //Title bar Menus IsEnabled
     private bool _menuItemSetPasswordIsEnabled = false;
@@ -202,32 +203,64 @@ internal class MainWindow_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(RecordDetailsPanelVisibility));
         }
     }   //may remove
-    public bool CanToggleDataGridUsernameMasking {
-        get => _canToggleDataGridUsernameMasking;
+    //public bool CanToggleDataGridUsernameMasking {
+    //    get => _canToggleDataGridUsernameMasking;
+    //    set {
+    //        _canToggleDataGridUsernameMasking = value;
+    //        OnPropertyChanged(nameof(CanToggleDataGridUsernameMasking));
+    //    }
+    //}
+    //public bool CanToggleDataGridEmailMasking {
+    //    get => _canToggleDataGridEmailMasking;
+    //    set {
+    //        _canToggleDataGridEmailMasking = value;
+    //        OnPropertyChanged(nameof(CanToggleDataGridEmailMasking));
+    //    }
+    //}
+    //public bool CanToggleDataGridPasswordMasking {
+    //    get => _canToggleDataGridPasswordMasking;
+    //    set {
+    //        _canToggleDataGridPasswordMasking = value;
+    //        OnPropertyChanged(nameof(CanToggleDataGridPasswordMasking));
+    //    }
+    //}
+    //public bool CanToggleDataGridUrlMasking {
+    //    get => _canToggleDataGridUrlMasking;
+    //    set {
+    //        _canToggleDataGridUrlMasking = value;
+    //        OnPropertyChanged(nameof(CanToggleDataGridUrlMasking));
+    //    }
+    //}
+    public bool AreDatabaseUsernamesMasked {
+        get => ((App)App.Current).AppVariables.AreDatabaseUsernamesMasked;
         set {
-            _canToggleDataGridUsernameMasking = value;
-            OnPropertyChanged(nameof(CanToggleDataGridUsernameMasking));
+            ((App)App.Current).AppVariables.AreDatabaseUsernamesMasked = value;
+            OnPropertyChanged(nameof(AreDatabaseUsernamesMasked));
+            FileOperations.WriteAppVariablesToFile();
         }
     }
-    public bool CanToggleDataGridEmailMasking {
-        get => _canToggleDataGridEmailMasking;
+    public bool AreDatabaseEmailsMasked {
+        get => ((App)App.Current).AppVariables.AreDatabaseEmailsMasked;
         set {
-            _canToggleDataGridEmailMasking = value;
-            OnPropertyChanged(nameof(CanToggleDataGridEmailMasking));
+            ((App)App.Current).AppVariables.AreDatabaseEmailsMasked = value;
+            OnPropertyChanged(nameof(AreDatabaseEmailsMasked));
+            FileOperations.WriteAppVariablesToFile();
         }
     }
-    public bool CanToggleDataGridPasswordMasking {
-        get => _canToggleDataGridPasswordMasking;
+    public bool AreDatabasePasswordsMasked {
+        get => ((App)App.Current).AppVariables.AreDatabasePasswordsMasked;
         set {
-            _canToggleDataGridPasswordMasking = value;
-            OnPropertyChanged(nameof(CanToggleDataGridPasswordMasking));
+            ((App)App.Current).AppVariables.AreDatabasePasswordsMasked = value;
+            OnPropertyChanged(nameof(AreDatabasePasswordsMasked));
+            FileOperations.WriteAppVariablesToFile();
         }
     }
-    public bool CanToggleDataGridUrlMasking {
-        get => _canToggleDataGridUrlMasking;
+    public bool AreDatabaseUrlsMasked {
+        get => ((App)App.Current).AppVariables.AreDatabaseUrlsMasked;
         set {
-            _canToggleDataGridUrlMasking = value;
-            OnPropertyChanged(nameof(CanToggleDataGridUrlMasking));
+            ((App)App.Current).AppVariables.AreDatabaseUrlsMasked = value;
+            OnPropertyChanged(nameof(AreDatabaseUrlsMasked));
+            FileOperations.WriteAppVariablesToFile();
         }
     }
 
@@ -1088,10 +1121,10 @@ internal class MainWindow_ViewModel : ViewModelBase {
         ButtonPasswordToClipboardIsEnabled = !string.IsNullOrWhiteSpace(SelectedRecord?.Password);
         ButtonUrlToClipboardIsEnabled = !string.IsNullOrWhiteSpace(SelectedRecord?.URL);
 
-        CanToggleDataGridUsernameMasking = SelectedRecord is not null;
-        CanToggleDataGridEmailMasking = SelectedRecord is not null;
-        CanToggleDataGridPasswordMasking = SelectedRecord is not null;
-        CanToggleDataGridUrlMasking = SelectedRecord is not null;
+        //CanToggleDataGridUsernameMasking = SelectedRecord is not null;
+        //CanToggleDataGridEmailMasking = SelectedRecord is not null;
+        //CanToggleDataGridPasswordMasking = SelectedRecord is not null;
+        //CanToggleDataGridUrlMasking = SelectedRecord is not null;
 
         System.Diagnostics.Debug.WriteLine($"SelectedRecord = {SelectedRecord?.Title}");
         System.Diagnostics.Debug.WriteLine($"SgRowId = {SrRowId}");
