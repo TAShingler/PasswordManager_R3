@@ -2318,22 +2318,6 @@
                             <!--<MenuItem Header="Show Quick Access Tolbar"
                                       IsEnabled="False" />-->
                             <Separator Visibility="Collapsed" />
-                            <MenuItem Header="Hide Email"
-                                      IsEnabled="True"
-                                      Visibility="Collapsed"
-                                      Command="{Binding HideDataGridEmailCommand}" />
-                            <MenuItem Header="Hide Username"
-                                      IsEnabled="True"
-                                      Visibility="Collapsed"
-                                      Command="{Binding HideDataGridUsernameCommand}" />
-                            <MenuItem Header="Hide Password"
-                                      IsEnabled="True"
-                                      Visibility="Collapsed"
-                                      Command="{Binding HideDataGridPasswordCommand}" />
-                            <MenuItem Header="Hide Url"
-                                      IsEnabled="True"
-                                      Visibility="Collapsed"
-                                      Command="{Binding HideDataGridUrlCommand}" />
                         </MenuItem>
                         <MenuItem Header="Help">
                             <MenuItem Header="About"

@@ -25,6 +25,7 @@
         <c:IntToDrawingImageConverter x:Key="IntToDrawingImageConverter" />
         <c:SelectedIndexToGridLengthConverter x:Key="SelectedIndexToGridLengthConverter" />
         <c:BooleanToMaskedStringConverter x:Key="BooleanToMaskedStringConverter" />
+        <c:BooleanToSizeConverter x:Key="BooleanToSizeConverter" />
         <!--#endregion//  Converters  //-->
         
         <!--<PathGeometry x:Key="DownArrowGlyphGeometry" Figures="M 3,4 8,9 13,4 15,6 8,13 1,6 Z" />
@@ -3262,6 +3263,8 @@
                         <RowDefinition MinHeight="150"
                                        Height="1*" />
                         <RowDefinition Height="Auto" />
+                        <!--{Binding DataContext.ParentVM.IsRecordDetailsPaneEnabled,
+                                                        Converter={StaticResource BooleanToSizeConverter}}" />-->
                         <RowDefinition x:Name="rowRightColBottomRow"
                                        MinHeight="{Binding ElementName=selectedRecordInfoPane,
                                                            Path=MinHeight}"
@@ -3425,7 +3428,7 @@
                             BorderThickness="0"
                             CornerRadius="2"
                             Padding="2"
-                            Visibility="Visible"
+                            Visibility="collapsed"
                             SnapsToDevicePixels="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
