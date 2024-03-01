@@ -2306,12 +2306,14 @@
                                                           Mode=TwoWay}" />
                             <Separator />
                             <MenuItem Header="Show Groups Tree"
-                                      IsEnabled="{Binding CanToggleTreeViewVisibility}"
+                                      IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type MenuItem}},
+                                                          Path=IsEnabled}"
                                       IsCheckable="True"
                                       IsChecked="{Binding IsGroupsTreePaneEnabled}"
                                       Command="{Binding ToggleTreeViewVisibilityCommand}"/>
                             <MenuItem Header="Show Details Panel"
-                                      IsEnabled="{Binding CanToggleRecordDetailsPanelVisibility}"
+                                      IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type MenuItem}},
+                                                          Path=IsEnabled}"
                                       IsCheckable="True"
                                       IsChecked="{Binding IsRecordDetailsPaneEnabled}"
                                       Command="{Binding ToggleRecordDetailsPanelVisibilityCommand}"/>
@@ -2321,7 +2323,8 @@
                         </MenuItem>
                         <MenuItem Header="Help">
                             <MenuItem Header="About"
-                                      IsEnabled="False" />
+                                      IsEnabled="True"
+                                      Command="{Binding DisplayAboutWindowCommand}"/>
                         </MenuItem>
                     </Menu>
                     <!--<ToggleButton x:Name="toggleButtonAppMenu"

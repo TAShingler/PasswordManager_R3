@@ -26,6 +26,8 @@
         <c:SelectedIndexToGridLengthConverter x:Key="SelectedIndexToGridLengthConverter" />
         <c:BooleanToMaskedStringConverter x:Key="BooleanToMaskedStringConverter" />
         <c:BooleanToSizeConverter x:Key="BooleanToSizeConverter" />
+        <c:BooleanToMinSizeConverter x:Key="BooleanToMinSizeConverter" />
+        <c:BooleanToMaxSizeConverter x:Key="BooleanToMaxSizeConverter" />
         <!--#endregion//  Converters  //-->
         
         <!--<PathGeometry x:Key="DownArrowGlyphGeometry" Figures="M 3,4 8,9 13,4 15,6 8,13 1,6 Z" />
@@ -3163,18 +3165,99 @@
             BorderBrush="#666"
             BorderThickness="0">
         <Grid>
-            <Grid.ColumnDefinitions>
+            <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition MinWidth="250"
                                   Width="1*"
                                   MaxWidth="{Binding ElementName=userControlBoundary,
                                                      Path=ActualWidth,
                                                      Converter={StaticResource ActualSizeToMaxSizeConverter},
                                                      ConverterParameter='width'}" />
-                <!--Width="{Binding IsGroupsTreePaneEnabled, Converter={StaticResource BooleanToSizeConverter}}"-->
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition MinWidth="300"
                                   Width="1*" />
+            </Grid.ColumnDefinitions>-->
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="leftCol">
+                    <ColumnDefinition.MinWidth>
+                        <MultiBinding Converter="{StaticResource BooleanToMinSizeConverter}"
+                                      ConverterParameter="lft">
+                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                     Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"/>
+                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
+                                     Path="ActualWidth" />
+                        </MultiBinding>
+                    </ColumnDefinition.MinWidth>
+                    <ColumnDefinition.Width>
+                        <MultiBinding Converter="{StaticResource BooleanToSizeConverter}"
+                                      ConverterParameter="lft">
+                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                     Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"/>
+                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
+                                     Path="ActualWidth" />
+                        </MultiBinding>
+                    </ColumnDefinition.Width>
+                    <ColumnDefinition.MaxWidth>
+                        <MultiBinding Converter="{StaticResource BooleanToMaxSizeConverter}"
+                                      ConverterParameter="lft">
+                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                     Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"/>
+                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
+                                     Path="ActualWidth" />
+                        </MultiBinding>
+                    </ColumnDefinition.MaxWidth>
+                </ColumnDefinition>
+                <ColumnDefinition x:Name="midCol">
+                    <ColumnDefinition.MinWidth>
+                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                 Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"
+                                 Converter="{StaticResource BooleanToMinSizeConverter}"
+                                 ConverterParameter="mid"/>
+                    </ColumnDefinition.MinWidth>
+                    <ColumnDefinition.Width>
+                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                 Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"
+                                 Converter="{StaticResource BooleanToMinSizeConverter}"
+                                 ConverterParameter="mid"/>
+                    </ColumnDefinition.Width>
+                    <ColumnDefinition.MaxWidth>
+                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                 Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"
+                                 Converter="{StaticResource BooleanToMinSizeConverter}"
+                                 ConverterParameter="mid"/>
+                    </ColumnDefinition.MaxWidth>
+                </ColumnDefinition>
+                <ColumnDefinition x:Name="rightCol">
+                    <ColumnDefinition.MinWidth>
+                        <MultiBinding Converter="{StaticResource BooleanToMinSizeConverter}"
+                                      ConverterParameter="rgt">
+                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                     Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"/>
+                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
+                                     Path="ActualWidth" />
+                        </MultiBinding>
+                    </ColumnDefinition.MinWidth>
+                    <ColumnDefinition.Width>
+                        <MultiBinding Converter="{StaticResource BooleanToSizeConverter}"
+                                      ConverterParameter="rgt">
+                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                     Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"/>
+                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
+                                     Path="ActualWidth" />
+                        </MultiBinding>
+                    </ColumnDefinition.Width>
+                    <ColumnDefinition.MaxWidth>
+                        <MultiBinding Converter="{StaticResource BooleanToMaxSizeConverter}"
+                                      ConverterParameter="rgt">
+                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                     Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"/>
+                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
+                                     Path="ActualWidth" />
+                        </MultiBinding>
+                    </ColumnDefinition.MaxWidth>
+                </ColumnDefinition>
             </Grid.ColumnDefinitions>
+
 
             <!--#region TreeView Pane-->
             <Border x:Name="treeViewOpacityMask"
@@ -3258,24 +3341,114 @@
             <!--#region //  Right Pane  //-->
             <Border Grid.Column="2"
                     SnapsToDevicePixels="True">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition MinHeight="150"
-                                       Height="1*" />
-                        <RowDefinition Height="Auto" />
-                        <!--{Binding DataContext.ParentVM.IsRecordDetailsPaneEnabled,
-                                                        Converter={StaticResource BooleanToSizeConverter}}" />-->
+                <Grid Name="rightPane">
+                    <!--<Grid.RowDefinitions>
+                        <RowDefinition Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
+                                                        Path=DataContext.ParentVM.IsRecordDetailsPaneEnabled,
+                                                        Converter={StaticResource BooleanToSizeConverter},
+                                                        ConverterParameter='false'}" />
+                        <RowDefinition Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
+                                                        Path=DataContext.ParentVM.IsRecordDetailsPaneEnabled,
+                                                        Converter={StaticResource BooleanToSizeConverter},
+                                                        ConverterParameter='true'}" />
                         <RowDefinition x:Name="rowRightColBottomRow"
-                                       MinHeight="{Binding ElementName=selectedRecordInfoPane,
-                                                           Path=MinHeight}"
-                                       Height="0.01*"
-                                       MaxHeight="{Binding ElementName=userControlBoundary,
-                                                           Path=ActualHeight,
-                                                           Converter={StaticResource ActualSizeToMaxSizeConverter},
-                                                           ConverterParameter='height'}"/><!-- x:Name="selectedRecordInfoPaneGridRow"
-                                       MinHeight="24"
-                                       Height="Auto" />-->
-                        <!--<RowDefinition Height="0.001*" />-->
+                                       MinHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
+                                                           Path=DataContext.ParentVM.IsRecordDetailsPaneEnabled,
+                                                           Converter={StaticResource BooleanToMinSizeConverter}}"
+                                       Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
+                                                        Path=DataContext.ParentVM.IsRecordDetailsPaneEnabled,
+                                                        Converter={StaticResource BooleanToSizeConverter},
+                                                        ConverterParameter='false'}">
+                            <RowDefinition.MaxHeight>
+                                <MultiBinding Converter="{StaticResource ActualSizeToMaxSizeConverter}"
+                                              ConverterParameter="height">
+                                    <Binding ElementName="userControlBoundary"
+                                             Path="ActualHeight" />
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                             Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled" />
+                                </MultiBinding>
+                            </RowDefinition.MaxHeight>
+                        </RowDefinition>
+                    </Grid.RowDefinitions>-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition x:Name="topRow">
+                            <RowDefinition.MinHeight>
+                                <MultiBinding Converter="{StaticResource BooleanToMinSizeConverter}"
+                                          ConverterParameter="top">
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                         Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"/>
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
+                                         Path="ActualHeight" />
+                                </MultiBinding>
+                            </RowDefinition.MinHeight>
+                            <RowDefinition.Height>
+                                <MultiBinding Converter="{StaticResource BooleanToSizeConverter}"
+                                          ConverterParameter="top">
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                         Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"/>
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
+                                         Path="ActualHeight" />
+                                </MultiBinding>
+                            </RowDefinition.Height>
+                            <RowDefinition.MaxHeight>
+                                <MultiBinding Converter="{StaticResource BooleanToMaxSizeConverter}"
+                                          ConverterParameter="top">
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                         Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"/>
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
+                                         Path="ActualHeight" />
+                                </MultiBinding>
+                            </RowDefinition.MaxHeight>
+                        </RowDefinition>
+                        <RowDefinition x:Name="ctrRow">
+                            <RowDefinition.MinHeight>
+                                <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                     Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"
+                                     Converter="{StaticResource BooleanToMinSizeConverter}"
+                                     ConverterParameter="ctr"/>
+                            </RowDefinition.MinHeight>
+                            <RowDefinition.Height>
+                                <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                     Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"
+                                     Converter="{StaticResource BooleanToMinSizeConverter}"
+                                     ConverterParameter="ctr"/>
+                            </RowDefinition.Height>
+                            <RowDefinition.MaxHeight>
+                                <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                     Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"
+                                     Converter="{StaticResource BooleanToMinSizeConverter}"
+                                     ConverterParameter="ctr"/>
+                            </RowDefinition.MaxHeight>
+                        </RowDefinition>
+                        <RowDefinition x:Name="bottomRow">
+                            <RowDefinition.MinHeight>
+                                <MultiBinding Converter="{StaticResource BooleanToMinSizeConverter}"
+                                          ConverterParameter="btm">
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                         Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"/>
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
+                                         Path="ActualHeight" />
+                                </MultiBinding>
+                            </RowDefinition.MinHeight>
+                            <RowDefinition.Height>
+                                <MultiBinding Converter="{StaticResource BooleanToSizeConverter}"
+                                          ConverterParameter="btm">
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                         Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"/>
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
+                                         Path="ActualHeight" />
+                                </MultiBinding>
+                            </RowDefinition.Height>
+                            <RowDefinition.MaxHeight>
+                                <MultiBinding Converter="{StaticResource BooleanToMaxSizeConverter}"
+                                          ConverterParameter="btm">
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
+                                         Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"/>
+                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
+                                         Path="ActualHeight" />
+                                </MultiBinding>
+                            </RowDefinition.MaxHeight>
+                        </RowDefinition>
                     </Grid.RowDefinitions>
 
                     <!--#region DataGrid-->
@@ -3422,13 +3595,12 @@
                     <!--#region InfoPane and Expander Button-->
                     <Border x:Name="selectedRecordInfoPane"
                             Grid.Row="2"
-                            MinHeight="220"
                             Background="#464646"
                             BorderBrush="#464646"
                             BorderThickness="0"
                             CornerRadius="2"
                             Padding="2"
-                            Visibility="collapsed"
+                            Visibility="Visible"
                             SnapsToDevicePixels="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -3826,6 +3998,8 @@
                     <Button x:Name="buttonSelectedRecordInfoPaneExpander"
                             Grid.Row="2"
                             MinHeight="24"
+                            Height="24"
+                            MaxHeight="24"
                             Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="0"

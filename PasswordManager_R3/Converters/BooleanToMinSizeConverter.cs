@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PasswordManager_R3.Converters;
-internal class BooleanToSizeConverter : System.Windows.Data.IValueConverter, System.Windows.Data.IMultiValueConverter {  //May need to change in future
+internal class BooleanToMinSizeConverter : System.Windows.Data.IValueConverter, System.Windows.Data.IMultiValueConverter {
     object System.Windows.Data.IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture) {
         //throw new NotImplementedException();
         var valueAsBool = (bool)value;
@@ -17,9 +17,9 @@ internal class BooleanToSizeConverter : System.Windows.Data.IValueConverter, Sys
             return 0.0;
     }
 
-    object System.Windows.Data.IMultiValueConverter.Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {  //return GridLength
+    object System.Windows.Data.IMultiValueConverter.Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {  //return Double
         //throw new NotImplementedException();
-
+        
         var val0 = (bool)values[0];             //is PanelDisplayed
         var val1 = (double)values[1];           //parent container actual size (height or width)
         var paramAsString = (string)parameter;  //which col/row value is for
@@ -27,24 +27,24 @@ internal class BooleanToSizeConverter : System.Windows.Data.IValueConverter, Sys
         if (val0 is true) {
             switch (paramAsString) {
                 case "lft":
-                    return new System.Windows.GridLength(0.01, System.Windows.GridUnitType.Star);
+                    return 200.0;
                 case "rgt":
-                    return new System.Windows.GridLength(1, System.Windows.GridUnitType.Star);
+                    return 250.0;
                 case "top":
-                    return new System.Windows.GridLength(1, System.Windows.GridUnitType.Star);
+                    return 250.0;
                 case "btm":
-                    return new System.Windows.GridLength(0.01, System.Windows.GridUnitType.Star);
+                    return 220.0;
             }
         } else {
             switch (paramAsString) {
                 case "lft":
-                    return new System.Windows.GridLength(0, System.Windows.GridUnitType.Pixel);
+                    return 0.0;
                 case "rgt":
-                    return new System.Windows.GridLength(val1, System.Windows.GridUnitType.Pixel);
+                    return val1;
                 case "top":
-                    return new System.Windows.GridLength(val1, System.Windows.GridUnitType.Pixel);
+                    return val1;
                 case "btm":
-                    return new System.Windows.GridLength(0, System.Windows.GridUnitType.Pixel);
+                    return 0.0;
             }
         }
 

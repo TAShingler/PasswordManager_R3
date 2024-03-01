@@ -27,8 +27,10 @@ public partial class Database_View : UserControl {
             selectedRecordInfoPane.Visibility = Visibility.Visible;
             buttonSelectedRecordInfoPaneExpander.Visibility = Visibility.Collapsed;
 
-            rowRightColBottomRow.MinHeight = selectedRecordInfoPane.MinHeight;
-            rowRightColBottomRow.Height = new GridLength(0.01, GridUnitType.Star);
+            bottomRow.MinHeight = 220.0;
+            bottomRow.Height = new GridLength(0.01, GridUnitType.Star);
+            bottomRow.MaxHeight = rightPane.ActualHeight * 0.4;
+
             //selectedRecordInfoPaneGridRow.MinHeight = 220;
             //selectedRecordInfoPaneGridRow.Height = new GridLength(0.75, GridUnitType.Star);
         } else {
@@ -36,8 +38,10 @@ public partial class Database_View : UserControl {
             buttonSelectedRecordInfoPaneExpander.Visibility = Visibility.Visible;
             //selectedRecordInfoPaneGridRow.MinHeight = 24;
             //selectedRecordInfoPaneGridRow.Height = GridLength.Auto;
-            rowRightColBottomRow.MinHeight = 0;
-            rowRightColBottomRow.Height = GridLength.Auto;
+            bottomRow.MinHeight = buttonSelectedRecordInfoPaneExpander.MinHeight;
+            bottomRow.Height = new GridLength(24, GridUnitType.Pixel);
+            bottomRow.MaxHeight = buttonSelectedRecordInfoPaneExpander.MaxHeight;
+
         }
     }
 

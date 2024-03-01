@@ -531,6 +531,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
     public Utils.DelegateCommand? RestoreDatabaseCommand { get; set; }
     public Utils.DelegateCommand? ToggleTreeViewVisibilityCommand { get; set; }
     public Utils.DelegateCommand? ToggleRecordDetailsPanelVisibilityCommand { get; set; }
+    public Utils.DelegateCommand? DisplayAboutWindowCommand { get; set; }
 
     public Utils.DelegateCommand? WindowActivatedCommand { get; set; }
     public Utils.DelegateCommand? WindowDeactivatedCommand { get; set; }
@@ -1223,6 +1224,12 @@ internal class MainWindow_ViewModel : ViewModelBase {
         //do something
         CanToggleRecordDetailsPanelVisibility = !CanToggleRecordDetailsPanelVisibility;
     }
+    private void OnDisplayAboutWindowCommand(object obj) {
+        About abtWin = new();
+        dispatcherTimer.Stop();
+        abtWin.ShowDialog();
+        dispatcherTimer.Start();
+    }
 
     //DispatcherTimer Tick event handler
     private void dispatcherTimer_Tick(object sender, EventArgs e) {
@@ -1296,6 +1303,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
         RestoreDatabaseCommand = new(OnRestoreDatabaseCommand);
         ToggleTreeViewVisibilityCommand = new(OnToggleTreeViewVisibilityCommand);
         ToggleRecordDetailsPanelVisibilityCommand = new(OnToggleRecordDetailsPanelVisibilityCommand);
+        DisplayAboutWindowCommand = new Utils.DelegateCommand(OnDisplayAboutWindowCommand);
 
         WindowActivatedCommand = new(OnWindowActivatedCommand);
         WindowDeactivatedCommand = new(OnWindowDeactivatedCommand);

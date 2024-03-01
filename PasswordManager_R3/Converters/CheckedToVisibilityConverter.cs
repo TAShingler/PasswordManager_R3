@@ -9,7 +9,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 
 namespace PasswordManager_R3.Converters;
-internal class CheckedToVisibilityConverter : IValueConverter {
+internal class CheckedToVisibilityConverter : IValueConverter { //might delete - not sure where this is being used, or whether it is needed...
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
         if (value == null) return (Visibility)parameter;
 

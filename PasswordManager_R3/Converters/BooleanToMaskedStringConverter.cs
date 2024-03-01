@@ -23,14 +23,14 @@ internal class BooleanToMaskedStringConverter : System.Windows.Data.IMultiValueC
 
     object IMultiValueConverter.Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
         //throw new NotImplementedException();
-        System.Diagnostics.Debug.WriteLine($"BooleanToMaskedStringConverter.Convert().values[0] = {values[0]}");
-        System.Diagnostics.Debug.WriteLine($"BooleanToMaskedStringConverter.Convert().values[1].GetType() = {values[1]}");
+        //System.Diagnostics.Debug.WriteLine($"BooleanToMaskedStringConverter.Convert().values[0] = {values[0]}");
+        //System.Diagnostics.Debug.WriteLine($"BooleanToMaskedStringConverter.Convert().values[1].GetType() = {values[1]}");
 
-        System.Diagnostics.Debug.WriteLine($"BooleanToMaskedStringConverter.Convert().values[1].GetType() = {values[1] is Models.AppVariables}");
+        //System.Diagnostics.Debug.WriteLine($"BooleanToMaskedStringConverter.Convert().values[1].GetType() = {values[1] is Models.AppVariables}");
         //if (values[1].GetType() != bool)
         //    return string.Empty;
         if (values[1] is not bool) {
-            System.Diagnostics.Debug.WriteLine($"BooleanToMaskedStringConverter.values[1] is not bool = {values[1] is not bool}");
+            //System.Diagnostics.Debug.WriteLine($"BooleanToMaskedStringConverter.values[1] is not bool = {values[1] is not bool}");
             return null;
         }
         if ((bool)values[1] == true) {
