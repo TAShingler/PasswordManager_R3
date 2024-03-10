@@ -52,9 +52,9 @@
         <ResizeGripDirection>Left</ResizeGripDirection>
     </WindowChrome.ResizeGripDirection>-->
 
-    <!--<Window.DataContext>
+    <Window.DataContext>
         <vm:MainWindow_ViewModel />
-    </Window.DataContext>-->
+    </Window.DataContext>
 
     <Window.Resources>
         <!--#region //  DATA TEMPLATES FOR VIEWS  // -->
