@@ -11,6 +11,10 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
     #region Fields
     private const string MASK_STRING = "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF";
     private Models.Database_Model _model = new();
+    private int _rightPanelColumn = 2;
+    private int _rightPanelColumnSpan = 1;
+    private int _topPanelRowSpan = 1;
+    private bool _isSelectedRecordInfoPaneVisible = true;
 
     //Models.Group-specific fields
     private Models.Group? _selectedGroup = null;
@@ -60,6 +64,35 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
     #endregion Delegates and Events
 
     #region Properties
+    public int RightPanelColumn {
+        get => _rightPanelColumn;
+        set {
+            _rightPanelColumn = value;
+            OnPropertyChanged(nameof(RightPanelColumn));
+        }
+    }
+    public int RightPanelColumnSpan {
+        get => _rightPanelColumnSpan;
+        set {
+            _rightPanelColumnSpan = value;
+            OnPropertyChanged(nameof(RightPanelColumnSpan));
+        }
+    }
+    public int TopPanelRowSpan {
+        get => _topPanelRowSpan;
+        set {
+            _topPanelRowSpan = value;
+            OnPropertyChanged(nameof(TopPanelRowSpan));
+        }
+    }
+    public bool IsSelectedRecordInfoPaneVisible {
+        get => _isSelectedRecordInfoPaneVisible;
+        set {
+            _isSelectedRecordInfoPaneVisible = value;
+            OnPropertyChanged(nameof(IsSelectedRecordInfoPaneVisible));
+        }
+    }
+
     //Database content values masking
     //public bool AreDatabaseUsernamesMasked {
     //    get => ((ViewModels.MainWindow_ViewModel)this.ParentVM).AreDatabaseUsernamesMasked; //((App)App.Current).AppVariables.AreDatabaseUsernamesMasked;
@@ -291,6 +324,8 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
 
     public Utils.DelegateCommand? TreeViewLoadedCommand { get; set; }
 
+    public Utils.DelegateCommand? ToggleSelectedRecordInfoPaneVisibilityCommand { get; set; }
+
     public Dictionary<int, Models.Group> GroupsFromDb {
         get => _groupsFromDb;
         private set {
@@ -365,6 +400,8 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
         DeleteGroupCommand = new Utils.DelegateCommand(OnDeleteGroup);
 
         TreeViewLoadedCommand = new(OnTreeViewLoadedCommand);
+
+        ToggleSelectedRecordInfoPaneVisibilityCommand = new(OnToggleSelectedRecordInfoPaneVisibilityCommand);
     }
     #endregion Constructors
 
@@ -562,6 +599,10 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
         } else {
             SelectedGroupChanged?.Invoke(false);
         }
+    }
+
+    private void OnToggleSelectedRecordInfoPaneVisibilityCommand(object obj) {
+        IsSelectedRecordInfoPaneVisible = !IsSelectedRecordInfoPaneVisible;
     }
 
     private void RetrieveDatabaseData() {

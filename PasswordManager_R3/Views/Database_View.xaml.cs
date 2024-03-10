@@ -22,28 +22,28 @@ public partial class Database_View : UserControl {
         InitializeComponent();
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e) {
-        if (selectedRecordInfoPane.Visibility == Visibility.Collapsed) {
-            selectedRecordInfoPane.Visibility = Visibility.Visible;
-            buttonSelectedRecordInfoPaneExpander.Visibility = Visibility.Collapsed;
+    //private void Button_Click(object sender, RoutedEventArgs e) {
+    //    if (selectedRecordInfoPane.Visibility == Visibility.Collapsed) {
+    //        selectedRecordInfoPane.Visibility = Visibility.Visible;
+    //        buttonSelectedRecordInfoPaneExpander.Visibility = Visibility.Collapsed;
 
-            bottomRow.MinHeight = 220.0;
-            bottomRow.Height = new GridLength(0.01, GridUnitType.Star);
-            bottomRow.MaxHeight = rightPane.ActualHeight * 0.4;
+    //        bottomRow.MinHeight = 220.0;
+    //        bottomRow.Height = new GridLength(0.01, GridUnitType.Star);
+    //        bottomRow.MaxHeight = rightPane.ActualHeight * 0.4;
 
-            //selectedRecordInfoPaneGridRow.MinHeight = 220;
-            //selectedRecordInfoPaneGridRow.Height = new GridLength(0.75, GridUnitType.Star);
-        } else {
-            selectedRecordInfoPane.Visibility = Visibility.Collapsed;
-            buttonSelectedRecordInfoPaneExpander.Visibility = Visibility.Visible;
-            //selectedRecordInfoPaneGridRow.MinHeight = 24;
-            //selectedRecordInfoPaneGridRow.Height = GridLength.Auto;
-            bottomRow.MinHeight = buttonSelectedRecordInfoPaneExpander.MinHeight;
-            bottomRow.Height = new GridLength(24, GridUnitType.Pixel);
-            bottomRow.MaxHeight = buttonSelectedRecordInfoPaneExpander.MaxHeight;
+    //        //selectedRecordInfoPaneGridRow.MinHeight = 220;
+    //        //selectedRecordInfoPaneGridRow.Height = new GridLength(0.75, GridUnitType.Star);
+    //    } else {
+    //        selectedRecordInfoPane.Visibility = Visibility.Collapsed;
+    //        buttonSelectedRecordInfoPaneExpander.Visibility = Visibility.Visible;
+    //        //selectedRecordInfoPaneGridRow.MinHeight = 24;
+    //        //selectedRecordInfoPaneGridRow.Height = GridLength.Auto;
+    //        bottomRow.MinHeight = buttonSelectedRecordInfoPaneExpander.MinHeight;
+    //        bottomRow.Height = new GridLength(24, GridUnitType.Pixel);
+    //        bottomRow.MaxHeight = buttonSelectedRecordInfoPaneExpander.MaxHeight;
 
-        }
-    }
+    //    }
+    //}
 
     private void TreeViewItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e) {
         //e.Handled = true;

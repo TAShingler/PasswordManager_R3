@@ -175,20 +175,20 @@ internal class MainWindow_ViewModel : ViewModelBase {
             OnPropertyChanged(nameof(CanDeleteSelectedGroup));
         }
     }
-    public bool CanToggleTreeViewVisibility {
-        get => _canToggleTreeViewVisibility;
-        set {
-            _canToggleTreeViewVisibility = value;
-            OnPropertyChanged(nameof(CanToggleTreeViewVisibility));
-        }
-    }
-    public bool CanToggleRecordDetailsPanelVisibility {
-        get => _canToggleRecordDetailsPanelVisibility;
-        set {
-            _canToggleRecordDetailsPanelVisibility = value;
-            OnPropertyChanged(nameof(CanToggleRecordDetailsPanelVisibility));
-        }
-    }
+    //public bool CanToggleTreeViewVisibility {
+    //    get => _canToggleTreeViewVisibility;
+    //    set {
+    //        _canToggleTreeViewVisibility = value;
+    //        OnPropertyChanged(nameof(CanToggleTreeViewVisibility));
+    //    }
+    //}
+    //public bool CanToggleRecordDetailsPanelVisibility {
+    //    get => _canToggleRecordDetailsPanelVisibility;
+    //    set {
+    //        _canToggleRecordDetailsPanelVisibility = value;
+    //        OnPropertyChanged(nameof(CanToggleRecordDetailsPanelVisibility));
+    //    }
+    //}
     public System.Windows.Visibility GroupsTreeViewVisibility {
         get => _groupsTreeViewVisibility;
         set {
@@ -1218,11 +1218,31 @@ internal class MainWindow_ViewModel : ViewModelBase {
     }
     private void OnToggleTreeViewVisibilityCommand(object obj) {
         //do something
-        CanToggleTreeViewVisibility = !CanToggleTreeViewVisibility;
+        //CanToggleTreeViewVisibility = !CanToggleTreeViewVisibility;
+        if (SelectedViewModel is not ViewModels.Database_ViewModel)
+            return;
+
+        if (IsGroupsTreePaneEnabled is false) {
+            ((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumn = 0;
+            ((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumnSpan = 3;
+        } else {
+            ((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumn = 2;
+            ((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumnSpan = 1;
+        }
     }
     private void OnToggleRecordDetailsPanelVisibilityCommand(object obj) {
         //do something
-        CanToggleRecordDetailsPanelVisibility = !CanToggleRecordDetailsPanelVisibility;
+        //CanToggleRecordDetailsPanelVisibility = !CanToggleRecordDetailsPanelVisibility;
+        if (SelectedViewModel is not ViewModels.Database_ViewModel)
+            return;
+
+        if (IsRecordDetailsPaneEnabled is false) {
+            //((ViewModels.Database_ViewModel)SelectedViewModel).TopPanelRow = 0;
+            ((ViewModels.Database_ViewModel)SelectedViewModel).TopPanelRowSpan = 3;
+        } else {
+            //((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumn = 0;
+            ((ViewModels.Database_ViewModel)SelectedViewModel).TopPanelRowSpan = 1;
+        }
     }
     private void OnDisplayAboutWindowCommand(object obj) {
         About abtWin = new();

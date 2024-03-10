@@ -19,7 +19,7 @@
         <!--#region//  Converters  //-->
         <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter" />
         <c:MutliplyDoubleConverter x:Key="MultiplyDoubleConverter" />
-        <c:ActualSizeToMaxSizeConverter x:Key="ActualSizeToMaxSizeConverter" />
+        <c:ActualSizeToMinSizeConverter x:Key="ActualSizeToMinSizeConverter" />
         <c:CheckedToGeometryConverter x:Key="CheckedToGeometryConverter" />
         <c:SelectedRecordPropertyMaskedConverter x:Key="SelectedRecordPropertyMaskedConverter" />
         <c:IntToDrawingImageConverter x:Key="IntToDrawingImageConverter" />
@@ -40,12 +40,12 @@
                                                               m 6,8 v 1 h 5 V 8 Z" />
         <PathGeometry x:Key="OpenFolderGlyphGeometry" Figures="m 2,3 h 4 l 1,1 h 6 c 0.554,0 1,0.446 1,1 H 2 v 7 L 3,6 h 12 l -1,6 c -0.09108,0.546462 -0.446,1 -1,1 H 2 C 1.446,13 1,12.554 1,12 V 4 C 1,3.446 1.446,3 2,3 Z" />
         <PathGeometry x:Key="ClosedFolderGlyphGeometry" Figures="m 2,3 h 4 l 1,1 h 6 c 0.554,0 1,0.446 1,1 v 7 c -0.09108,0.546462 -0.446,1 -1,1 H 2 C 1.446,13 1,12.554 1,12 V 4 C 1,3.446 1.446,3 2,3 Z" />
-        <PathGeometry x:Key="TreeViewItemToggleButtonCheckedGlyphGeometry" Figures="{Binding TreeExpandCollapseButtonStyle,
+        <!--<PathGeometry x:Key="TreeViewItemToggleButtonCheckedGlyphGeometry" Figures="{Binding TreeExpandCollapseButtonStyle,
                                                                                              Converter={StaticResource TreeExpandCollapseButtonStyleToFiguresConverter},
-                                                                                             ConverterParameter='checked'}" />
-        <PathGeometry x:Key="TreeViewItemToggleButtonUncheckedGlyphGeometry" Figures="{Binding TreeExpandCollapseButtonStyle,
+                                                                                             ConverterParameter='checked'}" />-->
+        <!--<PathGeometry x:Key="TreeViewItemToggleButtonUncheckedGlyphGeometry" Figures="{Binding TreeExpandCollapseButtonStyle,
                                                                                                Converter={StaticResource TreeExpandCollapseButtonStyleToFiguresConverter},
-                                                                                               ConverterParameter='unchecked'}" />
+                                                                                               ConverterParameter='unchecked'}" />-->
 
         <!--//  ContextMenu Styles  //-->
         <!--#region ContextMenu Styles-->
@@ -2233,6 +2233,18 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSelectedRecordInfoPaneVisible}"
+                             Value="True">
+                    <Setter Property="Visibility"
+                            Value="Collapsed" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsSelectedRecordInfoPaneVisible}"
+                             Value="False">
+                    <Setter Property="Visibility"
+                            Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
         <Style x:Key="ButtonCollapseSelectedRecordPanelStyle"
                TargetType="{x:Type Button}">
@@ -3164,308 +3176,113 @@
             Background="Transparent"
             BorderBrush="#666"
             BorderThickness="0">
-        <Grid>
-            <!--<Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="250"
-                                  Width="1*"
-                                  MaxWidth="{Binding ElementName=userControlBoundary,
-                                                     Path=ActualWidth,
-                                                     Converter={StaticResource ActualSizeToMaxSizeConverter},
-                                                     ConverterParameter='width'}" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition MinWidth="300"
-                                  Width="1*" />
-            </Grid.ColumnDefinitions>-->
-
+        <Grid x:Name="parentGrid">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="leftCol">
-                    <ColumnDefinition.MinWidth>
-                        <MultiBinding Converter="{StaticResource BooleanToMinSizeConverter}"
-                                      ConverterParameter="lft">
-                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                     Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"/>
-                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
-                                     Path="ActualWidth" />
-                        </MultiBinding>
-                    </ColumnDefinition.MinWidth>
-                    <ColumnDefinition.Width>
-                        <MultiBinding Converter="{StaticResource BooleanToSizeConverter}"
-                                      ConverterParameter="lft">
-                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                     Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"/>
-                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
-                                     Path="ActualWidth" />
-                        </MultiBinding>
-                    </ColumnDefinition.Width>
-                    <ColumnDefinition.MaxWidth>
-                        <MultiBinding Converter="{StaticResource BooleanToMaxSizeConverter}"
-                                      ConverterParameter="lft">
-                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                     Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"/>
-                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
-                                     Path="ActualWidth" />
-                        </MultiBinding>
-                    </ColumnDefinition.MaxWidth>
-                </ColumnDefinition>
-                <ColumnDefinition x:Name="midCol">
-                    <ColumnDefinition.MinWidth>
-                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                 Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"
-                                 Converter="{StaticResource BooleanToMinSizeConverter}"
-                                 ConverterParameter="mid"/>
-                    </ColumnDefinition.MinWidth>
-                    <ColumnDefinition.Width>
-                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                 Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"
-                                 Converter="{StaticResource BooleanToMinSizeConverter}"
-                                 ConverterParameter="mid"/>
-                    </ColumnDefinition.Width>
-                    <ColumnDefinition.MaxWidth>
-                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                 Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"
-                                 Converter="{StaticResource BooleanToMinSizeConverter}"
-                                 ConverterParameter="mid"/>
-                    </ColumnDefinition.MaxWidth>
-                </ColumnDefinition>
-                <ColumnDefinition x:Name="rightCol">
-                    <ColumnDefinition.MinWidth>
-                        <MultiBinding Converter="{StaticResource BooleanToMinSizeConverter}"
-                                      ConverterParameter="rgt">
-                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                     Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"/>
-                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
-                                     Path="ActualWidth" />
-                        </MultiBinding>
-                    </ColumnDefinition.MinWidth>
-                    <ColumnDefinition.Width>
-                        <MultiBinding Converter="{StaticResource BooleanToSizeConverter}"
-                                      ConverterParameter="rgt">
-                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                     Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"/>
-                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
-                                     Path="ActualWidth" />
-                        </MultiBinding>
-                    </ColumnDefinition.Width>
-                    <ColumnDefinition.MaxWidth>
-                        <MultiBinding Converter="{StaticResource BooleanToMaxSizeConverter}"
-                                      ConverterParameter="rgt">
-                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                     Path="DataContext.ParentVM.IsGroupsTreePaneEnabled"/>
-                            <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
-                                     Path="ActualWidth" />
-                        </MultiBinding>
-                    </ColumnDefinition.MaxWidth>
-                </ColumnDefinition>
+                <ColumnDefinition MinWidth="250"
+                                  Width="0.001*"/>
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition MinWidth="{Binding ElementName=parentGrid,
+                                                     Path=ActualWidth,
+                                                     Converter={StaticResource ActualSizeToMinSizeConverter},
+                                                     ConverterParameter=width}"
+                                  Width="1*"/>
             </Grid.ColumnDefinitions>
 
-
-            <!--#region TreeView Pane-->
-            <Border x:Name="treeViewOpacityMask"
-                    Grid.Column="0"
-                    Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
-                                         Path=Background}"
-                    BorderThickness="0"
-                    CornerRadius="2"
-                    Padding="0" />
-            <TreeView x:Name="treeViewGroups"
-                      Grid.Column="0"
-                      Background="Transparent"
-                      BorderBrush="#464646"
-                      BorderThickness="0"
-                      IsEnabled="True"
-                      ItemsSource="{Binding Groups,
-                                            NotifyOnSourceUpdated=True,
-                                            NotifyOnTargetUpdated=True,
-                                            UpdateSourceTrigger=PropertyChanged}"
-                      MouseRightButtonUp="TreeViewItem_MouseRightButtonUp"
-                      ContextMenuClosing="treeViewGroups_ContextMenuClosing"
-                      ContextMenuOpening="treeViewGroups_ContextMenuOpening">
-                <!--Background="#464646"
-                        BorderBrush="#666"
-                        BorderThickness="0"-->
-                <!--<TreeView.Resources>
-                        <Style TargetType="{x:Type TreeView}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type TreeView}">
-                                        <Border Background="{TemplateBinding Background}"
-                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                CornerRadius="4">
-                                            
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </TreeView.Resources>-->
-                <TreeView.OpacityMask>
-                    <VisualBrush Visual="{Binding ElementName=treeViewOpacityMask}" />
-                </TreeView.OpacityMask>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectedItemChanged">
-                        <i:InvokeCommandAction Command="{Binding GroupSelectedItemChangedCommand}"
-                                               CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}},
-                                                                          Path=SelectedItem}" />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="Loaded">
-                        <i:InvokeCommandAction Command="{Binding TreeViewLoadedCommand}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <!--<TreeViewItem Header="parent">
-                        <TreeViewItem Header="child" />
-                    </TreeViewItem>-->
-            </TreeView>
-                <!--<Rectangle Grid.Row="1"
-                               Fill="#121212"
-                               Margin="-1 0"/>
-                    <Label Grid.Row="2"
-                           Height="24"
-                           Foreground="Gainsboro"
-                           Background="#363636"
-                           BorderBrush="#666"
-                           BorderThickness="1"
-                           Margin="0"
-                           Padding="0"
-                           FontSize="16"
-                           HorizontalContentAlignment="Center"
-                           VerticalContentAlignment="Center"
-                           Content="Total Vaults: 000" />-->
-            <!--#endregion TreeView Pane-->
-
-            <GridSplitter Grid.Column="1"
-                          Width="5"
+            <!--#region //  Left Grid Column  // -->
+            <Grid Grid.Column="0"
+                  Grid.ColumnSpan="1"
+                  Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                       Path=Background}">
+                
+                <Border x:Name="treeViewOpacityMask"
+                        Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                             Path=Background}"
+                        BorderThickness="0"
+                        CornerRadius="2"
+                        Padding="0" />
+                <TreeView x:Name="treeViewGroups"
                           Background="Transparent"
+                          BorderBrush="#464646"
+                          BorderThickness="0"
+                          IsEnabled="True"
+                          ItemsSource="{Binding Groups,
+                                                NotifyOnSourceUpdated=True,
+                                                NotifyOnTargetUpdated=True,
+                                                UpdateSourceTrigger=PropertyChanged}"
+                          MouseRightButtonUp="TreeViewItem_MouseRightButtonUp"
+                          ContextMenuClosing="treeViewGroups_ContextMenuClosing"
+                          ContextMenuOpening="treeViewGroups_ContextMenuOpening">
+                    <TreeView.OpacityMask>
+                        <VisualBrush Visual="{Binding ElementName=treeViewOpacityMask}" />
+                    </TreeView.OpacityMask>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectedItemChanged">
+                            <i:InvokeCommandAction Command="{Binding GroupSelectedItemChangedCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}},
+                                                                              Path=SelectedItem}" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="Loaded">
+                            <i:InvokeCommandAction Command="{Binding TreeViewLoadedCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TreeView>
+            </Grid>
+            <!--#endregion //  Left Grid Column  // -->
+
+            <!--#region //  Vertical GridSplitter  // -->
+            <GridSplitter Grid.Column="1"
+                          Grid.ColumnSpan="1"
+                          Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                               Path=Background}"
                           VerticalAlignment="Stretch"
                           HorizontalAlignment="Stretch" />
-            <!--#region //  Right Pane  //-->
-            <Border Grid.Column="2"
-                    SnapsToDevicePixels="True">
-                <Grid Name="rightPane">
-                    <!--<Grid.RowDefinitions>
-                        <RowDefinition Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
-                                                        Path=DataContext.ParentVM.IsRecordDetailsPaneEnabled,
-                                                        Converter={StaticResource BooleanToSizeConverter},
-                                                        ConverterParameter='false'}" />
-                        <RowDefinition Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
-                                                        Path=DataContext.ParentVM.IsRecordDetailsPaneEnabled,
-                                                        Converter={StaticResource BooleanToSizeConverter},
-                                                        ConverterParameter='true'}" />
-                        <RowDefinition x:Name="rowRightColBottomRow"
-                                       MinHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
-                                                           Path=DataContext.ParentVM.IsRecordDetailsPaneEnabled,
-                                                           Converter={StaticResource BooleanToMinSizeConverter}}"
-                                       Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
-                                                        Path=DataContext.ParentVM.IsRecordDetailsPaneEnabled,
-                                                        Converter={StaticResource BooleanToSizeConverter},
-                                                        ConverterParameter='false'}">
-                            <RowDefinition.MaxHeight>
-                                <MultiBinding Converter="{StaticResource ActualSizeToMaxSizeConverter}"
-                                              ConverterParameter="height">
-                                    <Binding ElementName="userControlBoundary"
-                                             Path="ActualHeight" />
-                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                             Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled" />
-                                </MultiBinding>
-                            </RowDefinition.MaxHeight>
-                        </RowDefinition>
-                    </Grid.RowDefinitions>-->
-                    <Grid.RowDefinitions>
-                        <RowDefinition x:Name="topRow">
-                            <RowDefinition.MinHeight>
-                                <MultiBinding Converter="{StaticResource BooleanToMinSizeConverter}"
-                                          ConverterParameter="top">
-                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                         Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"/>
-                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
-                                         Path="ActualHeight" />
-                                </MultiBinding>
-                            </RowDefinition.MinHeight>
-                            <RowDefinition.Height>
-                                <MultiBinding Converter="{StaticResource BooleanToSizeConverter}"
-                                          ConverterParameter="top">
-                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                         Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"/>
-                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
-                                         Path="ActualHeight" />
-                                </MultiBinding>
-                            </RowDefinition.Height>
-                            <RowDefinition.MaxHeight>
-                                <MultiBinding Converter="{StaticResource BooleanToMaxSizeConverter}"
-                                          ConverterParameter="top">
-                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                         Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"/>
-                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
-                                         Path="ActualHeight" />
-                                </MultiBinding>
-                            </RowDefinition.MaxHeight>
-                        </RowDefinition>
-                        <RowDefinition x:Name="ctrRow">
-                            <RowDefinition.MinHeight>
-                                <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                     Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"
-                                     Converter="{StaticResource BooleanToMinSizeConverter}"
-                                     ConverterParameter="ctr"/>
-                            </RowDefinition.MinHeight>
-                            <RowDefinition.Height>
-                                <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                     Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"
-                                     Converter="{StaticResource BooleanToMinSizeConverter}"
-                                     ConverterParameter="ctr"/>
-                            </RowDefinition.Height>
-                            <RowDefinition.MaxHeight>
-                                <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                     Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"
-                                     Converter="{StaticResource BooleanToMinSizeConverter}"
-                                     ConverterParameter="ctr"/>
-                            </RowDefinition.MaxHeight>
-                        </RowDefinition>
-                        <RowDefinition x:Name="bottomRow">
-                            <RowDefinition.MinHeight>
-                                <MultiBinding Converter="{StaticResource BooleanToMinSizeConverter}"
-                                          ConverterParameter="btm">
-                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                         Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"/>
-                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
-                                         Path="ActualHeight" />
-                                </MultiBinding>
-                            </RowDefinition.MinHeight>
-                            <RowDefinition.Height>
-                                <MultiBinding Converter="{StaticResource BooleanToSizeConverter}"
-                                          ConverterParameter="btm">
-                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                         Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"/>
-                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
-                                         Path="ActualHeight" />
-                                </MultiBinding>
-                            </RowDefinition.Height>
-                            <RowDefinition.MaxHeight>
-                                <MultiBinding Converter="{StaticResource BooleanToMaxSizeConverter}"
-                                          ConverterParameter="btm">
-                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"
-                                         Path="DataContext.ParentVM.IsRecordDetailsPaneEnabled"/>
-                                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"
-                                         Path="ActualHeight" />
-                                </MultiBinding>
-                            </RowDefinition.MaxHeight>
-                        </RowDefinition>
-                    </Grid.RowDefinitions>
+            <!--#endregion //  Vertical GridSplitter  // -->
+            
+            <!--#region //  Right Grid Column  // -->
+            <Grid x:Name="rightPanel"
+                  Grid.Column="{Binding RightPanelColumn}"
+                  Grid.ColumnSpan="{Binding RightPanelColumnSpan}"
+                  Panel.ZIndex="10"
+                  Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                       Path=Background}">
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="{Binding ElementName=parentGrid,
+                                                       Path=ActualHeight,
+                                                       Converter={StaticResource ActualSizeToMinSizeConverter},
+                                                       ConverterParameter=height}"
+                                   Height="1*" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="0.001*">
+                        <RowDefinition.Style>
+                            <Style TargetType="{x:Type RowDefinition}">
+                                <Setter Property="MinHeight"
+                                        Value="220" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelectedRecordInfoPaneVisible}"
+                                                 Value="False">
+                                        <Setter Property="MinHeight"
+                                                Value="24" />
+                                        <Setter Property="MaxHeight"
+                                                Value="24" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </RowDefinition.Style>
+                    </RowDefinition>
+                </Grid.RowDefinitions>
 
-                    <!--#region DataGrid-->
-                    <!--<Border x:Name="dataGridBorder"
-                            Grid.Row="0"
-                            Background="#464646"
-                            BorderBrush="#464646"
-                            BorderThickness="0"
-                            CornerRadius="2"
-                            Padding="2">-->
+                <!--#region //  Top Grid Row  // -->
+                <Grid Grid.Row="0"
+                      Grid.RowSpan="{Binding TopPanelRowSpan}"
+                      Panel.ZIndex="100"
+                      Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                           Path=Background}">
+                        
                     <Border x:Name="dataGridOpacityMask"
-                            Grid.Row="0"
                             CornerRadius="2"
                             Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
                                                  Path=Background}"/>
                     <DataGrid x:Name="dataGridRecords"
-                              Grid.Row="0"
                               Background="Transparent"
                               BorderBrush="LightBlue"
                               BorderThickness="0"
@@ -3567,41 +3384,68 @@
                                     </MultiBinding>
                                 </DataGridTextColumn.Binding>
                             </DataGridTextColumn>
-                            <!--<DataGridTextColumn Header="Notes"
-                                                MinWidth="100"
-                                                Binding="{Binding Notes}" />-->
                         </DataGrid.Columns>
                     </DataGrid>
-                    <!--</Border>-->
-                    <!--#endregion DataGrid-->
-                    <!--#region RightPane Splitter-->
-                    <Rectangle Grid.Row="1"
-                               Height="5"
-                               Fill="Transparent"
-                               Stroke="Transparent"
-                               StrokeThickness="0"
-                               Visibility="Visible"/>
-                    <GridSplitter Grid.Row="1"
-                                  Panel.ZIndex="1"
-                                  Height="5"
-                                  Background="Transparent"
-                                  VerticalAlignment="Stretch"
-                                  HorizontalAlignment="Stretch"
-                                  Visibility="{Binding ElementName=selectedRecordInfoPane,
-                                                       Path=Visibility}"
-                                  SnapsToDevicePixels="True"/>
-                    <!--"{Binding ElementName=selectedRecordInfoPane,Path=Visibility}" />-->
-                    <!--#endregion RightPane Splitter-->
-                    <!--#region InfoPane and Expander Button-->
+                </Grid>
+                <!--#endregion //  Top Grid Row  // -->
+                    
+                <!--#region //  Horizontal GridSplitter  // -->
+                <GridSplitter Grid.Row="1"
+                              Grid.RowSpan="1"
+                              Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                                   Path=Background}"
+                              VerticalAlignment="Stretch"
+                              HorizontalAlignment="Stretch">
+                    <GridSplitter.Style>
+                        <Style TargetType="{x:Type GridSplitter}">
+                            <!--<Setter Property="Visibility"
+                                    Value="Visible" />-->
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSelectedRecordInfoPaneVisible}"
+                                                 Value="True">
+                                    <Setter Property="Visibility"
+                                                Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsSelectedRecordInfoPaneVisible}"
+                                                 Value="False">
+                                    <Setter Property="Visibility"
+                                                Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </GridSplitter.Style>
+                </GridSplitter>
+                <!--#endregion //  Horizontal GridSplitter  // -->
+                    
+                <!--#region //  Bottom Grid Row  // -->
+                <Grid Grid.Row="2"
+                      Grid.RowSpan="1"
+                      Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                           Path=Background}">
                     <Border x:Name="selectedRecordInfoPane"
-                            Grid.Row="2"
                             Background="#464646"
                             BorderBrush="#464646"
                             BorderThickness="0"
                             CornerRadius="2"
                             Padding="2"
-                            Visibility="Visible"
                             SnapsToDevicePixels="True">
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelectedRecordInfoPaneVisible}"
+                                                 Value="True">
+                                        <Setter Property="Visibility"
+                                                Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsSelectedRecordInfoPaneVisible}"
+                                                 Value="False">
+                                        <Setter Property="Visibility"
+                                                Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -3613,62 +3457,38 @@
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
 
-                            <!--//  Top Row  //-->
+                            <!--#region //  selectedRecordInfoPane Top Row  // -->
+                            <!--#region //  selectedRecordInfoPane Top Row Left Column  // -->
                             <Viewbox Grid.Column="0"
-                                     Grid.Row="0"
-                                     Width="32"
-                                     Height="32"
-                                     Margin="8">
-                                <!--<Image SnapsToDevicePixels="False"
-                                       Source="{Binding SrIcon}" />-->
-                                <!--<Canvas Width="24"
-                                        Height="24">
-                                    --><!--<Path Fill="Gainsboro"
-                                          Data="M 10,4 L 12,6 H 20 C 20,6 22,6 22,8 V 18 C 22,18 22,20 20,20 H 4 C 4,20 2,20 2,18 V 6 C 2,6 2,4 4,4 Z"/>--><!--
-                                    <Path Fill="Gainsboro"
-                                          Data="M 10,4 L 12,6 V 7 L 3,9 L 2,8 V 6 C 2,6 2,4 4,4 Z" />
-                                    <Path Fill="DarkGray"
-                                          Data="M 20,6 C 20,6 22,6 22,8 V 18 C 22,18 22,20 20,20 H 4 C 4,20 2,20 2,18 V 8 C 2,8 2,6 4,6 Z" />
-                                </Canvas>-->
+                                        Grid.Row="0"
+                                        Width="32"
+                                        Height="32"
+                                        Margin="8">
                                 <Image Source="{Binding SelectedRecord.Icon,
                                                         Converter={StaticResource IntToDrawingImageConverter}}" />
                             </Viewbox>
+                            <!--#endregion //  selectedRecordInfoPane Top Row Left Column  // -->
+
+                            <!--#region //  selectedRecordInfoPane Top Row Middle Column  // -->
                             <TextBlock Grid.Column="1"
-                                       Grid.Row="0"
-                                       Foreground="Gainsboro"
-                                       FontSize="16"
-                                       VerticalAlignment="Center"
-                                       Text="{Binding SelectedRecord.Title}" /><!--
-                            Text="{Binding ElementName=dataGridRecords,
-                                                      Path=SelectedItem.Title}"/>-->
-                            <!--Text="{Binding SrTitle}" />-->
+                                        Grid.Row="0"
+                                        Foreground="Gainsboro"
+                                        FontSize="16"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding SelectedRecord.Title}" />
+                            <!--#endregion //  selectedRecordInfoPane Top Row Middle Column  // -->
+
+                            <!--#region //  selectedRecordInfoPane Top Row Right Column  // -->
                             <Button Grid.Column="2"
                                     Grid.Row="0"
                                     Height="20"
                                     Width="20"
                                     Style="{StaticResource ButtonCollapseSelectedRecordPanelStyle}"
-                                    Click="Button_Click" />
-                            <!-- ="{Binding SomeCommand}" />--><!-- Click="Button_Click"/>-->
-                            <!--Width="16"
-                                    Height="16"
-                                    Margin="16"
-                                    BorderBrush="#777"
-                                    Background="#444"
-                                    Click="Button_Click">-->
-                                <!--<Path Width="8"
-                                      Height="8"
-                                      Stroke="Gainsboro"
-                                      StrokeThickness="1"
-                                      ClipToBounds="True"
-                                      Data="M 0 0 L 8 8 M 0 8 L 8 0" />-->
-                                <!--<Path Width="6"
-                                      Height="4"
-                                      Fill="Gainsboro"
-                                      ClipToBounds="True"
-                                      Data="M 0 1 3 4 6 1 Z" />-->
-                            <!--</Button>-->
+                                    Command="{Binding ToggleSelectedRecordInfoPaneVisibilityCommand}" />
+                            <!--#endregion //  selectedRecordInfoPane Top Row Right Column  // -->
+                            <!--#endregion //  selectedRecordInfoPane Top Row  // -->
 
-                            <!--//  Bottom Row  //-->
+                            <!--#region //  selectedRecordInfoPane Bottom Row  // -->
                             <TabControl Grid.Column="0"
                                         Grid.ColumnSpan="3"
                                         Grid.Row="1"
@@ -3676,133 +3496,138 @@
                                         Background="#363636"
                                         BorderBrush="#363636"
                                         BorderThickness="1">
+                                    
+                                <!--#region //  selectedRecordInfoPane Bottom Row TabControl Tab Item 1  // -->
                                 <TabItem Header="Basic"
-                                         Background="Transparent"
-                                         Foreground="Gainsboro">
+                                            Background="Transparent"
+                                            Foreground="Gainsboro">
                                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                                  VerticalScrollBarVisibility="Auto">
+                                                    VerticalScrollBarVisibility="Auto">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition MinHeight="28"
-                                                           Height="Auto" />
+                                                                Height="Auto" />
                                                 <RowDefinition MinHeight="28"
-                                                           Height="Auto" />
+                                                                Height="Auto" />
                                                 <RowDefinition MinHeight="28"
-                                                           Height="Auto" />
+                                                                Height="Auto" />
                                                 <RowDefinition MinHeight="28"
-                                                           Height="Auto" />
+                                                                Height="Auto" />
                                                 <RowDefinition Height="1*" />
                                             </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition MinWidth="20"
-                                                              Width="Auto" />
+                                                                    Width="Auto" />
                                                 <ColumnDefinition MinWidth="20"
-                                                              Width="Auto" />
+                                                                    Width="Auto" />
                                                 <ColumnDefinition MinWidth="100"
-                                                              Width="Auto" />
+                                                                    Width="Auto" />
                                                 <ColumnDefinition Width="1*" />
                                             </Grid.ColumnDefinitions>
 
                                             <!--//  Row 1  //-->
                                             <Button Grid.Column="0"
-                                                Grid.Row="0"
-                                                Width="16"
-                                                Height="16"
-                                                Command="{Binding CopyToClipboardCommand}"
-                                                CommandParameter="{Binding SelectedRecord.Username}"
-                                                Style="{StaticResource ButtonCopyContentStyle}"/>
+                                                    Grid.Row="0"
+                                                    Width="16"
+                                                    Height="16"
+                                                    Command="{Binding CopyToClipboardCommand}"
+                                                    CommandParameter="{Binding SelectedRecord.Username}"
+                                                    Style="{StaticResource ButtonCopyContentStyle}"/>
                                             <ToggleButton x:Name="toggleButtonMaskUsername"
-                                                          Grid.Column="1"
-                                                          Grid.Row="0"
-                                                          Width="16"
-                                                          Height="16"
-                                                          IsChecked="True"
-                                                          Command="{Binding ToggleUsernameMaskCommand}"
-                                                          CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                                     Path=IsChecked}"
-                                                          Style="{StaticResource ToggleButtonMaskContentStyle}"/>
+                                                            Grid.Column="1"
+                                                            Grid.Row="0"
+                                                            Width="16"
+                                                            Height="16"
+                                                            IsChecked="True"
+                                                            Command="{Binding ToggleUsernameMaskCommand}"
+                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
+                                                                                        Path=IsChecked}"
+                                                            Style="{StaticResource ToggleButtonMaskContentStyle}"/>
                                             <Label Grid.Column="2"
-                                               Grid.Row="0"
-                                               Foreground="Gainsboro"
-                                               Content="Username:" />
+                                                    Grid.Row="0"
+                                                    Foreground="Gainsboro"
+                                                    Content="Username:" />
                                             <TextBlock x:Name="textBlockUsername"
-                                                       Grid.Column="3"
-                                                       Grid.Row="0"
-                                                       Foreground="Gainsboro"
-                                                       Padding="5">
+                                                        Grid.Column="3"
+                                                        Grid.Row="0"
+                                                        Foreground="Gainsboro"
+                                                        Padding="5">
                                                 <TextBlock.Text>
                                                     <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
                                                         <Binding Path="SelectedRecord.Username" />
-                                                        <Binding ElementName="toggleButtonMaskUsername" Path="IsChecked" />
+                                                        <Binding ElementName="toggleButtonMaskUsername"
+                                                                    Path="IsChecked" />
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>
 
                                             <!--//  Row 2  //-->
                                             <Button Grid.Column="0"
-                                                Grid.Row="1"
-                                                Width="16"
-                                                Height="16"
-                                                Command="{Binding CopyToClipboardCommand}"
-                                                CommandParameter="{Binding SelectedRecord.Email}"
-                                                Style="{StaticResource ButtonCopyContentStyle}"/>
+                                                    Grid.Row="1"
+                                                    Width="16"
+                                                    Height="16"
+                                                    Command="{Binding CopyToClipboardCommand}"
+                                                    CommandParameter="{Binding SelectedRecord.Email}"
+                                                    Style="{StaticResource ButtonCopyContentStyle}"/>
                                             <ToggleButton x:Name="toggleButtonMaskEmail"
-                                                          Grid.Column="1"
-                                                          Grid.Row="1"
-                                                          Width="16"
-                                                          Height="16"
-                                                          IsChecked="True"
-                                                          Command="{Binding ToggleEmailMaskCommand}"
-                                                          CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                                     Path=IsChecked}"
-                                                          Style="{StaticResource ToggleButtonMaskContentStyle}"/>
+                                                            Grid.Column="1"
+                                                            Grid.Row="1"
+                                                            Width="16"
+                                                            Height="16"
+                                                            IsChecked="True"
+                                                            Command="{Binding ToggleEmailMaskCommand}"
+                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
+                                                                                        Path=IsChecked}"
+                                                            Style="{StaticResource ToggleButtonMaskContentStyle}"/>
                                             <Label Grid.Column="2"
-                                                   Grid.Row="1"
-                                                   Foreground="Gainsboro"
-                                                   Content="Email:" />
+                                                    Grid.Row="1"
+                                                    Foreground="Gainsboro"
+                                                    Content="Email:" />
                                             <TextBlock x:Name="textBlockEmail"
-                                                       Grid.Column="3"
-                                                       Grid.Row="1"
-                                                       Foreground="Gainsboro"
-                                                       Padding="5">
+                                                        Grid.Column="3"
+                                                        Grid.Row="1"
+                                                        Foreground="Gainsboro"
+                                                        Padding="5">
                                                 <TextBlock.Text>
                                                     <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
                                                         <Binding Path="SelectedRecord.Email" />
-                                                        <Binding ElementName="toggleButtonMaskEmail" Path="IsChecked" />
+                                                        <Binding ElementName="toggleButtonMaskEmail"
+                                                                    Path="IsChecked" />
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>
 
                                             <!--//  Row 3  //-->
                                             <Button Grid.Column="0"
-                                                Grid.Row="2"
-                                                Width="16"
-                                                Height="16"
-                                                Command="{Binding CopyToClipboardCommand}"
-                                                CommandParameter="{Binding SelectedRecord.Password}"
-                                                Style="{StaticResource ButtonCopyContentStyle}"/>
+                                                    Grid.Row="2"
+                                                    Width="16"
+                                                    Height="16"
+                                                    Command="{Binding CopyToClipboardCommand}"
+                                                    CommandParameter="{Binding SelectedRecord.Password}"
+                                                    Style="{StaticResource ButtonCopyContentStyle}"/>
                                             <ToggleButton x:Name="toggleButtonMaskPassword" Grid.Column="1"
-                                                          Grid.Row="2"
-                                                          Width="16"
-                                                          Height="16"
-                                                          IsChecked="True"
-                                                          Command="{Binding TogglePasswordMaskCommand}"
-                                                          CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                                     Path=IsChecked}"
-                                                          Style="{StaticResource ToggleButtonMaskContentStyle}"/>
+                                                            Grid.Row="2"
+                                                            Width="16"
+                                                            Height="16"
+                                                            IsChecked="True"
+                                                            Command="{Binding TogglePasswordMaskCommand}"
+                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
+                                                                                        Path=IsChecked}"
+                                                            Style="{StaticResource ToggleButtonMaskContentStyle}"/>
                                             <Label Grid.Column="2"
-                                                   Grid.Row="2"
-                                                   Foreground="Gainsboro"
-                                                   Content="Password:" />
+                                                    Grid.Row="2"
+                                                    Foreground="Gainsboro"
+                                                    Content="Password:" />
                                             <TextBlock x:Name="textBlockPassword"
-                                                       Grid.Column="3"
-                                                       Grid.Row="2"
-                                                       Foreground="Gainsboro"
-                                                       Padding="5">
+                                                        Grid.Column="3"
+                                                        Grid.Row="2"
+                                                        Foreground="Gainsboro"
+                                                        Padding="5">
                                                 <TextBlock.Text>
                                                     <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
                                                         <Binding Path="SelectedRecord.Password" />
-                                                        <Binding ElementName="toggleButtonMaskPassword" Path="IsChecked" />
+                                                        <Binding ElementName="toggleButtonMaskPassword"
+                                                                    Path="IsChecked" />
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>
@@ -3816,50 +3641,54 @@
                                                     CommandParameter="{Binding SelectedRecord.URL}"
                                                     Style="{StaticResource ButtonCopyContentStyle}"/>
                                             <ToggleButton x:Name="toggleButtonMaskUrl"
-                                                          Grid.Column="1"
-                                                          Grid.Row="3"
-                                                          Width="16"
-                                                          Height="16"
-                                                          IsChecked="True"
-                                                          Command="{Binding ToggleUrlMaskCommand}"
-                                                          CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                                     Path=IsChecked}"
-                                                          Style="{StaticResource ToggleButtonMaskContentStyle}"/>
+                                                            Grid.Column="1"
+                                                            Grid.Row="3"
+                                                            Width="16"
+                                                            Height="16"
+                                                            IsChecked="True"
+                                                            Command="{Binding ToggleUrlMaskCommand}"
+                                                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
+                                                                                        Path=IsChecked}"
+                                                            Style="{StaticResource ToggleButtonMaskContentStyle}"/>
                                             <Label Grid.Column="2"
-                                                   Grid.Row="3"
-                                                   Foreground="Gainsboro"
-                                                   Content="Url:" />
+                                                    Grid.Row="3"
+                                                    Foreground="Gainsboro"
+                                                    Content="Url:" />
                                             <TextBlock x:Name="textBlockUrl"
-                                                       Grid.Column="3"
-                                                       Grid.Row="3"
-                                                       Foreground="Gainsboro"
-                                                       Padding="5">
+                                                        Grid.Column="3"
+                                                        Grid.Row="3"
+                                                        Foreground="Gainsboro"
+                                                        Padding="5">
                                                 <TextBlock.Text>
                                                     <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
                                                         <Binding Path="SelectedRecord.URL" />
-                                                        <Binding ElementName="toggleButtonMaskUrl" Path="IsChecked" />
+                                                        <Binding ElementName="toggleButtonMaskUrl"
+                                                                    Path="IsChecked" />
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>
                                         </Grid>
                                     </ScrollViewer>
                                 </TabItem>
+                                <!--#endregion //  selectedRecordInfoPane Bottom Row TabControl Tab Item 1  // -->
+
+                                <!--#region //  selectedRecordInfoPane Bottom Row TabControl Tab Item 2  // -->
                                 <TabItem Header="Notes"
-                                         Background="Transparent"
-                                         Foreground="Gainsboro">
+                                            Background="Transparent"
+                                            Foreground="Gainsboro">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition MinHeight="28"
-                                                           Height="Auto" />
+                                                            Height="Auto" />
                                             <RowDefinition Height="1*" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition MinWidth="20"
-                                                              Width="Auto" />
+                                                                Width="Auto" />
                                             <ColumnDefinition MinWidth="20"
-                                                              Width="Auto" />
+                                                                Width="Auto" />
                                             <ColumnDefinition MinWidth="100"
-                                                              Width="Auto" />
+                                                                Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
 
@@ -3872,149 +3701,132 @@
                                                 CommandParameter="{Binding SelectedRecord.Notes}"
                                                 Style="{StaticResource ButtonCopyContentStyle}"/>
                                         <ToggleButton x:Name="toggleButtonMaskNotes"
-                                                      Grid.Column="1"
-                                                      Grid.Row="0"
-                                                      Width="16"
-                                                      Height="16"
-                                                      IsChecked="True"
-                                                      Command="{Binding ToggleNotesMaskCommand}"
-                                                      CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                                                 Path=IsChecked}"
-                                                      Style="{StaticResource ToggleButtonMaskContentStyle}"/>
+                                                        Grid.Column="1"
+                                                        Grid.Row="0"
+                                                        Width="16"
+                                                        Height="16"
+                                                        IsChecked="True"
+                                                        Command="{Binding ToggleNotesMaskCommand}"
+                                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
+                                                                                    Path=IsChecked}"
+                                                        Style="{StaticResource ToggleButtonMaskContentStyle}"/>
                                         <Label Grid.Column="2"
-                                               Grid.Row="0"
-                                               Foreground="Gainsboro"
-                                               Content="Notes:"/>
+                                                Grid.Row="0"
+                                                Foreground="Gainsboro"
+                                                Content="Notes:"/>
                                         <ScrollViewer Grid.Column="3"
-                                                      Grid.Row="0"
-                                                      Grid.RowSpan="2"
-                                                      VerticalScrollBarVisibility="Auto">
+                                                        Grid.Row="0"
+                                                        Grid.RowSpan="2"
+                                                        VerticalScrollBarVisibility="Auto">
                                             <TextBlock Foreground="Gainsboro"
-                                                       Background="Transparent"
-                                                       Padding="5"
-                                                       TextWrapping="Wrap">
+                                                        Background="Transparent"
+                                                        Padding="5"
+                                                        TextWrapping="Wrap">
                                                 <TextBlock.Text>
                                                     <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
                                                         <Binding Path="SelectedRecord.Notes" />
-                                                        <Binding ElementName="toggleButtonMaskNotes" Path="IsChecked" />
+                                                        <Binding ElementName="toggleButtonMaskNotes"
+                                                                    Path="IsChecked" />
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>
                                         </ScrollViewer>
                                     </Grid>
                                 </TabItem>
+                                <!--#endregion //  selectedRecordInfoPane Bottom Row TabControl Tab Item 2  // -->
+
+                                <!--#region //  selectedRecordInfoPane Bottom Row TabControl Tab Item 3  // -->
                                 <TabItem Header="Advanced"
-                                         Background="Transparent"
-                                         Foreground="Gainsboro">
+                                            Background="Transparent"
+                                            Foreground="Gainsboro">
                                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                                  VerticalScrollBarVisibility="Auto">
+                                                    VerticalScrollBarVisibility="Auto">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition MinHeight="28"
-                                                           Height="Auto" />
+                                                        Height="Auto" />
                                                 <RowDefinition MinHeight="28"
-                                                           Height="Auto" />
+                                                        Height="Auto" />
                                                 <RowDefinition MinHeight="28"
-                                                           Height="Auto" />
+                                                        Height="Auto" />
                                                 <RowDefinition MinHeight="28"
-                                                           Height="Auto" />
+                                                        Height="Auto" />
                                                 <RowDefinition Height="1*" />
                                             </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition MinWidth="20"
-                                                              Width="Auto" />
+                                                            Width="Auto" />
                                                 <ColumnDefinition MinWidth="20"
-                                                              Width="Auto" />
+                                                            Width="Auto" />
                                                 <ColumnDefinition MinWidth="100"
-                                                              Width="Auto" />
+                                                            Width="Auto" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
 
                                             <!--//  Row 1  //-->
                                             <Label Grid.Column="2"
-                                                   Grid.Row="0"
-                                                   Foreground="Gainsboro"
-                                                   Content="Expiration Date:" />
+                                                Grid.Row="0"
+                                                Foreground="Gainsboro"
+                                                Content="Expiration Date:" />
                                             <TextBlock Grid.Column="3"
-                                                   Grid.Row="0"
-                                                   Foreground="Gainsboro"
-                                                   Padding="5"
-                                                   Text="{Binding SelectedRecord.ExpirationDate}"/>
+                                                Grid.Row="0"
+                                                Foreground="Gainsboro"
+                                                Padding="5"
+                                                Text="{Binding SelectedRecord.ExpirationDate}"/>
 
                                             <!--//  Row 2  //-->
                                             <Label Grid.Column="2"
-                                                   Grid.Row="1"
-                                                   Foreground="Gainsboro"
-                                                   Content="Created Date:" />
+                                                Grid.Row="1"
+                                                Foreground="Gainsboro"
+                                                Content="Created Date:" />
                                             <TextBlock Grid.Column="3"
-                                                       Grid.Row="1"
-                                                       Foreground="Gainsboro"
-                                                       Padding="5"
-                                                       Text="{Binding SelectedRecord.CreatedDate}"/>
+                                                    Grid.Row="1"
+                                                    Foreground="Gainsboro"
+                                                    Padding="5"
+                                                    Text="{Binding SelectedRecord.CreatedDate}"/>
 
                                             <!--//  Row 3  //-->
                                             <Label Grid.Column="2"
-                                                   Grid.Row="2"
-                                                   Foreground="Gainsboro"
-                                                   Content="Modified Date:" />
+                                                Grid.Row="2"
+                                                Foreground="Gainsboro"
+                                                Content="Modified Date:" />
                                             <TextBlock Grid.Column="3"
-                                                       Grid.Row="2"
-                                                       Foreground="Gainsboro"
-                                                       Padding="5"
-                                                       Text="{Binding SelectedRecord.ModifiedDate}"/>
+                                                    Grid.Row="2"
+                                                    Foreground="Gainsboro"
+                                                    Padding="5"
+                                                    Text="{Binding SelectedRecord.ModifiedDate}"/>
 
                                             <!--//  Row 4  //-->
                                             <Label Grid.Column="2"
-                                                   Grid.Row="3"
-                                                   Foreground="Gainsboro"
-                                                   Content="GUID:" />
+                                                Grid.Row="3"
+                                                Foreground="Gainsboro"
+                                                Content="GUID:" />
                                             <TextBlock Grid.Column="3"
-                                                       Grid.Row="3"
-                                                       Foreground="Gainsboro"
-                                                       Padding="5"
-                                                       Text="{Binding SelectedRecord.GUID}"/>
+                                                    Grid.Row="3"
+                                                    Foreground="Gainsboro"
+                                                    Padding="5"
+                                                    Text="{Binding SelectedRecord.GUID}"/>
                                         </Grid>
                                     </ScrollViewer>
                                 </TabItem>
-                                <!--<TabItem Header="Item2"
-                                         Background="Transparent"
-                                         Foreground="Gainsboro" />-->
+                                <!--#endregion //  selectedRecordInfoPane Bottom Row TabControl Tab Item 1  // -->
                             </TabControl>
+                            <!--#endregion //  selectedRecordInfoPane Bottom Row  // -->
                         </Grid>
                     </Border>
-                    <!--<Border x:Name="buttonSelectedRecordInfoPaneExpander"
-                            Grid.Row="2"
-                            Background="red"
-                            MinHeight="24">-->
-                    <!--<Border x:Name="buttonSelectedRecordInfoPaneExpander"
-                            Grid.Row="2"
-                            MinHeight="24"
-                            BorderBrush="#363636"
-                            Background="#363636"
-                            BorderThickness="0"
-                            CornerRadius="2"
-                            Padding="2"
-                            Visibility="Visible">-->
                     <Button x:Name="buttonSelectedRecordInfoPaneExpander"
-                            Grid.Row="2"
-                            MinHeight="24"
-                            Height="24"
-                            MaxHeight="24"
                             Background="Transparent"
                             BorderBrush="Transparent"
                             BorderThickness="0"
-                            Style="{StaticResource ButtonExpandSelectedRecordPanelStyle}"
-                            Visibility="Collapsed"
-                            Click="Button_Click">
+                            Style="{DynamicResource ButtonExpandSelectedRecordPanelStyle}"
+                            Command="{Binding ToggleSelectedRecordInfoPaneVisibilityCommand}">
                         <Path Fill="Gainsboro"
                               Data="M 0,12 8,0 16,12 Z" />
                     </Button>
-                    <!--</Border>-->
-                    <!--</Border>-->
-                    <!--#endregion InfoPane and Expander Button-->
                 </Grid>
-            </Border>
-            <!--#endregion //  Right Pane  //-->
+                <!--#endregion //  Bottom Grid Row  // -->
+            </Grid>
+            <!--#endregion //  Right Grid Column  //-->
         </Grid>
     </Border>
 </UserControl>

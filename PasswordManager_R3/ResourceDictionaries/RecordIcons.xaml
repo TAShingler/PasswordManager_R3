@@ -3233,7 +3233,8 @@
             </Path>
         </Canvas>
     </Canvas>
-    <DrawingImage x:Key="sharefile_logo_di" x:Name="sharefile_logo_di">
+    <DrawingImage x:Key="sharefile_logo_di"
+                  x:Name="sharefile_logo_di">
         <DrawingImage.Drawing>
             <DrawingGroup>
                 <GeometryDrawing Brush="#FF2071C5" Geometry="m 19 11 c 0.398437 0.822727 1 1.9 1 3.5 0 4.17635 -3.327782 7.5 -7.5 7.5 -4.5276333 0 -8 -3.26093 -8 -6.75 0 -1.345436 0.6705136 -1.95852 1.1 -2.35 C 5.0881103 12.237933 4.5 11 4.5 9.5 4.5 4.9921942 7.8056851 2 12 2 c 4.218274 0 8 2.8910404 8 6.75 0 0.9613629 -0.476563 1.679262 -1 2.25 z" />
@@ -3263,7 +3264,7 @@
         </Canvas>
     </Canvas>
     <DrawingImage x:Key="sharefile_new_logo_di"
-                  x:Name="sharefile_logo_di">
+                  x:Name="sharefile_new_logo_di">
         <DrawingImage.Drawing>
             <DrawingGroup>
                 <GeometryDrawing Brush="#FFFFFFFF"
