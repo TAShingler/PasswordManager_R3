@@ -34,6 +34,8 @@ internal class AppVariables {    //might change from static and instantiate in A
     //tabitem 3
     private bool _displayGroupsTree = true;
     private bool _displayInfoPane = true;
+
+    private bool _isSelectedRecordInfoPanelVisible = true;
     #endregion Fields
 
     #region Properties
@@ -131,6 +133,12 @@ internal class AppVariables {    //might change from static and instantiate in A
     internal bool DisplayInfoPane {
         get { return _displayInfoPane; }
         set { _displayInfoPane = value; }
+    }
+
+    [Newtonsoft.Json.JsonIgnore]
+    internal bool IsSelectedRecordInfoPanelVisible {
+        get => _isSelectedRecordInfoPanelVisible;
+        set => _isSelectedRecordInfoPanelVisible = value;
     }
     #endregion Properties
 

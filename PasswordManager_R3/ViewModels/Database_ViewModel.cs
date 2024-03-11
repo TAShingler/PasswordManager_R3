@@ -14,7 +14,7 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
     private int _rightPanelColumn = 2;
     private int _rightPanelColumnSpan = 1;
     private int _topPanelRowSpan = 1;
-    private bool _isSelectedRecordInfoPaneVisible = true;
+    //private bool _isSelectedRecordInfoPaneVisible = false;
 
     //Models.Group-specific fields
     private Models.Group? _selectedGroup = null;
@@ -86,9 +86,10 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
         }
     }
     public bool IsSelectedRecordInfoPaneVisible {
-        get => _isSelectedRecordInfoPaneVisible;
+        get => ((App)App.Current).AppVariables.IsSelectedRecordInfoPanelVisible; //_isSelectedRecordInfoPaneVisible;
         set {
-            _isSelectedRecordInfoPaneVisible = value;
+            //_isSelectedRecordInfoPaneVisible = value;
+            ((App)App.Current).AppVariables.IsSelectedRecordInfoPanelVisible = value;
             OnPropertyChanged(nameof(IsSelectedRecordInfoPaneVisible));
         }
     }
@@ -402,6 +403,24 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
         TreeViewLoadedCommand = new(OnTreeViewLoadedCommand);
 
         ToggleSelectedRecordInfoPaneVisibilityCommand = new(OnToggleSelectedRecordInfoPaneVisibilityCommand);
+
+        // set Grid right panel column value based on IsGroupsTreePaneEnabled property value
+        if (((ViewModels.MainWindow_ViewModel)this.ParentVM).IsGroupsTreePaneEnabled == true)
+            RightPanelColumn = 2;
+        else
+            RightPanelColumn = 0;
+
+        // set Grid right panel column span value based on IsGroupsTreePaneEnabled property value
+        if (((ViewModels.MainWindow_ViewModel)this.ParentVM).IsGroupsTreePaneEnabled == true)
+            RightPanelColumnSpan = 1;
+        else
+            RightPanelColumnSpan = 3;
+
+        // set DataGrid panel row span value based on IsRecordDetailsPaneEnabled property value
+        if (((ViewModels.MainWindow_ViewModel)this.ParentVM).IsRecordDetailsPaneEnabled == true)
+            TopPanelRowSpan = 1;
+        else
+            TopPanelRowSpan = 3;
     }
     #endregion Constructors
 

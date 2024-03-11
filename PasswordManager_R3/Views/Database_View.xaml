@@ -25,9 +25,6 @@
         <c:IntToDrawingImageConverter x:Key="IntToDrawingImageConverter" />
         <c:SelectedIndexToGridLengthConverter x:Key="SelectedIndexToGridLengthConverter" />
         <c:BooleanToMaskedStringConverter x:Key="BooleanToMaskedStringConverter" />
-        <c:BooleanToSizeConverter x:Key="BooleanToSizeConverter" />
-        <c:BooleanToMinSizeConverter x:Key="BooleanToMinSizeConverter" />
-        <c:BooleanToMaxSizeConverter x:Key="BooleanToMaxSizeConverter" />
         <!--#endregion//  Converters  //-->
         
         <!--<PathGeometry x:Key="DownArrowGlyphGeometry" Figures="M 3,4 8,9 13,4 15,6 8,13 1,6 Z" />
