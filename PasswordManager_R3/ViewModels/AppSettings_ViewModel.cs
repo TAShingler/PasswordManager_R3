@@ -220,6 +220,10 @@ internal class AppSettings_ViewModel : ViewModelBase {
         get { return _displayInfoPane; }
         set {
             _displayInfoPane = value;
+
+            //update  property in MainWindow_ViewModel
+            ((ViewModels.MainWindow_ViewModel)this.ParentVM).IsRecordDetailsPaneEnabled = value;
+
             OnPropertyChanged(nameof(DisplayInfoPane));
         }
     }
@@ -227,6 +231,10 @@ internal class AppSettings_ViewModel : ViewModelBase {
         get => _displayGroupsTree;
         set {
             _displayGroupsTree = value;
+
+            //update  property in MainWindow_ViewModel
+            ((ViewModels.MainWindow_ViewModel)this.ParentVM).IsGroupsTreePaneEnabled = value;
+
             OnPropertyChanged(nameof(DisplayGroupsTree));
         }
     }
@@ -234,6 +242,10 @@ internal class AppSettings_ViewModel : ViewModelBase {
         get => _areDatabaseUsernamesMasked;
         set {
             _areDatabaseUsernamesMasked = value;
+
+            //update  property in MainWindow_ViewModel
+            ((ViewModels.MainWindow_ViewModel)this.ParentVM).AreDatabaseUsernamesMasked = value;
+
             OnPropertyChanged(nameof(AreDatabaseUsernamesMasked));
         }
     }
@@ -241,6 +253,10 @@ internal class AppSettings_ViewModel : ViewModelBase {
         get => _areDatabaseEmailsMasked;
         set {
             _areDatabaseEmailsMasked = value;
+
+            //update  property in MainWindow_ViewModel
+            ((ViewModels.MainWindow_ViewModel)this.ParentVM).AreDatabaseEmailsMasked = value;
+
             OnPropertyChanged(nameof(AreDatabaseEmailsMasked));
         }
     }
@@ -248,6 +264,10 @@ internal class AppSettings_ViewModel : ViewModelBase {
         get => _areDatabasePasswordsMasked;
         set {
             _areDatabasePasswordsMasked = value;
+
+            //update  property in MainWindow_ViewModel
+            ((ViewModels.MainWindow_ViewModel)this.ParentVM).AreDatabasePasswordsMasked = value;
+
             OnPropertyChanged(nameof(AreDatabasePasswordsMasked));
         }
     }
@@ -255,6 +275,10 @@ internal class AppSettings_ViewModel : ViewModelBase {
         get => _areDatabaseUrlsMasked;
         set {
             _areDatabaseUrlsMasked = value;
+
+            //update  property in MainWindow_ViewModel
+            ((ViewModels.MainWindow_ViewModel)this.ParentVM).AreDatabaseUrlsMasked = value;
+
             OnPropertyChanged(nameof(AreDatabaseUrlsMasked));
         }
     }

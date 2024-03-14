@@ -1214,6 +1214,7 @@ internal class MainWindow_ViewModel : ViewModelBase {
 
         Utils.FileOperations.RestoreDatabase(ofd.FileName);
 
+        ((App)App.Current).DatabaseOps.CreateConnection();
         OnSetDatabaseView();
     }
     private void OnToggleTreeViewVisibilityCommand(object obj) {
