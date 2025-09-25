@@ -16,6 +16,7 @@
                                     x:Name="RecordIcons"
                                     Source="/ResourceDictionaries/RecordIcons.xaml" />
                 <!--<ResourceDictionary x:Name="LightTheme" Source="/ResourceDictionaries/DarkTheme.xaml" />-->
+                <ResourceDictionary Source="pack://application:,,,/PresentationFramework.Fluent;component/Themes/Fluent.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <!--//  App Static Colors  //-->
             <Color x:Key="color-static-background"
