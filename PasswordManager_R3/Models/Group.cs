@@ -47,6 +47,18 @@ internal class Group : Models.VaultObjectBase {
         _childrenRecords = new System.Collections.ObjectModel.ObservableCollection<Record>();
         _isExpanded = true;
         _isSelected = false;
+
+        for (int i = 0; i < ChildrenGroups.Count; i++) {
+            var group = ChildrenGroups[i];
+            if (group is null)
+                ChildrenGroups.RemoveAt(i);
+        }
+
+        for (int i = 0; i < ChildrenRecords.Count; i++) {
+            var record = ChildrenRecords[i];
+            if (record is null)
+                ChildrenRecords.RemoveAt(i);
+        }
     }
     #endregion Constructors
 

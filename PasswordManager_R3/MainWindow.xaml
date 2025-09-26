@@ -11,17 +11,16 @@
         xmlns:enums="clr-namespace:PasswordManager_R3.Enums"
         mc:Ignorable="d"
         Title="Password LockBox"
-        MinHeight="600"
+        MinHeight="650"
         Height="800"
-        MinWidth="800"
+        MinWidth="900"
         Width="1200"
         FontSize="14"
         SnapsToDevicePixels="True"
         TextOptions.TextFormattingMode="Display"
         WindowState="{Binding WinState}"
         x:Name="WinMain"
-        Loaded="WinMain_Loaded"
-        ThemeMode="System">
+        Loaded="WinMain_Loaded">
 
     <!--Background="{StaticResource solidColorBrush-static-background}"-->
     <i:Interaction.Triggers>
@@ -216,6 +215,7 @@
                                           M 11.5 13 C 10.125212 13 9 14.125212 9 15.5 C 9 16.874788 10.125212 18 11.5 18 C 12.874788 18 14 16.874788 14 15.5 C 14 14.125212 12.874788 13 11.5 13 z
                                           M 11.5 14 C 12.334349 14 13 14.665651 13 15.5 C 13 16.334349 12.334349 17 11.5 17 C 10.665651 17 10 16.334349 10 15.5 C 10 14.665651 10.665651 14 11.5 14 z " />
                             <TextBlock Text="Lock Database"
+                                       Visibility="Collapsed"
                                        Foreground="{Binding Foreground,
                                                             RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}"/>
                         </StackPanel>
@@ -238,6 +238,7 @@
                                         M 12 12 L 19 12 C 19.562648 12 20 12.437352 20 13 L 20 20 C 20 20.562648 19.562648 21 19 21 L 12 21 C 11.437352 21 11 20.562648 11 20 L 11 13 C 11 12.437352 11.437352 12 12 12 z
                                         M 15 14 L 15 16 L 13 16 L 13 17 L 15 17 L 15 19 L 16 19 L 16 17 L 18 17 L 18 16 L 16 16 L 16 14 L 15 14 z"/>
                             <TextBlock Text="Expand All"
+                                       Visibility="Collapsed"
                                        Foreground="{Binding Foreground,
                                                             RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}"/>
                         </StackPanel>
@@ -258,6 +259,7 @@
                                         m 0,1 h 7 c 0.562648,0 1,0.437352 1,1 v 7 c 0,0.562648 -0.437352,1 -1,1 h -7 c -0.562648,0 -1,-0.437352 -1,-1 v -7 c 0,-0.562648 0.437352,-1 1,-1 z
                                         m 1,4 v 1 h 5 v -1 z"/>
                             <TextBlock Text="Collapse All"
+                                       Visibility="Collapsed"
                                        Foreground="{Binding Foreground,
                                                             RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
                         </StackPanel>
@@ -278,6 +280,7 @@
                                         M 11.5 4 C 16.200338 4 20 7.799662 20 12.5 C 20 17.200338 16.200338 21 11.5 21 C 6.799662 21 3 17.200338 3 12.5 C 3 7.799662 6.799662 4 11.5 4 z
                                         M 11 8 L 11 12 L 7 12 L 7 13 L 11 13 L 11 17 L 12 17 L 12 13 L 16 13 L 16 12 L 12 12 L 12 8 L 11 8 z " />
                             <TextBlock Text="Add Entry"
+                                       Visibility="Collapsed"
                                        Foreground="{Binding Foreground,
                                                             RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
                         </StackPanel>
@@ -299,6 +302,7 @@
                                   M 12.5 9.2929688 L 6.5 15.292969 L 6.5 17.5 L 7 17.5 L 8.7070312 17.5 L 14.707031 11.5 L 12.5 9.2929688 z
                                   M 12.5 10.707031 L 13.292969 11.5 L 8.2929688 16.5 L 7.5 16.5 L 7.5 15.707031 L 12.5 10.707031 z" />
                             <TextBlock Text="Edit Entry"
+                                       Visibility="Collapsed"
                                        Foreground="{Binding Foreground,
                                                             RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
                         </StackPanel>
@@ -322,6 +326,7 @@
                                         M 11 11 L 11 17 L 12 17 L 12 11 L 11 11 z
                                         M 13 11 L 13 17 L 14 17 L 14 11 L 13 11 z" />
                             <TextBlock Text="Delete Entry"
+                                       Visibility="Collapsed"
                                        Foreground="{Binding Foreground,
                                                             RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
                         </StackPanel>
@@ -343,6 +348,7 @@
                                         M 10.5 14 C 8.6785733 14 6.6370221 14.381129 5.0019531 15.035156 C 4.1844186 15.36217 3.4668742 15.755375 2.9257812 16.234375 C 2.3846882 16.713375 2 17.312501 2 18 L 2 21 L 2.5 21 L 12.013672 21 A 6.5 6.5 0 0 1 11.691406 20 L 3 20 L 3 18 C 3 17.6875 3.1778126 17.349124 3.5898438 16.984375 C 4.0018749 16.619626 4.6280829 16.262829 5.3730469 15.964844 C 6.8629748 15.368873 8.8214303 15 10.5 15 C 11.122137 15 11.782432 15.052358 12.443359 15.146484 A 6.5 6.5 0 0 1 13.097656 14.234375 C 12.225678 14.082938 11.339806 14 10.5 14 z
                                         M 17.5 16 L 17.5 18 L 13.5 18 L 13.5 19 L 17.5 19 L 17.5 21 L 20.5 18.5 L 17.5 16 z " />
                             <TextBlock Text="Copy Username"
+                                       Visibility="Collapsed"
                                        Foreground="{Binding Foreground,
                                                             RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
                         </StackPanel>
@@ -361,6 +367,7 @@
                                         M 4 6 L 19 6 C 19.146395 6 19.28427 6.0302652 19.408203 6.0839844 L 11.5 10.914062 L 3.5917969 6.0839844 C 3.7157303 6.0302652 3.8536053 6 4 6 z
                                         M 19 17 L 19 19 L 15 19 L 15 20 L 19 20 L 19 22 L 21.5 19.5 L 19 17 z " />
                             <TextBlock Text="Copy Email"
+                                       Visibility="Collapsed"
                                        Foreground="{Binding Foreground,
                                                             RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
                         </StackPanel>
@@ -380,6 +387,7 @@
                                         M 6.5 6 C 7.3343486 6 8 6.6656514 8 7.5 C 8 8.3343486 7.3343486 9 6.5 9 C 5.6656514 9 5 8.3343486 5 7.5 C 5 6.6656514 5.6656514 6 6.5 6 z
                                         M 13 17 L 13 19 L 9 19 L 9 20 L 13 20 L 13 22 L 15.5 19.5 L 13 17 z" />
                             <TextBlock Text="Copy Password"
+                                       Visibility="Collapsed"
                                        Foreground="{Binding Foreground,
                                                             RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
                         </StackPanel>
@@ -402,6 +410,28 @@
                                         M 3.7539062 16 L 7.8789062 16 C 8.2803771 17.820352 8.9857034 19.473228 9.9277344 20.853516 C 7.165284 20.33818 4.8787713 18.49009 3.7539062 16 z
                                         M 19 17 L 19 19 L 15 19 L 15 20 L 19 20 L 19 22 L 21.5 19.5 L 19 17 z "/>
                             <TextBlock Text="Copy URL"
+                                       Visibility="Collapsed"
+                                       Foreground="{Binding Foreground,
+                                                            RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+                <Separator Width="1"
+                           Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+                <MenuItem IsEnabled="{Binding ButtonUsernameToClipboardIsEnabled}"
+                          Command="{Binding CopyUsernameToClipboardCommand}">
+                    <MenuItem.Header>
+                        <StackPanel>
+                            <Path Width="24"
+                                  Height="24"
+                                  Fill="{Binding Foreground,
+                                                 RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}"
+                                  Data="m 19.59,15.5 -1.82,-1.3 c 0.3,-1.08 0.32,-2.25 0,-3.42 L 19.59,9.5 18.14,7 16.11,7.92 C 15.32,7.12 14.32,6.5 13.15,6.21 L 12.95,4 h -2.9 L 9.85,6.21 C 8.68,6.5 7.68,7.12 6.89,7.92 L 4.86,7 3.41,9.5 5.23,10.78 c -0.32,1.17 -0.3,2.34 0,3.42 L 3.41,15.5 4.86,18 6.89,17.07 c 0.79,0.79 1.79,1.39 2.96,1.7 l 0.2,2.23 h 2.9 l 0.2,-2.23 c 1.17,-0.31 2.17,-0.91 2.96,-1.7 L 18.14,18 19.59,15.5
+                                        M 13.5,3 C 13.77,3 14,3.2 14,3.46 l 0.18,2.04 c 0.76,0.28 1.44,0.69 2.05,1.18 L 18.08,5.81 C 18.31,5.69 18.6,5.77 18.74,6 l 2,3.5 c 0.14,0.21 0.06,0.5 -0.16,0.65 l -1.67,1.17 c 0.13,0.8 0.12,1.59 0,2.36 l 1.67,1.17 c 0.22,0.15 0.3,0.44 0.16,0.65 l -2,3.5 c -0.14,0.21 -0.43,0.29 -0.66,0.17 l -1.85,-0.86 c -0.61,0.49 -1.29,0.89 -2.05,1.19 l -0.18,2 c 0,0.29 -0.23,0.5 -0.5,0.5 h -4 C 9.22,22 9,21.78 9,21.5 l -0.18,-2 C 8.06,19.2 7.38,18.8 6.77,18.31 L 4.92,19.17 C 4.69,19.29 4.4,19.21 4.26,19 l -2,-3.5 C 2.12,15.29 2.2,15 2.42,14.85 l 1.67,-1.17 c -0.12,-0.77 -0.13,-1.56 0,-2.36 L 2.42,10.15 C 2.2,10 2.12,9.71 2.26,9.5 L 4.26,6 C 4.4,5.77 4.69,5.69 4.92,5.81 L 6.77,6.68 C 7.38,6.19 8.06,5.78 8.82,5.5 L 9,3.46 C 9,3.2 9.23,3 9.5,3 h 4
+                                        m -2,6 C 13.43,9 15,10.57 15,12.5 15,14.43 13.43,16 11.5,16 9.57,16 8,14.43 8,12.5 8,10.57 9.57,9 11.5,9
+                                        m 0,1 C 10.12,10 9,11.12 9,12.5 9,13.88 10.12,15 11.5,15 12.88,15 14,13.88 14,12.5 14,11.12 12.88,10 11.5,10 Z" />
+                            <TextBlock Text="Settings"
+                                       Visibility="Collapsed"
                                        Foreground="{Binding Foreground,
                                                             RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
                         </StackPanel>

@@ -461,8 +461,10 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
     }
     private void CopyValueToClipboard(object obj) {
         //do something
-        System.Windows.Clipboard.Clear();
-        System.Windows.Clipboard.SetText(obj.ToString());
+        System.Diagnostics.Debug.WriteLine("CopyValueToClipboard() called...");
+
+        //System.Windows.Clipboard.Clear();
+        //System.Windows.Clipboard.SetText(obj.ToString());
     }
     private void ToggleUsernameMask(object obj) {
         if (_selectedRecord == null) { return; }
