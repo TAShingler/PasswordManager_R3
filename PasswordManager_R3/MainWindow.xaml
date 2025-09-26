@@ -12,9 +12,9 @@
         mc:Ignorable="d"
         Title="Password LockBox"
         MinHeight="600"
-        Height="720"
+        Height="800"
         MinWidth="800"
-        Width="960"
+        Width="1200"
         FontSize="14"
         SnapsToDevicePixels="True"
         TextOptions.TextFormattingMode="Display"
@@ -130,7 +130,7 @@
         <Geometry x:Key="RightArrow">M 0,0 L 4,3.5 L 0,7 Z</Geometry>
         <Geometry x:Key="Checkmark">F1 M 10.0,1.2 L 4.7,9.1 L 4.5,9.1 L 0,5.2 L 1.3,3.5 L 4.3,6.1L 8.3,0 L 10.0,1.2 Z</Geometry>
 
-        <Style TargetType="{x:Type Menu}">
+        <!--<Style TargetType="{x:Type Menu}">
             <Setter Property="Background"
                     Value="{StaticResource Menu.Static.Background}"/>
             <Setter Property="FontFamily"
@@ -158,8 +158,8 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
-        <Style x:Key="MenuScrollButton"
+        </Style>-->
+        <!--<Style x:Key="MenuScrollButton"
                BasedOn="{x:Null}"
                TargetType="{x:Type RepeatButton}">
             <Setter Property="ClickMode"
@@ -179,8 +179,8 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
-        <Style x:Key="{ComponentResourceKey ResourceId=MenuScrollViewer,
+        </Style>-->
+        <!--<Style x:Key="{ComponentResourceKey ResourceId=MenuScrollViewer,
                                             TypeInTargetAssembly={x:Type FrameworkElement}}"
                BasedOn="{x:Null}"
                TargetType="{x:Type ScrollViewer}">
@@ -255,9 +255,9 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
+        </Style>-->
         <!-- Headers have submenus, Items do not -->
-        <ControlTemplate x:Key="{ComponentResourceKey ResourceId=TopLevelItemTemplateKey,
+        <!--<ControlTemplate x:Key="{ComponentResourceKey ResourceId=TopLevelItemTemplateKey,
                                                       TypeInTargetAssembly={x:Type MenuItem}}"
                          TargetType="{x:Type MenuItem}">
             <Border x:Name="templateRoot"
@@ -315,12 +315,12 @@
                 </Trigger>
                 <Trigger Property="IsHighlighted"
                          Value="True">
-                    <!--<Setter Property="Background"
+                    --><!--<Setter Property="Background"
                             TargetName="templateRoot"
                             Value="{StaticResource MenuItem.Highlight.Background}"/>
                     <Setter Property="BorderBrush"
                             TargetName="templateRoot"
-                            Value="{StaticResource MenuItem.Highlight.Border}"/>-->
+                            Value="{StaticResource MenuItem.Highlight.Border}"/>--><!--
                     <Setter TargetName="templateRoot"
                             Property="TextBlock.Foreground"
                             Value="DodgerBlue" />
@@ -355,8 +355,8 @@
                             Value="{StaticResource MenuItem.Highlight.Disabled.Border}"/>
                 </MultiTrigger>
             </ControlTemplate.Triggers>
-        </ControlTemplate>
-        <ControlTemplate x:Key="{ComponentResourceKey ResourceId=TopLevelHeaderTemplateKey,
+        </ControlTemplate>-->
+        <!--<ControlTemplate x:Key="{ComponentResourceKey ResourceId=TopLevelHeaderTemplateKey,
                                                       TypeInTargetAssembly={x:Type MenuItem}}"
                          TargetType="{x:Type MenuItem}">
             <Border x:Name="templateRoot"
@@ -468,12 +468,12 @@
                 </Trigger>
                 <Trigger Property="IsHighlighted"
                          Value="True">
-                    <!--<Setter TargetName="templateRoot"
+                    --><!--<Setter TargetName="templateRoot"
                             Property="Background"
                             Value="#261e90ff" />
                     <Setter TargetName="templateRoot"
                             Property="BorderBrush"
-                            Value="#801e90ff" />-->
+                            Value="#801e90ff" />--><!--
                     <Setter TargetName="templateRoot"
                             Property="TextBlock.Foreground"
                             Value="DodgerBlue" />
@@ -481,12 +481,12 @@
                 <Trigger SourceName="headerContainer"
                          Property="IsMouseOver"
                          Value="True">
-                    <!--<Setter TargetName="templateRoot"
+                    --><!--<Setter TargetName="templateRoot"
                             Property="Background"
                             Value="#2600bfff" />
                     <Setter TargetName="templateRoot"
                             Property="BorderBrush"
-                            Value="#8000bfff" />-->
+                            Value="#8000bfff" />--><!--
                     <Setter TargetName="templateRoot"
                             Property="TextBlock.Foreground"
                             Value="DeepSkyBlue" />
@@ -513,8 +513,8 @@
                                             ElementName=SubMenuScrollViewer}"/>
                 </Trigger>
             </ControlTemplate.Triggers>
-        </ControlTemplate>
-        <ControlTemplate x:Key="{ComponentResourceKey ResourceId=SubmenuItemTemplateKey,
+        </ControlTemplate>-->
+        <!--<ControlTemplate x:Key="{ComponentResourceKey ResourceId=SubmenuItemTemplateKey,
                                                       TypeInTargetAssembly={x:Type MenuItem}}"
                          TargetType="{x:Type MenuItem}">
             <Border x:Name="templateRoot"
@@ -635,8 +635,8 @@
                             Value="{StaticResource MenuItem.Highlight.Disabled.Border}"/>
                 </MultiTrigger>
             </ControlTemplate.Triggers>
-        </ControlTemplate>
-        <ControlTemplate x:Key="{ComponentResourceKey ResourceId=SubmenuHeaderTemplateKey,
+        </ControlTemplate>-->
+        <!--<ControlTemplate x:Key="{ComponentResourceKey ResourceId=SubmenuHeaderTemplateKey,
                                                       TypeInTargetAssembly={x:Type MenuItem}}"
                         TargetType="{x:Type MenuItem}">
             <Border x:Name="templateRoot"
@@ -824,8 +824,8 @@
                                             ElementName=SubMenuScrollViewer}"/>
                 </Trigger>
             </ControlTemplate.Triggers>
-        </ControlTemplate>
-        <Style TargetType="{x:Type MenuItem}">
+        </ControlTemplate>-->
+        <!--<Style TargetType="{x:Type MenuItem}">
             <Setter Property="HorizontalContentAlignment"
                     Value="{Binding HorizontalContentAlignment,
                                     RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
@@ -881,7 +881,7 @@
                                                                           TypeInTargetAssembly={x:Type MenuItem}}}"/>
                 </Trigger>
             </Style.Triggers>
-        </Style>
+        </Style>-->
         <!--#endregion //  TITLE BAR MENU STYLES  //-->
 
         <!--#region //  TITLE BAR BUTTON STYLES  //-->
@@ -1114,6 +1114,7 @@
                                         <Path x:Name="LockedViewGlyph"
                                               Width="24"
                                               Height="24"
+                                              Fill="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
                                               Data="M 11.5 2 C 9.0206434 2 7 4.0206434 7 6.5 L 7 9 L 6 9 C 4.9006497 9 4 9.9006497 4 11 L 4 20 C 4 21.09935 4.9006497 22 6 22 L 17 22 C 18.09935 22 19 21.09935 19 20 L 19 11 C 19 9.9006497 18.09935 9 17 9 L 16 9 L 16 6.5 C 16 4.0206434 13.979357 2 11.5 2 z
                                                     M 11.5 3 C 13.438917 3 15 4.561083 15 6.5 L 15 9 L 8 9 L 8 6.5 C 8 4.561083 9.561083 3 11.5 3 z
                                                     M 6 10 L 17 10 C 17.562648 10 18 10.437352 18 11 L 18 20 C 18 20.562648 17.562648 21 17 21 L 6 21 C 5.4373519 21 5 20.562648 5 20 L 5 11 C 5 10.437352 5.4373519 10 6 10 z
@@ -1132,7 +1133,7 @@
                             </Grid>
                         </Border>
 
-                        <ControlTemplate.Triggers>
+                        <!--<ControlTemplate.Triggers>
                             <Trigger Property="IsEnabled"
                                      Value="True">
                                 <Setter TargetName="LockedViewGlyph"
@@ -1169,7 +1170,7 @@
                                         Property="Foreground"
                                         Value="{DynamicResource PressedGlyphBrush}" />
                             </Trigger>
-                        </ControlTemplate.Triggers>
+                        </ControlTemplate.Triggers>-->
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -2148,27 +2149,340 @@
     </Window.Resources>
 
     <DockPanel>
-        
-        <ToolBar x:Name="toolBar"
-                 DockPanel.Dock="Top" BandIndex="8">
-            <Button Content="Button" />
-            <Separator/>
-            <CheckBox x:Name="checkBox" Content="CheckBox" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Separator/>
-            <ComboBox x:Name="comboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"/>
-            <Separator/>
-            <DatePicker x:Name="datePicker"/>
-            <Separator/>
-            <Label x:Name="label" Content="Label"/>
-            <Separator/>
-            <ProgressBar Height="10" Width="100"/>
-            <Separator/>
-            <RadioButton x:Name="radioButton" Content="RadioButton" HorizontalAlignment="Left"/>
-            <Separator/>
-            <Slider x:Name="slider" Width="120"/>
-            <Separator/>
-            <TextBox x:Name="textBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        </ToolBar>
+        <StackPanel DockPanel.Dock="Top">
+            <Menu>
+                <MenuItem Header="Database"
+                          IsEnabled="{Binding MenuItemDatabaseIsEnabled}">
+                    <MenuItem Header="Set Password..."
+                              IsEnabled="{Binding MenuItemSetPasswordIsEnabled}"
+                              Command="{Binding LockDatabaseCommand}"
+                              CommandParameter="{x:Static enums:LockScreenState.SetNewPassword}"/>
+                    <Separator />
+                    <MenuItem Header="Backup..."
+                              IsEnabled="{Binding MenuItemManualDatabaseBackupIsEnabled}"
+                              Command="{Binding ManualDatabaseBackupCommand}"/>
+                    <MenuItem Header="Restore..."
+                              IsEnabled="{Binding MenuItemRestoreDatabaseIsEnabled}"
+                              Command="{Binding RestoreDatabaseCommand}"/>
+                    <Separator />
+                    <MenuItem Header="Lock Database"
+                              IsEnabled="{Binding ButtonLockDatabaseIsEnabled}"
+                              Command="{Binding LockDatabaseCommand}"
+                              CommandParameter="{x:Static enums:LockScreenState.LockDatabase}" />
+                    <Separator />
+                    <MenuItem Header="Exit"
+                              IsEnabled="True"
+                              Command="{Binding CloseWindowCommand}"
+                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                </MenuItem>
+                <MenuItem Header="Groups"
+                          IsEnabled="{Binding MenuItemGroupsIsEnabled}">
+                    <MenuItem Header="Add Group"
+                              IsEnabled="{Binding CanCreateNewGroup}"
+                              Command="{Binding CreateNewGroupCommand}"/>
+                    <MenuItem Header="Edit Group"
+                              IsEnabled="{Binding CanEditSelectedGroup}"
+                              Command="{Binding EditSelectedGroupCommand}"/>
+                    <MenuItem Header="Delete Group"
+                              IsEnabled="{Binding CanDeleteSelectedGroup}"
+                              Command="{Binding DeleteSelectedGroupCommand}"/>
+                    <MenuItem Header="Duplicate/Clone Group" />
+                </MenuItem>
+                <MenuItem Header="Entries"
+                          IsEnabled="{Binding MenuItemEntriesIsEnabled}">
+                    <MenuItem Header="Add Entry"
+                              IsEnabled="{Binding ButtonAddRecordIsEnabled}"
+                              Command="{Binding AddRecordCommand}"/>
+                    <MenuItem Header="Edit Entry"
+                              IsEnabled="{Binding ButtonEditRecordIsEnabled}"
+                              Command="{Binding EditRecordCommand}"/>
+                    <MenuItem Header="Delete Entry"
+                              IsEnabled="{Binding ButtonDeleteRecordIsEnabled}"
+                              Command="{Binding DeleteRecordCommand}"/>
+                    <MenuItem Header="Duplicate/Clone Entry" />
+                    <Separator />
+                    <MenuItem Header="Copy Username"
+                              IsEnabled="{Binding ButtonUsernameToClipboardIsEnabled}"
+                              Command="{Binding CopyUsernameToClipboardCommand}" />
+                    <MenuItem Header="Copy Email"
+                              IsEnabled="{Binding ButtonEmailToClipboardIsEnabled}"
+                              Command="{Binding CopyEmailToClipboardCommand}"/>
+                    <MenuItem Header="Copy Password"
+                              IsEnabled="{Binding ButtonPasswordToClipboardIsEnabled}"
+                              Command="{Binding CopyPasswordToClipboardCommand}"/>
+                    <MenuItem Header="Copy URL"
+                              IsEnabled="{Binding ButtonUrlToClipboardIsEnabled}"
+                              Command="{Binding CopyUrlToClipboardCommand}"/>
+                </MenuItem>
+                <MenuItem Header="Tools"
+                          IsEnabled="{Binding MenuItemToolsIsEnabled}">
+                    <MenuItem Header="Settings"
+                              IsEnabled="{Binding ButtonAppSettingsIsEnabled}"
+                              Command="{Binding AppSettingsCommand}"/>
+                </MenuItem>
+                <MenuItem Header="View"
+                          IsEnabled="{Binding MenuItemViewIsEnabled}">
+                    <MenuItem Header="Theme"
+                              IsEnabled="False" />
+                    <Separator />
+                    <MenuItem Header="Mask Usernames"
+                              IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type MenuItem}},
+                                                  Path=IsEnabled}"
+                              IsCheckable="True"
+                              IsChecked="{Binding AreDatabaseUsernamesMasked,
+                                                  Mode=TwoWay}" />
+                    <MenuItem Header="Mask Emails"
+                              IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type MenuItem}},
+                                                  Path=IsEnabled}"
+                              IsCheckable="True"
+                              IsChecked="{Binding AreDatabaseEmailsMasked,
+                                                  Mode=TwoWay}" />
+                    <MenuItem Header="Mask Passwords"
+                              IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type MenuItem}},
+                                                  Path=IsEnabled}"
+                              IsCheckable="True"
+                              IsChecked="{Binding AreDatabasePasswordsMasked,
+                                                  Mode=TwoWay}" />
+                    <MenuItem Header="Mask Urls"
+                              IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type MenuItem}},
+                                                  Path=IsEnabled}"
+                              IsCheckable="True"
+                              IsChecked="{Binding AreDatabaseUrlsMasked,
+                                                  Mode=TwoWay}" />
+                    <Separator />
+                    <MenuItem Header="Show Groups Tree"
+                              IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type MenuItem}},
+                                                  Path=IsEnabled}"
+                              IsCheckable="True"
+                              IsChecked="{Binding IsGroupsTreePaneEnabled}"
+                              Command="{Binding ToggleTreeViewVisibilityCommand}"/>
+                    <MenuItem Header="Show Details Panel"
+                              IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type MenuItem}},
+                                                  Path=IsEnabled}"
+                              IsCheckable="True"
+                              IsChecked="{Binding IsRecordDetailsPaneEnabled}"
+                              Command="{Binding ToggleRecordDetailsPanelVisibilityCommand}"/>
+                    <MenuItem Header="Show Quick Access Tolbar"
+                              IsEnabled="False" />
+                    <Separator Visibility="Collapsed" />
+                </MenuItem>
+                <MenuItem Header="Help">
+                    <MenuItem Header="About"
+                              IsEnabled="True"
+                              Command="{Binding DisplayAboutWindowCommand}"/>
+                </MenuItem>
+            </Menu>
+            <ToolBar x:Name="toolBar">
+                <Button IsEnabled="{Binding ButtonLockDatabaseIsEnabled}"
+                        Command="{Binding LockDatabaseCommand}"
+                        CommandParameter="{x:Static enums:LockScreenState.LockDatabase}">
+                    <Button.Content>
+                        <StackPanel Background="Transparent">
+                            <Path x:Name="LockedViewGlyph"
+                                    Width="24"
+                                    Height="24"
+                                    Fill="{Binding Foreground,
+                                                   RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                    Data="M 11.5 2 C 9.0206434 2 7 4.0206434 7 6.5 L 7 9 L 6 9 C 4.9006497 9 4 9.9006497 4 11 L 4 20 C 4 21.09935 4.9006497 22 6 22 L 17 22 C 18.09935 22 19 21.09935 19 20 L 19 11 C 19 9.9006497 18.09935 9 17 9 L 16 9 L 16 6.5 C 16 4.0206434 13.979357 2 11.5 2 z
+                                          M 11.5 3 C 13.438917 3 15 4.561083 15 6.5 L 15 9 L 8 9 L 8 6.5 C 8 4.561083 9.561083 3 11.5 3 z
+                                          M 6 10 L 17 10 C 17.562648 10 18 10.437352 18 11 L 18 20 C 18 20.562648 17.562648 21 17 21 L 6 21 C 5.4373519 21 5 20.562648 5 20 L 5 11 C 5 10.437352 5.4373519 10 6 10 z
+                                          M 11.5 13 C 10.125212 13 9 14.125212 9 15.5 C 9 16.874788 10.125212 18 11.5 18 C 12.874788 18 14 16.874788 14 15.5 C 14 14.125212 12.874788 13 11.5 13 z
+                                          M 11.5 14 C 12.334349 14 13 14.665651 13 15.5 C 13 16.334349 12.334349 17 11.5 17 C 10.665651 17 10 16.334349 10 15.5 C 10 14.665651 10.665651 14 11.5 14 z " />
+                            <TextBlock Text="Lock Database"
+                                       Foreground="{Binding Foreground,
+                                                            RelativeSource={RelativeSource AncestorType={x:Type Button}}}"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Separator Width="1"
+                           Margin="4,0"
+                           Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+                <Button IsEnabled="{Binding ButtonExpandAllIsEnabled}"
+                        Command="{Binding ExpandAllGroupsCommand}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Button.Content>
+                        <StackPanel>
+                            <Path x:Name="ExpandAllGlyph"
+                                  Width="24"
+                                  Height="24"
+                                  Fill="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}"
+                                  Data="M 4 3 C 2.9006497 3 2 3.9006497 2 5 L 2 12 C 2 12.735528 2.4039008 13.381109 3 13.728516 L 3 12 L 3 9 L 3 5 C 3 4.4373519 3.4373519 4 4 4 L 9 4 L 11 4 L 12.728516 4 C 12.381109 3.4039008 11.735528 3 11 3 L 4 3 z
+                                        M 8 7 C 6.9006497 7 6 7.9006497 6 9 L 6 16 C 6 16.735528 6.4039008 17.381109 7 17.728516 L 7 16 L 7 14 L 7 9 C 7 8.4373519 7.4373519 8 8 8 L 13.5 8 L 15 8 L 16.728516 8 C 16.381109 7.4039008 15.735528 7 15 7 L 8 7 z
+                                        M 12 11 C 10.90065 11 10 11.90065 10 13 L 10 20 C 10 21.09935 10.90065 22 12 22 L 19 22 C 20.09935 22 21 21.09935 21 20 L 21 13 C 21 11.90065 20.09935 11 19 11 L 12 11 z
+                                        M 12 12 L 19 12 C 19.562648 12 20 12.437352 20 13 L 20 20 C 20 20.562648 19.562648 21 19 21 L 12 21 C 11.437352 21 11 20.562648 11 20 L 11 13 C 11 12.437352 11.437352 12 12 12 z
+                                        M 15 14 L 15 16 L 13 16 L 13 17 L 15 17 L 15 19 L 16 19 L 16 17 L 18 17 L 18 16 L 16 16 L 16 14 L 15 14 z"/>
+                            <TextBlock Text="Expand All"
+                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button IsEnabled="{Binding ButtonCollapseAllIsEnabled}"
+                        Command="{Binding CollapseAllGroupsCommand}">
+                    <Button.Content>
+                        <StackPanel>
+                            <Path x:Name="CollapseAllGlyph"
+                                  Width="24"
+                                  Height="24"
+                                  Fill="{Binding Foreground,
+                                                 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                  Data="M 4,3 C 2.9006497,3 2,3.9006497 2,5 v 7 c 0,0.735528 0.4039008,1.381109 1,1.728516 V 5 C 3,4.4373519 3.4373519,4 4,4 h 8.728516 C 12.381109,3.4039008 11.735528,3 11,3 Z
+                                        M 8,7 C 6.9006497,7 6,7.9006497 6,9 v 7 c 0,0.735528 0.4039008,1.381109 1,1.728516 V 9 C 7,8.4373519 7.4373519,8 8,8 h 8.728516 C 16.381109,7.4039008 15.735528,7 15,7 Z
+                                        m 4,4 c -1.09935,0 -2,0.90065 -2,2 v 7 c 0,1.09935 0.90065,2 2,2 h 7 c 1.09935,0 2,-0.90065 2,-2 v -7 c 0,-1.09935 -0.90065,-2 -2,-2 z
+                                        m 0,1 h 7 c 0.562648,0 1,0.437352 1,1 v 7 c 0,0.562648 -0.437352,1 -1,1 h -7 c -0.562648,0 -1,-0.437352 -1,-1 v -7 c 0,-0.562648 0.437352,-1 1,-1 z
+                                        m 1,4 v 1 h 5 v -1 z"/>
+                            <TextBlock Text="Collapse All"
+                                       Foreground="{Binding Foreground,
+                                                            RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Separator Width="1"
+                           Margin="4,0"
+                           Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+                <Button IsEnabled="{Binding ButtonAddRecordIsEnabled}"
+                        Command="{Binding AddRecordCommand}">
+                    <Button.Content>
+                        <StackPanel>
+                            <Path x:Name="AddRecordGlyph"
+                                  Width="24"
+                                  Height="24"
+                                  Fill="{Binding Foreground,
+                                                 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                  Data="M 11.5 3 C 6.2592224 3 2 7.2592224 2 12.5 C 2 17.740778 6.2592224 22 11.5 22 C 16.740778 22 21 17.740778 21 12.5 C 21 7.2592224 16.740778 3 11.5 3 z
+                                        M 11.5 4 C 16.200338 4 20 7.799662 20 12.5 C 20 17.200338 16.200338 21 11.5 21 C 6.799662 21 3 17.200338 3 12.5 C 3 7.799662 6.799662 4 11.5 4 z
+                                        M 11 8 L 11 12 L 7 12 L 7 13 L 11 13 L 11 17 L 12 17 L 12 13 L 16 13 L 16 12 L 12 12 L 12 8 L 11 8 z " />
+                            <TextBlock Text="Add Entry"
+                                       Foreground="{Binding Foreground,
+                                                            RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button IsEnabled="{Binding ButtonEditRecordIsEnabled}"
+                        Command="{Binding EditRecordCommand}">
+                    <Button.Content>
+                        <StackPanel>
+                            <Path x:Name="EditRecordGlyph"
+                                  Width="24"
+                                  Height="24"
+                                  Fill="{Binding Foreground,
+                                                 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                  Data="M 11.5 3 C 6.2592224 3 2 7.2592224 2 12.5 C 2 17.740778 6.2592224 22 11.5 22 C 16.740778 22 21 17.740778 21 12.5 C 21 7.2592224 16.740778 3 11.5 3 z
+                                  M 11.5 4 C 16.200338 4 20 7.799662 20 12.5 C 20 17.200338 16.200338 21 11.5 21 C 6.799662 21 3 17.200338 3 12.5 C 3 7.799662 6.799662 4 11.5 4 z
+                                  M 14.5 7.625 C 14.270834 7.625 14.100591 7.7351522 13.984375 7.828125 C 13.868159 7.921098 13.771484 8.0214845 13.646484 8.1464844 L 12.792969 9 L 15 11.207031 L 15.353516 10.853516 L 15.853516 10.353516 C 15.978516 10.228516 16.078902 10.131841 16.171875 10.015625 C 16.264848 9.899409 16.375 9.7291664 16.375 9.5 C 16.375 9.2708336 16.264848 9.100591 16.171875 8.984375 C 16.078902 8.868159 15.978515 8.7714843 15.853516 8.6464844 L 15.353516 8.1464844 C 15.228516 8.0214845 15.131841 7.9210978 15.015625 7.828125 C 14.899409 7.7351522 14.729166 7.625 14.5 7.625 z
+                                  M 14.5 8.7128906 C 14.54604 8.7564906 14.57471 8.7817436 14.646484 8.8535156 L 15.146484 9.3535156 C 15.218254 9.4252876 15.243514 9.4539601 15.287109 9.5 C 15.243509 9.54604 15.218259 9.574712 15.146484 9.6464844 L 15 9.7929688 L 14.207031 9 L 14.353516 8.8535156 C 14.425288 8.7817434 14.45396 8.7564902 14.5 8.7128906 z
+                                  M 12.5 9.2929688 L 6.5 15.292969 L 6.5 17.5 L 7 17.5 L 8.7070312 17.5 L 14.707031 11.5 L 12.5 9.2929688 z
+                                  M 12.5 10.707031 L 13.292969 11.5 L 8.2929688 16.5 L 7.5 16.5 L 7.5 15.707031 L 12.5 10.707031 z" />
+                            <TextBlock Text="Edit Entry"
+                                       Foreground="{Binding Foreground,
+                                                            RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button IsEnabled="{Binding ButtonDeleteRecordIsEnabled}"
+                        Command="{Binding DeleteRecordCommand}">
+                    <Button.Content>
+                        <StackPanel>
+                            <Path x:Name="DeleteRecordGlyph"
+                                  Width="24"
+                                  Height="24"
+                                  Fill="{Binding Foreground,
+                                                 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                  Data="M 11.5 3 C 6.2592224 3 2 7.2592224 2 12.5 C 2 17.740778 6.2592224 22 11.5 22 C 16.740778 22 21 17.740778 21 12.5 C 21 7.2592224 16.740778 3 11.5 3 z
+                                        M 11.5 4 C 16.200338 4 20 7.799662 20 12.5 C 20 17.200338 16.200338 21 11.5 21 C 6.799662 21 3 17.200338 3 12.5 C 3 7.799662 6.799662 4 11.5 4 z
+                                        M 9.7929688 6 L 8.7929688 7 L 7.5 7 L 6 7 L 6 10 L 6.5 10 L 7 10 L 7 17.5 C 7 17.922589 7.2049874 18.267487 7.46875 18.53125 C 7.7325126 18.795013 8.0774116 19 8.5 19 L 14.5 19 C 14.922588 19 15.267487 18.795013 15.53125 18.53125 C 15.795013 18.267487 16 17.922588 16 17.5 L 16 10 L 17 10 L 17 7 L 14.207031 7 L 13.207031 6 L 9.7929688 6 z
+                                        M 10.207031 7 L 12.792969 7 L 13.792969 8 L 16 8 L 16 9 L 7 9 L 7 8 L 7.5 8 L 9.2070312 8 L 10.207031 7 z
+                                        M 8 10 L 15 10 L 15 17.5 C 15 17.54882 14.94065 17.70388 14.822266 17.822266 C 14.70388 17.940651 14.548816 18 14.5 18 L 8.5 18 C 8.4511844 18 8.2961203 17.940651 8.1777344 17.822266 C 8.0593485 17.70388 8 17.548816 8 17.5 L 8 10 z
+                                        M 9 11 L 9 17 L 10 17 L 10 11 L 9 11 z
+                                        M 11 11 L 11 17 L 12 17 L 12 11 L 11 11 z
+                                        M 13 11 L 13 17 L 14 17 L 14 11 L 13 11 z" />
+                            <TextBlock Text="Delete Entry"
+                                       Foreground="{Binding Foreground,
+                                                            RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Separator Width="1"
+                           Margin="4,0"
+                           Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+                <Button IsEnabled="{Binding ButtonUsernameToClipboardIsEnabled}"
+                        Command="{Binding CopyUsernameToClipboardCommand}">
+                    <Button.Content>
+                        <StackPanel>
+                            <Path x:Name="AppSettingsGlyph"
+                                  Width="24"
+                                  Height="24"
+                                  Fill="{Binding Foreground,
+                                                 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                  Data="M 10.5 4 C 8.2967855 4 6.5 5.7967855 6.5 8 C 6.5 10.203214 8.2967855 12 10.5 12 C 12.703214 12 14.5 10.203214 14.5 8 C 14.5 5.7967855 12.703214 4 10.5 4 z
+                                        M 10.5 5 C 12.162775 5 13.5 6.3372251 13.5 8 C 13.5 9.6627749 12.162775 11 10.5 11 C 8.8372251 11 7.5 9.6627749 7.5 8 C 7.5 6.3372251 8.8372251 5 10.5 5 z
+                                        M 10.5 14 C 8.6785733 14 6.6370221 14.381129 5.0019531 15.035156 C 4.1844186 15.36217 3.4668742 15.755375 2.9257812 16.234375 C 2.3846882 16.713375 2 17.312501 2 18 L 2 21 L 2.5 21 L 12.013672 21 A 6.5 6.5 0 0 1 11.691406 20 L 3 20 L 3 18 C 3 17.6875 3.1778126 17.349124 3.5898438 16.984375 C 4.0018749 16.619626 4.6280829 16.262829 5.3730469 15.964844 C 6.8629748 15.368873 8.8214303 15 10.5 15 C 11.122137 15 11.782432 15.052358 12.443359 15.146484 A 6.5 6.5 0 0 1 13.097656 14.234375 C 12.225678 14.082938 11.339806 14 10.5 14 z
+                                        M 17.5 16 L 17.5 18 L 13.5 18 L 13.5 19 L 17.5 19 L 17.5 21 L 20.5 18.5 L 17.5 16 z " />
+                            <TextBlock Text="Copy Username"
+                                       Foreground="{Binding Foreground,
+                                                            RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button IsEnabled="{Binding ButtonEmailToClipboardIsEnabled}"
+                        Command="{Binding CopyEmailToClipboardCommand}">
+                    <Button.Content>
+                        <StackPanel>
+                            <Path x:Name="buttonGlyph"
+                                  Width="24"
+                                  Height="24"
+                                  Fill="{Binding Foreground,
+                                                 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                  Data="M 4 5 C 2.9006497 5 2 5.9006497 2 7 L 2 18 C 2 19.09935 2.9006497 20 4 20 L 12.544922 20 A 6 6 0 0 1 12.5 19.5 A 6 6 0 0 1 12.544922 19 L 4 19 C 3.4373519 19 3 18.562648 3 18 L 3 7 C 3 6.9645026 3.0063624 6.930906 3.0097656 6.8964844 L 11.5 12.085938 L 19.990234 6.8964844 C 19.993638 6.930906 20 6.9645026 20 7 L 20 13.693359 A 6 6 0 0 1 21 14.048828 L 21 7 C 21 5.9006497 20.09935 5 19 5 L 4 5 z
+                                        M 4 6 L 19 6 C 19.146395 6 19.28427 6.0302652 19.408203 6.0839844 L 11.5 10.914062 L 3.5917969 6.0839844 C 3.7157303 6.0302652 3.8536053 6 4 6 z
+                                        M 19 17 L 19 19 L 15 19 L 15 20 L 19 20 L 19 22 L 21.5 19.5 L 19 17 z " />
+                            <TextBlock Text="Copy Email"
+                                       Foreground="{Binding Foreground,
+                                                            RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button IsEnabled="{Binding ButtonPasswordToClipboardIsEnabled}"
+                        Command="{Binding CopyPasswordToClipboardCommand}">
+                    <Button.Content>
+                        <StackPanel>
+                            <Path Width="24"
+                                  Height="24"
+                                  Fill="{Binding Foreground,
+                                                 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                  Data="M 6.5 3 C 4.0206434 3 2 5.0206434 2 7.5 C 2 9.9793566 4.0206434 12 6.5 12 C 8.4537092 12 10.122364 10.745121 10.742188 9 L 15 9 L 15 12 L 18 12 L 18 9 L 21 9 L 21 6 L 10.742188 6 C 10.122364 4.254879 8.4537092 3 6.5 3 z
+                                        M 6.5 4 C 8.2687092 4 9.7192361 5.3001217 9.9609375 7 L 10.970703 7 L 11.5 7 L 20 7 L 20 8 L 17 8 L 17 11 L 16 11 L 16 8 L 11.5 8 L 10.970703 8 L 9.9609375 8 C 9.7192361 9.6998783 8.2687092 11 6.5 11 C 4.561083 11 3 9.438917 3 7.5 C 3 5.561083 4.561083 4 6.5 4 z
+                                        M 6.5 5 C 5.1252118 5 4 6.1252118 4 7.5 C 4 8.8747882 5.1252118 10 6.5 10 C 7.8747882 10 9 8.8747882 9 7.5 C 9 6.1252118 7.8747882 5 6.5 5 z
+                                        M 6.5 6 C 7.3343486 6 8 6.6656514 8 7.5 C 8 8.3343486 7.3343486 9 6.5 9 C 5.6656514 9 5 8.3343486 5 7.5 C 5 6.6656514 5.6656514 6 6.5 6 z
+                                        M 13 17 L 13 19 L 9 19 L 9 20 L 13 20 L 13 22 L 15.5 19.5 L 13 17 z" />
+                            <TextBlock Text="Copy Password"
+                                       Foreground="{Binding Foreground,
+                                                            RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button IsEnabled="{Binding ButtonUrlToClipboardIsEnabled}"
+                        Command="{Binding CopyUrlToClipboardCommand}">
+                    <Button.Content>
+                        <StackPanel>
+                            <Path Width="24"
+                                  Height="24"
+                                  Fill="{Binding Foreground,
+                                                 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                  Data="M 11.5 3 A 9.5 9.5 0 0 0 10.185547 3.0957031 C 10.160177 3.0992331 10.134675 3.1017387 10.109375 3.1054688 A 9.5 9.5 0 0 0 8.8554688 3.3789062 C 8.8332937 3.3853362 8.8111705 3.3918495 8.7890625 3.3984375 A 9.5 9.5 0 0 0 7.5820312 3.8476562 C 7.5623868 3.8565786 7.5430105 3.8659483 7.5234375 3.875 A 9.5 9.5 0 0 0 6.4394531 4.4667969 C 6.3943921 4.4952629 6.3492341 4.5235354 6.3046875 4.5527344 A 9.5 9.5 0 0 0 5.3476562 5.2695312 C 5.3086892 5.3027162 5.2688902 5.3353426 5.2304688 5.3691406 A 9.5 9.5 0 0 0 4.3847656 6.2148438 C 4.3523876 6.2514417 4.3189294 6.2871218 4.2871094 6.3242188 A 9.5 9.5 0 0 0 3.5507812 7.3066406 C 3.5309362 7.3369156 3.5097414 7.3659704 3.4902344 7.3964844 L 3.4882812 7.3984375 A 9.5 9.5 0 0 0 2.859375 8.5527344 L 2.8574219 8.5546875 A 9.5 9.5 0 0 0 2.3847656 9.8242188 A 9.5 9.5 0 0 0 2 12.5 A 9.5 9.5 0 0 0 2.3847656 15.175781 A 9.5 9.5 0 0 0 2.8574219 16.445312 A 9.5 9.5 0 0 0 2.859375 16.447266 A 9.5 9.5 0 0 0 3.4882812 17.601562 L 3.4902344 17.603516 C 3.5097414 17.634026 3.5309362 17.663089 3.5507812 17.693359 A 9.5 9.5 0 0 0 4.2871094 18.675781 C 4.3189294 18.712881 4.3523876 18.748561 4.3847656 18.785156 A 9.5 9.5 0 0 0 5.2304688 19.630859 C 5.2688907 19.664659 5.3086899 19.697279 5.3476562 19.730469 A 9.5 9.5 0 0 0 6.3046875 20.447266 C 6.3492345 20.476466 6.3943915 20.504733 6.4394531 20.533203 A 9.5 9.5 0 0 0 7.5234375 21.125 C 7.5430105 21.1341 7.5623862 21.143424 7.5820312 21.152344 A 9.5 9.5 0 0 0 8.7890625 21.601562 C 8.8111705 21.608162 8.8332937 21.614664 8.8554688 21.621094 A 9.5 9.5 0 0 0 10.109375 21.894531 C 10.134685 21.898231 10.160177 21.900697 10.185547 21.904297 A 9.5 9.5 0 0 0 11.5 22 A 9.5 9.5 0 0 0 12.814453 21.904297 C 12.839823 21.900797 12.865325 21.898331 12.890625 21.894531 A 9.5 9.5 0 0 0 12.998047 21.871094 A 6 6 0 0 1 12.525391 19.855469 C 12.34767 20.143825 12.161991 20.422683 11.964844 20.685547 C 11.885574 20.79124 11.802778 20.89283 11.720703 20.994141 C 11.647066 20.996052 11.574098 21 11.5 21 C 11.4259 21 11.352936 20.996041 11.279297 20.994141 C 11.197227 20.892871 11.114426 20.79124 11.035156 20.685547 C 10.071126 19.400214 9.3298454 17.797507 8.9042969 16 L 13.644531 16 A 6 6 0 0 1 15.394531 14.378906 C 15.464544 13.765827 15.5 13.138528 15.5 12.5 C 15.5 11.644099 15.43472 10.808288 15.310547 10 L 19.626953 10 C 19.869272 10.790428 20 11.629341 20 12.5 C 20 12.897738 19.968746 13.287029 19.916016 13.669922 A 6 6 0 0 1 20.873047 13.992188 A 9.5 9.5 0 0 0 21 12.5 C 21 12.343622 20.995801 12.187743 20.988281 12.033203 A 9.5 9.5 0 0 0 20.955078 11.572266 C 20.954952 11.570966 20.955205 11.569659 20.955078 11.568359 A 9.5 9.5 0 0 0 20.945312 11.488281 A 9.5 9.5 0 0 0 20.818359 10.646484 A 9.5 9.5 0 0 0 20.714844 10.191406 A 9.5 9.5 0 0 0 20.595703 9.7558594 C 20.594303 9.7513094 20.593197 9.7467295 20.591797 9.7421875 A 9.5 9.5 0 0 0 20.5625 9.6542969 A 9.5 9.5 0 0 0 20.455078 9.3261719 C 20.451878 9.3170619 20.448612 9.3079301 20.445312 9.2988281 A 9.5 9.5 0 0 0 20.404297 9.1914062 A 9.5 9.5 0 0 0 20.289062 8.8945312 C 20.285062 8.8847613 20.281364 8.8749874 20.277344 8.8652344 A 9.5 9.5 0 0 0 20.234375 8.7695312 A 9.5 9.5 0 0 0 20.111328 8.4921875 C 20.076488 8.4176255 20.040608 8.3430275 20.003906 8.2695312 A 9.5 9.5 0 0 0 19.929688 8.1230469 C 19.869148 8.0068965 19.805374 7.8925793 19.740234 7.7792969 A 9.5 9.5 0 0 0 19.738281 7.7734375 L 19.736328 7.7714844 C 19.671868 7.6596235 19.605935 7.5483909 19.537109 7.4394531 A 9.5 9.5 0 0 0 19.511719 7.3984375 C 19.504119 7.3865355 19.495941 7.3751472 19.488281 7.3632812 C 19.416921 7.2526788 19.34334 7.1445035 19.267578 7.0371094 C 19.186088 6.9216017 19.104004 6.8069548 19.017578 6.6953125 A 9.5 9.5 0 0 0 19.009766 6.6855469 C 19.006823 6.6815246 19.0032 6.6778371 19 6.6738281 C 18.914012 6.5631687 18.825262 6.4543312 18.734375 6.3476562 C 18.169277 5.6843973 17.51434 5.0988267 16.789062 4.6113281 C 16.447052 4.3814445 16.088268 4.1748869 15.716797 3.9902344 A 9.5 9.5 0 0 0 15.650391 3.9550781 C 15.641491 3.9507381 15.631957 3.9476684 15.623047 3.9433594 C 15.546787 3.9064994 15.469951 3.8708024 15.392578 3.8359375 A 9.5 9.5 0 0 0 15.199219 3.75 C 15.106369 3.710642 15.01229 3.675131 14.917969 3.6386719 A 9.5 9.5 0 0 0 14.839844 3.6074219 C 14.831344 3.6042419 14.822923 3.6008163 14.814453 3.5976562 C 14.699214 3.5546703 14.58214 3.5151492 14.464844 3.4765625 A 9.5 9.5 0 0 0 14.419922 3.4609375 C 14.410322 3.4578375 14.400225 3.456195 14.390625 3.453125 C 14.300025 3.424148 14.20894 3.3954456 14.117188 3.3691406 A 9.5 9.5 0 0 0 13.871094 3.3027344 C 13.817334 3.2888814 13.763108 3.2746488 13.708984 3.2617188 A 9.5 9.5 0 0 0 13.472656 3.2089844 C 13.377286 3.1887734 13.281947 3.1696647 13.185547 3.1523438 A 9.5 9.5 0 0 0 13.035156 3.1269531 C 12.936146 3.1108081 12.836335 3.0970364 12.736328 3.0839844 A 9.5 9.5 0 0 0 12.603516 3.0664062 C 12.486158 3.0527731 12.368612 3.0405551 12.25 3.03125 A 9.5 9.5 0 0 0 11.5 3 z
+                                        M 11.5 4 C 11.5741 4 11.647064 4.0039794 11.720703 4.0058594 C 11.802773 4.1071701 11.885574 4.2087596 11.964844 4.3144531 C 12.928874 5.5998255 13.670155 7.2024932 14.095703 9 L 8.9042969 9 C 9.3298454 7.2024932 10.071126 5.5998267 11.035156 4.3144531 C 11.114426 4.2087596 11.197222 4.1071701 11.279297 4.0058594 C 11.352936 4.0039822 11.425902 4 11.5 4 z
+                                        M 9.9277344 4.1464844 C 8.9857034 5.5267719 8.2803768 7.1796475 7.8789062 9 L 3.7539062 9 C 4.8787711 6.5099101 7.165284 4.6618197 9.9277344 4.1464844 z
+                                        M 13.072266 4.1464844 C 15.834717 4.6618197 18.121229 6.5099101 19.246094 9 L 15.121094 9 C 14.719623 7.1796475 14.014297 5.5267719 13.072266 4.1464844 z
+                                        M 3.3730469 10 L 7.6894531 10 C 7.5652788 10.808288 7.5 11.644099 7.5 12.5 C 7.5 13.355901 7.565279 14.191712 7.6894531 15 L 3.3730469 15 C 3.1307283 14.209572 3 13.370659 3 12.5 C 3 11.629341 3.1307283 10.790428 3.3730469 10 z
+                                        M 8.7050781 10 L 14.294922 10 C 14.427472 10.804905 14.5 11.640447 14.5 12.5 C 14.5 13.359553 14.42747 14.195095 14.294922 15 L 8.7050781 15 C 8.5725279 14.195095 8.5 13.359553 8.5 12.5 C 8.5 11.640447 8.5725279 10.804905 8.7050781 10 z
+                                        M 3.7539062 16 L 7.8789062 16 C 8.2803771 17.820352 8.9857034 19.473228 9.9277344 20.853516 C 7.165284 20.33818 4.8787713 18.49009 3.7539062 16 z
+                                        M 19 17 L 19 19 L 15 19 L 15 20 L 19 20 L 19 22 L 21.5 19.5 L 19 17 z "/>
+                            <TextBlock Text="Copy URL"
+                                       Foreground="{Binding Foreground,
+                                                            RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </ToolBar>
+        </StackPanel>
         <StatusBar DockPanel.Dock="Bottom" >
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -2206,8 +2520,8 @@
                 BorderThickness="0" Grid.ColumnSpan="2">
             <ContentControl x:Name="viewPresenter"
                             VerticalAlignment="Stretch"
-                            HorizontalAlignment="Stretch" >
-            </ContentControl>
+                            HorizontalAlignment="Stretch"
+                            Content="{Binding SelectedViewModel}" />
         </Border>
     </DockPanel>
 
