@@ -14,7 +14,7 @@ internal class SelectedRecordPropertyMaskedConverter : System.Windows.Data.IMult
         var srProperty = values[0] as string;
         var tbIsChecked = (bool)values[1];
 
-        if (tbIsChecked == true) {
+        if (tbIsChecked != true) {
             return string.IsNullOrWhiteSpace(srProperty) ? string.Empty : STRING_MASK;
         } else {
             return srProperty;

@@ -18,6 +18,7 @@
     <UserControl.Resources>
         <!--#region//  Converters  //-->
         <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter" />
+        <c:BooleanToPathConverter x:Key="BooleanToPathConverter" />
         <c:MutliplyDoubleConverter x:Key="MultiplyDoubleConverter" />
         <c:ActualSizeToMinSizeConverter x:Key="ActualSizeToMinSizeConverter" />
         <c:CheckedToGeometryConverter x:Key="CheckedToGeometryConverter" />
@@ -80,8 +81,8 @@
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="12" />
-                <RowDefinition Height="*" />
+                <!--<RowDefinition Height="12" />-->
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <DataGrid Grid.Row="0"
@@ -268,10 +269,10 @@
                     </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>-->
-            <GridSplitter Grid.Row="1"
+            <!--<GridSplitter Grid.Row="1"
                           VerticalAlignment="Stretch"
                           HorizontalAlignment="Stretch"
-                          Background="Transparent" />
+                          Background="Transparent" />-->
             <Border Grid.Row="2"
                     Padding="12">
                 <Grid>
@@ -318,34 +319,27 @@
                                 Grid.Row="1"
                                 Grid.ColumnSpan="3">
                         <TabItem Header="Basic">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                          VerticalScrollBarVisibility="Auto">
+                            <Border Padding="0 12 0 0">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition MinHeight="28"
-                                                       Height="Auto" />
-                                        <RowDefinition MinHeight="28"
-                                                       Height="Auto" />
-                                        <RowDefinition MinHeight="28"
-                                                       Height="Auto" />
-                                        <RowDefinition MinHeight="28"
-                                                       Height="Auto" />
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="36" />
                                         <RowDefinition Height="1*" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition MinWidth="20"
-                                                          Width="Auto" />
-                                        <ColumnDefinition MinWidth="20"
-                                                          Width="Auto" />
-                                        <ColumnDefinition MinWidth="100"
-                                                          Width="Auto" />
+                                        <ColumnDefinition Width="48" />
+                                        <ColumnDefinition Width="48" />
+                                        <ColumnDefinition Width="110" />
                                         <ColumnDefinition Width="1*" />
                                     </Grid.ColumnDefinitions>
 
                                     <!--//  Row 1  //-->
                                     <Button Grid.Column="0"
                                             Grid.Row="0"
-                                            Margin="3 0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
                                             Command="{Binding CopyToClipboardCommand}"
                                             CommandParameter="{Binding SelectedRecord.Username}">
                                         <Button.Content>
@@ -364,67 +358,28 @@
                                     <ToggleButton x:Name="toggleButtonMaskUsername"
                                                   Grid.Column="1"
                                                   Grid.Row="0"
-                                                  Margin="3 0"
-                                                  IsChecked="True"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
                                                   Command="{Binding ToggleUsernameMaskCommand}"
                                                   CommandParameter="{Binding IsChecked,
                                                                              RelativeSource={RelativeSource Mode=Self}}">
-                                        <ToggleButton.Template>
-                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                <Border Padding="12 6.5"
-                                                        Background="{TemplateBinding Background}">
-                                                    <StackPanel>
-                                                        <Path x:Name="MaskContentGlyph"
-                                                              Width="16"
-                                                              Height="16"
-                                                              Fill="{Binding Foreground,
-                                                                             RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
-                                                              Data="M 8 3 C 2.7000053 3 0.54296875 7.796875 0.54296875 7.796875 L 0.453125 8 L 0.54296875 8.203125 C 0.54296875 8.203125 2.7000053 13 8 13 C 13.299995 13 15.457031 8.203125 15.457031 8.203125 L 15.546875 8 L 15.457031 7.796875 C 15.457031 7.796875 13.299995 3 8 3 z
-                                                                    M 8 4 C 12.472562 4 14.224482 7.6316412 14.396484 8 C 14.224482 8.3683588 12.472562 12 8 12 C 3.5274383 12 1.7755182 8.3683588 1.6035156 8 C 1.7755182 7.6316412 3.5274383 4 8 4 z
-                                                                    M 8 5 C 6.3490697 5 5 6.3490697 5 8 C 5 9.6509303 6.3490697 11 8 11 C 9.6509303 11 11 9.6509303 11 8 C 11 6.3490697 9.6509303 5 8 5 z
-                                                                    M 8 6 C 9.1104907 6 10 6.8895093 10 8 C 10 9.1104907 9.1104907 10 8 10 C 6.8895093 10 6 9.1104907 6 8 C 6 6.8895093 6.8895093 6 8 6 z "
-                                                              Visibility="Visible" />
-                                                        <Path x:Name="UnmaskContentGlyph"
-                                                              Width="16"
-                                                              Height="16"
-                                                              Fill="{Binding Foreground,
-                                                                             RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
-                                                              Data="M 2,2 1.2929688,2.7070312 3.1933594,4.6074219 C 1.3520607,6.0013217 0.54296875,7.796875 0.54296875,7.796875 L 0.453125,8 0.54296875,8.203125 C 0.54296875,8.203125 2.7000053,13 8,13 c 1.1471057,0 2.143567,-0.227658 3.005859,-0.580078 l 2.28711,2.287109 L 14,14 l -2.042969,-2.042969 -0.71289,-0.71289 -1.125,-1.125 -0.7031254,-0.7031254 -2.8320312,-2.8320312 -0.703125,-0.703125 -1.125,-1.125 L 4.0429688,4.0429688 Z M 8,3 C 6.8527108,3 5.8529713,3.2239316 4.9902344,3.5761719 l 0.765625,0.765625 C 6.4127233,4.1303012 7.1578246,4 8,4 c 4.472562,0 6.224482,3.6316412 6.396484,4 -0.103473,0.2215975 -0.780026,1.6245798 -2.27539,2.707031 l 0.685547,0.685547 c 1.841193,-1.3941008 2.65039,-3.189453 2.65039,-3.189453 L 15.546875,8 15.457031,7.796875 C 15.457031,7.796875 13.299995,3 8,3 Z M 8,5 C 7.5386228,5 7.1023069,5.1090053 6.7109375,5.296875 L 7.484375,6.0703125 C 7.6489873,6.0269491 7.821127,6 8,6 9.1104907,6 10,6.8895093 10,8 10,8.178873 9.973051,8.3510127 9.929688,8.515625 l 0.773437,0.7734375 C 10.890995,8.8976931 11,8.4613772 11,8 11,6.3490697 9.6509303,5 8,5 Z M 3.8808594,5.2949219 5.296875,6.7109375 C 5.1090168,7.1023183 5,7.5386228 5,8 c 0,1.6509303 1.3490697,3 3,3 0.4613772,0 0.8976816,-0.109017 1.2890625,-0.296875 l 0.9550785,0.955078 C 9.5872842,11.870288 8.8425364,12 8,12 3.5274383,12 1.7755182,8.3683588 1.6035156,8 1.7069965,7.7783865 2.385113,6.3770904 3.8808594,5.2949219 Z M 6.0703125,7.484375 8.515625,9.9296875 C 8.3510716,9.9731098 8.178873,10 8,10 6.8895093,10 6,9.1104907 6,8 6,7.821127 6.0268902,7.6489284 6.0703125,7.484375 Z"
-                                                              Visibility="Collapsed" />
-                                                    </StackPanel>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsChecked"
-                                                                Value="True">
-                                                        <Setter TargetName="MaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Visible" />
-                                                        <Setter TargetName="UnmaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Collapsed" />
-                                                    </Trigger>
-                                                    <Trigger Property="IsChecked"
-                                                                Value="False">
-                                                        <Setter TargetName="MaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Collapsed" />
-                                                        <Setter TargetName="UnmaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Visible" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </ToggleButton.Template>
+                                        <ToggleButton.Content>
+                                            <MultiBinding Converter="{StaticResource BooleanToPathConverter}">
+                                                <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}" />
+                                                <Binding Path="Foreground" RelativeSource="{RelativeSource Self}" />
+                                            </MultiBinding>
+                                        </ToggleButton.Content>
                                     </ToggleButton>
-                                    <Label Grid.Column="2"
+                                    <TextBlock Grid.Column="2"
                                            Grid.Row="0"
-                                           Margin="3 0"
+                                           Margin="4 0 0 0"
+                                           HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           Content="Username:" />
+                                           Text="Username:" />
                                     <TextBlock x:Name="textBlockUsername"
                                                Grid.Column="3"
                                                Grid.Row="0"
-                                               Margin="3 0"
+                                               HorizontalAlignment="Stretch"
                                                VerticalAlignment="Center">
                                         <TextBlock.Text>
                                             <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
@@ -438,6 +393,8 @@
                                     <!--//  Row 2  //-->
                                     <Button Grid.Column="0"
                                             Grid.Row="1"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
                                             Command="{Binding CopyToClipboardCommand}"
                                             CommandParameter="{Binding SelectedRecord.Email}">
                                         <Button.Content>
@@ -456,66 +413,29 @@
                                     <ToggleButton x:Name="toggleButtonMaskEmail"
                                                   Grid.Column="1"
                                                   Grid.Row="1"
-                                                  IsChecked="True"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
                                                   Command="{Binding ToggleEmailMaskCommand}"
                                                   CommandParameter="{Binding IsChecked,
                                                                              RelativeSource={RelativeSource Mode=Self}}">
-                                        <ToggleButton.Template>
-                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                <Border Padding="12 6.5"
-                                                        Background="{TemplateBinding Background}">
-                                                    <StackPanel>
-                                                        <Path x:Name="MaskContentGlyph"
-                                                              Width="16"
-                                                              Height="16"
-                                                              Fill="{Binding Foreground,
-                                                                             RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
-                                                              Data="M 8 3 C 2.7000053 3 0.54296875 7.796875 0.54296875 7.796875 L 0.453125 8 L 0.54296875 8.203125 C 0.54296875 8.203125 2.7000053 13 8 13 C 13.299995 13 15.457031 8.203125 15.457031 8.203125 L 15.546875 8 L 15.457031 7.796875 C 15.457031 7.796875 13.299995 3 8 3 z
-                                                                    M 8 4 C 12.472562 4 14.224482 7.6316412 14.396484 8 C 14.224482 8.3683588 12.472562 12 8 12 C 3.5274383 12 1.7755182 8.3683588 1.6035156 8 C 1.7755182 7.6316412 3.5274383 4 8 4 z
-                                                                    M 8 5 C 6.3490697 5 5 6.3490697 5 8 C 5 9.6509303 6.3490697 11 8 11 C 9.6509303 11 11 9.6509303 11 8 C 11 6.3490697 9.6509303 5 8 5 z
-                                                                    M 8 6 C 9.1104907 6 10 6.8895093 10 8 C 10 9.1104907 9.1104907 10 8 10 C 6.8895093 10 6 9.1104907 6 8 C 6 6.8895093 6.8895093 6 8 6 z "
-                                                              Visibility="Visible" />
-                                                        <Path x:Name="UnmaskContentGlyph"
-                                                              Width="16"
-                                                              Height="16"
-                                                              Fill="{Binding Foreground,
-                                                                             RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
-                                                              Data="M 2,2 1.2929688,2.7070312 3.1933594,4.6074219 C 1.3520607,6.0013217 0.54296875,7.796875 0.54296875,7.796875 L 0.453125,8 0.54296875,8.203125 C 0.54296875,8.203125 2.7000053,13 8,13 c 1.1471057,0 2.143567,-0.227658 3.005859,-0.580078 l 2.28711,2.287109 L 14,14 l -2.042969,-2.042969 -0.71289,-0.71289 -1.125,-1.125 -0.7031254,-0.7031254 -2.8320312,-2.8320312 -0.703125,-0.703125 -1.125,-1.125 L 4.0429688,4.0429688 Z M 8,3 C 6.8527108,3 5.8529713,3.2239316 4.9902344,3.5761719 l 0.765625,0.765625 C 6.4127233,4.1303012 7.1578246,4 8,4 c 4.472562,0 6.224482,3.6316412 6.396484,4 -0.103473,0.2215975 -0.780026,1.6245798 -2.27539,2.707031 l 0.685547,0.685547 c 1.841193,-1.3941008 2.65039,-3.189453 2.65039,-3.189453 L 15.546875,8 15.457031,7.796875 C 15.457031,7.796875 13.299995,3 8,3 Z M 8,5 C 7.5386228,5 7.1023069,5.1090053 6.7109375,5.296875 L 7.484375,6.0703125 C 7.6489873,6.0269491 7.821127,6 8,6 9.1104907,6 10,6.8895093 10,8 10,8.178873 9.973051,8.3510127 9.929688,8.515625 l 0.773437,0.7734375 C 10.890995,8.8976931 11,8.4613772 11,8 11,6.3490697 9.6509303,5 8,5 Z M 3.8808594,5.2949219 5.296875,6.7109375 C 5.1090168,7.1023183 5,7.5386228 5,8 c 0,1.6509303 1.3490697,3 3,3 0.4613772,0 0.8976816,-0.109017 1.2890625,-0.296875 l 0.9550785,0.955078 C 9.5872842,11.870288 8.8425364,12 8,12 3.5274383,12 1.7755182,8.3683588 1.6035156,8 1.7069965,7.7783865 2.385113,6.3770904 3.8808594,5.2949219 Z M 6.0703125,7.484375 8.515625,9.9296875 C 8.3510716,9.9731098 8.178873,10 8,10 6.8895093,10 6,9.1104907 6,8 6,7.821127 6.0268902,7.6489284 6.0703125,7.484375 Z"
-                                                              Visibility="Collapsed" />
-                                                    </StackPanel>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsChecked"
-                                                             Value="True">
-                                                        <Setter TargetName="MaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Visible" />
-                                                        <Setter TargetName="UnmaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Collapsed" />
-                                                    </Trigger>
-                                                    <Trigger Property="IsChecked"
-                                                             Value="False">
-                                                        <Setter TargetName="MaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Collapsed" />
-                                                        <Setter TargetName="UnmaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Visible" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </ToggleButton.Template>
+                                        <ToggleButton.Content>
+                                            <MultiBinding Converter="{StaticResource BooleanToPathConverter}">
+                                                <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}" />
+                                                <Binding Path="Foreground" RelativeSource="{RelativeSource Self}" />
+                                            </MultiBinding>
+                                        </ToggleButton.Content>
                                     </ToggleButton>
-                                    <Label Grid.Column="2"
+                                    <TextBlock Grid.Column="2"
                                            Grid.Row="1"
+                                           Margin="4 0 0 0"
+                                           HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           Content="Email:" />
+                                           Text="Email:" />
                                     <TextBlock x:Name="textBlockEmail"
                                                Grid.Column="3"
                                                Grid.Row="1"
-                                               VerticalAlignment="Center"
-                                               Padding="5">
+                                               HorizontalAlignment="Stretch"
+                                               VerticalAlignment="Center">
                                         <TextBlock.Text>
                                             <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
                                                 <Binding Path="SelectedRecord.Email" />
@@ -528,6 +448,8 @@
                                     <!--//  Row 3  //-->
                                     <Button Grid.Column="0"
                                             Grid.Row="2"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
                                             Command="{Binding CopyToClipboardCommand}"
                                             CommandParameter="{Binding SelectedRecord.Password}">
                                         <Button.Content>
@@ -544,67 +466,30 @@
                                         </Button.Content>
                                     </Button>
                                     <ToggleButton x:Name="toggleButtonMaskPassword" Grid.Column="1"
-                                                        Grid.Row="2"
-                                                        IsChecked="True"
-                                                        Command="{Binding TogglePasswordMaskCommand}"
-                                                        CommandParameter="{Binding IsChecked,
-                                                                                   RelativeSource={RelativeSource Mode=Self}}">
-                                        <ToggleButton.Template>
-                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                <Border Padding="12 6.5"
-                                                        Background="{TemplateBinding Background}">
-                                                    <StackPanel>
-                                                        <Path x:Name="MaskContentGlyph"
-                                                              Width="16"
-                                                              Height="16"
-                                                              Fill="{Binding Foreground,
-                                                                             RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
-                                                              Data="M 8 3 C 2.7000053 3 0.54296875 7.796875 0.54296875 7.796875 L 0.453125 8 L 0.54296875 8.203125 C 0.54296875 8.203125 2.7000053 13 8 13 C 13.299995 13 15.457031 8.203125 15.457031 8.203125 L 15.546875 8 L 15.457031 7.796875 C 15.457031 7.796875 13.299995 3 8 3 z
-                                                                    M 8 4 C 12.472562 4 14.224482 7.6316412 14.396484 8 C 14.224482 8.3683588 12.472562 12 8 12 C 3.5274383 12 1.7755182 8.3683588 1.6035156 8 C 1.7755182 7.6316412 3.5274383 4 8 4 z
-                                                                    M 8 5 C 6.3490697 5 5 6.3490697 5 8 C 5 9.6509303 6.3490697 11 8 11 C 9.6509303 11 11 9.6509303 11 8 C 11 6.3490697 9.6509303 5 8 5 z
-                                                                    M 8 6 C 9.1104907 6 10 6.8895093 10 8 C 10 9.1104907 9.1104907 10 8 10 C 6.8895093 10 6 9.1104907 6 8 C 6 6.8895093 6.8895093 6 8 6 z "
-                                                              Visibility="Visible" />
-                                                        <Path x:Name="UnmaskContentGlyph"
-                                                              Width="16"
-                                                              Height="16"
-                                                              Fill="{Binding Foreground,
-                                                                             RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
-                                                              Data="M 2,2 1.2929688,2.7070312 3.1933594,4.6074219 C 1.3520607,6.0013217 0.54296875,7.796875 0.54296875,7.796875 L 0.453125,8 0.54296875,8.203125 C 0.54296875,8.203125 2.7000053,13 8,13 c 1.1471057,0 2.143567,-0.227658 3.005859,-0.580078 l 2.28711,2.287109 L 14,14 l -2.042969,-2.042969 -0.71289,-0.71289 -1.125,-1.125 -0.7031254,-0.7031254 -2.8320312,-2.8320312 -0.703125,-0.703125 -1.125,-1.125 L 4.0429688,4.0429688 Z M 8,3 C 6.8527108,3 5.8529713,3.2239316 4.9902344,3.5761719 l 0.765625,0.765625 C 6.4127233,4.1303012 7.1578246,4 8,4 c 4.472562,0 6.224482,3.6316412 6.396484,4 -0.103473,0.2215975 -0.780026,1.6245798 -2.27539,2.707031 l 0.685547,0.685547 c 1.841193,-1.3941008 2.65039,-3.189453 2.65039,-3.189453 L 15.546875,8 15.457031,7.796875 C 15.457031,7.796875 13.299995,3 8,3 Z M 8,5 C 7.5386228,5 7.1023069,5.1090053 6.7109375,5.296875 L 7.484375,6.0703125 C 7.6489873,6.0269491 7.821127,6 8,6 9.1104907,6 10,6.8895093 10,8 10,8.178873 9.973051,8.3510127 9.929688,8.515625 l 0.773437,0.7734375 C 10.890995,8.8976931 11,8.4613772 11,8 11,6.3490697 9.6509303,5 8,5 Z M 3.8808594,5.2949219 5.296875,6.7109375 C 5.1090168,7.1023183 5,7.5386228 5,8 c 0,1.6509303 1.3490697,3 3,3 0.4613772,0 0.8976816,-0.109017 1.2890625,-0.296875 l 0.9550785,0.955078 C 9.5872842,11.870288 8.8425364,12 8,12 3.5274383,12 1.7755182,8.3683588 1.6035156,8 1.7069965,7.7783865 2.385113,6.3770904 3.8808594,5.2949219 Z M 6.0703125,7.484375 8.515625,9.9296875 C 8.3510716,9.9731098 8.178873,10 8,10 6.8895093,10 6,9.1104907 6,8 6,7.821127 6.0268902,7.6489284 6.0703125,7.484375 Z"
-                                                              Visibility="Collapsed" />
-                                                    </StackPanel>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsChecked"
-                                                             Value="True">
-                                                        <Setter TargetName="MaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Visible" />
-                                                        <Setter TargetName="UnmaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Collapsed" />
-                                                    </Trigger>
-                                                    <Trigger Property="IsChecked"
-                                                             Value="False">
-                                                        <Setter TargetName="MaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Collapsed" />
-                                                        <Setter TargetName="UnmaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Visible" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </ToggleButton.Template>
+                                                  Grid.Row="2"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Command="{Binding TogglePasswordMaskCommand}"
+                                                  CommandParameter="{Binding IsChecked,
+                                                                             RelativeSource={RelativeSource Mode=Self}}">
+                                        <ToggleButton.Content>
+                                            <MultiBinding Converter="{StaticResource BooleanToPathConverter}">
+                                                <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}" />
+                                                <Binding Path="Foreground" RelativeSource="{RelativeSource Self}" />
+                                            </MultiBinding>
+                                        </ToggleButton.Content>
                                     </ToggleButton>
-                                    <Label Grid.Column="2"
+                                    <TextBlock Grid.Column="2"
                                            Grid.Row="2"
+                                           Margin="4 0 0 0"
+                                           HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           Content="Password:" />
+                                           Text="Password:" />
                                     <TextBlock x:Name="textBlockPassword"
                                                Grid.Column="3"
                                                Grid.Row="2"
-                                               VerticalAlignment="Center"
-                                               Padding="5">
+                                               HorizontalAlignment="Stretch"
+                                               VerticalAlignment="Center">
                                         <TextBlock.Text>
                                             <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
                                                 <Binding Path="SelectedRecord.Password" />
@@ -617,6 +502,8 @@
                                     <!--//  Row 4  //-->
                                     <Button Grid.Column="0"
                                             Grid.Row="3"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
                                             Command="{Binding CopyToClipboardCommand}"
                                             CommandParameter="{Binding SelectedRecord.URL}">
                                         <Button.Content>
@@ -635,66 +522,29 @@
                                     <ToggleButton x:Name="toggleButtonMaskUrl"
                                                   Grid.Column="1"
                                                   Grid.Row="3"
-                                                  IsChecked="True"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
                                                   Command="{Binding ToggleUrlMaskCommand}"
                                                   CommandParameter="{Binding IsChecked,
                                                                              RelativeSource={RelativeSource Mode=Self}}">
-                                        <ToggleButton.Template>
-                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                <Border Padding="12 6.5"
-                                                        Background="{TemplateBinding Background}">
-                                                    <StackPanel>
-                                                        <Path x:Name="MaskContentGlyph"
-                                                              Width="16"
-                                                              Height="16"
-                                                              Fill="{Binding Foreground,
-                                                                             RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
-                                                              Data="M 8 3 C 2.7000053 3 0.54296875 7.796875 0.54296875 7.796875 L 0.453125 8 L 0.54296875 8.203125 C 0.54296875 8.203125 2.7000053 13 8 13 C 13.299995 13 15.457031 8.203125 15.457031 8.203125 L 15.546875 8 L 15.457031 7.796875 C 15.457031 7.796875 13.299995 3 8 3 z
-                                                                    M 8 4 C 12.472562 4 14.224482 7.6316412 14.396484 8 C 14.224482 8.3683588 12.472562 12 8 12 C 3.5274383 12 1.7755182 8.3683588 1.6035156 8 C 1.7755182 7.6316412 3.5274383 4 8 4 z
-                                                                    M 8 5 C 6.3490697 5 5 6.3490697 5 8 C 5 9.6509303 6.3490697 11 8 11 C 9.6509303 11 11 9.6509303 11 8 C 11 6.3490697 9.6509303 5 8 5 z
-                                                                    M 8 6 C 9.1104907 6 10 6.8895093 10 8 C 10 9.1104907 9.1104907 10 8 10 C 6.8895093 10 6 9.1104907 6 8 C 6 6.8895093 6.8895093 6 8 6 z "
-                                                              Visibility="Visible" />
-                                                        <Path x:Name="UnmaskContentGlyph"
-                                                              Width="16"
-                                                              Height="16"
-                                                              Fill="{Binding Foreground,
-                                                                             RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
-                                                              Data="M 2,2 1.2929688,2.7070312 3.1933594,4.6074219 C 1.3520607,6.0013217 0.54296875,7.796875 0.54296875,7.796875 L 0.453125,8 0.54296875,8.203125 C 0.54296875,8.203125 2.7000053,13 8,13 c 1.1471057,0 2.143567,-0.227658 3.005859,-0.580078 l 2.28711,2.287109 L 14,14 l -2.042969,-2.042969 -0.71289,-0.71289 -1.125,-1.125 -0.7031254,-0.7031254 -2.8320312,-2.8320312 -0.703125,-0.703125 -1.125,-1.125 L 4.0429688,4.0429688 Z M 8,3 C 6.8527108,3 5.8529713,3.2239316 4.9902344,3.5761719 l 0.765625,0.765625 C 6.4127233,4.1303012 7.1578246,4 8,4 c 4.472562,0 6.224482,3.6316412 6.396484,4 -0.103473,0.2215975 -0.780026,1.6245798 -2.27539,2.707031 l 0.685547,0.685547 c 1.841193,-1.3941008 2.65039,-3.189453 2.65039,-3.189453 L 15.546875,8 15.457031,7.796875 C 15.457031,7.796875 13.299995,3 8,3 Z M 8,5 C 7.5386228,5 7.1023069,5.1090053 6.7109375,5.296875 L 7.484375,6.0703125 C 7.6489873,6.0269491 7.821127,6 8,6 9.1104907,6 10,6.8895093 10,8 10,8.178873 9.973051,8.3510127 9.929688,8.515625 l 0.773437,0.7734375 C 10.890995,8.8976931 11,8.4613772 11,8 11,6.3490697 9.6509303,5 8,5 Z M 3.8808594,5.2949219 5.296875,6.7109375 C 5.1090168,7.1023183 5,7.5386228 5,8 c 0,1.6509303 1.3490697,3 3,3 0.4613772,0 0.8976816,-0.109017 1.2890625,-0.296875 l 0.9550785,0.955078 C 9.5872842,11.870288 8.8425364,12 8,12 3.5274383,12 1.7755182,8.3683588 1.6035156,8 1.7069965,7.7783865 2.385113,6.3770904 3.8808594,5.2949219 Z M 6.0703125,7.484375 8.515625,9.9296875 C 8.3510716,9.9731098 8.178873,10 8,10 6.8895093,10 6,9.1104907 6,8 6,7.821127 6.0268902,7.6489284 6.0703125,7.484375 Z"
-                                                              Visibility="Collapsed" />
-                                                    </StackPanel>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsChecked"
-                                                             Value="True">
-                                                        <Setter TargetName="MaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Visible" />
-                                                        <Setter TargetName="UnmaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Collapsed" />
-                                                    </Trigger>
-                                                    <Trigger Property="IsChecked"
-                                                             Value="False">
-                                                        <Setter TargetName="MaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Collapsed" />
-                                                        <Setter TargetName="UnmaskContentGlyph"
-                                                                Property="Visibility"
-                                                                Value="Visible" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </ToggleButton.Template>
+                                        <ToggleButton.Content>
+                                            <MultiBinding Converter="{StaticResource BooleanToPathConverter}">
+                                                <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}" />
+                                                <Binding Path="Foreground" RelativeSource="{RelativeSource Self}" />
+                                            </MultiBinding>
+                                        </ToggleButton.Content>
                                     </ToggleButton>
-                                    <Label Grid.Column="2"
+                                    <TextBlock Grid.Column="2"
                                            Grid.Row="3"
+                                           Margin="4 0 0 0"
+                                           HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           Content="Url:" />
+                                           Text="Url:" />
                                     <TextBlock x:Name="textBlockUrl"
                                                Grid.Column="3"
                                                Grid.Row="3"
-                                               VerticalAlignment="Center"
-                                               Padding="5">
+                                               HorizontalAlignment="Stretch"
+                                               VerticalAlignment="Center">
                                         <TextBlock.Text>
                                             <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
                                                 <Binding Path="SelectedRecord.URL" />
@@ -704,128 +554,156 @@
                                         </TextBlock.Text>
                                     </TextBlock>
                                 </Grid>
-                            </ScrollViewer>
+                            </Border>
                         </TabItem>
                         <TabItem Header="Notes">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition MinHeight="28"
-                                                   Height="Auto" />
-                                    <RowDefinition Height="1*" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition MinWidth="20"
-                                                      Width="Auto" />
-                                    <ColumnDefinition MinWidth="20"
-                                                      Width="Auto" />
-                                    <ColumnDefinition MinWidth="100"
-                                                      Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-
-                                <!--//  Row 1  //-->
-                                <Button Grid.Column="0"
-                                        Grid.Row="0"
-                                        Command="{Binding CopyToClipboardCommand}"
-                                        CommandParameter="{Binding SelectedRecord.Notes}" />
-                                <ToggleButton x:Name="toggleButtonMaskNotes"
-                                              Grid.Column="1"
-                                              Grid.Row="0"
-                                              IsChecked="True"
-                                              Command="{Binding ToggleNotesMaskCommand}"
-                                              CommandParameter="{Binding IsChecked,
-                                                                         RelativeSource={RelativeSource Mode=Self}}" />
-                                <Label Grid.Column="2"
-                                       Grid.Row="0"
-                                       VerticalAlignment="Center"
-                                       Content="Notes:"/>
-                                <ScrollViewer Grid.Column="3"
-                                              Grid.Row="0"
-                                              Grid.RowSpan="2"
-                                              VerticalScrollBarVisibility="Auto">
-                                    <TextBlock Padding="5"
-                                               TextWrapping="Wrap">
-                                        <TextBlock.Text>
-                                            <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
-                                                <Binding Path="SelectedRecord.Notes" />
-                                                <Binding ElementName="toggleButtonMaskNotes"
-                                                         Path="IsChecked" />
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </ScrollViewer>
-                            </Grid>
-                        </TabItem>
-                        <TabItem Header="Advanced">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                          VerticalScrollBarVisibility="Auto">
+                            <Border Padding="0 12 0 0">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition MinHeight="28"
-                                                       Height="Auto" />
-                                        <RowDefinition MinHeight="28"
-                                                       Height="Auto" />
-                                        <RowDefinition MinHeight="28"
-                                                       Height="Auto" />
-                                        <RowDefinition MinHeight="28"
-                                                       Height="Auto" />
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="36" />
                                         <RowDefinition Height="1*" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition MinWidth="20"
-                                                          Width="Auto" />
-                                        <ColumnDefinition MinWidth="20"
-                                                          Width="Auto" />
-                                        <ColumnDefinition MinWidth="100"
-                                                          Width="Auto" />
+                                        <ColumnDefinition Width="48" />
+                                        <ColumnDefinition Width="48" />
+                                        <ColumnDefinition Width="110" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
                                     <!--//  Row 1  //-->
-                                    <Label Grid.Column="2"
+                                    <Button Grid.Column="0"
+                                            Grid.Row="0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Command="{Binding CopyToClipboardCommand}"
+                                            CommandParameter="{Binding SelectedRecord.Notes}" >
+                                        <Button.Content>
+                                            <Path Width="16"
+                                                  Height="16"
+                                                  Fill="{Binding Foreground,
+                                                                 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                                  Data="M 8,1 C 6.9013539,1 6,1.9013539 6,3 H 3.5 C 2.6776494,3 2,3.6776494 2,4.5 v 9 C 2,14.322351 2.6776494,15 3.5,15 h 9 c 0.822351,0 1.5,-0.677649 1.5,-1.5 v -9 C 14,3.6776494 13.322351,3 12.5,3 H 10 C 10,1.9013539 9.0986461,1 8,1 Z
+                                                        M 8,2 C 8.5522847,2 9,2.4477153 9,3 9,3.5522847 8.5522847,4 8,4 7.4477153,4 7,3.5522847 7,3 7,2.4477153 7.4477153,2 8,2 Z
+                                                        M 3.5,4 H 5 v 1 h 6 V 4 h 1.5 C 12.785648,4 13,4.2143517 13,4.5 v 9 c 0,0.285648 -0.214352,0.5 -0.5,0.5 h -9 C 3.2143517,14 3,13.785648 3,13.5 v -9 C 3,4.2143517 3.2143517,4 3.5,4 Z
+                                                        M 5,7 v 1 h 6 V 7 Z
+                                                        m 0,2 v 1 h 6 V 9 Z
+                                                        m 0,2 v 1 h 4 v -1 z" />
+                                        </Button.Content>
+                                    </Button>
+                                    <ToggleButton x:Name="toggleButtonMaskNotes"
+                                                  Grid.Column="1"
+                                                  Grid.Row="0"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Command="{Binding ToggleNotesMaskCommand}"
+                                                  CommandParameter="{Binding IsChecked,
+                                                                             RelativeSource={RelativeSource Mode=Self}}">
+                                        <ToggleButton.Content>
+                                            <MultiBinding Converter="{StaticResource BooleanToPathConverter}">
+                                                <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}" />
+                                                <Binding Path="Foreground" RelativeSource="{RelativeSource Self}" />
+                                            </MultiBinding>
+                                        </ToggleButton.Content>
+                                    </ToggleButton>
+                                    <TextBlock Grid.Column="2"
+                                               Grid.Row="0"
+                                               Margin="4 0 0 0"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Text="Notes:"/>
+                                    <ScrollViewer Grid.Column="3"
+                                                  Grid.Row="0"
+                                                  Grid.RowSpan="2"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Stretch"
+                                                  VerticalScrollBarVisibility="Auto">
+                                        <TextBlock Margin="0 9 0 0"
+                                                   TextWrapping="Wrap">
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{StaticResource SelectedRecordPropertyMaskedConverter}">
+                                                    <Binding Path="SelectedRecord.Notes" />
+                                                    <Binding ElementName="toggleButtonMaskNotes"
+                                                             Path="IsChecked" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Border>
+                        </TabItem>
+                        <TabItem Header="Advanced">
+                            <Border Padding="0 12 0 0">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="36" />
+                                        <RowDefinition Height="1*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="48" />
+                                        <ColumnDefinition Width="48" />
+                                        <ColumnDefinition Width="110" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--//  Row 1  //-->
+                                    <TextBlock Grid.Column="2"
                                            Grid.Row="0"
+                                           Margin="4 0 0 0"
+                                           HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           Content="Expiration Date:" />
+                                           Text="Expiration Date:" />
                                     <TextBlock Grid.Column="3"
                                                Grid.Row="0"
+                                               HorizontalAlignment="Stretch"
                                                VerticalAlignment="Center"
-                                               Padding="5"
                                                Text="{Binding SelectedRecord.ExpirationDate}"/>
 
                                     <!--//  Row 2  //-->
-                                    <Label Grid.Column="2"
+                                    <TextBlock Grid.Column="2"
                                            Grid.Row="1"
+                                           Margin="4 0 0 0"
+                                           HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           Content="Created Date:" />
+                                           Text="Created Date:" />
                                     <TextBlock Grid.Column="3"
                                                Grid.Row="1"
+                                               HorizontalAlignment="Stretch"
                                                VerticalAlignment="Center"
-                                               Padding="5"
                                                Text="{Binding SelectedRecord.CreatedDate}"/>
 
                                     <!--//  Row 3  //-->
-                                    <Label Grid.Column="2"
+                                    <TextBlock Grid.Column="2"
                                            Grid.Row="2"
+                                           Margin="4 0 0 0"
+                                           HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           Content="Modified Date:" />
+                                           Text="Modified Date:" />
                                     <TextBlock Grid.Column="3"
                                                Grid.Row="2"
+                                               HorizontalAlignment="Stretch"
                                                VerticalAlignment="Center"
-                                               Padding="5"
                                                Text="{Binding SelectedRecord.ModifiedDate}"/>
 
                                     <!--//  Row 4  //-->
-                                    <Label Grid.Column="2"
+                                    <TextBlock Grid.Column="2"
                                            Grid.Row="3"
+                                           Margin="4 0 0 0"
+                                           HorizontalAlignment="Left"
                                            VerticalAlignment="Center"
-                                           Content="GUID:" />
+                                           Text="GUID:" />
                                     <TextBlock Grid.Column="3"
                                                Grid.Row="3"
+                                               HorizontalAlignment="Stretch"
                                                VerticalAlignment="Center"
-                                               Padding="5"
                                                Text="{Binding SelectedRecord.GUID}"/>
                                 </Grid>
-                            </ScrollViewer>
+                            </Border>
                         </TabItem>
                     </TabControl>
                 </Grid>
