@@ -17,7 +17,7 @@
 
     <UserControl.Resources>
         <!--#region//  Converters  //-->
-        <BooleanToVisibilityConverter x:Key="bool2VisibilityConverter" />
+        <c:BooleanToVisibilityConverter x:Key="bool2VisibilityConverter" />
         <c:BooleanToPathConverter x:Key="BooleanToPathConverter" />
         <c:MutliplyDoubleConverter x:Key="MultiplyDoubleConverter" />
         <c:ActualSizeToMinSizeConverter x:Key="ActualSizeToMinSizeConverter" />
@@ -87,6 +87,18 @@
 
             <DataGrid Grid.Row="0"
                       CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      CanUserReorderColumns="True"
+                      CanUserSortColumns="True"
+                      CanUserResizeColumns="True"
+                      CanUserResizeRows="False"
+                      RowHeaderWidth="0"
+                      AutoGenerateColumns="False"
+                      HeadersVisibility="All"
+                      IsReadOnly="True"
+                      VerticalContentAlignment="Center"
+                      SelectionMode="Single"
+                      SelectionUnit="FullRow"
                       ItemsSource="{Binding SelectedItem.ChildrenRecords,
                                             ElementName=treeViewGroups}">
                 <i:Interaction.Triggers>
@@ -96,27 +108,46 @@
                                                               RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-
+                
                 <DataGrid.Columns>
                     <DataGridTemplateColumn CanUserResize="False"
                                             CanUserReorder="False"
-                                            CanUserSort="False">
+                                            CanUserSort="False"
+                                            MinWidth="32"
+                                            MaxWidth="32">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="{x:Type m:Record}">
                                 <Image Width="24"
-                                       Height="24" 
+                                       Height="24"
                                        Source="{Binding Path=Icon,
                                                         Converter={StaticResource IntToDrawingImageConverter}}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Title"
-                                        MinWidth="115"
+                                        MinWidth="120"
                                         Width="Auto"
-                                        Binding="{Binding Title}" />
+                                        Binding="{Binding Title}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="VerticalAlignment"
+                                        Value="Center" />
+                                <Setter Property="Padding"
+                                        Value="8" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                     <DataGridTextColumn Header="Username"
-                                        MinWidth="115"
+                                        MinWidth="120"
                                         Width="Auto">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="VerticalAlignment"
+                                        Value="Center" />
+                                <Setter Property="Padding"
+                                        Value="8" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
                         <DataGridTextColumn.Binding>
                             <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
                                 <Binding Path="Username" />
@@ -127,38 +158,62 @@
                         </DataGridTextColumn.Binding>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Email"
-                            MinWidth="115"
-                            Width="Auto">
+                                        MinWidth="120"
+                                        Width="Auto">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="VerticalAlignment"
+                                        Value="Center" />
+                                <Setter Property="Padding"
+                                        Value="8" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
                         <DataGridTextColumn.Binding>
                             <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
                                 <Binding Path="Email" />
                                 <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
-                                                             AncestorType={x:Type UserControl}}"
-                             Path="DataContext.ParentVM.AreDatabaseEmailsMasked" />
+                                                                         AncestorType={x:Type UserControl}}"
+                                         Path="DataContext.ParentVM.AreDatabaseEmailsMasked" />
                             </MultiBinding>
                         </DataGridTextColumn.Binding>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Password"
-                            MinWidth="115"
-                            Width="Auto">
+                                        MinWidth="120"
+                                        Width="Auto">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="VerticalAlignment"
+                                        Value="Center" />
+                                <Setter Property="Padding"
+                                        Value="8" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
                         <DataGridTextColumn.Binding>
                             <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
                                 <Binding Path="Password" />
                                 <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
-                                                             AncestorType={x:Type UserControl}}"
-                             Path="DataContext.ParentVM.AreDatabasePasswordsMasked" />
+                                                                         AncestorType={x:Type UserControl}}"
+                                         Path="DataContext.ParentVM.AreDatabasePasswordsMasked" />
                             </MultiBinding>
                         </DataGridTextColumn.Binding>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Url"
-                            MinWidth="115"
-                            Width="Auto">
+                                        MinWidth="120"
+                                        Width="Auto">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="VerticalAlignment"
+                                        Value="Center" />
+                                <Setter Property="Padding"
+                                        Value="8" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
                         <DataGridTextColumn.Binding>
                             <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
                                 <Binding Path="URL" />
                                 <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
-                                                             AncestorType={x:Type UserControl}}"
-                             Path="DataContext.ParentVM.AreDatabaseUrlsMasked" />
+                                                                         AncestorType={x:Type UserControl}}"
+                                         Path="DataContext.ParentVM.AreDatabaseUrlsMasked" />
                             </MultiBinding>
                         </DataGridTextColumn.Binding>
                     </DataGridTextColumn>
@@ -274,7 +329,13 @@
                           HorizontalAlignment="Stretch"
                           Background="Transparent" />-->
             <Border Grid.Row="2"
-                    Padding="12">
+                    Panel.ZIndex="0"
+                    Padding="12 6 12 12"
+                    Margin="0 12 0 0"
+                    Background="{DynamicResource ControlFillColorDefaultBrush}"
+                    CornerRadius="4"
+                    Visibility="{Binding IsSelectedRecordInfoPaneVisible,
+                                         Converter={StaticResource bool2VisibilityConverter}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -317,9 +378,14 @@
                     <!--// ROW 2 //-->
                     <TabControl Grid.Column="0"
                                 Grid.Row="1"
-                                Grid.ColumnSpan="3">
-                        <TabItem Header="Basic">
-                            <Border Padding="0 12 0 0">
+                                Grid.ColumnSpan="3"
+                                Margin="0 6 0 0"
+                                Background="{DynamicResource SolidBackgroundFillColorTertiaryBrush}"
+                                BorderThickness="1">
+                        <TabItem Header="Basic"
+                                 Margin="0 0 0 -1"
+                                 BorderThickness="1 1 1 0">
+                            <Border Padding="6">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="36" />
@@ -556,7 +622,9 @@
                                 </Grid>
                             </Border>
                         </TabItem>
-                        <TabItem Header="Notes">
+                        <TabItem Header="Notes"
+                                 Margin="0 0 0 -1"
+                                 BorderThickness="1 1 1 0">
                             <Border Padding="0 12 0 0">
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -634,7 +702,9 @@
                                 </Grid>
                             </Border>
                         </TabItem>
-                        <TabItem Header="Advanced">
+                        <TabItem Header="Advanced"
+                                 Margin="0 0 0 -1"
+                                 BorderThickness="1 1 1 0">
                             <Border Padding="0 12 0 0">
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -708,6 +778,45 @@
                     </TabControl>
                 </Grid>
             </Border>
+            <Button Grid.Row="2"
+                    VerticalAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Panel.ZIndex="1"
+                    Margin="0 12"
+                    Visibility="{Binding IsInfoPaneExpanderButtonVisible,
+                                         Converter={StaticResource bool2VisibilityConverter}}"
+                    Command="{Binding ToggleSelectedRecordInfoPaneVisibilityCommand}">
+                <Button.Content>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Path Grid.Column="0"
+                              Width="16"
+                              Height="16"
+                              Fill="{Binding Foreground,
+                                             RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                              Data="M 0,12 8,0 16,12 Z" />
+                        <Path Grid.Column="1"
+                              Width="16"
+                              Height="16"
+                              Fill="{Binding Foreground,
+                                             RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                              Data="M 0,12 8,0 16,12 Z" />
+                        <Path Grid.Column="2"
+                              Width="16"
+                              Height="16"
+                              Fill="{Binding Foreground,
+                                             RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                              Data="M 0,12 8,0 16,12 Z" />
+                    </Grid>
+                </Button.Content>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

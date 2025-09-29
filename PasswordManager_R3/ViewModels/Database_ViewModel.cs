@@ -45,6 +45,8 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
 
     //ObservableCollection for Group objects
     private System.Collections.ObjectModel.ObservableCollection<Models.Group> _groups;
+    private bool _isInfoPaneExpanderButtonVisible;
+
     //private System.Collections.ObjectModel.ObservableCollection<Models.Record> _records;
     #endregion Fields
 
@@ -55,6 +57,7 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
     internal delegate void CreateGroupEventHandler();// Models.Group g);// object sender, EventArgs e);
     internal delegate void UpdateGroupEventHandler();// Models.Group g, int rowId);
     internal delegate void DeleteGroupEventHandler(object obj);// Models.Group g, int rowId);
+
     //events
     internal event SelectedGroupChangedEventHandler? SelectedGroupChanged;
     internal event SelectedRecordChangedEventHandler? SelectedRecordChanged;
@@ -90,6 +93,19 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
         set {
             //_isSelectedRecordInfoPaneVisible = value;
             ((App)App.Current).AppVariables.IsSelectedRecordInfoPanelVisible = value;
+            OnPropertyChanged(nameof(IsSelectedRecordInfoPaneVisible));
+
+            IsInfoPaneExpanderButtonVisible = !value;
+            OnPropertyChanged(nameof(IsInfoPaneExpanderButtonVisible));
+        }
+    }
+    public bool IsInfoPaneExpanderButtonVisible {
+        get => _isInfoPaneExpanderButtonVisible;
+        set {
+            _isInfoPaneExpanderButtonVisible = value;
+            OnPropertyChanged(nameof(IsInfoPaneExpanderButtonVisible));
+
+            ((App)App.Current).AppVariables.IsSelectedRecordInfoPanelVisible = !value;
             OnPropertyChanged(nameof(IsSelectedRecordInfoPaneVisible));
         }
     }

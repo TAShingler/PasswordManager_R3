@@ -2,6 +2,7 @@
 using PasswordManager_R3.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -360,45 +361,46 @@ internal class AppSettings_ViewModel : ViewModelBase {
         TimeoutMinutes = decrement.ToString();
     }
     private void OnConfirmButtonCommand(object obj) {
-        //tabitem 1
-        ((App)App.Current).AppVariables.AllowAutoBackups = _allowAutoBackups;
-        ((App)App.Current).AppVariables.AutoBackupCount = _autoBackupCount;
-        ((App)App.Current).AppVariables.BackupLocation = _backupLocation;
+        Debug.WriteLine("OnConfirmButtonCommand() called...");
+        ////tabitem 1
+        //((App)App.Current).AppVariables.AllowAutoBackups = _allowAutoBackups;
+        //((App)App.Current).AppVariables.AutoBackupCount = _autoBackupCount;
+        //((App)App.Current).AppVariables.BackupLocation = _backupLocation;
 
-        //tabitem 2
-        ((App)App.Current).AppVariables.EraseDatabaseAfterSetAmountAttempts = _eraseDatabaseAfterSetAmountAttempts;
-        ((App)App.Current).AppVariables.UnlockAttempts = _unlockAttempts;
-        ((App)App.Current).AppVariables.TimeoutMinutes = _timeoutMinutes;
-        ((App)App.Current).AppVariables.LogDeletedItems = _logDeletedItems;
+        ////tabitem 2
+        //((App)App.Current).AppVariables.EraseDatabaseAfterSetAmountAttempts = _eraseDatabaseAfterSetAmountAttempts;
+        //((App)App.Current).AppVariables.UnlockAttempts = _unlockAttempts;
+        //((App)App.Current).AppVariables.TimeoutMinutes = _timeoutMinutes;
+        //((App)App.Current).AppVariables.LogDeletedItems = _logDeletedItems;
 
-        //tabitem 3
-        ((App)App.Current).AppVariables.TreeDisplayType = _treeDisplayType;
-        ((App)App.Current).AppVariables.TreeExpandCollapseButtonStyle = _treeExpandCollapseButtonStyle;
-        ((App)App.Current).AppVariables.QuickAccessIconSize = _quickAccessIconSize;
-        ((App)App.Current).AppVariables.DisplayGroupsTree = _displayGroupsTree;
-        ((App)App.Current).AppVariables.DisplayInfoPane = _displayInfoPane;
-        ((App)App.Current).AppVariables.AreDatabaseUsernamesMasked = _areDatabaseUsernamesMasked;
-        ((App)App.Current).AppVariables.AreDatabaseEmailsMasked = AreDatabaseEmailsMasked;
-        ((App)App.Current).AppVariables.AreDatabasePasswordsMasked = AreDatabasePasswordsMasked;
-        ((App)App.Current).AppVariables.AreDatabaseUrlsMasked = AreDatabaseUrlsMasked;
+        ////tabitem 3
+        //((App)App.Current).AppVariables.TreeDisplayType = _treeDisplayType;
+        //((App)App.Current).AppVariables.TreeExpandCollapseButtonStyle = _treeExpandCollapseButtonStyle;
+        //((App)App.Current).AppVariables.QuickAccessIconSize = _quickAccessIconSize;
+        //((App)App.Current).AppVariables.DisplayGroupsTree = _displayGroupsTree;
+        //((App)App.Current).AppVariables.DisplayInfoPane = _displayInfoPane;
+        //((App)App.Current).AppVariables.AreDatabaseUsernamesMasked = _areDatabaseUsernamesMasked;
+        //((App)App.Current).AppVariables.AreDatabaseEmailsMasked = AreDatabaseEmailsMasked;
+        //((App)App.Current).AppVariables.AreDatabasePasswordsMasked = AreDatabasePasswordsMasked;
+        //((App)App.Current).AppVariables.AreDatabaseUrlsMasked = AreDatabaseUrlsMasked;
 
-        //System.Diagnostics.Debug.WriteLine(
-        //    "\n_allowAutoBackups = " + _allowAutoBackups +
-        //    "\n_autoBackupCount = " + _autoBackupCount +
-        //    "\n_backupLocation = " + _backupLocation +
-        //    "\n_eraseDatabaseAfterSetAmountAttempts = " + _eraseDatabaseAfterSetAmountAttempts +
-        //    "\n_unlockAttempts = " + _unlockAttempts +
-        //    "\n_timeoutMinutes = " + _timeoutMinutes +
-        //    "\n_logDeletedItems = " + _logDeletedItems +
-        //    "\n_treeDisplayType = " + _treeDisplayType +
-        //    "\n_treeExpandCollapseButtonStyle = " + _treeExpandCollapseButtonStyle +
-        //    "\n_displayInfoPane = " + _displayInfoPane +
-        //    "\n_quickAccessIconSize = " + _quickAccessIconSize +
-        //    "\n");
+        ////System.Diagnostics.Debug.WriteLine(
+        ////    "\n_allowAutoBackups = " + _allowAutoBackups +
+        ////    "\n_autoBackupCount = " + _autoBackupCount +
+        ////    "\n_backupLocation = " + _backupLocation +
+        ////    "\n_eraseDatabaseAfterSetAmountAttempts = " + _eraseDatabaseAfterSetAmountAttempts +
+        ////    "\n_unlockAttempts = " + _unlockAttempts +
+        ////    "\n_timeoutMinutes = " + _timeoutMinutes +
+        ////    "\n_logDeletedItems = " + _logDeletedItems +
+        ////    "\n_treeDisplayType = " + _treeDisplayType +
+        ////    "\n_treeExpandCollapseButtonStyle = " + _treeExpandCollapseButtonStyle +
+        ////    "\n_displayInfoPane = " + _displayInfoPane +
+        ////    "\n_quickAccessIconSize = " + _quickAccessIconSize +
+        ////    "\n");
 
-        Utils.FileOperations.WriteAppVariablesToFile();
+        //Utils.FileOperations.WriteAppVariablesToFile();
 
-        ConfirmSettings?.Invoke();
+        //ConfirmSettings?.Invoke();
     }
     private void OnCancelButtonCommand(object obj) {
         CancelSettings?.Invoke();

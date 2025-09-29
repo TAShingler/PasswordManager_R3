@@ -22,15 +22,15 @@ public partial class AppSettings_View : UserControl {
         InitializeComponent();
     }
 
-    private void listViewTabDecrementButton_Click(object sender, RoutedEventArgs e) {
-        if (listViewTabSelector.SelectedIndex > 0)
-            listViewTabSelector.SelectedIndex--;
-    }
+    //private void listViewTabDecrementButton_Click(object sender, RoutedEventArgs e) {
+    //    if (listViewTabSelector.SelectedIndex > 0)
+    //        listViewTabSelector.SelectedIndex--;
+    //}
 
-    private void listViewTabIncrementButton_Click(object sender, RoutedEventArgs e) {
-        if (listViewTabSelector.SelectedIndex < listViewTabSelector.Items.Count)
-            listViewTabSelector.SelectedIndex++;
-    }
+    //private void listViewTabIncrementButton_Click(object sender, RoutedEventArgs e) {
+    //    if (listViewTabSelector.SelectedIndex < listViewTabSelector.Items.Count)
+    //        listViewTabSelector.SelectedIndex++;
+    //}
 
     private void NumericUpDownTextBox_PreviewKeyDown(object sender, KeyEventArgs e) {
         if (e.Key == Key.Tab || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Back) {
