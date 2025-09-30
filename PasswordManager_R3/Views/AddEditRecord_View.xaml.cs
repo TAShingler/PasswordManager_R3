@@ -65,14 +65,14 @@ public partial class AddEditRecord_View : UserControl {
     private void UserControl_Loaded(object sender, RoutedEventArgs e) {
         pWrdBox.Password = textBoxPassword.Text;
     }
-    private void listViewTabDecrementButton_Click(object sender, RoutedEventArgs e) {
-        if (listViewTabSelector.SelectedIndex > 0)
-            listViewTabSelector.SelectedIndex--;
-    }
-    private void listViewTabIncrementButton_Click(object sender, RoutedEventArgs e) {
-        if (listViewTabSelector.SelectedIndex < listViewTabSelector.Items.Count)
-            listViewTabSelector.SelectedIndex++;
-    }
+    //private void listViewTabDecrementButton_Click(object sender, RoutedEventArgs e) {
+    //    if (listViewTabSelector.SelectedIndex > 0)
+    //        listViewTabSelector.SelectedIndex--;
+    //}
+    //private void listViewTabIncrementButton_Click(object sender, RoutedEventArgs e) {
+    //    if (listViewTabSelector.SelectedIndex < listViewTabSelector.Items.Count)
+    //        listViewTabSelector.SelectedIndex++;
+    //}
     private void expirationDateCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e) {
         //System.Diagnostics.Debug.WriteLine("Expiration Date changed to " + expirationDateCalendar.SelectedDate);
         System.Diagnostics.Debug.WriteLine("expirationDateCalendar_SelectedDatesChanged called...");

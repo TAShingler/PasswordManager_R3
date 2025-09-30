@@ -96,12 +96,12 @@ internal class LockScreen_ViewModel : ViewModelBase {
             OutputMessage = "Please enter a password to set the master password.";
 
             if (DOES_DB_EXIST == true) {
-                OutputMessage = "The stored master password has been deleted.\nPlease enter a new master password.";
+                OutputMessage = "The stored master password has been deleted. Please enter a new master password.";
                 DeleteDatabase();
             }
         } else {
             if (DOES_DB_EXIST == false)
-                OutputMessage = "Database does not exist.\nA new database has been created.";
+                OutputMessage = "Database does not exist. A new database has been created.";
         }
     }
     //internal LockScreen_ViewModel(ViewModelBase parentVM,)
@@ -119,7 +119,7 @@ internal class LockScreen_ViewModel : ViewModelBase {
         //is password null or whitespace?
         if (string.IsNullOrWhiteSpace(objAsString)) {
             //display error message to user
-            OutputMessage = "Entered password is not valid.\nPlease enter a valid password.";
+            OutputMessage = "Entered password is not valid. Please enter a valid password.";
             return;
         }
 
@@ -265,12 +265,12 @@ internal class LockScreen_ViewModel : ViewModelBase {
             System.Diagnostics.Debug.WriteLine("Utils.Hasher.Verify(password, storedPasswordHash) == " + Utils.Hasher.Verify(password, storedPasswordHash));
             if (_attemptsRemaining > 1) {
                 //decrement wrong attempts count and display error message to user
-                OutputMessage = $"Entered password is not correct.\n{--_attemptsRemaining} attempts remaining.";
+                OutputMessage = $"Entered password is not correct. {--_attemptsRemaining} attempts remaining.";
                 //return;
                 throw new Exception();
             } else {
                 //display error message and delete database
-                OutputMessage = $"Entered password is not correct.\nOut of attempts; deleteing database.";
+                OutputMessage = $"Entered password is not correct. Out of attempts; deleteing database.";
                 //exit app or return to initial setup?
                 DeleteDatabase();   //might put in different class, app.cs maybe (?)
                 //return;

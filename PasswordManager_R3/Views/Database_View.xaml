@@ -27,6 +27,41 @@
         <c:SelectedIndexToGridLengthConverter x:Key="SelectedIndexToGridLengthConverter" />
         <c:BooleanToMaskedStringConverter x:Key="BooleanToMaskedStringConverter" />
         <!--#endregion//  Converters  //-->
+
+        <ContextMenu x:Key="TreeViewItemContextMenu"
+                     HorizontalOffset="4"
+                     Loaded="TreeViewItemContextMenu_Loaded">
+            <MenuItem Header="Add Group"
+                      Click="CtMenuItemAddGroup_Click">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                PropertyName="Visibility"
+                                                Value="Collapsed" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </MenuItem>
+            <MenuItem Header="Edit Group"
+                      Click="CtMenuItemEditGroup_Click">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                PropertyName="Visibility"
+                                                Value="Collapsed" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </MenuItem>
+            <MenuItem Header="Delete Group"
+                      Click="CtMenuItemDeleteGroup_Click">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:ChangePropertyAction TargetObject="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"
+                                                PropertyName="Visibility"
+                                                Value="Collapsed" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </MenuItem>
+        </ContextMenu>
     </UserControl.Resources>
     
     <Grid x:Name="parentGrid">
@@ -49,10 +84,8 @@
                                         UpdateSourceTrigger=PropertyChanged}"
                   MouseRightButtonUp="TreeViewItem_MouseRightButtonUp"
                   ContextMenuClosing="treeViewGroups_ContextMenuClosing"
-                  ContextMenuOpening="treeViewGroups_ContextMenuOpening">
-            <!--<TreeView.OpacityMask>
-                <VisualBrush Visual="{Binding ElementName=treeViewOpacityMask}" />
-            </TreeView.OpacityMask>-->
+                  ContextMenuOpening="treeViewGroups_ContextMenuOpening"
+                  ContextMenu="{StaticResource TreeViewItemContextMenu}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type m:Group}"
                                           ItemsSource="{Binding ChildrenGroups,
@@ -81,7 +114,6 @@
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <!--<RowDefinition Height="12" />-->
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
@@ -625,7 +657,7 @@
                         <TabItem Header="Notes"
                                  Margin="0 0 0 -1"
                                  BorderThickness="1 1 1 0">
-                            <Border Padding="0 12 0 0">
+                            <Border Padding="6">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="36" />
@@ -705,7 +737,7 @@
                         <TabItem Header="Advanced"
                                  Margin="0 0 0 -1"
                                  BorderThickness="1 1 1 0">
-                            <Border Padding="0 12 0 0">
+                            <Border Padding="6">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="36" />
