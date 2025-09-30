@@ -20,7 +20,7 @@
         TextOptions.TextFormattingMode="Display"
         WindowState="{Binding WinState}"
         x:Name="WinMain"
-        Loaded="WinMain_Loaded" ThemeMode="None">
+        Loaded="WinMain_Loaded" ThemeMode="System">
 
     <!--Background="{StaticResource solidColorBrush-static-background}"-->
     <i:Interaction.Triggers>

@@ -16,353 +16,870 @@
         <!--#region //  Converters  // -->
         <converters:CheckedToVisibilityConverter x:Key="CheckedToVisibilityConverter" />
         <!--#endregion //  Converters  // -->
-    </UserControl.Resources>
 
-    <DockPanel Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-        <!--//  Top Panel  //-->
-        <Border DockPanel.Dock="Top"
-                Padding="12">
-            <TextBlock Text="{Binding OperationString}" />
-        </Border>
-        
-        <!--//  Bottom Panel  //-->
-        <Border DockPanel.Dock="Bottom"
-                Padding="12">
-            <StackPanel Orientation="Horizontal"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Right">
-                <Button Width="75"
-                        Margin="6 0"
-                        Content="OK"
-                        IsDefault="True"
-                        Command="{Binding OkButtonCommand}"/>
-                <Button Width="75"
-                        Margin="6 0 0 0"
-                        Content="Cancel"
-                        IsCancel="True"
-                        Command="{Binding CancelButtonCommand}"/>
-            </StackPanel>
-        </Border>
-        
-        <!--//  Left Panel  //-->
-        <Border DockPanel.Dock="Left"
-                Padding="12">
-            <ListView>
-                <ListViewItem Content="Entry" />
-                <ListViewItem Content="Icon" />
-                <ListViewItem Content="Properties" />
-            </ListView>
-        </Border>
-        
-        <!--//  Middle Panel  //-->
-        <Border Padding="12">
-            <TabControl SelectedIndex="{Binding SelectedIndex,
-                                                ElementName=listViewTabSelector}">
-                <!--//  "Entry" Form  //-->
-                <TabItem Visibility="Collapsed">
-                    <Grid>
+        <Path x:Key="down_arrow"
+              Data="M 0 2 L 4 6 L 8 2 Z"
+              Fill="{DynamicResource TextFillColorPrimaryBrush}" />
+
+        <!--#region //  Popups  // -->
+        <Popup x:Key="popupPasswordGenerator"
+               PlacementTarget="{Binding ElementName=toggleButtonGeneratePassword}"
+               Placement="Bottom"
+               IsOpen="{Binding IsChecked,
+                                ElementName=toggleButtonGeneratePassword}"
+               Width="Auto"
+               Height="Auto"
+               StaysOpen="False">
+            <Border x:Name="borderPasswordGenerator"
+                    Width="300"
+                    Height="150"
+                    Background="#333"
+                    BorderBrush="#666"
+                    BorderThickness="1"
+                    CornerRadius="2"
+                    Padding="10 5 10 10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Viewbox Grid.Row="0"
+                             Height="10"
+                             Width="42"
+                             Margin="0 5"
+                             Visibility="Visible">
+                        <Viewbox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.5"
+                                            ScaleY="1.5" />
+                        </Viewbox.LayoutTransform>
+
+                        <Canvas Width="42"
+                                Height="10">
+                            <Ellipse Canvas.Left="2"
+                                     Canvas.Top="2"
+                                     Height="6"
+                                     Width="6"
+                                     Margin="1"
+                                     Fill="DimGray"/>
+                            <Ellipse Canvas.Left="10"
+                                     Canvas.Top="2"
+                                     Height="6"
+                                     Width="6"
+                                     Margin="1"
+                                     Fill="DimGray" />
+                            <Ellipse Canvas.Left="18"
+                                     Canvas.Top="2"
+                                     Height="6"
+                                     Width="6"
+                                     Margin="1"
+                                     Fill="DimGray" />
+                            <Ellipse Canvas.Left="26"
+                                     Canvas.Top="2"
+                                     Height="6"
+                                     Width="6"
+                                     Margin="1"
+                                     Fill="DimGray" />
+                            <Ellipse Canvas.Left="34"
+                                     Canvas.Top="2"
+                                     Height="6"
+                                     Width="6"
+                                     Margin="1"
+                                     Fill="DimGray" />
+                        </Canvas>
+                    </Viewbox>
+
+                    <!--//  Row 2  //-->
+                    <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="120" />
                             <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0"
+                               Foreground="Gainsboro"
+                               Content="Length:"
+                               VerticalContentAlignment="Center"
+                               Margin="0"
+                               Padding="0 0 8 0"
+                               FontSize="12"/>
+                        <Slider x:Name="sliderPasswordLength"
+                                Grid.Column="1"
+                                IsSnapToTickEnabled="True"
+                                SmallChange="1.0"
+                                LargeChange="1.0"
+                                Minimum="{Binding PgMinPasswordLength}"
+                                Maximum="{Binding PgMaxPasswordLength}"
+                                TickFrequency="1.0"
+                                Value="{Binding PgLength,
+                                                Mode=TwoWay}"/>
+                        <Border Grid.Column="2"
+                                Width="Auto"
+                                Margin="5 0 0 0"
+                                BorderThickness="0"
+                                BorderBrush="#666">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="26" />
+                                    <ColumnDefinition Width="18" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox x:Name="textBoxPasswordLength"
+                                         Grid.Column="0"
+                                         Grid.ColumnSpan="1"
+                                         Grid.Row="0"
+                                         Grid.RowSpan="2"
+                                         FontSize="12"
+                                         Foreground="Gainsboro"
+                                         Background="DimGray"
+                                         BorderBrush="DimGray"
+                                         CaretBrush="Gainsboro"
+                                         BorderThickness="1"
+                                         VerticalContentAlignment="Center"
+                                         Text="{Binding PgLength,
+                                                        Mode=TwoWay}"/>
+                                <RepeatButton Grid.Column="1"
+                                              Grid.ColumnSpan="1"
+                                              Grid.Row="0"
+                                              Grid.RowSpan="1"
+                                              BorderThickness="1"
+                                              Command="{Binding IncrementPasswordLengthCommand}">
+                                </RepeatButton>
+                                <RepeatButton Grid.Column="1"
+                                              Grid.ColumnSpan="1"
+                                              Grid.Row="1"
+                                              Grid.RowSpan="1"
+                                              BorderThickness="1"
+                                              Command="{Binding DecrementPasswordLengthCommand}">
+                                </RepeatButton>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <!--//  Row 3  //-->
+                    <Grid Grid.Row="2"
+                          Margin="10 0"
+                          VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
 
-                        <!--//  Title  //-->
-                        <TextBlock Grid.Column="1"
-                                   Grid.Row="0"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Text="Title"/>
-                        <TextBox Grid.Column="2"
-                                 Grid.Row="0"
-                                 VerticalAlignment="Center"
-                                 HorizontalAlignment="Left">
-                            <TextBox.Text>
+                        <CheckBox Grid.Column="0"
+                                  Grid.Row="0"
+                                  Foreground="Gainsboro"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Left"
+                                  FontSize="12"
+                                  Content="Uppercase Letters"
+                                  IsChecked="{Binding PgIncludesUppercaseLetters}"/>
+                        <CheckBox Grid.Column="1"
+                                  Grid.Row="0"
+                                  Foreground="Gainsboro"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Left"
+                                  FontSize="12"
+                                  Content="Lowercase Letters"
+                                  IsChecked="{Binding PgIncludesLowercaseLetters}"/>
+
+                        <!--//  Row 3  //-->
+                        <CheckBox Grid.Column="0"
+                                  Grid.Row="1"
+                                  Foreground="Gainsboro"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Left"
+                                  FontSize="12"
+                                  Content="Numbers"
+                                  IsChecked="{Binding PgIncludesNumbers}"/>
+                        <CheckBox Grid.Column="1"
+                                  Grid.Row="1"
+                                  Foreground="Gainsboro"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Left"
+                                  FontSize="12"
+                                  Content="Special Characters"
+                                  IsChecked="{Binding PgIncludesSpecialCharacters}"/>
+                    </Grid>
+
+                    <!--//  Row 4  />-->
+                    <Button Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Grid.Row="4"
+                            Height="30"
+                            Width="125"
+                            FontSize="12"
+                            Foreground="Gainsboro"
+                            Content="Generate"
+                            Command="{Binding GeneratePasswordCommand}"/>
+                </Grid>
+            </Border>
+        </Popup>
+        <Popup x:Key="popupExpirationDateCalendar"
+               PlacementTarget="{Binding ElementName=textBoxExpirationDate}"
+               Placement="Bottom"
+               IsOpen="{Binding IsChecked,
+                                ElementName=toggleButtonExpirationDate}"
+               Height="Auto"
+               Width="Auto"
+               StaysOpen="True">
+            <Calendar x:Name="expirationDateCalendar"
+                      SelectionModeChanged="expirationDateCalendar_SelectionModeChanged"
+                      SelectedDatesChanged="expirationDateCalendar_SelectedDatesChanged"
+                      DisplayDateChanged="expirationDateCalendar_DisplayDateChanged"
+                      SourceUpdated="expirationDateCalendar_SourceUpdated"
+                      TargetUpdated="expirationDateCalendar_TargetUpdated"
+                      TextInput="expirationDateCalendar_TextInput">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectedDatesChanged">
+                        <i:InvokeCommandAction Command="{Binding CalendarDateSelectionChangedCommand}"
+                                               CommandParameter="{Binding SelectedDates,
+                                                                          ElementName=expirationDateCalendar}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Calendar>
+        </Popup>
+        <!--#endregion //  Popups  // -->
+    </UserControl.Resources>
+
+    <Border CornerRadius="4"
+            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+        <DockPanel>
+            <!--//  Top Panel  //-->
+            <Border DockPanel.Dock="Top"
+                    Padding="12">
+                <TextBlock FontSize="18"
+                           Text="{Binding OperationString}" />
+            </Border>
+
+            <!--//  Bottom Panel  //-->
+            <Border DockPanel.Dock="Bottom"
+                Padding="12">
+                <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right">
+                    <Button Width="75"
+                        Margin="6 0"
+                        Content="OK"
+                        IsDefault="True"
+                        Command="{Binding OkButtonCommand}"/>
+                    <Button Width="75"
+                        Margin="6 0 0 0"
+                        Content="Cancel"
+                        IsCancel="True"
+                        Command="{Binding CancelButtonCommand}"/>
+                </StackPanel>
+            </Border>
+
+            <!--//  Left Panel  //-->
+            <Border DockPanel.Dock="Left"
+                    Width="200"
+                    Padding="12 0">
+                <ListView x:Name="listViewTabSelector"
+                          SelectedIndex="0">
+                    <ListViewItem Content="Entry" />
+                    <ListViewItem Content="Icon" />
+                    <ListViewItem Content="Properties" />
+                </ListView>
+            </Border>
+
+            <!--//  Middle Panel  //-->
+            <Border Margin="0 0 12 0"
+                    Padding="12"
+                    CornerRadius="4"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                <TabControl SelectedIndex="{Binding SelectedIndex,
+                                                    ElementName=listViewTabSelector}">
+                    <!--//  "Entry" Form  //-->
+                    <TabItem Visibility="Collapsed">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+
+                            <!--//  Title  //-->
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="0"
+                                       Margin="0 0 0 12"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Text="Title"/>
+                            <TextBox Grid.Column="2"
+                                     Grid.Row="0"
+                                     Margin="0 0 0 12"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Stretch">
                                 <Binding Path="SrTitle"
                                          Mode="TwoWay">
                                     <Binding.ValidationRules>
                                         <valid:StringValidationRule />
                                     </Binding.ValidationRules>
                                 </Binding>
-                            </TextBox.Text>
-                        </TextBox>
+                            </TextBox>
 
-                        <!--//  Username  //-->
-                        <TextBlock Grid.Column="1"
-                                   Grid.Row="1"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Text="Username"/>
-                        <TextBox Grid.Column="2"
-                                 Grid.Row="1"
-                                 VerticalAlignment="Center"
-                                 HorizontalAlignment="Left"
-                                 Text="{Binding SrUsername,
-                                                Mode=TwoWay}"/>
+                            <!--//  Username  //-->
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="1"
+                                       Margin="0 0 0 12"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Text="Username"/>
+                            <TextBox Grid.Column="2"
+                                     Grid.Row="1"
+                                     Margin="0 0 0 12"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Stretch"
+                                     Text="{Binding SrUsername,
+                                                    Mode=TwoWay}"/>
 
-                        <!--//  Email  //-->
-                        <TextBlock Grid.Column="1"
-                                   Grid.Row="2"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Text="Email"/>
-                        <TextBox Grid.Column="2"
-                                 Grid.Row="2"
-                                 VerticalAlignment="Center"
-                                 HorizontalAlignment="Left"
-                                 Text="{Binding SrEmail,
-                                                Mode=TwoWay}"/>
+                            <!--//  Email  //-->
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="2"
+                                       Margin="0 0 0 12"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Text="Email"/>
+                            <TextBox Grid.Column="2"
+                                     Grid.Row="2"
+                                     Margin="0 0 0 12"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Stretch"
+                                     Text="{Binding SrEmail,
+                                                    Mode=TwoWay}"/>
 
-                        <!--//  Password  //-->
-                        <TextBlock Grid.Column="1"
-                                   Grid.Row="3"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Text="Password"/>
-                        <Grid Grid.Column="2"
-                              Grid.Row="3">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBox x:Name="textBoxPassword"
-                                     Grid.Column="0"
-                                     Visibility="Collapsed"
-                                     Text="{Binding SrPassword,
-                                                    Mode=TwoWay}"
-                                     TextChanged="textBoxPassword_TextChanged" />
-                            <PasswordBox x:Name="pWrdBox"
-                                         Grid.Column="0"
-                                         VerticalContentAlignment="Center"
-                                         Visibility="Visible"
-                                         PasswordChanged="pWrdBox_PasswordChanged" />
-                            <ToggleButton x:Name="toggleButtonGeneratePassword"
-                                          Grid.Column="1"/>
-                            <ToggleButton x:Name="toggleButtonMaskPassword"
-                                          Grid.Column="2"
-                                          IsChecked="True"
-                                          Click="toggleButtonMaskPassword_Click" />
-                        </Grid>
-
-                        <!--//  URL  //-->
-                        <TextBlock Grid.Column="1"
-                                   Grid.Row="4"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Text="URL"/>
-                        <TextBox Grid.Column="2"
-                                 Grid.Row="4"
-                                 VerticalAlignment="Center"
-                                 HorizontalAlignment="Left"
-                                 Text="{Binding SrUrl,
-                                                Mode=TwoWay,
-                                                UpdateSourceTrigger=PropertyChanged}"/>
-
-                        <!--//  Expiration Date  //-->
-                        <CheckBox x:Name="checkBoxExpirationDate"
-                                  Grid.Column="0"
-                                  Grid.Row="5"
-                                  IsChecked="{Binding SrHasExpirationDate,
-                                                      Mode=TwoWay}"
-                                  VerticalAlignment="Center"
-                                  HorizontalAlignment="Left"/>
-                        <TextBlock Grid.Column="1"
-                                   Grid.Row="5"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Text="Expiration date"/>
-                        <Grid Grid.Column="2"
-                              Grid.Row="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="4" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <Grid>
+                            <!--//  Password  //-->
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="3"
+                                       Margin="0 0 0 12"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Text="Password"/>
+                            <Grid Grid.Column="2"
+                                  Grid.Row="3"
+                                  Margin="0 0 0 12">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="24" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <TextBox x:Name="textBoxExpirartionDate"
+                                <TextBox x:Name="textBoxPassword"
                                          Grid.Column="0"
-                                         IsEnabled="{Binding IsChecked,
-                                                             ElementName=checkBoxExpirationDate}"
+                                         Margin="0 0 6 0"
                                          VerticalAlignment="Center"
-                                         HorizontalAlignment="Left"
-                                         Text="{Binding SrExpirationDate,
-                                                        Mode=TwoWay}" />
-                                <ToggleButton x:Name="toggleButtonExpirationDate"
+                                         HorizontalAlignment="Stretch"
+                                         Visibility="Collapsed"
+                                         Text="{Binding SrPassword,
+                                                        Mode=TwoWay}"
+                                         TextChanged="textBoxPassword_TextChanged" />
+                                <PasswordBox x:Name="pWrdBox"
+                                             Grid.Column="0"
+                                             Margin="0 0 6 0"
+                                             VerticalContentAlignment="Center"
+                                             HorizontalAlignment="Stretch"
+                                             Visibility="Visible"
+                                             PasswordChanged="pWrdBox_PasswordChanged" />
+                                <ToggleButton x:Name="toggleButtonGeneratePassword"
                                               Grid.Column="1"
-                                              IsEnabled="{Binding IsChecked,
-                                                                  ElementName=checkBoxExpirationDate}"
-                                              IsChecked="{Binding IsCalendarDisplayed,
-                                                                  Mode=TwoWay}" />
+                                              Margin="6 0">
+                                    <ToggleButton.Content>
+                                        <Grid Width="24"
+                                              Height="24">
+                                            <Path Fill="{Binding Foreground,
+                                                                 RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
+                                                  Data="M 5 3 C 3.9006497 3 3 3.9006497 3 5 L 3 19 C 3 20.09935 3.9006497 21 5 21 L 19 21 C 20.09935 21 21 20.09935 21 19 L 21 5 C 21 3.9006497 20.09935 3 19 3 L 5 3 z
+                                                        M 5 4 L 19 4 C 19.562648 4 20 4.4373519 20 5 L 20 19 C 20 19.562648 19.562648 20 19 20 L 5 20 C 4.4373519 20 4 19.562648 4 19 L 4 5 C 4 4.4373519 4.4373519 4 5 4 z
+                                                        M 7.5 6.5 A 1 1 0 0 0 6.5 7.5 A 1 1 0 0 0 7.5 8.5 A 1 1 0 0 0 8.5 7.5 A 1 1 0 0 0 7.5 6.5 z
+                                                        M 12 11 A 1 1 0 0 0 11 12 A 1 1 0 0 0 12 13 A 1 1 0 0 0 13 12 A 1 1 0 0 0 12 11 z
+                                                        M 16.5 15.5 A 1 1 0 0 0 15.5 16.5 A 1 1 0 0 0 16.5 17.5 A 1 1 0 0 0 17.5 16.5 A 1 1 0 0 0 16.5 15.5 z " />
+                                            <!--<Path Fill="{Binding Foreground,
+                                                                 RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
+                                                  Data="M 3 2 C 2.446 2 2 2.446 2 3 L 2 13 C 2 13.554 2.446 14 3 14 L 13 14 C 13.554 14 14 13.554 14 13 L 14 3 C 14 2.446 13.554 2 13 2 L 3 2 z
+                                                        M 3.5 3 L 12.5 3 C 12.777 3 13 3.2229999 13 3.5 L 13 12.5 C 13 12.777 12.777 13 12.5 13 L 3.5 13 C 3.2229999 13 3 12.777 3 12.5 L 3 3.5 C 3 3.2229999 3.2229999 3 3.5 3 z
+                                                        M 5 4 A 1 0.99999994 0 0 0 4 5 A 1 0.99999994 0 0 0 5 6 A 1 0.99999994 0 0 0 6 5 A 1 0.99999994 0 0 0 5 4 z
+                                                        M 8 7 A 1 0.99999994 0 0 0 7 8 A 1 0.99999994 0 0 0 8 9 A 1 0.99999994 0 0 0 9 8 A 1 0.99999994 0 0 0 8 7 z
+                                                        M 11 10 A 1 0.99999994 0 0 0 10 11 A 1 0.99999994 0 0 0 11 12 A 1 0.99999994 0 0 0 12 11 A 1 0.99999994 0 0 0 11 10 z" />-->
+                                        </Grid>
+                                    </ToggleButton.Content>
+                                </ToggleButton>
+                                <ToggleButton x:Name="toggleButtonMaskPassword"
+                                              Grid.Column="2"
+                                              Margin="6 0 0 0"
+                                              IsChecked="True"
+                                              Click="toggleButtonMaskPassword_Click">
+                                    <ToggleButton.Content>
+                                        <Grid Width="24"
+                                              Height="24">
+                                            <Path Fill="{Binding Foreground,
+                                                                 RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
+                                                  Data="M 3 3 L 2.2929688 3.7070312 L 5.1875 6.6015625 C 2.1534155 8.7682759 1.0292969 11.832031 1.0292969 11.832031 L 0.96875 12 L 1.0292969 12.167969 C 1.0292969 12.167969 3.7083416 19.5 12 19.5 C 13.983916 19.5 15.643918 19.078085 17.025391 18.439453 L 20.292969 21.707031 L 21 21 L 17.953125 17.953125 L 17.253906 17.253906 L 15.179688 15.179688 L 14.476562 14.476562 L 9.5234375 9.5234375 L 8.8203125 8.8203125 L 6.7460938 6.7460938 L 6.046875 6.046875 L 3 3 z
+                                                        M 12 4.5 C 10.015384 4.5 8.3611178 4.9264946 6.9804688 5.5664062 L 7.7109375 6.296875 C 8.9044593 5.8124521 10.320884 5.5 12 5.5 C 19.397188 5.5 21.766587 11.504273 21.951172 12 C 21.832632 12.318354 20.804881 14.904197 18.130859 16.716797 L 18.808594 17.394531 C 21.842281 15.228371 22.970703 12.167969 22.970703 12.167969 L 23.03125 12 L 22.970703 11.832031 C 22.970703 11.832031 20.291658 4.5 12 4.5 z
+                                                        M 5.8652344 7.2792969 L 8.1953125 9.609375 C 7.7574926 10.303176 7.5 11.121575 7.5 12 C 7.5 14.479357 9.5206434 16.5 12 16.5 C 12.878425 16.5 13.696824 16.242506 14.390625 15.804688 L 16.291016 17.705078 C 15.096819 18.189126 13.679012 18.5 12 18.5 C 4.6028124 18.5 2.2334132 12.495727 2.0488281 12 C 2.1673888 11.68159 3.1905732 9.0921279 5.8652344 7.2792969 z
+                                                        M 12 7.5 C 11.121575 7.5 10.303155 7.7574717 9.609375 8.1953125 L 10.333984 8.9199219 C 10.828929 8.6522714 11.395653 8.5 12 8.5 C 13.938917 8.5 15.5 10.061083 15.5 12 C 15.5 12.604347 15.347729 13.171071 15.080078 13.666016 L 15.804688 14.390625 C 16.242528 13.696845 16.5 12.878425 16.5 12 C 16.5 9.5206434 14.479357 7.5 12 7.5 z
+                                                        M 8.9199219 10.333984 L 13.666016 15.080078 C 13.17127 15.347067 12.603733 15.5 12 15.5 C 10.061083 15.5 8.5 13.938917 8.5 12 C 8.5 11.396267 8.6529333 10.82873 8.9199219 10.333984 z"
+                                                  Visibility="Collapsed"/>
+                                            <Path Fill="{Binding Foreground,
+                                                                 RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
+                                                  Data="M 12 4.5 C 3.7083416 4.5 1.0292969 11.832031 1.0292969 11.832031 L 0.96875 12 L 1.0292969 12.167969 C 1.0292969 12.167969 3.7083416 19.5 12 19.5 C 20.291658 19.5 22.970703 12.167969 22.970703 12.167969 L 23.03125 12 L 22.970703 11.832031 C 22.970703 11.832031 20.291658 4.5 12 4.5 z
+                                                        M 12 5.5 C 19.397188 5.5 21.766587 11.504273 21.951172 12 C 21.766587 12.495727 19.397188 18.5 12 18.5 C 4.6028124 18.5 2.2334132 12.495727 2.0488281 12 C 2.2334132 11.504273 4.6028124 5.5 12 5.5 z
+                                                        M 12 7.5 C 9.5206434 7.5 7.5 9.5206434 7.5 12 C 7.5 14.479357 9.5206434 16.5 12 16.5 C 14.479357 16.5 16.5 14.479357 16.5 12 C 16.5 9.5206434 14.479357 7.5 12 7.5 z
+                                                        M 12 8.5 C 13.938917 8.5 15.5 10.061083 15.5 12 C 15.5 13.938917 13.938917 15.5 12 15.5 C 10.061083 15.5 8.5 13.938917 8.5 12 C 8.5 10.061083 10.061083 8.5 12 8.5 z"
+                                                  Visibility="Visible"/>
+                                            <!--<Path Fill="{Binding Foreground,
+                                                                 RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
+                                                  Data="M 1.99997,1.9999948 1.5286135,2.4713513 3.4583106,4.4010485 C 1.4355775,5.8455313 0.6861614,7.8880445 0.6861614,7.8880445 l -0.040365,0.11198 0.040365,0.11198 c 0,0 1.7860388,4.8880455 7.3138387,4.8880455 1.322617,0 2.4292899,-0.281278 3.3502759,-0.707035 l 2.178397,2.178397 0.471356,-0.471357 z
+                                                        M 8,2.9999998 c -1.323084,0 -2.4259336,0.2843312 -3.3463709,0.710941 L 5.1406107,4.1979225 C 5.9362959,3.8749723 6.880584,3.6666698 8.0000001,3.6666698 c 4.9314819,0 6.5110899,4.0028687 6.6341469,4.3333547 -0.07903,0.212237 -0.764198,1.9361414 -2.546888,3.1445475 l 0.451825,0.451825 c 2.022468,-1.444114 2.774754,-3.4843925 2.774754,-3.4843925 l 0.04036,-0.11198 -0.04036,-0.11198 c 0,0 -1.786039,-4.8880447 -7.313838,-4.8880447 z
+                                                        M 3.9101358,4.8528737 5.463529,6.4062665 c -0.2918814,0.462537 -0.463544,1.008139 -0.463544,1.593758 0,1.652913 1.3471021,3.0000155 3.0000151,3.0000155 0.58562,0 1.131222,-0.171663 1.593758,-0.463543 l 1.2669329,1.266933 c -0.796135,0.3227 -1.7413439,0.52995 -2.8606909,0.52995 -4.9314831,0 -6.5110904,-4.0028685 -6.6341478,-4.3333555 0.079041,-0.212274 0.7611672,-1.938591 2.5442835,-3.1471508 z
+                                                        m 4.0898643,0.1471361 c -0.5856201,0 -1.131236,0.1716487 -1.593758,0.463544 l 0.483075,0.4830757 c 0.3299649,-0.1784349 0.707783,-0.2799497 1.110683,-0.2799497 1.292618,0 2.3333439,1.0407277 2.3333439,2.3333447 0,0.4029 -0.101515,0.780718 -0.279949,1.110683 l 0.483075,0.483075 c 0.291895,-0.462522 0.463544,-1.008138 0.463544,-1.593758 0,-1.652912 -1.347101,-3.0000147 -3.0000139,-3.0000147 z
+                                                        M 5.9466043,6.8893415 9.1106831,10.053421 c -0.329832,0.177993 -0.708192,0.279949 -1.110683,0.279949 -1.292618,0 -2.333345,-1.0407275 -2.333345,-2.3333455 0,-0.40249 0.101956,-0.78085 0.2799492,-1.110683 z"
+                                                  Visibility="Collapsed"/>
+                                            <Path Fill="{Binding Foreground,
+                                                                 RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
+                                                  Data="m 8.0000023,2.9999741 c -5.5277999,0 -7.3138386,4.888045 -7.3138386,4.888045 l -0.040365,0.11198 0.040365,0.11198 c 0,0 1.7860387,4.8880449 7.3138384,4.8880449 5.5277999,0 7.3138389,-4.8880449 7.3138389,-4.8880449 l 0.04036,-0.11198 -0.04036,-0.11198 c 0,0 -1.786039,-4.888045 -7.3138387,-4.888045 z
+                                                        m 0,0.66667 c 4.9314827,0 6.5110907,4.002869 6.6341477,4.333355 -0.123057,0.330486 -1.702665,4.3333549 -6.6341477,4.3333549 -4.9314831,0 -6.5110904,-4.0028689 -6.6341478,-4.3333549 0.1230574,-0.330486 1.7026647,-4.333355 6.6341478,-4.333355 z
+                                                        m 0,1.33334 c -1.652913,0 -3.000015,1.347102 -3.000015,3.000015 0,1.652913 1.347102,3.0000149 3.000015,3.0000149 1.652913,0 3.0000147,-1.3471019 3.0000147,-3.0000149 0,-1.652913 -1.3471017,-3.000015 -3.0000147,-3.000015 z
+                                                        m 0,0.66667 c 1.292618,0 2.3333447,1.040727 2.3333447,2.333345 0,1.292618 -1.0407267,2.3333449 -2.3333447,2.3333449 -1.292618,0 -2.333345,-1.0407269 -2.333345,-2.3333449 0,-1.292618 1.040727,-2.333345 2.333345,-2.333345 z"
+                                                  Visibility="Visible"/>-->
+                                        </Grid>
+                                    </ToggleButton.Content>
+                                </ToggleButton>
                             </Grid>
-                            <ComboBox x:Name="comboBoxExpirationDatePresets"
-                                      Grid.Column="2"
-                                      SelectionChanged="comboBoxExpirationDatePresets_SelectionChanged">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="SelectionChanged">
-                                        <i:InvokeCommandAction Command="{Binding ComboBoxExpirationDatePresetsSelectionChangedCommand}"
-                                                               CommandParameter="{Binding SelectedIndex,
-                                                                                          RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                                <ComboBoxItem Content="12 Hours" />
-                                <ComboBoxItem Content="24 Hours" />
-                                <Separator />
-                                <ComboBoxItem Content="1 Week" />
-                                <ComboBoxItem Content="2 Weeks" />
-                                <ComboBoxItem Content="3 Weeks" />
-                                <Separator />
-                                <ComboBoxItem Content="1 Month" />
-                                <ComboBoxItem Content="3 Months" />
-                                <ComboBoxItem Content="6 Months" />
-                                <Separator />
-                                <ComboBoxItem Content="1 Year" />
-                                <ComboBoxItem Content="2 Years" />
-                                <ComboBoxItem Content="3 Years" />
-                            </ComboBox>
+
+                            <!--//  URL  //-->
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="4"
+                                       Margin="0 0 0 12"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Text="URL"/>
+                            <TextBox Grid.Column="2"
+                                     Grid.Row="4"
+                                     Margin="0 0 0 12"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Stretch"
+                                     Text="{Binding SrUrl,
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <!--//  Expiration Date  //-->
+                            <CheckBox x:Name="checkBoxExpirationDate"
+                                      Grid.Column="0"
+                                      Grid.Row="5"
+                                      Margin="0 0 0 12"
+                                      IsChecked="{Binding SrHasExpirationDate,
+                                                          Mode=TwoWay}"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="5"
+                                       Margin="0 0 0 12"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Text="Expiration date"/>
+                            <Grid Grid.Column="2"
+                                  Grid.Row="5"
+                                  Margin="0 0 0 12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0"
+                                      Visibility="Collapsed">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBox x:Name="textBoxExpirartionDate"
+                                             Grid.Column="0"
+                                             Margin="0 0 6 0"
+                                             IsEnabled="{Binding IsChecked,
+                                                                 ElementName=checkBoxExpirationDate}"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Stretch"
+                                             Text="{Binding SrExpirationDate,
+                                                            Mode=TwoWay}" />
+                                    <ToggleButton x:Name="toggleButtonExpirationDate"
+                                                  Grid.Column="1"
+                                                  Margin="6 0"
+                                                  IsEnabled="{Binding IsChecked,
+                                                                      ElementName=checkBoxExpirationDate}"
+                                                  IsChecked="{Binding IsCalendarDisplayed,
+                                                                      Mode=TwoWay}">
+                                        <ToggleButton.Content>
+                                            <Grid Width="24"
+                                                  Height="24">
+                                                <Path Width="8"
+                                                      Height="8"
+                                                      Data="M 0 2 L 4 6 L 8 2 Z"
+                                                      Fill="{Binding Foreground,
+                                                                     RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}" />
+                                            </Grid>
+                                        </ToggleButton.Content>
+                                    </ToggleButton>
+                                </Grid>
+                                <ComboBox x:Name="comboBoxExpirationDatePresets"
+                                          Grid.Column="1"
+                                          Visibility="Collapsed"
+                                          Margin="6 0 0 0"
+                                          SelectionChanged="comboBoxExpirationDatePresets_SelectionChanged">
+                                    <ComboBox.Template>
+                                        <ControlTemplate TargetType="{x:Type ComboBox}">
+                                            <Grid>
+                                                <ToggleButton x:Name="ToggleButton"
+                                                              Focusable="false"
+                                                              ClickMode="Press"
+                                                              IsChecked="{Binding IsDropDownOpen,
+                                                                                  Mode=TwoWay,
+                                                                                  RelativeSource={RelativeSource TemplatedParent}}">
+                                                    <ToggleButton.Template>
+                                                        <ControlTemplate x:Name="ComboBoxToggleButton"
+                                                                         TargetType="{x:Type ToggleButton}">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="24" />
+                                                                </Grid.ColumnDefinitions>
+                                                                
+                                                                <Border x:Name="Border"
+                                                                        Grid.Column="0"
+                                                                        Grid.ColumnSpan="2"
+                                                                        CornerRadius="4" />
+                                                                <Canvas Height="8"
+                                                                        Width="8"
+                                                                        Grid.Column="1"
+                                                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                                                    <Path x:Name="Arrow"
+                                                                          Data="M 0 2 L 4 6 L 8 2 Z"
+                                                                          Fill="{Binding Foreground,
+                                                                                         RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}" />
+                                                                </Canvas>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </ToggleButton.Template>
+                                                </ToggleButton>
+                                                <ContentPresenter x:Name="ContentSite"
+                                                                  IsHitTestVisible="False"
+                                                                  Content="Presets"
+                                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                                  Margin="4 0 23 0"
+                                                                  VerticalAlignment="Center"
+                                                                  HorizontalAlignment="Left">
+                                                </ContentPresenter>
+                                                <TextBox x:Name="PART_EditableTextBox"
+                                                         Style="{x:Null}"
+                                                         HorizontalAlignment="Left"
+                                                         VerticalAlignment="Bottom"
+                                                         Margin="3,3,23,3"
+                                                         Focusable="True"
+                                                         Background="Transparent"
+                                                         Visibility="Hidden">
+                                                    <TextBox.Template>
+                                                        <ControlTemplate x:Name="ComboBoxTextBox"
+                                                                         TargetType="{x:Type TextBox}">
+                                                            <Border x:Name="PART_ContentHost"
+                                                                    Focusable="False"
+                                                                    Background="Transparent"
+                                                                    BorderBrush="Transparent"
+                                                                    BorderThickness="0" />
+                                                        </ControlTemplate>
+                                                    </TextBox.Template>
+                                                </TextBox>
+                                                <Popup x:Name="Popup"
+                                                       Placement="Bottom"
+                                                       IsOpen="{TemplateBinding IsDropDownOpen}"
+                                                       AllowsTransparency="True"
+                                                       Focusable="False"
+                                                       PopupAnimation="Slide">
+                                                    <Grid x:Name="DropDown"
+                                                          SnapsToDevicePixels="True"
+                                                          MinWidth="{TemplateBinding ActualWidth}"
+                                                          MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                                        <Border x:Name="DropDownBorder"
+                                                                BorderThickness="0"
+                                                                BorderBrush="#666"
+                                                                Background="#505050"
+                                                                CornerRadius="2"/>
+                                                        <ScrollViewer Margin="4,6,4,6"
+                                                                      SnapsToDevicePixels="True">
+                                                            <StackPanel x:Name="PopupItemsHost"
+                                                                        IsItemsHost="True"
+                                                                        KeyboardNavigation.DirectionalNavigation="Contained" />
+                                                        </ScrollViewer>
+                                                    </Grid>
+                                                </Popup>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </ComboBox.Template>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding ComboBoxExpirationDatePresetsSelectionChangedCommand}"
+                                                CommandParameter="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <ComboBoxItem Content="12 Hours" />
+                                    <ComboBoxItem Content="24 Hours" />
+                                    <Separator />
+                                    <ComboBoxItem Content="1 Week" />
+                                    <ComboBoxItem Content="2 Weeks" />
+                                    <ComboBoxItem Content="3 Weeks" />
+                                    <Separator />
+                                    <ComboBoxItem Content="1 Month" />
+                                    <ComboBoxItem Content="3 Months" />
+                                    <ComboBoxItem Content="6 Months" />
+                                    <Separator />
+                                    <ComboBoxItem Content="1 Year" />
+                                    <ComboBoxItem Content="2 Years" />
+                                    <ComboBoxItem Content="3 Years" />
+                                </ComboBox>
+
+
+                                <DatePicker Grid.Column="0" />
+                                <Menu Grid.Column="1">
+                                    <MenuItem Header="Presets"
+                                              Icon="{DynamicResource down_arrow}">
+                                        <MenuItem Header="12 Hours">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding ComboBoxExpirationDatePresetsSelectionChangedCommand}"
+                                                                           CommandParameter="0"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </MenuItem>
+                                        <MenuItem Header="24 Hours">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding ComboBoxExpirationDatePresetsSelectionChangedCommand}"
+                                                                           CommandParameter="1"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </MenuItem>
+                                        <Separator />
+                                        <MenuItem Header="1 Week">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding ComboBoxExpirationDatePresetsSelectionChangedCommand}"
+                                                                           CommandParameter="2"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </MenuItem>
+                                        <MenuItem Header="2 Weeks">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding ComboBoxExpirationDatePresetsSelectionChangedCommand}"
+                                                                           CommandParameter="3"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </MenuItem>
+                                        <MenuItem Header="3 Weeks">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding ComboBoxExpirationDatePresetsSelectionChangedCommand}"
+                                                                           CommandParameter="4"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </MenuItem>
+                                        <Separator />
+                                        <MenuItem Header="1 Month">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding ComboBoxExpirationDatePresetsSelectionChangedCommand}"
+                                                                           CommandParameter="5"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </MenuItem>
+                                        <MenuItem Header="3 Months">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding ComboBoxExpirationDatePresetsSelectionChangedCommand}"
+                                                                           CommandParameter="6"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </MenuItem>
+                                        <MenuItem Header="6 Months">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding ComboBoxExpirationDatePresetsSelectionChangedCommand}"
+                                                                           CommandParameter="7"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </MenuItem>
+                                        <Separator />
+                                        <MenuItem Header="1 Year">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding ComboBoxExpirationDatePresetsSelectionChangedCommand}"
+                                                                           CommandParameter="8"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </MenuItem>
+                                        <MenuItem Header="2 Years">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding ComboBoxExpirationDatePresetsSelectionChangedCommand}"
+                                                                           CommandParameter="9"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </MenuItem>
+                                        <MenuItem Header="3 Years">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding ComboBoxExpirationDatePresetsSelectionChangedCommand}"
+                                                                           CommandParameter="10"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </MenuItem>
+                                    </MenuItem>
+                                </Menu>
+                            </Grid>
+
+                            <!--//  Notes  //-->
+                            <CheckBox x:Name="checkBoxNotes"
+                                      Grid.Column="0"
+                                      Grid.Row="6"
+                                      IsChecked="{Binding SrHasNotes,
+                                                          Mode=TwoWay}"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="6"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Text="Notes"/>
+                            <TextBox Grid.Column="2"
+                                     Grid.Row="6"
+                                     Grid.RowSpan="2"
+                                     VerticalAlignment="Stretch"
+                                     HorizontalAlignment="Stretch"
+                                     IsEnabled="{Binding IsChecked,
+                                                         ElementName=checkBoxNotes}"
+                                     HorizontalScrollBarVisibility="Disabled"
+                                     VerticalScrollBarVisibility="Auto"
+                                     TextWrapping="Wrap"
+                                     AcceptsReturn="True"
+                                     Text="{Binding SrNotes,
+                                                    Mode=TwoWay}"/>
                         </Grid>
+                    </TabItem>
 
-                        <!--//  Notes  //-->
-                        <CheckBox x:Name="checkBoxNotes"
-                                  Grid.Column="0"
-                                  Grid.Row="6"
-                                  IsChecked="{Binding SrHasNotes,
-                                                      Mode=TwoWay}"
-                                  VerticalAlignment="Center"
-                                  HorizontalAlignment="Left"/>
-                        <TextBlock Grid.Column="1"
-                                   Grid.Row="6"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Text="Notes"/>
-                        <TextBox Grid.Column="2"
-                                 Grid.Row="6"
-                                 Grid.RowSpan="2"
-                                 IsEnabled="{Binding IsChecked,
-                                                     ElementName=checkBoxNotes}"
-                                 HorizontalScrollBarVisibility="Disabled"
-                                 VerticalScrollBarVisibility="Auto"
-                                 TextWrapping="Wrap"
-                                 AcceptsReturn="True"
-                                 Text="{Binding SrNotes,
-                                                Mode=TwoWay}"/>
-                    </Grid>
-                </TabItem>
+                    <!--//  "Icon" Form  //-->
+                    <TabItem Visibility="Collapsed">
+                        <ListBox x:Name="addEditIconSelector"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            SelectionMode="Single"
+                            SelectedIndex="{Binding SrIconIndex, Mode=TwoWay}"
+                            ItemsSource="{StaticResource RecordIconsArray}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"
+                                        IsItemsHost="True" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal"
+                                        Margin="0"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center">
+                                        <Image Source="{Binding}"
+                                            Width="36"
+                                            Height="36"
+                                            Margin="10"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding IconSelectorSelectionChangedCommand}"
+                                        CommandParameter="{Binding SelectedIndex}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ListBox>
+                    </TabItem>
 
-                <!--//  "Icon" Form  //-->
-                <TabItem Visibility="Collapsed">
-                    <ListBox x:Name="addEditIconSelector"
-                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                             SelectionMode="Single"
-                             SelectedIndex="{Binding SrIconIndex,
-                                                     Mode=TwoWay}"
-                             ItemsSource="{StaticResource RecordIconsArray}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal"
-                                           IsItemsHost="True" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal"
-                                            Margin="0"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Center">
-                                    <Image Source="{Binding}"
-                                           Width="36"
-                                           Height="36"
-                                           Margin="10"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding IconSelectorSelectionChangedCommand}"
-                                                       CommandParameter="{Binding SelectedIndex}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ListBox>
-                </TabItem>
+                    <!--//  "Properties" Form  //-->
+                    <TabItem Visibility="Collapsed">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
 
-                <!--//  "Properties" Form  //-->
-                <TabItem Visibility="Collapsed">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="16" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="1*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="1*" />
-                        </Grid.RowDefinitions>
+                            <!--//  Created Date  //-->
+                            <TextBlock Grid.Column="1"
+                                Grid.Row="0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                Text="Created"/>
+                            <TextBox Grid.Column="2"
+                                Grid.Row="0"
+                                IsReadOnly="True"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                Text="{Binding SrCreatedDate, Mode=OneTime}"/>
 
-                        <!--//  Created Date  //-->
-                        <TextBlock Grid.Column="1"
-                                   Grid.Row="0"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Text="Created"/>
-                        <TextBox Grid.Column="2"
-                                 Grid.Row="0"
-                                 IsReadOnly="True"
-                                 VerticalAlignment="Center"
-                                 HorizontalAlignment="Left"
-                                 Text="{Binding SrCreatedDate,
-                                                Mode=OneTime}"/>
+                            <!--//  Modified Date  //-->
+                            <TextBlock Grid.Column="1"
+                                Grid.Row="1"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                Text="Last Modified"/>
+                            <TextBox Grid.Column="2"
+                                Grid.Row="1"
+                                IsReadOnly="True"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                Text="{Binding SrModifiedDate, Mode=OneTime}"/>
 
-                        <!--//  Modified Date  //-->
-                        <TextBlock Grid.Column="1"
-                                   Grid.Row="1"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Text="Last Modified"/>
-                        <TextBox Grid.Column="2"
-                                 Grid.Row="1"
-                                 IsReadOnly="True"
-                                 VerticalAlignment="Center"
-                                 HorizontalAlignment="Left"
-                                 Text="{Binding SrModifiedDate,
-                                                Mode=OneTime}"/>
-
-                        <!--//  GUID  //-->
-                        <!--//  **MIGHT REMOVE**  //-->
-                        <TextBlock Grid.Column="1"
-                                   Grid.Row="2"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Text="GUID"/>
-                        <TextBox Grid.Column="2"
-                                 Grid.Row="2"
-                                 IsReadOnly="True"
-                                 VerticalAlignment="Center"
-                                 HorizontalAlignment="Left"
-                                 Text="{Binding SrGuid,
-                                                Mode=OneTime}"/>
-                    </Grid>
-                </TabItem>
-            </TabControl>
-        </Border>
-    </DockPanel>
+                            <!--//  GUID  //-->
+                            <!--//  **MIGHT REMOVE**  //-->
+                            <TextBlock Grid.Column="1"
+                                Grid.Row="2"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                Text="GUID"/>
+                            <TextBox Grid.Column="2"
+                                Grid.Row="2"
+                                IsReadOnly="True"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                Text="{Binding SrGuid, Mode=OneTime}"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Border>
+        </DockPanel>
+    </Border>
 </UserControl>

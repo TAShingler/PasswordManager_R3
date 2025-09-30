@@ -34,14 +34,14 @@ public partial class App : Application, System.ComponentModel.INotifyPropertyCha
     protected override void OnStartup(StartupEventArgs e) {
         //Utils.FileOperations.DatabaseBackup();
         const string appName = "PasswordManager_R3";
-        bool createdNew;
+        //bool createdNew;
 
-        _mutex = new System.Threading.Mutex(true, appName, out createdNew);
+        //_mutex = new System.Threading.Mutex(true, appName, out createdNew);
 
-        if (!createdNew) {
-            //app is already running! Exiting the application
-            Application.Current.Shutdown();
-        }
+        //if (!createdNew) {
+        //    //app is already running! Exiting the application
+        //    Application.Current.Shutdown();
+        //}
 
 
         /*

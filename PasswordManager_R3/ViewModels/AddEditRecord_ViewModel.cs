@@ -490,45 +490,47 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
         if (obj == null)
             return;
 
-        var objAsInt = (int)obj;
+        if (obj is string) {
+            var objAsInt = int.Parse((string) obj);
 
-        switch (objAsInt) {
-            case 0:
-                SrExpirationDate = DateTime.Now.AddHours(12).ToString();
-                break;
-            case 1:
-                SrExpirationDate = DateTime.Now.AddHours(24).ToString();
-                break;
-            case 3:
-                SrExpirationDate = DateTime.Now.AddDays(7).ToString();
-                break;
-            case 4:
-                SrExpirationDate = DateTime.Now.AddDays(14).ToString();
-                break;
-            case 5:
-                SrExpirationDate = DateTime.Now.AddDays(21).ToString();
-                break;
-            case 7:
-                SrExpirationDate = DateTime.Now.AddMonths(1).ToString();
-                break;
-            case 8:
-                SrExpirationDate = DateTime.Now.AddMonths(3).ToString();
-                break;
-            case 9:
-                SrExpirationDate = DateTime.Now.AddMonths(6).ToString();
-                break;
-            case 11:
-                SrExpirationDate = DateTime.Now.AddYears(1).ToString();
-                break;
-            case 12:
-                SrExpirationDate = DateTime.Now.AddYears(2).ToString();
-                break;
-            case 13:
-                SrExpirationDate = DateTime.Now.AddYears(3).ToString();
-                break;
+            switch (objAsInt) {
+                case 0:
+                    SrExpirationDate = DateTime.Now.AddHours(12).ToString();
+                    break;
+                case 1:
+                    SrExpirationDate = DateTime.Now.AddHours(24).ToString();
+                    break;
+                case 2:
+                    SrExpirationDate = DateTime.Now.AddDays(7).ToString();
+                    break;
+                case 3:
+                    SrExpirationDate = DateTime.Now.AddDays(14).ToString();
+                    break;
+                case 4:
+                    SrExpirationDate = DateTime.Now.AddDays(21).ToString();
+                    break;
+                case 5:
+                    SrExpirationDate = DateTime.Now.AddMonths(1).ToString();
+                    break;
+                case 6:
+                    SrExpirationDate = DateTime.Now.AddMonths(3).ToString();
+                    break;
+                case 7:
+                    SrExpirationDate = DateTime.Now.AddMonths(6).ToString();
+                    break;
+                case 8:
+                    SrExpirationDate = DateTime.Now.AddYears(1).ToString();
+                    break;
+                case 9:
+                    SrExpirationDate = DateTime.Now.AddYears(2).ToString();
+                    break;
+                case 10:
+                    SrExpirationDate = DateTime.Now.AddYears(3).ToString();
+                    break;
+            }
+
+            SrHasExpirationDate = true;
         }
-
-        SrHasExpirationDate = true;
         //SrExpirationDate = DateTime.Now.Add();
     }
     //private void OnIconSelectorSelectionChangedCommand(object obj) {
