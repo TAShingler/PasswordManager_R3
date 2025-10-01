@@ -19,7 +19,8 @@
 
     <DockPanel>
         <!--//  Left Panel  //-->
-        <ListView x:Name="listViewCategories" DockPanel.Dock="Left"
+        <ListView x:Name="listViewCategories"
+                  DockPanel.Dock="Left"
                   Width="200"
                   Background="Transparent"
                   SelectedIndex="0">
@@ -101,6 +102,7 @@
         
         <!--//  Center Panel  //-->
         <Grid>
+            <!--  need to swap position of scrollviewers and borders - may swap to tabcontrol instead  -->
             <ScrollViewer Margin="12 0 0 12"
                           Visibility="{Binding SelectedIndex,
                                                ElementName=listViewCategories,
@@ -112,19 +114,14 @@
                     <StackPanel>
                         <TextBlock Text="Backup Options"
                                    HorizontalAlignment="Left"/>
-                        <Separator Margin="0 3" />
+                        <Separator Margin="0 3 0 6" />
                         <Grid Margin="12 0 0 0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition MinWidth="180"
-                                                  Width="Auto" />
-                                <ColumnDefinition MinWidth="100"
-                                                  Width="Auto" />
-                                <ColumnDefinition MinWidth="320"
-                                                  Width="Auto" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -133,860 +130,516 @@
                             <!--//  Row 1  //-->
                             <TextBlock Grid.Column="0"
                                        Grid.Row="0"
+                                       Margin="0 0 0 12"
                                        VerticalAlignment="Center"
                                        Text="Auto backup count" />
-                            <TextBox x:Name="txtBoxAutoBackupCount"
-                                     Grid.Column="1"
-                                     Grid.Row="0"
-                                     Text="{Binding AutoBackupCount}"
-                                     VerticalContentAlignment="Center"
-                                     HorizontalContentAlignment="Right"/>
-                            <!--<Grid Grid.Column="1"
-                              Grid.Row="0"
-                              Margin="0 6">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height="1*" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBox x:Name="txtBoxAutoBackupCount"
-                                     Grid.Column="0"
-                                     Grid.Row="0"
-                                     Grid.RowSpan="2"
-                                     IsEnabled="{Binding ElementName=checkBoxAllowAutoBackups,
-                                                         Path=IsChecked}"
-                                     Text="{Binding AutoBackupCount}"
-                                     VerticalContentAlignment="Center"
-                                     HorizontalContentAlignment="Right"
-                                     PreviewKeyDown="NumericUpDownTextBox_PreviewKeyDown"/>
-                            <RepeatButton x:Name="rptBtnIncrementAutoBackupCount"
-                                          Grid.Row="0"
-                                          Grid.Column="1"
-                                          IsEnabled="{Binding ElementName=checkBoxAllowAutoBackups,
-                                                              Path=IsChecked}"
-                                          Command="{Binding IncrementAutoBackupCountCommand}">
-                                <RepeatButton.Content>
-                                    <Path Fill="{Binding Foreground,
-                                                         RelativeSource={RelativeSource AncestorType={x:Type RepeatButton}}}"
-                                          Data="M 0 4 4 0 8 4 Z" />
-                                </RepeatButton.Content>
-                            </RepeatButton>
-                            <RepeatButton Grid.Row="1"
-                                          Grid.Column="1"
-                                          IsEnabled="{Binding ElementName=checkBoxAllowAutoBackups,
-                                                              Path=IsChecked}"
-                                          Command="{Binding DecrementAutoBackupCountCommand}">
-                                <RepeatButton.Content>
-                                    <Path Fill="{Binding Foreground,
-                                                         RelativeSource={RelativeSource AncestorType={x:Type RepeatButton}}}"
-                                          Data="M 0 0 4 4 8 0 Z" />
-                                </RepeatButton.Content>
-                            </RepeatButton>
-                        </Grid>-->
-
+                            <StackPanel Grid.Column="1"
+                                        Grid.Row="0"
+                                        Margin="0 0 0 12"
+                                        Orientation="Horizontal">
+                                <TextBox x:Name="txtBoxAutoBackupCount"
+                                         Width="100"
+                                         Margin="0 0 4 0"
+                                         Text="{Binding AutoBackupCount}"
+                                         VerticalContentAlignment="Center"
+                                         HorizontalAlignment="Left"
+                                         HorizontalContentAlignment="Right"/>
+                                <StackPanel Orientation="Vertical">
+                                    <RepeatButton Padding="11 4"
+                                                  Margin="0 0 0 2"
+                                                  Command="{Binding IncrementAutoBackupCountCommand}">
+                                        <RepeatButton.Content>
+                                            <Path Width="8"
+                                                  Height="4"
+                                                  Fill="{Binding Foreground,
+                                                                 RelativeSource={RelativeSource AncestorType={x:Type RepeatButton}}}"
+                                                  Data="M 0 4 4 0 8 4 Z" />
+                                        </RepeatButton.Content>
+                                    </RepeatButton>
+                                    <RepeatButton Padding="11 4"
+                                                  Margin="0 2 0 0"
+                                                  Command="{Binding DecrementAutoBackupCountCommand}">
+                                        <RepeatButton.Content>
+                                            <Path Width="8"
+                                                  Height="4"
+                                                  Fill="{Binding Foreground,
+                                                                 RelativeSource={RelativeSource AncestorType={x:Type RepeatButton}}}"
+                                                  Data="M 0 0 4 4 8 0 Z" />
+                                        </RepeatButton.Content>
+                                    </RepeatButton>
+                                </StackPanel>
+                            </StackPanel>
+                            
                             <!--//  Row 2  //-->
                             <TextBlock Grid.Column="0"
                                        Grid.Row="1"
-                                       Text="Backup location" />
+                                       Text="Backup location"
+                                       VerticalAlignment="Center"/>
                             <TextBox Grid.Column="1"
-                                     Grid.ColumnSpan="2"
                                      Grid.Row="1"
                                      Text="{Binding BackupLocation}" />
-                            <Button Grid.Column="3"
+                            <Button Grid.Column="2"
                                     Grid.Row="1"
+                                    Margin="12 0 0 0"
                                     Content="Browse..." />
                         </Grid>
                     </StackPanel>
                 </Border>
             </ScrollViewer>
-            <ScrollViewer Visibility="{Binding SelectedIndex,
+            <ScrollViewer Margin="12 0 0 12"
+                          Visibility="{Binding SelectedIndex,
                                                ElementName=listViewCategories,
                                                Converter={StaticResource SelectedIndexToVisibilityConverter},
                                                ConverterParameter=1}">
-                <StackPanel>
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColor}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorDark1}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorDark1Brush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorDark1BrushKey}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorDark1Key}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorDark2}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorDark2Brush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorDark2BrushKey}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorDark2Key}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorDark3}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorDark3Brush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorDark3BrushKey}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorDark3Key}}" />-->
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorLight1}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorLight1Brush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorLight1BrushKey}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorLight1Key}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorLight2}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorLight2Brush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorLight2BrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorLight3}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorLight3Brush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorLight3BrushKey}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AccentColorLight3Key}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ActiveBorderBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ActiveBorderColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ActiveCaptionBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ActiveCaptionColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ActiveCaptionTextColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ActiveCaptionTextColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AppWorkspaceBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AppWorkspaceColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.AppWorkspaceColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlDarkBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlDarkColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlDarkColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlDarkColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlLightBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlLightColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlLightLightBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlLightLightColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlTextBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlTextColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ControlTextColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.DesktopBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.DesktopColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.DesktopColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.GradientActiveCaptionColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.GradientActiveCaptionColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.GrayTextBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.GrayTextColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.GrayTextColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.HighlightBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.HighlightColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.HighlightColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.HighlightTextBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.HighlightTextColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.HighlightTextColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.HotTrackBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.HotTrackColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.HotTrackColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveBorderBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveBorderColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveCaptionBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveCaptionColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveCaptionColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveCaptionTextBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveCaptionTextBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveCaptionTextColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveCaptionTextColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InfoBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InfoColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InfoColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InfoTextBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InfoTextBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InfoTextColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.InfoTextColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuBarBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuBarColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuBarColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuHighlightBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuHighlightColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuHighlightColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuTextBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuTextBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuTextColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.MenuTextColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ScrollBarBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ScrollBarColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.ScrollBarColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.WindowBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.WindowColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.WindowColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.WindowFrameBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.WindowFrameColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}" />-->
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.WindowTextBrush}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
-                    <Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.WindowTextColor}}" />
-                    <!--<Rectangle Height="50"
-                               RadiusX="8"
-                               RadiusY="8"
-                               Margin="12"
-                               Fill="{DynamicResource {x:Static SystemColors.WindowTextColorKey}}" />-->
-                </StackPanel>
+                <Border Padding="12"
+                        CornerRadius="8"
+                        Background="{DynamicResource ControlFillColorDefaultBrush}">
+                    <StackPanel>
+                        <TextBlock Foreground="Gainsboro"
+                                   Text="Database Options"
+                                   HorizontalAlignment="Left"/>
+                        <Separator Margin="0 5"
+                                   Background="#777"/>
+                        <Grid Margin="12 0 0 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="180"
+                                                  Width="Auto"/>
+                                <ColumnDefinition MinWidth="420"
+                                                  Width="Auto"/>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--#region Erase Database -->
+                            <CheckBox x:Name="checkBoxEnableEraseAttempts"
+                                      Grid.Row="0"
+                                      Grid.Column="0"
+                                      Grid.ColumnSpan="3"
+                                      Margin="0 4"
+                                      IsChecked="{Binding EraseDatabaseAfterSetAmountAttempts}"
+                                      VerticalContentAlignment="Center"
+                                      Foreground="Gainsboro"
+                                      Content="Erase database after set amount of attempts" />
+
+                            <Label Grid.Row="1"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Center"
+                                   Foreground="Gainsboro"
+                                   Content="Attempts before erasing:" />
+                            <Grid Grid.Row="1"
+                                      Grid.Column="1"
+                                      Margin="0 4"
+                                      HorizontalAlignment="Left">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*" />
+                                    <RowDefinition Height="1*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="20" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="txtBoxUnlockAttempts"
+                                         Grid.Row="0"
+                                         Grid.RowSpan="2"
+                                         Grid.Column="0"
+                                         MinHeight="20"
+                                         IsEnabled="{Binding ElementName=checkBoxEnableEraseAttempts,
+                                                             Path=IsChecked}"
+                                         Text="{Binding UnlockAttempts}"
+                                         VerticalContentAlignment="Center"
+                                         HorizontalContentAlignment="Right"
+                                         PreviewKeyDown="NumericUpDownTextBox_PreviewKeyDown"/>
+                                <RepeatButton Grid.Row="0"
+                                              Grid.Column="1"
+                                              IsEnabled="{Binding ElementName=checkBoxEnableEraseAttempts,
+                                                                  Path=IsChecked}"
+                                              Command="{Binding IncrementUnlockAttemptsCommand}">
+                                    <Canvas Width="8"
+                                            Height="4">
+                                        <Path Fill="Black"
+                                              Data="M 0 4 H 8 L 4 0 Z" />
+                                    </Canvas>
+                                </RepeatButton>
+                                <RepeatButton Grid.Row="1"
+                                              Grid.Column="1"
+                                              IsEnabled="{Binding ElementName=checkBoxEnableEraseAttempts,
+                                                                  Path=IsChecked}"
+                                              Command="{Binding DecrementUnlockAttemptsCommand}">
+                                    <Canvas Width="8"
+                                            Height="4">
+                                        <Path Fill="Black"
+                                              Data="M 0 0 H 8 L 4 4 Z" />
+                                    </Canvas>
+                                </RepeatButton>
+                            </Grid>
+                            <!--#endregion -->
+                            <Separator Grid.Row="2"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       Margin="0 5"/>
+                            <!--#region Database Lockout-->
+                            <Label Grid.Row="3"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Center"
+                                   Foreground="Gainsboro"
+                                   Content="Security timeout (in minutes):" />
+                            <Grid Grid.Row="3"
+                                      Grid.Column="1"
+                                      Margin="0 4"
+                                      HorizontalAlignment="Left">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*" />
+                                    <RowDefinition Height="1*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition MinWidth="30"
+                                                      Width="Auto" />
+                                    <ColumnDefinition Width="20" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="txtBoxTimeoutMinutes"
+                                         Grid.Row="0"
+                                         Grid.RowSpan="2"
+                                         Grid.Column="0"
+                                         MinHeight="20"
+                                         Text="{Binding TimeoutMinutes}"
+                                         VerticalContentAlignment="Center"
+                                         HorizontalContentAlignment="Right"
+                                         PreviewKeyDown="NumericUpDownTextBox_PreviewKeyDown"/>
+                                <RepeatButton Grid.Row="0"
+                                              Grid.Column="1"
+                                              Command="{Binding IncrementTimeoutMinutesCommand}">
+                                    <Canvas Width="8"
+                                            Height="4">
+                                        <Path Fill="Black"
+                                              Data="M 0 4 H 8 L 4 0 Z" />
+                                    </Canvas>
+                                </RepeatButton>
+                                <RepeatButton Grid.Row="1"
+                                              Grid.Column="1"
+                                              Command="{Binding DecrementTimeoutMinutesCommand}">
+                                    <Canvas Width="8"
+                                                Height="4">
+                                        <Path Fill="Black"
+                                                  Data="M 0 0 H 8 L 4 4 Z" />
+                                    </Canvas>
+                                </RepeatButton>
+                            </Grid>
+
+                            <!--<CheckBox Grid.Row="4"
+                                      Grid.Column="0"
+                                      Margin="0 4"
+                                      IsChecked="{Binding LogDeletedItems}"
+                                      Foreground="Gainsboro"
+                                      VerticalContentAlignment="Center"
+                                      Content="Log deleted items" />-->
+                            <!--#endregion Database Lockout -->
+                        </Grid>
+                    </StackPanel>
+                </Border>
             </ScrollViewer>
-            <ScrollViewer Visibility="{Binding SelectedIndex,
+            <ScrollViewer Margin="12 0 0 12"
+                          Visibility="{Binding SelectedIndex,
                                                ElementName=listViewCategories,
                                                Converter={StaticResource SelectedIndexToVisibilityConverter},
                                                ConverterParameter=2}">
-                <StackPanel Orientation="Horizontal">
-                    <Path Width="24"
-                          Height="24"
-                          Margin="0 0 12 0"
-                          Fill="Red"
-                          Data="M 3 2 C 1.892 2 1 2.892 1 4 L 1 16 C 1 17.108 1.892 18 3 18 L 10 18 L 10 20 L 9 20 C 8.4459999 20 8 20.446 8 21 C 8 21.554 8.4459999 22 9 22 L 11 22 L 13 22 L 15 22 C 15.554 22 16 21.554 16 21 C 16 20.446 15.554 20 15 20 L 14 20 L 14 18 L 21 18 C 22.108 18 23 17.108 23 16 L 23 4 C 23 2.892 22.108 2 21 2 L 3 2 z
-                                M 3 3 L 21 3 C 21.554 3 22 3.4459999 22 4 L 22 16 C 22 16.554 21.554 17 21 17 L 13 17 L 11 17 L 3 17 C 2.4459999 17 2 16.554 2 16 L 2 4 C 2 3.4459999 2.4459999 3 3 3 z
-                                M 6 6 C 5.4459999 6 5 6.4459999 5 7 L 5 10 C 5 10.554 5.4459999 11 6 11 L 13 11 C 13.554 11 14 10.554 14 10 L 14 7 C 14 6.4459999 13.554 6 13 6 L 6 6 z
-                                M 16 6 C 15.446 6 15 6.4459999 15 7 C 15 7.5540001 15.446 8 16 8 L 18 8 C 18.554 8 19 7.5540001 19 7 C 19 6.4459999 18.554 6 18 6 L 16 6 z
-                                M 6 7 L 13 7 L 13 10 L 6 10 L 6 7 z
-                                M 16 9 C 15.446 9 15 9.4459999 15 10 L 15 13 C 15 13.554 15.446 14 16 14 L 18 14 C 18.554 14 19 13.554 19 13 L 19 10 C 19 9.4459999 18.554 9 18 9 L 16 9 z
-                                M 16 10 L 18 10 L 18 13 L 16 13 L 16 10 z
-                                M 6 12 C 5.4459999 12 5 12.446 5 13 C 5 13.554 5.4459999 14 6 14 L 8 14 C 8.5540001 14 9 13.554 9 13 C 9 12.446 8.5540001 12 8 12 L 6 12 z
-                                M 11 12 C 10.446 12 10 12.446 10 13 C 10 13.554 10.446 14 11 14 L 13 14 C 13.554 14 14 13.554 14 13 C 14 12.446 13.554 12 13 12 L 11 12 z
-                                M 11 18 L 13 18 L 13 20 L 11 20 L 11 18 z" />
-                    <TextBlock Text="Display"
-                               VerticalAlignment="Center" />
-                </StackPanel>
+                <Border Padding="12"
+                        CornerRadius="8"
+                        Background="{DynamicResource ControlFillColorDefaultBrush}">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Foreground="Gainsboro"
+                                       Text="Display Options"
+                                       HorizontalAlignment="Left" />
+                        <Separator Margin="0 5"
+                                       Background="#777" />
+                        <Grid Margin="12 0 0 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="180"
+                                                  Width="Auto" />
+                                <ColumnDefinition MinWidth="420"
+                                                  Width="Auto" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--#region TreeView Options -->
+                            <!--#region Expand/Collapse Groups Behavior -->
+                            <!--<Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="Gainsboro"
+                                   Content="Default tree display:" />
+                            <StackPanel Grid.Row="0"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
+                                <RadioButton IsChecked="{Binding ExpandAllRadioButtonIsChecked}"
+                                             Foreground="Gainsboro"
+                                             Content="Expand all"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding DefaultTreeDisplayCommand}"
+                                             CommandParameter="{x:Static enum:TreeDisplayType.ExpandAll}" />
+                                <RadioButton IsChecked="{Binding CollapseAllRadioButtonIsChecked}"
+                                             Foreground="Gainsboro"
+                                             Content="Collapse all"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding DefaultTreeDisplayCommand}"
+                                             CommandParameter="{x:Static enum:TreeDisplayType.CollapseAll}" />
+                                <RadioButton IsChecked="{Binding RememberLastRadioButtonIsChecked}" Foreground="Gainsboro"
+                                             Content="Remember last"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding DefaultTreeDisplayCommand}"
+                                             CommandParameter="{x:Static enum:TreeDisplayType.RememberLast}" />
+                            </StackPanel>-->
+                            <!--#endregion Expand/Collapse Groups Behavior -->
+                            <!--#region Expand/Collapse Button Types-->
+                            <Label Grid.Row="1"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="Gainsboro"
+                                   Content="Expand/Collapse buttons:"/>
+                            <StackPanel Grid.Row="1"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
+                                <RadioButton IsChecked="{Binding PlusMinusSignsRadioButtonIsChecked}"
+                                             Foreground="Gainsboro"
+                                             Content="Plus/Minus signs"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding ExpandCollapseButtonsCommand}"
+                                             CommandParameter="{x:Static enum:TreeExpandCollapseButtonStyle.PlusMinusSigns}" />
+                                <RadioButton IsChecked="{Binding ArrowsRadioButtonIsChecked}"
+                                             Foreground="Gainsboro"
+                                             Content="Arrows"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding ExpandCollapseButtonsCommand}"
+                                             CommandParameter="{x:Static enum:TreeExpandCollapseButtonStyle.Arrows}" />
+                                <RadioButton IsChecked="{Binding FoldersRadioButtonIsChecked}"
+                                             Foreground="Gainsboro"
+                                             Content="Folders"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding ExpandCollapseButtonsCommand}"
+                                             CommandParameter="{x:Static enum:TreeExpandCollapseButtonStyle.Folders}" />
+                            </StackPanel>
+                            <!--#endregion Expand/Collapse Button Types-->
+                            <!--#endregion TreeView Options -->
+                            <Separator Grid.Row="2"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="3"
+                                       Margin="0 5"/>
+                            <!--#region DataGrid Options -->
+                            <!--#region DataGrid Item Masking -->
+                            <!--#region Usernames -->
+                            <Label Grid.Row="3"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="{DynamicResource solidColorBrush-theme-foreground}"
+                                   Content="Mask usernames?" />
+                            <CheckBox Grid.Row="3"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding AreDatabaseUsernamesMasked}"
+                                      Margin="0 5" />
+                            <!--<StackPanel Grid.Row="3"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="Yes"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="No"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                            </StackPanel>-->
+                            <!--#endregion Usernames -->
+                            <!--#region Emails -->
+                            <Label Grid.Row="4"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="{DynamicResource solidColorBrush-theme-foreground}"
+                                   Content="Mask email addresses?" />
+                            <CheckBox Grid.Row="4"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding AreDatabaseEmailsMasked}"
+                                      Margin="0 5" />
+                            <!--<StackPanel Grid.Row="4"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="Yes"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="No"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                            </StackPanel>-->
+                            <!--#endregion Emails -->
+                            <!--#region Passwords -->
+                            <Label Grid.Row="5"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="{DynamicResource solidColorBrush-theme-foreground}"
+                                   Content="Mask passwords?" />
+                            <CheckBox Grid.Row="5"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding AreDatabasePasswordsMasked}"
+                                      Margin="0 5" />
+                            <!--<StackPanel Grid.Row="5"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="Yes"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="No"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                            </StackPanel>-->
+                            <!--#endregion Passwords -->
+                            <!--#region URLs -->
+                            <Label Grid.Row="6"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="{DynamicResource solidColorBrush-theme-foreground}"
+                                   Content="Mask website URLs?" />
+                            <CheckBox Grid.Row="6"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding AreDatabaseUrlsMasked}"
+                                      Margin="0 5" />
+                            <!--<StackPanel Grid.Row="6"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="Yes"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                                <RadioButton IsChecked="False"
+                                             Foreground="Gainsboro"
+                                             Content="No"
+                                             VerticalContentAlignment="Center"
+                                             Command="{x:Null}"/>
+                            </StackPanel>-->
+                            <!--#endregion URLs -->
+                            <!--#endregion DataGrid Item Masking -->
+                            <!--#endregion DataGrid Options -->
+                            <Separator Grid.Row="7"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="3"
+                                       Margin="0 5" />
+                            <!--#region Quick Access icon size options-->
+                            <Label Grid.Row="8"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="Gainsboro"
+                                   Content="Quick access icon size:" />
+                            <StackPanel Grid.Row="8"
+                                        Grid.Column="1"
+                                        Orientation="Vertical"
+                                        Margin="0 5">
+                                <RadioButton IsChecked="{Binding QuickAccessSmallRadioButtonIsChecked}"
+                                             Foreground="Gainsboro"
+                                             Content="Small"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding QuickAccessIconSizeCommand}"
+                                             CommandParameter="{x:Static enum:QuickAccessIconSize.Small}" />
+                                <RadioButton IsChecked="{Binding QuickAccessMediumRadioButtonIsChecked}"
+                                             Foreground="Gainsboro"
+                                             Content="Medium"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding QuickAccessIconSizeCommand}"
+                                             CommandParameter="{x:Static enum:QuickAccessIconSize.Medium}" />
+                                <RadioButton IsChecked="{Binding QuickAccessLargeRadioButtonIsChecked}"
+                                             Foreground="Gainsboro"
+                                             Content="Large"
+                                             VerticalContentAlignment="Center"
+                                             Command="{Binding QuickAccessIconSizeCommand}"
+                                             CommandParameter="{x:Static enum:QuickAccessIconSize.Large}" />
+                            </StackPanel>
+                            <!--#endregion Quick Access icon size options-->
+                            <Separator Grid.Row="9"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="3"
+                                       Margin="0 5" />
+                            <!--#region Panes Visibility -->
+                            <!--#region Groups Panel -->
+                            <Label Grid.Row="10"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="Gainsboro"
+                                   Content="Display Groups Panel:"/>
+                            <CheckBox Grid.Row="10"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding DisplayGroupsTree}"/>
+                            <!--#endregion Groups Panel -->
+                            <!--#region Info Pane -->
+                            <Label Grid.Row="11"
+                                   Grid.Column="0"
+                                   Padding="0"
+                                   Margin="0 4"
+                                   VerticalContentAlignment="Top"
+                                   Foreground="Gainsboro"
+                                   Content="Display Item Details Panel:"/>
+                            <CheckBox Grid.Row="11"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding DisplayInfoPane}"/>
+                            <!--#endregion Info Pane -->
+                            <!--#endregion Panes Visibility -->
+                        </Grid>
+                    </StackPanel>
+                </Border>
             </ScrollViewer>
         </Grid>
     </DockPanel>

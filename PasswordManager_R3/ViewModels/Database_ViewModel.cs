@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -392,12 +393,13 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
 
         Groups = GroupsToObsColl();
         if (SelectedGroup != null) {
-            System.Diagnostics.Debug.WriteLine($"Database_ViewModel constructor: SelectedGroup = {SelectedGroup.Title}");
             //Groups.Where(g => g.GUID == SelectedGroup.GUID).Select(g => g).FirstOrDefault().IsSelected = true;
             SelectedGroup = _groupsFromDb.Where(pair => pair.Key == ((MainWindow_ViewModel)ParentVM).SgRowId).Select(pair => pair.Value).FirstOrDefault();
             //var sGroup = _groupsFromDb.Where(pair => pair.Key == ((MainWindow_ViewModel)ParentVM).SgRowId).Select(pair => pair.Value).FirstOrDefault();
             //System.Diagnostics.Debug.WriteLine($"Database_ViewModel.sGroup hash == {sGroup.GetHashCode()}\n\tsGroup hash == ParentVM.SelectedGroup hash {sGroup.GetHashCode() == ((MainWindow_ViewModel)ParentVM).SelectedGroup.GetHashCode()}");
+            System.Diagnostics.Debug.WriteLine($"Database_ViewModel constructor: SelectedGroup = {SelectedGroup.Title}");
         } else {
+            //Debug.WriteLine($"Groups.ElementAt(0) = {Groups.ElementAt(0).Title}");
             Groups.ElementAt(0).IsSelected = true;
         }
 
@@ -630,7 +632,7 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
         //System.Diagnostics.Debug.WriteLine("objAsTreeView.Items.GetItemAt(0) = " + ((Models.Group)objAsTreeView.Items.GetItemAt(0)).IsSelected);
         //Groups.ElementAt(0).IsSelected = true;
         if (SelectedGroup == null) {
-            System.Diagnostics.Debug.WriteLine($"Groups.ElementAt(0) = {Groups.ElementAt(0).Title}");
+            System.Diagnostics.Debug.WriteLine($"OnTreeViewLoadedCommand::Groups.ElementAt(0) = {Groups.ElementAt(0).Title}");
             OnGroupSelectionChanged(Groups.ElementAt(0));
             //SelectedGroupChanged?.Invoke(true);
         } else {

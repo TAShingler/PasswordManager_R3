@@ -1,5 +1,7 @@
-﻿using System;
+﻿using PasswordManager_R3.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -158,6 +160,7 @@ public partial class Database_View : UserControl {
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e) {
         System.Diagnostics.Debug.WriteLine("UserControl_Loaded() called...");
+        //((Database_ViewModel) this.DataContext).Groups.ElementAt(0).IsSelected = true;
     }
 
     //private void TreeViewItem_MouseDoubleClick(object sender, MouseEventArgs e) {
