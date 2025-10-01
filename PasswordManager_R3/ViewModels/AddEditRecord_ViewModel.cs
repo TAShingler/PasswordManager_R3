@@ -11,6 +11,8 @@ namespace PasswordManager_R3.ViewModels;
 internal class AddEditRecord_ViewModel : ViewModelBase {
     #region Fields
     private readonly string _operationString = string.Empty;
+    private readonly string _operationStringA = string.Empty;
+    private readonly string _operationStringB = string.Empty;
     private readonly bool _isNewRecord = true;
     private readonly Models.Group _parentGroup;
     private const int MAX_PASSWORD_LENGTH = 128;    //may move fields, properties, and methods related to password generator Popup to their own ViewModel for the Popup -- maybe...
@@ -54,6 +56,13 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
     public string OperationString {
         get => _operationString;
     }
+    public string OperationStringA {
+        get => _operationStringA;
+    }
+    public string OperationStringB {
+        get => _operationStringB;
+    }
+
     //might make Properties not directly reference Record obj...
     public string SrTitle {
         get { return _srTitle; }
@@ -272,7 +281,8 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
             _srGuid = selectedRecord.GUID;
         }
 
-        _operationString = _isNewRecord == true ? "Group Name \u2022 Add Record" : "Group Name \u2022 Edit Record";
+        //_operationString = _isNewRecord == true ? "Group Name \u2022 Add Record" : "Group Name \u2022 Edit Record";
+        _operationString = _isNewRecord == true ? "Group Name \u2023 Add Record" : "Group Name \u2023 Edit Record";
         SetDelegateCommands();
     }
     public AddEditRecord_ViewModel(ViewModelBase parentVM, Models.Group parentGroup, Models.Record? selectedRecord = null, int rowId = -1) : base(parentVM) {
@@ -298,7 +308,11 @@ internal class AddEditRecord_ViewModel : ViewModelBase {
 
         _recordRowId = rowId;
         _parentGroup = parentGroup;
-        _operationString = _isNewRecord == true ? (parentGroup.Title + " \u2022 Add Record") : (_selectedRecord?.Title + " \u2022 Edit Record");
+        //_operationString = _isNewRecord == true ? (parentGroup.Title + " \u2022 Add Record") : (_selectedRecord?.Title + " \u2022 Edit Record");
+        _operationString = _isNewRecord == true ? (parentGroup.Title + " \u23F5 Add Record") : (_selectedRecord?.Title + " \u1405 Edit Record");
+        //_operationString = _isNewRecord == true ? (parentGroup.Title + " \u25B8 Add Record") : (_selectedRecord?.Title + " \u1405 Edit Record");
+        _operationStringA = _isNewRecord == true ? parentGroup.Title : _selectedRecord?.Title;
+        _operationStringB = _isNewRecord == true ? "Add Record" : "Edit Record";
         SetDelegateCommands();
     }
     #endregion Constructors

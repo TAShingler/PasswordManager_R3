@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ public partial class AppSettings_View : UserControl {
     //}
 
     private void NumericUpDownTextBox_PreviewKeyDown(object sender, KeyEventArgs e) {
+        Debug.WriteLine("Key = " + e.Key);
         if (e.Key == Key.Tab || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Back) {
             e.Handled = false;
             return;

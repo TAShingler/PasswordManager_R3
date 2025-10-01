@@ -20,6 +20,90 @@
         <Path x:Key="down_arrow"
               Data="M 0 2 L 4 6 L 8 2 Z"
               Fill="{DynamicResource TextFillColorPrimaryBrush}" />
+        
+        <!--#region //  ListBoxItem Styles  // -->
+        <!--<Style TargetType="{x:Type ListBoxItem}"
+               BasedOn="{StaticResource {x:Type ListBoxItem}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+        <!--#endregion //  ListBoxItem Styles  // -->
+        
+        <!--#region //  ListViewItem Styles  // -->
+        <!--<Style TargetType="{x:Type ListViewItem}"
+               BasedOn="{StaticResource {x:Type ListViewItem}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border CornerRadius="12">
+                            <ContentPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+        <!--#endregion //  ListViewItem Styles  // -->
+
+        <LinearGradientBrush x:Key="linearGradient53"
+                             StartPoint="0,0"
+                             EndPoint="1,1">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#d64214" Offset="0" />
+                <GradientStop Color="#b0310c" Offset="1" />
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="linearGradient55"
+                             StartPoint="0,0"
+                             EndPoint="1,1">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#fbd734" Offset="0" />
+                <GradientStop Color="#e0ac29" Offset="1" />
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="linearGradient57"
+                             StartPoint="0,0"
+                             EndPoint="1,1">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#f5b673" Offset="0" />
+                <GradientStop Color="#cf8948" Offset="1" />
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="linearGradient59"
+                             StartPoint="0,0"
+                             EndPoint="1,1">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#445a64" Offset="0" />
+                <GradientStop Color="#2e3c42" Offset="1" />
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="linearGradient66"
+                             StartPoint="0,0"
+                             EndPoint="1,1">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#eceef0" Offset="0" />
+                <GradientStop Color="#bcc6c9" Offset="1" />
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="linearGradient88"
+                             StartPoint="0,0"
+                             EndPoint="1,1">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#ffdd55" Offset="0" />
+                <GradientStop Color="#d4aa00" Offset="1" />
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="linearGradient90"
+                             StartPoint="0,0"
+                             EndPoint="1,1">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#4d4d4d" Offset="0" />
+                <GradientStop Color="#1a1a1a" Offset="1" />
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
 
         <!--#region //  Popups  // -->
         <Popup x:Key="popupPasswordGenerator"
@@ -252,53 +336,160 @@
         <!--#endregion //  Popups  // -->
     </UserControl.Resources>
 
-    <Border CornerRadius="4"
-            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-        <DockPanel>
-            <!--//  Top Panel  //-->
-            <Border DockPanel.Dock="Top"
-                    Padding="12">
-                <TextBlock FontSize="18"
-                           Text="{Binding OperationString}" />
-            </Border>
+    <DockPanel>
+        <!--//  Top Panel  //-->
+        <Border DockPanel.Dock="Top"
+                Margin="0 0 0 12">
+            <!--Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="4"-->
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="24"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           Text="{Binding OperationStringA}"/>
+                <Viewbox Width="16"
+                         Height="16"
+                         Margin="8 0"
+                         VerticalAlignment="Center">
+                    <Path Width="16"
+                          Height="16"
+                          Stroke="{DynamicResource TextFillColorPrimaryBrush}"
+                          StrokeThickness="2"
+                          StrokeLineJoin="Round"
+                          StrokeStartLineCap="Round"
+                          StrokeEndLineCap="Round"
+                          Data="M 5.5,5.4999999 10,9.9999996 5.5,14.499999"/>
+                </Viewbox>
+                <TextBlock FontSize="24"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           Text="{Binding OperationStringB}"/>
+            </StackPanel>
+        </Border>
 
-            <!--//  Bottom Panel  //-->
-            <Border DockPanel.Dock="Bottom"
-                Padding="12">
-                <StackPanel Orientation="Horizontal"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Right">
-                    <Button Width="75"
+        <!--//  Bottom Panel  //-->
+        <Border DockPanel.Dock="Bottom"
+                Margin="0 12 0 0">
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right">
+                <Button Width="75"
                         Margin="6 0"
                         Content="OK"
                         IsDefault="True"
                         Command="{Binding OkButtonCommand}"/>
-                    <Button Width="75"
+                <Button Width="75"
                         Margin="6 0 0 0"
                         Content="Cancel"
                         IsCancel="True"
                         Command="{Binding CancelButtonCommand}"/>
-                </StackPanel>
-            </Border>
+            </StackPanel>
+        </Border>
 
-            <!--//  Left Panel  //-->
-            <Border DockPanel.Dock="Left"
-                    Width="200"
-                    Padding="12 0">
-                <ListView x:Name="listViewTabSelector"
-                          SelectedIndex="0">
-                    <ListViewItem Content="Entry" />
-                    <ListViewItem Content="Icon" />
-                    <ListViewItem Content="Properties" />
-                </ListView>
-            </Border>
+        <!--//  Left Panel  //-->
+        <Border DockPanel.Dock="Left"
+                Width="200"
+                Margin="0 0 12 0">
+            <ListView x:Name="listViewTabSelector"
+                      SelectedIndex="0">
+                <ListViewItem>
+                    <ListViewItem.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Width="24"
+                                     Height="24"
+                                     Margin="0 0 12 0">
+                                <Grid Width="24"
+                                      Height="24">
+                                    <!--<Path Width="24"
+                                          Height="24"
+                                          Fill="{Binding Foreground,
+                                                         RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
+                                          Data="M 17.671875 2.9980469 C 17.414375 2.9980469 17.155938 3.0940625 16.960938 3.2890625 L 15.119141 5.1191406 L 18.869141 8.8691406 L 20.710938 7.0390625 C 21.100938 6.6490625 21.100938 6.0008594 20.710938 5.6308594 L 18.369141 3.2890625 C 18.184141 3.0940625 17.929375 2.9980469 17.671875 2.9980469 z
+                                                M 17.664062 4 L 17.666016 4 L 19.998047 6.3339844 L 18.871094 7.4570312 L 16.535156 5.1210938 L 17.664062 4 z
+                                                M 14.060547 6.1796875 L 3 17.25 L 3 21 L 6.75 21 L 17.810547 9.9296875 L 14.060547 6.1796875 z
+                                                M 14.060547 7.59375 L 16.396484 9.9296875 L 6.3359375 20 L 4 20 L 4 17.664062 L 14.060547 7.59375 z" />-->
+                                    <Path Fill="{DynamicResource linearGradient59}"
+                                          Data="m 2.625,20.125 -0.5,1.5 c -0.037268,0.111803 0.1381966,0.287268 0.25,0.25 l 1.5,-0.5 z" />
+                                    <Path Fill="{DynamicResource linearGradient57}"
+                                          Data="m 8,20 -4,-4 -1.375,4.125 1.25,1.25 z" />
+                                    <Path Fill="{DynamicResource linearGradient55}"
+                                          Data="m 18.5,9.5 -4,-4 L 4,16 8,20 Z" />
+                                    <Path Fill="{DynamicResource linearGradient66}"
+                                          Data="m 20,8 -4,-4 -1.5,1.5 4,4 z" />
+                                    <Path Fill="{DynamicResource linearGradient53}"
+                                          Data="m 18.5,2.1464844 c -0.382149,0 -0.764297,0.1178132 -1,0.3535156 L 16,4 20,8 21.5,6.5 c 0.471404,-0.4714043 0.471404,-1.5285958 0,-2 l -2,-2 C 19.264298,2.2642976 18.882149,2.1464844 18.5,2.1464844 Z" />
+                                </Grid>
+                            </Viewbox>
+                            <TextBlock VerticalAlignment="Center"
+                                       Text="Entry"/>
+                        </StackPanel>
+                    </ListViewItem.Content>
+                </ListViewItem>
+                <ListViewItem>
+                    <ListViewItem.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Width="24"
+                                     Height="24"
+                                     Margin="0 0 12 0">
+                                <Grid>
+                                    <!--<Path Width="24"
+                                      Height="24"
+                                      Fill="{Binding Foreground,
+                                                     RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
+                                      Data="M 12 2 C 6.4830803 2 2 6.4830803 2 12 C 2 17.51692 6.4830803 22 12 22 C 17.51692 22 22 17.51692 22 12 C 22 6.4830803 17.51692 2 12 2 z
+                                            M 12 3 C 16.97648 3 21 7.0235199 21 12 C 21 16.97648 16.97648 21 12 21 C 7.0235199 21 3 16.97648 3 12 C 3 7.0235199 7.0235199 3 12 3 z
+                                            M 8.5 8.5 A 1 1 0 0 0 7.5 9.5 A 1 1 0 0 0 8.5 10.5 A 1 1 0 0 0 9.5 9.5 A 1 1 0 0 0 8.5 8.5 z M 15.5 8.5 A 1 1 0 0 0 14.5 9.5 A 1 1 0 0 0 15.5 10.5 A 1 1 0 0 0 16.5 9.5 A 1 1 0 0 0 15.5 8.5 z
+                                            M 8.5136719 14.517578 L 7.7753906 15.193359 C 8.8250856 16.344043 10.372323 16.997377 12 17 C 13.62768 16.9974 15.174915 16.344043 16.224609 15.193359 L 15.486328 14.517578 C 14.640546 15.444731 13.359447 15.997816 12 16 C 10.64055 15.997809 9.3594528 15.44473 8.5136719 14.517578 z" />-->
+                                    <Path Fill="{DynamicResource linearGradient88}"
+                                          Data="m 22,11.999998 a 10,10 0 0 1 -10,10 10,10 0 0 1 -10,-10 10,10 0 0 1 10,-9.9999999 10,10 0 0 1 10,9.9999999 z" />
+                                    <Path Fill="{DynamicResource linearGradient90}"
+                                          Data="m 9.5,7.4999995 c 0.554,0 1,0.446 1,1 v 1.9999995 c 0,0.554 -0.446,1 -1,1 -0.554,0 -1,-0.446 -1,-1 V 8.4999995 c 0,-0.554 0.446,-1 1,-1 z" />
+                                    <Path Fill="{DynamicResource linearGradient90}"
+                                          Data="m 14.5,7.4999995 c 0.554,0 1,0.446 1,1 v 1.9999995 c 0,0.554 -0.446,1 -1,1 -0.554,0 -1,-0.446 -1,-1 V 8.4999995 c 0,-0.554 0.446,-1 1,-1 z" />
+                                    <Path Fill="{DynamicResource linearGradient90}"
+                                          Data="m 7,13 a 0.5,0.5 0 0 0 -0.3535156,0.146484 l -1,1 a 0.5,0.5 0 0 0 0,0.707032 0.5,0.5 0 0 0 0.7070312,0 L 6.484375,14.722656 C 7.9512362,16.693974 9.9224842,17.5 12,17.5 c 2.077516,0 4.048764,-0.806025 5.515625,-2.777344 l 0.130859,0.13086 a 0.5,0.5 0 0 0 0.707032,0 0.5,0.5 0 0 0 0,-0.707032 l -1,-1 a 0.5,0.5 0 0 0 -0.707032,0 0.5,0.5 0 0 0 0,0.707032 l 0.328125,0.328125 C 15.878457,15.42319 14.118567,16.5 12,16.5 9.8814334,16.5 8.1215433,15.42319 7.0253906,14.181641 l 0.328125,-0.328125 a 0.5,0.5 0 0 0 0,-0.707032 A 0.5,0.5 0 0 0 7,13 Z" />
+                                </Grid>
+                            </Viewbox>
+                            <TextBlock VerticalAlignment="Center"
+                                       Text="Icon"/>
+                        </StackPanel>
+                    </ListViewItem.Content>
+                </ListViewItem>
+                <ListViewItem>
+                    <ListViewItem.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Width="24"
+                                     Height="24"
+                                     Margin="0 0 12 0">
+                                <Path Width="24"
+                                      Height="24"
+                                      Fill="{Binding Foreground,
+                                                     RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
+                                      Data="M 6 2 C 4.9006497 2 4 2.9006497 4 4 L 4 20 C 4 21.09935 4.9006497 22 6 22 L 10 22 L 10 21 L 6 21 C 5.4373519 21 5 20.562648 5 20 L 5 4 C 5 3.4373519 5.4373519 3 6 3 L 13 3 L 13 9 L 19 9 L 19 11 L 20 10 L 20 8 L 14 2 L 6 2 z
+                                            M 14 3.4140625 L 18.585938 8 L 14 8 L 14 3.4140625 z
+                                            M 20.25 12.912109 C 20.051666 12.912109 19.837559 12.955409 19.646484 13.146484 L 18.542969 14.25 L 20.75 16.457031 L 21.853516 15.353516 C 22.04459 15.162441 22.087891 14.948334 22.087891 14.75 C 22.087891 14.551666 22.044591 14.337559 21.853516 14.146484 L 20.853516 13.146484 C 20.662442 12.95541 20.448334 12.91211 20.25 12.912109 z
+                                            M 20.25 13.957031 L 21.042969 14.75 L 20.75 15.042969 L 19.957031 14.25 L 20.25 13.957031 z
+                                            M 18 14.792969 L 17.646484 15.146484 L 12 20.792969 L 12 23 L 14.207031 23 L 20.207031 17 L 18 14.792969 z
+                                            M 18 16.207031 L 18.792969 17 L 13.792969 22 L 13 22 L 13 21.207031 L 18 16.207031 z" />
+                            </Viewbox>
+                            <TextBlock VerticalAlignment="Center"
+                                       Text="Properties"/>
+                        </StackPanel>
+                    </ListViewItem.Content>
+                </ListViewItem>
+            </ListView>
+        </Border>
 
-            <!--//  Middle Panel  //-->
-            <Border Margin="0 0 12 0"
-                    Padding="12"
-                    CornerRadius="4"
-                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                <TabControl SelectedIndex="{Binding SelectedIndex,
+        <!--//  Middle Panel  //-->
+        <Border Padding="12"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+            <TabControl BorderThickness="0"
+                            SelectedIndex="{Binding SelectedIndex,
                                                     ElementName=listViewTabSelector}">
                     <!--//  "Entry" Form  //-->
                     <TabItem Visibility="Collapsed">
@@ -790,27 +981,26 @@
                     <!--//  "Icon" Form  //-->
                     <TabItem Visibility="Collapsed">
                         <ListBox x:Name="addEditIconSelector"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                            SelectionMode="Single"
-                            SelectedIndex="{Binding SrIconIndex, Mode=TwoWay}"
-                            ItemsSource="{StaticResource RecordIconsArray}">
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 SelectionMode="Single"
+                                 SelectedIndex="{Binding SrIconIndex,
+                                                         Mode=TwoWay}"
+                                 ItemsSource="{StaticResource RecordIconsArray}">
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal"
-                                        IsItemsHost="True" />
+                                               IsItemsHost="True" />
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal"
-                                        Margin="0"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center">
+                                    <Border Padding="14"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center">
                                         <Image Source="{Binding}"
-                                            Width="36"
-                                            Height="36"
-                                            Margin="10"/>
-                                    </StackPanel>
+                                               Width="36"
+                                               Height="36"/>
+                                    </Border>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <i:Interaction.Triggers>
@@ -880,6 +1070,5 @@
                     </TabItem>
                 </TabControl>
             </Border>
-        </DockPanel>
-    </Border>
+    </DockPanel>
 </UserControl>
