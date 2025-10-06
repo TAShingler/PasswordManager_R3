@@ -20,7 +20,7 @@
         TextOptions.TextFormattingMode="Display"
         WindowState="{Binding WinState}"
         x:Name="WinMain"
-        Loaded="WinMain_Loaded" ThemeMode="System">
+        Loaded="WinMain_Loaded" ThemeMode="None">
 
     <!--Background="{StaticResource solidColorBrush-static-background}"-->
     <i:Interaction.Triggers>
@@ -441,7 +441,7 @@
             <!--</ToolBar>-->
             <!--</StackPanel>-->
         </StackPanel>
-        <StatusBar DockPanel.Dock="Bottom" >
+        <StatusBar DockPanel.Dock="Bottom" Background="Transparent" BorderThickness="0" >
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
@@ -455,34 +455,38 @@
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
             <StatusBarItem Grid.Column="1"
+                           Margin="6 0 6 0"
                            HorizontalAlignment="Center">
-                <StackPanel Orientation="Horizontal"
-                            Margin="6 0 6 0">
+                <StackPanel Orientation="Horizontal">
                     <!--<Path Fill="Gainsboro"
                           Data="M22,4A2,2 0 0,1 24,6V16A2,2 0 0,1 22,18H6A2,2 0 0,1 4,16V4A2,2 0 0,1 6,2H12L14,4H22
                                 M2,6V20H20V22H2A2,2 0 0,1 0,20V11H0V6H2
                                 M6,6V16H22V6H6Z" />-->
-                    <Path Fill="{Binding Foreground,
+                    <Path Margin="2 0 2 0"
+                          Fill="{Binding Foreground,
                                          RelativeSource={RelativeSource AncestorType={x:Type StatusBarItem}}}"
                           Data="M 4,2 C 2.9006497,2 2,2.9006497 2,4 v 6 c 0,1.09935 0.9006497,2 2,2 h 10 c 1.09935,0 2,-0.90065 2,-2 V 5 C 16,3.9006497 15.09935,3 14,3 H 9 L 8,2 Z
                                 M 3,4 h 11 c 0.562648,0 1,0.4373519 1,1 v 5 c 0,0.562648 -0.437352,1 -1,1 H 4 C 3.4373519,11 3,10.562648 3,10 Z
                                 M 1,4.2714844 C 0.40390084,4.6188905 0,5.2644716 0,6 v 6 c 0,1.09935 0.90064972,2 2,2 h 10 c 0.735528,0 1.381109,-0.403901 1.728516,-1 H 12 11 2 C 1.4373519,13 1,12.562648 1,12 V 7.5 6 Z"/>
-                    <TextBlock Text=": " />
-                    <TextBlock Text="{Binding TotalGroupsInDatabase, StringFormat={}{0:000}}" />
+                    <TextBlock Margin="2 0 2 0"
+                               Text="{Binding TotalGroupsInDatabase,
+                                              StringFormat={}{0:000}}" />
                 </StackPanel>
             </StatusBarItem>
             <StatusBarItem Grid.Column="2"
+                           Margin="6 0 6 0"
                            HorizontalAlignment="Center" >
-                <StackPanel Orientation="Horizontal"
-                            Margin="6 0 6 0">
-                    <Path Fill="{Binding Foreground,
+                <StackPanel Orientation="Horizontal">
+                    <Path Margin="2 0 2 0"
+                          Fill="{Binding Foreground,
                                          RelativeSource={RelativeSource AncestorType={x:Type StatusBarItem}}}"
                           Data="M 7,0 C 4.7967855,0 3,1.7967855 3,4 3,6.2032145 4.7967855,8 7,8 7.391873,8 7.7705722,7.9417992 8.1289062,7.8359375 L 9.1464844,8.8535156 A 0.50005,0.50005 0 0 0 9.5,9 H 11 v 1.5 A 0.50005,0.50005 0 0 0 11.5,11 H 13 v 1.5 a 0.50005,0.50005 0 0 0 0.5,0.5 h 2 A 0.50005,0.50005 0 0 0 16,12.5 v -2 A 0.50005,0.50005 0 0 0 15.853516,10.146484 L 10.835938,5.1289062 C 10.941796,4.7705719 11,4.391873 11,4 11,1.7967855 9.2032145,0 7,0 Z
                                 m 0,1 c 1.6627749,0 3,1.3372251 3,3 0,0.4965189 -0.1224483,0.9615216 -0.3339844,1.3730469 L 10.398438,6.1054688 11.066406,6.7734375 15,10.707031 V 12 H 14 V 10.5 A 0.50005,0.50005 0 0 0 13.5,10 H 12 V 8.5 A 0.50005,0.50005 0 0 0 11.5,8 H 9.7070312 L 9.1054688,7.3984375 8.3730469,6.6660156 C 7.9615216,6.8775517 7.4965189,7 7,7 5.3372251,7 4,5.6627749 4,4 4,2.3372251 5.3372251,1 7,1 Z
                                 M 6,2 A 1,1 0 0 0 5,3 1,1 0 0 0 6,4 1,1 0 0 0 7,3 1,1 0 0 0 6,2 Z
                                 M 2.71875,2.71875 C 1.6811507,3.442633 1,4.6436054 1,6 1,8.2032145 2.7967855,10 5,10 5.391873,10 5.770572,9.9418 6.1289062,9.835938 l 1.0175782,1.017578 C 7.2402403,10.947284 7.3674006,10.999975 7.5,11 H 9 v 1.5 c 2.76e-5,0.276131 0.2238691,0.499972 0.5,0.5 H 11 v 1.5 c 2.8e-5,0.276131 0.223869,0.499972 0.5,0.5 h 2 c 0.276131,-2.8e-5 0.499972,-0.223869 0.5,-0.5 V 14 H 13 12.5 12 v -0.5 -1 c -2.8e-5,-0.276131 -0.223869,-0.499972 -0.5,-0.5 h -1 -0.5 v -0.5 -1 C 9.9999724,10.223869 9.7761309,10.000028 9.5,10 H 8.5 7.7070312 L 7.1054688,9.398438 6.6503906,8.9433594 C 6.43833,8.97874 6.2218058,9 6,9 5.8184479,9 5.6400984,8.9865141 5.4648438,8.9628906 5.31348,8.9867615 5.1585015,9 5,9 3.3372251,9 2,7.6627749 2,6 2,5.8433959 2.0161844,5.6909991 2.0390625,5.5410156 2.0149044,5.3638378 2,5.1836294 2,5 2,4.1531801 2.2668177,3.3665406 2.71875,2.71875 Z"/>
-                    <TextBlock Text=": "/>
-                    <TextBlock Text="{Binding TotalRecordsInDatabase, StringFormat={}{0:000}}" />
+                    <TextBlock Margin="2 0 2 0"
+                               Text="{Binding TotalRecordsInDatabase,
+                                              StringFormat={}{0:000}}" />
                 </StackPanel>
             </StatusBarItem>
             <!--<StatusBarItem Grid.Column="1">
