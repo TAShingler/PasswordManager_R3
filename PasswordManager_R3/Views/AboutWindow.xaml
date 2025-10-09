@@ -10,6 +10,7 @@
         Width="450"
         Foreground="{StaticResource solidColorBrush-theme-foreground}"
         Background="{StaticResource solidColorBrush-theme-background}">
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*" />

@@ -8,34 +8,87 @@
         Title="About"
         Height="300"
         Width="400">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0"
-                    Orientation="Horizontal">
-            <Image Source="C:\Users\tyler\Desktop\path1044_x96.png" />
-            <TextBlock Text="About" />
-        </StackPanel>
+    <Border Padding="12">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="1"
-                    Orientation="Vertical">
-            <TextBlock Text="AppName" />
-            <TextBlock Text="Version" />
-            <TextBlock Text="Copyright1" />
-            <TextBlock Text="Copyright2" />
-            <TextBlock Text="Copyright3" />
+            <StackPanel Grid.Row="0"
+                        Height="24"
+                        Orientation="Horizontal">
+                <Image Source="C:\Users\tyler\Desktop\path1044_x96.png" />
+                <TextBlock Text="About" />
+            </StackPanel>
 
-            <Label Content="Product Details" />
-            <ScrollViewer />
-        </StackPanel>
+            <StackPanel Grid.Row="1"
+                        Orientation="Vertical">
+                <TextBlock Text="AppName" />
+                <TextBlock Text="Version" />
+                <TextBlock Text="Copyright1" />
+                <TextBlock Text="Copyright2" />
+                <TextBlock Text="Copyright3" />
 
-        <StackPanel Grid.Row="2"
-                    Orientation="Horizontal">
-            
-        </StackPanel>
-    </Grid>
+                <Label Content="Product Details" />
+                <ScrollViewer />
+            </StackPanel>
+
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal">
+                <Border Padding="24"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1">
+                    <Border Padding="24"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1">
+                        <Border Padding="24"
+                                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1">
+
+                        </Border>
+                    </Border>
+                </Border>
+                <Border Padding="24"
+                        Margin="0 24 0 0"
+                        Background="{DynamicResource LayerFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1">
+                    <Border Padding="24"
+                            Background="{DynamicResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1">
+                        <Border Padding="24"
+                                Background="{DynamicResource LayerFillColorDefaultBrush}"
+                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1">
+
+                        </Border>
+                    </Border>
+                </Border>
+                <Border Padding="24"
+                        Margin="0 24 0 0"
+                        Background="{DynamicResource SmokeFillColorDefaultBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1">
+                    <Border Padding="24"
+                            Background="{DynamicResource SmokeFillColorDefaultBrush}"
+                            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1">
+                        <Border Padding="24"
+                                Background="{DynamicResource SmokeFillColorDefaultBrush}"
+                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1">
+
+                        </Border>
+                    </Border>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </Border>
 </Window>
