@@ -196,8 +196,6 @@
                               Command="{Binding DisplayAboutWindowCommand}"/>
                 </MenuItem>
             </Menu>
-            <!--<ToolBar x:Name="toolBar" ToolBarTray.IsLocked="True">-->
-            <!--<StackPanel Orientation="Horizontal">-->
             <Menu>
                 <MenuItem IsEnabled="{Binding ButtonLockDatabaseIsEnabled}"
                         Command="{Binding LockDatabaseCommand}"
@@ -438,8 +436,6 @@
                     </MenuItem.Header>
                 </MenuItem>
             </Menu>
-            <!--</ToolBar>-->
-            <!--</StackPanel>-->
         </StackPanel>
         <StatusBar DockPanel.Dock="Bottom" Background="Transparent" BorderThickness="0" >
             <StatusBar.ItemsPanel>

@@ -110,6 +110,13 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
             OnPropertyChanged(nameof(IsSelectedRecordInfoPaneVisible));
         }
     }
+    public bool IsTreeViewVisible {
+        get => ((App)App.Current).AppVariables.IsTreeViewVisible;
+        set {
+            ((App)App.Current).AppVariables.IsTreeViewVisible = value;
+            OnPropertyChanged(nameof(IsTreeViewVisible));
+        }
+    }
 
     //Database content values masking
     //public bool AreDatabaseUsernamesMasked {
@@ -422,23 +429,29 @@ internal class Database_ViewModel : ViewModelBase { //}, System.Collections.Spec
 
         ToggleSelectedRecordInfoPaneVisibilityCommand = new(OnToggleSelectedRecordInfoPaneVisibilityCommand);
 
-        // set Grid right panel column value based on IsGroupsTreePaneEnabled property value
-        if (((ViewModels.MainWindow_ViewModel)this.ParentVM).IsGroupsTreePaneEnabled == true)
-            RightPanelColumn = 2;
-        else
-            RightPanelColumn = 0;
+        //// set Grid right panel column value based on IsGroupsTreePaneEnabled property value
+        //if (((ViewModels.MainWindow_ViewModel)this.ParentVM).IsGroupsTreePaneEnabled == true)
+        //    RightPanelColumn = 2;
+        //else
+        //    RightPanelColumn = 0;
 
-        // set Grid right panel column span value based on IsGroupsTreePaneEnabled property value
-        if (((ViewModels.MainWindow_ViewModel)this.ParentVM).IsGroupsTreePaneEnabled == true)
-            RightPanelColumnSpan = 1;
-        else
-            RightPanelColumnSpan = 3;
+        //// set Grid right panel column span value based on IsGroupsTreePaneEnabled property value
+        //if (((ViewModels.MainWindow_ViewModel)this.ParentVM).IsGroupsTreePaneEnabled == true)
+        //    RightPanelColumnSpan = 1;
+        //else
+        //    RightPanelColumnSpan = 3;
 
-        // set DataGrid panel row span value based on IsRecordDetailsPaneEnabled property value
-        if (((ViewModels.MainWindow_ViewModel)this.ParentVM).IsRecordDetailsPaneEnabled == true)
-            TopPanelRowSpan = 1;
-        else
-            TopPanelRowSpan = 3;
+        //// set DataGrid panel row span value based on IsRecordDetailsPaneEnabled property value
+        //if (((ViewModels.MainWindow_ViewModel)this.ParentVM).IsRecordDetailsPaneEnabled == true)
+        //    TopPanelRowSpan = 1;
+        //else
+        //    TopPanelRowSpan = 3;
+
+        IsTreeViewVisible = ((ViewModels.MainWindow_ViewModel)this.ParentVM).IsGroupsTreePaneEnabled;
+        IsSelectedRecordInfoPaneVisible = ((ViewModels.MainWindow_ViewModel)this.ParentVM).IsRecordDetailsPaneEnabled;
+        RightPanelColumn = ((ViewModels.MainWindow_ViewModel)this.ParentVM).IsGroupsTreePaneEnabled ? 2 : 0;
+        RightPanelColumnSpan = ((ViewModels.MainWindow_ViewModel)this.ParentVM).IsGroupsTreePaneEnabled ? 1 : 3;
+        TopPanelRowSpan = ((ViewModels.MainWindow_ViewModel)this.ParentVM).IsRecordDetailsPaneEnabled ? 1 : 3;
     }
     #endregion Constructors
 

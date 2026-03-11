@@ -29,7 +29,7 @@
         <c:BooleanToMaskedStringConverter x:Key="BooleanToMaskedStringConverter" />
         <!--#endregion//  Converters  //-->
 
-        <Style TargetType="{x:Type TreeViewItem}"
+        <!--<Style TargetType="{x:Type TreeViewItem}"
                BasedOn="{StaticResource {x:Type TreeViewItem}}">
             <Setter Property="IsExpanded" 
                     Value="{Binding IsExpanded,
@@ -39,7 +39,7 @@
                     Value="{Binding IsSelected,
                                     Mode=TwoWay,
                                     UpdateSourceTrigger=PropertyChanged}" />
-        </Style>
+        </Style>-->
 
         <ContextMenu x:Key="TreeViewItemContextMenu"
                      HorizontalOffset="4"
@@ -79,67 +79,214 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition MinWidth="250"
+                              Width="0.01*" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition MinWidth="250"
+                              Width="1*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition MinHeight="200"
+                           Height="1*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition MinHeight="200"
+                           Height="0.01*" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0"
-                Grid.RowSpan="3"
-                Grid.Column="0"
-                Grid.ColumnSpan="1"
-                Padding="8"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                BorderBrush="{DynamicResource ControlElevationBorderBrush}">
-            <TreeView ItemsSource="{Binding Groups,
-                                            NotifyOnSourceUpdated=True,
-                                            NotifyOnTargetUpdated=True,
-                                            UpdateSourceTrigger=PropertyChanged}">
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate DataType="{x:Type m:Group}"
-                                              ItemsSource="{Binding ChildrenGroups,
-                                                                    Mode=OneWay}">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Title}"
-                                       Margin="4 0" />
-                        </StackPanel>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-            </TreeView>
-        </Border>
+        <TreeView Name="treeViewGroups"
+                  Grid.Row="0"
+                  Grid.RowSpan="3"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="1"
+                  ItemsSource="{Binding Groups,
+                                        NotifyOnSourceUpdated=True,
+                                        NotifyOnTargetUpdated=True,
+                                        UpdateSourceTrigger=PropertyChanged}"
+                  Visibility="{Binding IsTreeViewVisible,
+                                       Converter={StaticResource bool2VisibilityConverter}}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type m:Group}"
+                                          ItemsSource="{Binding ChildrenGroups,
+                                                                Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}"
+                                   Margin="4 0"
+                                   Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
         <GridSplitter Grid.Row="0"
                       Grid.RowSpan="3"
                       Grid.Column="1"
                       Grid.ColumnSpan="1"
-                      Width="10"
+                      Width="12"
                       VerticalAlignment="Stretch"
                       HorizontalAlignment="Stretch"
                       Background="Transparent" />
         <DataGrid Grid.Row="0"
-                  Grid.RowSpan="1"
-                  Grid.Column="2"
-                  Grid.ColumnSpan="1" />
+                  Grid.RowSpan="{Binding TopPanelRowSpan}"
+                  Grid.Column="{Binding RightPanelColumn}"
+                  Grid.ColumnSpan="{Binding RightPanelColumnSpan}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  CanUserResizeRows="False"
+                  CanUserReorderColumns="True"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True"
+                  RowHeight="{Binding RelativeSource={RelativeSource Self},
+                                      Path=FontSize,
+                                      Converter={StaticResource MultiplyDoubleConverter},
+                                      ConverterParameter=2}"
+                  ItemsSource="{Binding ElementName=treeViewGroups,
+                                        Path=SelectedItem.ChildrenRecords}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding OnRecordSelectionChangedCommand}"
+                                                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, 
+                                                                                        Path=SelectedItem}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn IsReadOnly="True"
+                                        CanUserReorder="False"
+                                        CanUserResize="False"
+                                        CanUserSort="False"
+                                        Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}},
+                                                        Path=RowHeight}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type m:Record}">
+                            <Image Width="24"
+                                   Height="24"
+                                   Source="{Binding Path=Icon,
+                                                    Converter={StaticResource IntToDrawingImageConverter}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Title"
+                                                MinWidth="115"
+                                                Width="Auto"
+                                                Binding="{Binding Title}" />
+                <DataGridTextColumn Header="Username"
+                                                MinWidth="115"
+                                                Width="Auto">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
+                            <Binding Path="Username" />
+                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+                                                                                 AncestorType={x:Type UserControl}}"
+                                                 Path="DataContext.ParentVM.AreDatabaseUsernamesMasked" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Email"
+                                                MinWidth="115"
+                                                Width="Auto">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
+                            <Binding Path="Email" />
+                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+                                                                                 AncestorType={x:Type UserControl}}"
+                                                 Path="DataContext.ParentVM.AreDatabaseEmailsMasked" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Password"
+                                                MinWidth="115"
+                                                Width="Auto">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
+                            <Binding Path="Password" />
+                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+                                                                                 AncestorType={x:Type UserControl}}"
+                                                 Path="DataContext.ParentVM.AreDatabasePasswordsMasked" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Url"
+                                                MinWidth="115"
+                                                Width="Auto">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource BooleanToMaskedStringConverter}">
+                            <Binding Path="URL" />
+                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+                                                                                 AncestorType={x:Type UserControl}}"
+                                                 Path="DataContext.ParentVM.AreDatabaseUrlsMasked" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
         <GridSplitter Grid.Row="1"
                       Grid.RowSpan="1"
                       Grid.Column="2"
                       Grid.ColumnSpan="1"
-                      Height="10"
+                      Height="12"
                       VerticalAlignment="Stretch"
                       HorizontalAlignment="Stretch"
                       Background="Transparent" />
         <Border Grid.Row="2"
                 Grid.RowSpan="1"
-                Grid.Column="2"
-                Grid.ColumnSpan="1"
+                Grid.Column="{Binding RightPanelColumn}"
+                Grid.ColumnSpan="{Binding RightPanelColumnSpan}"
                 Padding="8"
                 CornerRadius="4"
                 Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                BorderBrush="{DynamicResource ControlElevationBorderBrush}" />
+                BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                BorderThickness="1"
+                Visibility="{Binding IsSelectedRecordInfoPaneVisible,
+                                     Converter={StaticResource bool2VisibilityConverter}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <!--//  Icon and Path  //-->
+                <StackPanel Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Grid.Row="0"
+                            Width="32"
+                            Height="32"
+                            Margin="8"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center">
+                    <Viewbox>
+                        <Image Source="{Binding SelectedRecord.Icon,
+                                                Converter={StaticResource IntToDrawingImageConverter}}" />
+                    </Viewbox>
+                    <TextBlock FontSize="16"
+                               VerticalAlignment="Center"
+                               Text="{Binding SelectedRecord.Title}" />
+                </StackPanel>
+
+                <!--//  Record Details  //-->
+                <Label Grid.Row="1"
+                       Grid.Column="0"
+                       Content="Username:" />
+                <Label Grid.Row="1"
+                       Grid.Column="1"
+                       Margin="6 0 0 0"
+                       Content="{Binding SelectedRecord.Username}" />
+
+                <Label Grid.Row="2"
+                       Grid.Column="0"
+                       Content="Email" />
+                <Label Grid.Row="2"
+                       Grid.Column="1"
+                       Margin="6 0 0 0"
+                       Content="{Binding SelectedRecord.Email}" />
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

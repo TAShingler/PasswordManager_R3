@@ -26,14 +26,14 @@ public partial class LockScreen_View : UserControl {
     #region ToggleButton Old and New Password tBox and pBox Visibility Event Handlers
     private void tBtnPasswordVisibility_Click(object sender, RoutedEventArgs e) {
         if (tBtnPasswordVisibility.IsChecked == true) {
-            tBox.Visibility = Visibility.Collapsed;
-            pBox.Visibility = Visibility.Visible;
+            tBox.Visibility = Visibility.Visible;
+            pBox.Visibility = Visibility.Collapsed;
 
             pBox.Focus();
             pBox.GetType().GetMethod("Select", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).Invoke(pBox, new object[] { pBox.Password.Length, 0 });
         } else {
-            tBox.Visibility = Visibility.Visible;
-            pBox.Visibility = Visibility.Collapsed;
+            tBox.Visibility = Visibility.Collapsed;
+            pBox.Visibility = Visibility.Visible;
 
             tBox.Focus();
             tBox.Select(tBox.Text.Length, 0);
@@ -41,14 +41,14 @@ public partial class LockScreen_View : UserControl {
     }
     private void tBtnOldPasswordVisibility_Click(object sender, RoutedEventArgs e) {
         if (tBtnOldPasswordVisibility.IsChecked == true) {
-            tBoxOldPassword.Visibility = Visibility.Collapsed;
-            pBoxOldPassword.Visibility = Visibility.Visible;
+            tBoxOldPassword.Visibility = Visibility.Visible;
+            pBoxOldPassword.Visibility = Visibility.Collapsed;
 
             pBoxOldPassword.Focus();
             pBoxOldPassword.GetType().GetMethod("Select", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).Invoke(pBoxOldPassword, new object[] { pBoxOldPassword.Password.Length, 0 });
         } else {
-            tBoxOldPassword.Visibility = Visibility.Visible;
-            pBoxOldPassword.Visibility = Visibility.Collapsed;
+            tBoxOldPassword.Visibility = Visibility.Collapsed;
+            pBoxOldPassword.Visibility = Visibility.Visible;
 
             tBoxOldPassword.Focus();
             tBoxOldPassword.Select(tBoxOldPassword.Text.Length, 0); //maybe change to place caret at some position it was before the button was pressed -- maybe do both ways (e.g., tBox -> pBox and pBox -> tBox visibility)
@@ -56,14 +56,14 @@ public partial class LockScreen_View : UserControl {
     }
     private void tBtnNewPasswordVisibility_Click(object sender, RoutedEventArgs e) {
         if (tBtnNewPasswordVisibility.IsChecked == true) {
-            tBoxNewPassword.Visibility = Visibility.Collapsed;
-            pBoxNewPassword.Visibility = Visibility.Visible;
+            tBoxNewPassword.Visibility = Visibility.Visible;
+            pBoxNewPassword.Visibility = Visibility.Collapsed;
 
             pBoxNewPassword.Focus();
             pBoxNewPassword.GetType().GetMethod("Select", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).Invoke(pBoxNewPassword, new object[] { pBoxNewPassword.Password.Length, 0 });
         } else {
-            tBoxNewPassword.Visibility = Visibility.Visible;
-            pBoxNewPassword.Visibility = Visibility.Collapsed;
+            tBoxNewPassword.Visibility = Visibility.Collapsed;
+            pBoxNewPassword.Visibility = Visibility.Visible;
 
             tBoxNewPassword.Focus();
             tBoxNewPassword.Select(tBoxNewPassword.Text.Length, 0);

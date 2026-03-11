@@ -36,6 +36,7 @@ internal class AppVariables {    //might change from static and instantiate in A
     private bool _displayInfoPane = true;
 
     private bool _isSelectedRecordInfoPanelVisible = true;
+    private bool _isTreeViewVisible = true;
     #endregion Fields
 
     #region Properties
@@ -139,6 +140,11 @@ internal class AppVariables {    //might change from static and instantiate in A
     internal bool IsSelectedRecordInfoPanelVisible {
         get => _isSelectedRecordInfoPanelVisible;
         set => _isSelectedRecordInfoPanelVisible = value;
+    }
+    [Newtonsoft.Json.JsonIgnore]
+    internal bool IsTreeViewVisible {
+        get => _isTreeViewVisible;
+        set => _isTreeViewVisible = value;
     }
     #endregion Properties
 

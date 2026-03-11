@@ -1223,13 +1223,17 @@ internal class MainWindow_ViewModel : ViewModelBase {
         if (SelectedViewModel is not ViewModels.Database_ViewModel)
             return;
 
-        if (IsGroupsTreePaneEnabled is false) {
-            ((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumn = 0;
-            ((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumnSpan = 3;
-        } else {
-            ((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumn = 2;
-            ((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumnSpan = 1;
-        }
+        //if (IsGroupsTreePaneEnabled is false) {
+        //    ((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumn = 0;
+        //    ((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumnSpan = 3;
+        //} else {
+        //    ((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumn = 2;
+        //    ((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumnSpan = 1;
+        //}
+
+        ((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumn = IsGroupsTreePaneEnabled is false ? 0 : 2;
+        ((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumnSpan = IsGroupsTreePaneEnabled is false ? 3 : 1;
+        ((ViewModels.Database_ViewModel)SelectedViewModel).IsTreeViewVisible = IsGroupsTreePaneEnabled;
     }
     private void OnToggleRecordDetailsPanelVisibilityCommand(object obj) {
         //do something
@@ -1237,13 +1241,15 @@ internal class MainWindow_ViewModel : ViewModelBase {
         if (SelectedViewModel is not ViewModels.Database_ViewModel)
             return;
 
-        if (IsRecordDetailsPaneEnabled is false) {
-            //((ViewModels.Database_ViewModel)SelectedViewModel).TopPanelRow = 0;
-            ((ViewModels.Database_ViewModel)SelectedViewModel).TopPanelRowSpan = 3;
-        } else {
-            //((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumn = 0;
-            ((ViewModels.Database_ViewModel)SelectedViewModel).TopPanelRowSpan = 1;
-        }
+        //if (IsRecordDetailsPaneEnabled is false) {
+        //    //((ViewModels.Database_ViewModel)SelectedViewModel).TopPanelRow = 0;
+        //    ((ViewModels.Database_ViewModel)SelectedViewModel).TopPanelRowSpan = 3;
+        //} else {
+        //    //((ViewModels.Database_ViewModel)SelectedViewModel).RightPanelColumn = 0;
+        //    ((ViewModels.Database_ViewModel)SelectedViewModel).TopPanelRowSpan = 1;
+        //}
+        ((ViewModels.Database_ViewModel)SelectedViewModel).TopPanelRowSpan = IsRecordDetailsPaneEnabled is false ? 3 : 1;
+        ((ViewModels.Database_ViewModel) SelectedViewModel).IsSelectedRecordInfoPaneVisible = IsRecordDetailsPaneEnabled;
     }
     private void OnDisplayAboutWindowCommand(object obj) {
         About abtWin = new();
