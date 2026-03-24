@@ -256,4 +256,34 @@ public partial class Database_View : UserControl {
         TreeView? tView = FindName("treeViewGroups") as TreeView;
         ((ViewModels.Database_ViewModel)DataContext).OnUpdateGroup(tView.SelectedItem);
     }
+
+    private void tglBtnSrUsername_Click(object sender, RoutedEventArgs e) {
+        bool isChecked = tglBtnSrUsername.IsChecked == null ? false : (bool) tglBtnSrUsername.IsChecked;
+        MaskUsernameGlyph.Visibility = isChecked ? Visibility.Collapsed : Visibility.Visible;
+        UnmaskUsernameGlyph.Visibility = isChecked ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private void tglBtnSrEmail_Click(object sender, RoutedEventArgs e) {
+        bool isChecked = tglBtnSrEmail.IsChecked == null ? false : (bool)tglBtnSrEmail.IsChecked;
+        MaskEmailGlyph.Visibility = isChecked ? Visibility.Collapsed : Visibility.Visible;
+        UnmaskEmailGlyph.Visibility = isChecked ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private void tglBtnSrPassword_Click(object sender, RoutedEventArgs e) {
+        bool isChecked = tglBtnSrPassword.IsChecked == null ? false : (bool)tglBtnSrPassword.IsChecked;
+        MaskPasswordGlyph.Visibility = isChecked ? Visibility.Collapsed : Visibility.Visible;
+        UnmaskPasswordGlyph.Visibility = isChecked ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private void tglBtnSrUrl_Click(object sender, RoutedEventArgs e) {
+        bool isChecked = tglBtnSrUrl.IsChecked == null ? false : (bool)tglBtnSrUrl.IsChecked;
+        MaskUrlGlyph.Visibility = isChecked ? Visibility.Collapsed : Visibility.Visible;
+        UnmaskUrlGlyph.Visibility = isChecked ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private void tglBtnSrNotes_Click(object sender, RoutedEventArgs e) {
+        bool isChecked = tglBtnSrNotes.IsChecked == null ? false : (bool)tglBtnSrNotes.IsChecked;
+        MaskNotesGlyph.Visibility = isChecked ? Visibility.Collapsed : Visibility.Visible;
+        UnmaskNotesGlyph.Visibility = isChecked ? Visibility.Visible : Visibility.Collapsed;
+    }
 }

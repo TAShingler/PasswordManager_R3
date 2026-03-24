@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,14 +30,26 @@ public partial class LockScreen_View : UserControl {
             tBox.Visibility = Visibility.Visible;
             pBox.Visibility = Visibility.Collapsed;
 
-            pBox.Focus();
-            pBox.GetType().GetMethod("Select", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).Invoke(pBox, new object[] { pBox.Password.Length, 0 });
+            MaskContentGlyph.Visibility = Visibility.Visible;
+            UnmaskContentGlyph.Visibility = Visibility.Collapsed;
+
+            //pBox.Focus();
+            //try {
+            //    pBox.GetType()
+            //        .GetMethod("Select", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+            //        .Invoke(pBox, new object[] { pBox.Password.Length, 0 });
+            //} catch (Exception ex) {
+            //    Debug.WriteLine(ex.Message);
+            //}
         } else {
             tBox.Visibility = Visibility.Collapsed;
             pBox.Visibility = Visibility.Visible;
 
-            tBox.Focus();
-            tBox.Select(tBox.Text.Length, 0);
+            MaskContentGlyph.Visibility = Visibility.Collapsed;
+            UnmaskContentGlyph.Visibility = Visibility.Visible;
+
+            //tBox.Focus();
+            //tBox.Select(tBox.Text.Length, 0);
         }
     }
     private void tBtnOldPasswordVisibility_Click(object sender, RoutedEventArgs e) {

@@ -198,20 +198,20 @@
             </Menu>
             <Menu>
                 <MenuItem IsEnabled="{Binding ButtonLockDatabaseIsEnabled}"
-                        Command="{Binding LockDatabaseCommand}"
-                        CommandParameter="{x:Static enums:LockScreenState.LockDatabase}">
+                          Command="{Binding LockDatabaseCommand}"
+                          CommandParameter="{x:Static enums:LockScreenState.LockDatabase}">
                     <MenuItem.Header>
                         <StackPanel Background="Transparent">
                             <Path x:Name="LockedViewGlyph"
-                                    Width="24"
-                                    Height="24"
-                                    Fill="{Binding Foreground,
-                                                   RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}"
-                                    Data="M 11.5 2 C 9.0206434 2 7 4.0206434 7 6.5 L 7 9 L 6 9 C 4.9006497 9 4 9.9006497 4 11 L 4 20 C 4 21.09935 4.9006497 22 6 22 L 17 22 C 18.09935 22 19 21.09935 19 20 L 19 11 C 19 9.9006497 18.09935 9 17 9 L 16 9 L 16 6.5 C 16 4.0206434 13.979357 2 11.5 2 z
-                                          M 11.5 3 C 13.438917 3 15 4.561083 15 6.5 L 15 9 L 8 9 L 8 6.5 C 8 4.561083 9.561083 3 11.5 3 z
-                                          M 6 10 L 17 10 C 17.562648 10 18 10.437352 18 11 L 18 20 C 18 20.562648 17.562648 21 17 21 L 6 21 C 5.4373519 21 5 20.562648 5 20 L 5 11 C 5 10.437352 5.4373519 10 6 10 z
-                                          M 11.5 13 C 10.125212 13 9 14.125212 9 15.5 C 9 16.874788 10.125212 18 11.5 18 C 12.874788 18 14 16.874788 14 15.5 C 14 14.125212 12.874788 13 11.5 13 z
-                                          M 11.5 14 C 12.334349 14 13 14.665651 13 15.5 C 13 16.334349 12.334349 17 11.5 17 C 10.665651 17 10 16.334349 10 15.5 C 10 14.665651 10.665651 14 11.5 14 z " />
+                                  Width="24"
+                                  Height="24"
+                                  Fill="{Binding Foreground,
+                                                 RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}"
+                                  Data="M 11.5 2 C 9.0206434 2 7 4.0206434 7 6.5 L 7 9 L 6 9 C 4.9006497 9 4 9.9006497 4 11 L 4 20 C 4 21.09935 4.9006497 22 6 22 L 17 22 C 18.09935 22 19 21.09935 19 20 L 19 11 C 19 9.9006497 18.09935 9 17 9 L 16 9 L 16 6.5 C 16 4.0206434 13.979357 2 11.5 2 z
+                                        M 11.5 3 C 13.438917 3 15 4.561083 15 6.5 L 15 9 L 8 9 L 8 6.5 C 8 4.561083 9.561083 3 11.5 3 z
+                                        M 6 10 L 17 10 C 17.562648 10 18 10.437352 18 11 L 18 20 C 18 20.562648 17.562648 21 17 21 L 6 21 C 5.4373519 21 5 20.562648 5 20 L 5 11 C 5 10.437352 5.4373519 10 6 10 z
+                                        M 11.5 13 C 10.125212 13 9 14.125212 9 15.5 C 9 16.874788 10.125212 18 11.5 18 C 12.874788 18 14 16.874788 14 15.5 C 14 14.125212 12.874788 13 11.5 13 z
+                                        M 11.5 14 C 12.334349 14 13 14.665651 13 15.5 C 13 16.334349 12.334349 17 11.5 17 C 10.665651 17 10 16.334349 10 15.5 C 10 14.665651 10.665651 14 11.5 14 z " />
                             <TextBlock Text="Lock Database"
                                        Visibility="Collapsed"
                                        Foreground="{Binding Foreground,
